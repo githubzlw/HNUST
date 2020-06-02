@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.TriggerTaskMapper">
+	<resultMap id="BaseResultMap" type="com.cn.hnust.pojo.TriggerTask">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="role_type" property="roleType" jdbcType="INTEGER" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="task_title" property="taskTitle" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, role_type, role_name,task_title,update_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from trigger_task
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+    
+    	<select id="checkHasKey" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trigger_task
+		where  task_title= #{taskTitle,jdbcType=VARCHAR} and role_type = #{roleType,jdbcType=INTEGER}
+	  </select>
+    
+   
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trigger_task
+
+		ORDER BY update_time DESC
+
+		limit #{start},#{pageSize}
+
+	</select>
+
+	<select id="selectListCount" resultType="int">
+		select
+		count(id)
+		from trigger_task
+
+
+	</select>
+	
+	<select id="selectAllList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from trigger_task
+	</select>
+	
+	
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		trigger_task
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.cn.hnust.pojo.TriggerTask">
+		insert into trigger_task (id,
+		role_type, task_title
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{roleType,jdbcType=INTEGER},
+		#{taskTitle,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.cn.hnust.pojo.TriggerTask">
+		insert into trigger_task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="roleType != null">
+				role_type,
+			</if>
+			<if test="roleName != null">
+				role_name,
+			</if>
+			<if test="taskTitle != null">
+				task_title,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="roleType != null">
+				#{roleType,jdbcType=INTEGER},
+			</if>
+			<if test="roleName != null">
+				#{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="taskTitle != null">
+				#{taskTitle,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.TriggerTask">
+		update trigger_task
+		<set>
+			<if test="roleType != null">
+				role_type = #{roleType,jdbcType=INTEGER},
+			</if>
+			<if test="taskTitle != null">
+				task_title = #{taskTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="roleName != null">
+				role_name = #{roleName,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.TriggerTask">
+		update
+		trigger_task
+		set role_type = #{roleType,jdbcType=INTEGER},
+		task_title =
+		#{taskTitle,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

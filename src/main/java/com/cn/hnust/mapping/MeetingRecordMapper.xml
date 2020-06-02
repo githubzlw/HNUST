@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.MeetingRecordMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.MeetingRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="meeting_no" jdbcType="VARCHAR" property="meetingNo" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="meeting_name" jdbcType="VARCHAR" property="meetingName" />
+    <result column="meeting_describe" jdbcType="VARCHAR" property="meetingDescribe" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="meeting_inputer" jdbcType="VARCHAR" property="meetingInputer" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, meeting_no, project_no, meeting_name, meeting_describe, create_date, meeting_inputer
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meeting_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectMeetingRecordByMeetingNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meeting_record
+    where meeting_no = #{meetingNo,jdbcType=VARCHAR}  
+  </select>
+  
+  <select id="selectMeetings" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.MeetingRecord" >
+    select  
+    <include refid="Base_Column_List" />
+    from meeting_record where 1=1   
+    <if test="projectNo !=null and projectNo!=''">  
+       AND project_no = #{projectNo,jdbcType=VARCHAR}   
+    </if>
+    <if test="meetingName !=null and meetingName!=''"> 
+       AND meeting_name = #{meetingName,jdbcType=VARCHAR}    
+    </if>
+    ORDER BY create_date DESC  
+  </select>
+  
+  
+  
+  <select id="selectMeetingRecordList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.MeetingRecord" >
+    select 
+    <include refid="Base_Column_List" />
+    from meeting_record where 1=1
+    <if test="projectNo !=null and projectNo!=''">
+       AND project_no like CONCAT('%', #{projectNo}, '%')
+    </if>
+    <if test="searchName !=null and searchName!=''">
+       AND (meeting_inputer like CONCAT('%', #{searchName}, '%') or meeting_name = '周会')
+    </if>
+    ORDER BY create_date DESC
+    limit #{pageNumber},#{pageSize}
+  </select>
+  
+   <select id="selectMeetingRecordListCount" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.MeetingRecord" >
+    select 
+    <include refid="Base_Column_List" />
+    from meeting_record where 1=1  
+    <if test="projectNo !=null and projectNo!=''">
+       AND project_no like CONCAT('%', #{projectNo}, '%')
+    </if>
+    <if test="searchName !=null and searchName!=''">
+      AND (meeting_inputer like CONCAT('%', #{searchName}, '%') or meeting_name = '周会')
+    </if>
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from meeting_record
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from meeting_record
+    where meeting_no = #{meetingNo,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.MeetingRecord">
+    insert into meeting_record (id, meeting_no, project_no, 
+      meeting_name, meeting_describe, create_date, 
+      meeting_inputer)
+    values (#{id,jdbcType=INTEGER}, #{meetingNo,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{meetingName,jdbcType=VARCHAR}, #{meetingDescribe,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{meetingInputer,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.MeetingRecord" >
+    insert into meeting_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="meetingNo != null">
+        meeting_no,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="meetingName != null">
+        meeting_name,
+      </if>
+      <if test="meetingDescribe != null">
+        meeting_describe,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="meetingInputer != null">
+        meeting_inputer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="meetingNo != null">
+        #{meetingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingName != null">
+        #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDescribe != null">
+        #{meetingDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingInputer != null">
+        #{meetingInputer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.MeetingRecord">
+    update meeting_record
+    <set>
+      <if test="meetingNo != null">
+        meeting_no = #{meetingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingName != null">
+        meeting_name = #{meetingName,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDescribe != null">
+        meeting_describe = #{meetingDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingInputer != null">
+        meeting_inputer = #{meetingInputer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.MeetingRecord">
+    update meeting_record
+    set meeting_no = #{meetingNo,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      meeting_name = #{meetingName,jdbcType=VARCHAR},
+      meeting_describe = #{meetingDescribe,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      meeting_inputer = #{meetingInputer,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateFlagByProjectNo" parameterType="java.util.Set">
+  update meeting_record
+    set trigger_flag = 1
+   where 1=1
+   and project_no in 
+   <foreach collection="set" index="index" item="item" open="(" separator="," close=")">
+         #{item}
+   </foreach>
+   and meeting_name = #{meetingName,jdbcType=VARCHAR}
+  </update> 
+  
+   <update id="updateaddFlagByProjectNo" parameterType="java.util.Set">
+    update meeting_record
+    set add_trigger_flag = 1
+   where 1=1
+   and project_no in 
+   <foreach collection="set" index="index" item="item" open="(" separator="," close=")">
+         #{item}
+   </foreach>
+   and meeting_name = #{meetingName,jdbcType=VARCHAR}
+  </update> 
+  
+  
+</mapper>

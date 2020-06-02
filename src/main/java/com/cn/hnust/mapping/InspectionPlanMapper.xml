@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.InspectionPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.InspectionPlan" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="product_component" property="productComponent" jdbcType="VARCHAR" />
+    <result column="product_standards" property="productStandards" jdbcType="VARCHAR" />
+    <result column="is_work" property="isWork" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="inspection_pic" property="inspectionPic" jdbcType="VARCHAR" />
+    
+    <!-- 虚拟字段 -->
+    <result column="completeCount" property="completeCount" jdbcType="INTEGER" />
+    <result column="noCompleteCount" property="noCompleteCount" jdbcType="INTEGER" />
+    <result column="totalCount" property="totalCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, product_component, product_standards, is_work, type,create_date, content, inspection_pic
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_plan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByProjectNo" resultMap="BaseResultMap">
+	  select i1.id, i1.project_no, i1.product_component, i1.product_standards, i1.is_work,i1.content, i1.inspection_pic,
+	  i1.type,i1.create_date,noCompleteCount,completeCount
+	   from inspection_plan i1  
+		INNER JOIN 
+		(
+		select create_date,project_no from inspection_plan where project_no = #{projectNo,jdbcType=VARCHAR}  GROUP BY create_date order by create_date desc LIMIT 1
+		)i2 on i1.create_date = i2.create_date and i1.project_no = i2.project_no   
+		<if test="inspectionCreateDate != null">
+		  and i1.create_date = #{inspectionCreateDate,jdbcType=VARCHAR}
+		</if>
+		left JOIN
+		(
+		select count(1)as completeCount,product_component,project_no,create_date,is_work from inspection_plan where project_no = #{projectNo,jdbcType=VARCHAR} and is_work = 1 GROUP BY create_date,product_component,is_work
+		)i3 on i1.create_date = i3.create_date and i1.project_no = i3.project_no and i1.product_component = i3.product_component  
+		<if test="inspectionCreateDate != null">
+		  and i1.create_date = #{inspectionCreateDate,jdbcType=VARCHAR}
+		</if>
+		left JOIN
+		(
+		select count(1)as noCompleteCount,product_component,project_no,create_date,is_work from inspection_plan where project_no = #{projectNo,jdbcType=VARCHAR} and is_work = 0 GROUP BY create_date,product_component,is_work
+		)i4 on i1.create_date = i4.create_date and i1.project_no = i4.project_no and i1.product_component = i4.product_component		
+        <if test="inspectionCreateDate != null">
+		  and i1.create_date = #{inspectionCreateDate,jdbcType=VARCHAR}
+		</if>
+		
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inspection_plan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.InspectionPlan" >
+    insert into inspection_plan (id, project_no, product_component, 
+      product_standards, is_work)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{productComponent,jdbcType=VARCHAR}, 
+      #{productStandards,jdbcType=VARCHAR}, #{isWork,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.InspectionPlan" >
+    insert into inspection_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="productComponent != null" >
+        product_component,
+      </if>
+      <if test="productStandards != null" >
+        product_standards,
+      </if>
+      <if test="isWork != null" >
+        is_work,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productComponent != null" >
+        #{productComponent,jdbcType=VARCHAR},
+      </if>
+      <if test="productStandards != null" >
+        #{productStandards,jdbcType=VARCHAR},
+      </if>
+      <if test="isWork != null" >
+        #{isWork,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+   <insert id="insertBatch" parameterType="java.util.List">  
+    
+    insert into inspection_plan ( 
+         project_no, product_component, product_standards, is_work, type,create_date
+       ) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+             ( 
+              #{item.projectNo}, 
+              #{item.productComponent},
+              #{item.productStandards},
+              #{item.isWork},
+              #{item.type},
+              #{item.createDate}
+		      ) 
+        </foreach>  
+    </insert>  
+    
+    
+    <update id="updateBatch" parameterType="java.util.List">     
+        <foreach collection="list" item="item" index="index" separator=";" >  
+            update inspection_plan  
+             
+              <trim prefix="SET" suffixOverrides=",">
+	               <if test="item.isWork != null">
+	                  is_work= #{item.isWork},   
+	               </if>
+	               <if test="item.content != null and item.content != ''">
+	               content= #{item.content},  
+	               </if>	
+	               <if test="item.inspectionPic != null and item.inspectionPic != ''">
+	               inspection_pic= #{item.inspectionPic},   
+	               </if>
+	          </trim>
+		   
+		      where id = #{item.id}        
+        </foreach>      
+    </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.InspectionPlan" >
+    update inspection_plan
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productComponent != null" >
+        product_component = #{productComponent,jdbcType=VARCHAR},
+      </if>
+      <if test="productStandards != null" >
+        product_standards = #{productStandards,jdbcType=VARCHAR},
+      </if>
+      <if test="isWork != null" >
+        is_work = #{isWork,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.InspectionPlan" >
+    update inspection_plan
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      product_component = #{productComponent,jdbcType=VARCHAR},
+      product_standards = #{productStandards,jdbcType=VARCHAR},
+      is_work = #{isWork,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

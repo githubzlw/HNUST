@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectERPMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectERP" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="project_name_c" property="projectNameC" jdbcType="VARCHAR" />
+    <result column="project_name_e" property="projectNameE" jdbcType="VARCHAR" />
+    <result column="zhijian1" property="zhijian1" jdbcType="VARCHAR" />
+    <result column="zhijian2" property="zhijian2" jdbcType="VARCHAR" />
+    <result column="CustomerManager" property="customerManager" jdbcType="VARCHAR" />
+    <result column="MerchandManager1" property="merchandManager1" jdbcType="VARCHAR" />
+    <result column="MerchandManager2" property="merchandManager2" jdbcType="VARCHAR" />
+    <result column="Engineer1" property="engineer1" jdbcType="VARCHAR" />
+    <result column="Engineer2" property="engineer2" jdbcType="VARCHAR" />
+    <result column="plant_analysis" property="plantAnalysis" jdbcType="INTEGER"  />
+    <result column="project_material_properties" property="projectMaterialProperties" jdbcType="INTEGER" />
+    <result column="money_date" property="moneyDate" jdbcType="TIMESTAMP" />
+    <!-- 虚拟字段 -->
+    <result column="task_title" property="taskTitle" jdbcType="VARCHAR" />
+    <result column="role_type" property="roleType" jdbcType="INTEGER" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    
+    <result column="date_sample" property="dateSample" jdbcType="TIMESTAMP" />
+    <result column="completion_time" property="completionTime" jdbcType="TIMESTAMP" />
+    <result column="date_sample_uploading" property="dateSampleUploading" jdbcType="TIMESTAMP" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, project_name_c, project_name_e, zhijian1, zhijian2, CustomerManager,money_date,
+    MerchandManager1, MerchandManager2, Engineer1, Engineer2, Engineer3,date_sample,completion_time,date_sample_uploading
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_erp
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectProjectErpByNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+      <include refid="Base_Column_List" />
+    from project_erp
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询所有的数控 -->
+   <select id="selectAllProjectERP" resultMap="BaseResultMap">
+     <!-- select  * from project_erp pe left join project pr on  pe.project_no=pr.project_no where 1=1 and pr.money_date is NULL -->
+     <!-- select *from project_erp where zhijian1='' and zhijian2='' -->
+     select project_no from project where project_status='0'
+  </select>
+  
+  
+  	<select id="selectConditionFirst" resultMap="BaseResultMap">
+	select c.*,d.task_title,d.role_type,d.task_id
+	from project b,project_erp c,
+	( select l.id task_id,l.*,j.role_type,j.task_title from
+		task_flow l
+		LEFT JOIN trigger_task j on l.trigger_id = j.id where
+		l.condition_type=1 and j.role_type  in (4,5,6,7))d
+	where 
+	1=1 
+    and b.trigger_flag_2 = 0
+	and b.project_no = c.project_no
+	and b.plant_analysis = d.plant_analysis
+    and b.project_material_properties = d.project_material_properties
+	</select>
+  
+  
+  
+  	<select id="selectCondition" resultMap="BaseResultMap">
+	select c.*,d.task_title,d.role_type,d.task_id
+	from project b,project_erp c,
+	( select l.id task_id,l.*,j.role_type,j.task_title from
+		task_flow l
+		LEFT JOIN trigger_task j on l.trigger_id = j.id where
+		l.condition_type=1 and j.role_type  in (4,5,6,7))d
+	where 
+	1=1 and 
+	b.email_user_id!=0
+	and b.purchase_id!=0  
+    and b.add_trigger_flag = 0
+	and b.project_no = c.project_no
+	and b.plant_analysis = d.plant_analysis
+    and b.project_material_properties = d.project_material_properties
+	</select>
+	
+	
+	
+	
+    <select id="selectMeetingStatus" resultMap="BaseResultMap">
+		select
+		c.*,b.project_no,d.task_title,d.role_type,d.task_id from
+		project_erp c,
+		meeting_record b,
+		(select l.id task_id,l.*,j.role_type,j.task_title from
+		task_flow l
+		LEFT JOIN trigger_task j on l.trigger_id = j.id where
+		l.condition_type=#{conditionType,jdbcType=INTEGER} and j.role_type  in (4,5,6,7))d
+		where 1=1
+		and b.project_no = c.project_no
+		and b.meeting_name=#{meetingName,jdbcType=VARCHAR}
+		and b.add_trigger_flag = 0
+		<!-- and d.plant_analysis = c.plant_analysis
+        and d.project_material_properties = c.project_material_properties -->
+  </select>
+ 
+  <!-- 项目的跟单销售发出的质量投诉 -->
+  <select id="selectProjectQualityComplaint" resultMap="BaseResultMap">
+    select
+		c.*,se.project_no,d.task_title,d.role_type,d.task_id from
+		project_erp c,
+		status_enter se,
+		(select l.id task_id,l.*,j.role_type,j.task_title from
+		task_flow l
+		LEFT JOIN trigger_task j on l.trigger_id = j.id where
+		l.condition_type=5 and j.role_type  in (4,5,6,7))d
+	where 1=1 and se.project_no = c.project_no and se.feedback=1 and se.add_trigger_flag = 0 
+  </select>
+  
+  <!-- 项目原定交期 超期一周后 ，给采购布置一个解释情况的任务 -->
+  <select id="projectDeliveryDateDelay" resultMap="BaseResultMap">
+    select c.*,d.task_title,d.role_type,d.task_id from project b,project_erp c,
+	(select l.id task_id,l.*,j.role_type,j.task_title from task_flow l
+	LEFT JOIN trigger_task j on l.trigger_id = j.id where
+	l.condition_type=6 and j.role_type  in (4,5,6,7))d
+	where  1=1 and  b.delay_trigger_flag = 0 and b.project_no = c.project_no
+    and ((finish =0 and (is_pause = 0 or is_pause is null ) and delivery_date!= '' and DATE_ADD(delivery_date,INTERVAL 7 DAY) &lt; now())
+    or(delivery_date is NULL AND sample_finish =0 and (is_pause = 0 or is_pause is null ) and sample_scheduled_date!= '' and DATE_ADD(delivery_date,INTERVAL 7 DAY) &lt; now())
+    or(sample_finish=1 and finish=0 and (is_pause = 0 or is_pause is null )and delivery_date!= '' and DATE_ADD(delivery_date,INTERVAL 7 DAY) &lt; now()));
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project_erp
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectERP" >
+    insert into project_erp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="projectNameC != null" >
+        project_name_c,
+      </if>
+      <if test="projectNameE != null" >
+        project_name_e,
+      </if>
+      <if test="zhijian1 != null" >
+        zhijian1,
+      </if>
+      <if test="zhijian2 != null" >
+        zhijian2,
+      </if>
+      <if test="customerManager != null" >
+        CustomerManager,
+      </if>
+      <if test="merchandManager1 != null" >
+        MerchandManager1,
+      </if>
+      <if test="merchandManager2 != null" >
+        MerchandManager2,
+      </if>
+      <if test="engineer1 != null" >
+        Engineer1,
+      </if>
+      <if test="engineer2 != null" >
+        Engineer2,
+      </if>
+      <if test="engineer3 != null" >
+        Engineer3,
+      </if>
+       <if test="companyName != null" >
+        company_name,
+      </if>
+       <if test="plantAnalysis != null" >
+        plant_analysis,
+      </if>
+       <if test="projectMaterialProperties != null" >
+        project_material_properties,
+      </if>
+       <if test="dateSample != null" >
+        date_sample,
+      </if>
+       <if test="completionTime != null" >
+        completion_time,
+      </if>
+      <if test="dateSampleUploading != null" >
+        date_sample_uploading,
+      </if>
+       <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="moneyDate!=null">
+         money_date
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNameC != null" >
+        #{projectNameC,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNameE != null" >
+        #{projectNameE,jdbcType=VARCHAR},
+      </if>
+      <if test="zhijian1 != null" >
+        #{zhijian1,jdbcType=VARCHAR},
+      </if>
+      <if test="zhijian2 != null" >
+        #{zhijian2,jdbcType=VARCHAR},
+      </if>
+      <if test="customerManager != null" >
+        #{customerManager,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandManager1 != null" >
+        #{merchandManager1,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandManager2 != null" >
+        #{merchandManager2,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer1 != null" >
+        #{engineer1,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer2 != null" >
+        #{engineer2,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer3 != null" >
+        #{engineer3,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="plantAnalysis != null" >
+        #{plantAnalysis,jdbcType=INTEGER},
+      </if>
+      <if test="projectMaterialProperties != null" >
+        #{projectMaterialProperties,jdbcType=INTEGER},
+      </if>
+      <if test="dateSample != null" >
+          #{dateSample,jdbcType=TIMESTAMP},
+      </if>
+       <if test="completionTime != null" >
+         #{completionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateSampleUploading != null" >
+         #{dateSampleUploading,jdbcType=TIMESTAMP},
+      </if>
+       <if test="createDate != null" >
+         #{createDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="moneyDate != null" >
+         #{moneyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+    <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectERP" >
+    update project_erp
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNameC != null" >
+        project_name_c = #{projectNameC,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNameE != null" >
+        project_name_e = #{projectNameE,jdbcType=VARCHAR},
+      </if>
+      <if test="zhijian1 != null" >
+        zhijian1 = #{zhijian1,jdbcType=VARCHAR},
+      </if>
+      <if test="zhijian2 != null" >
+        zhijian2 = #{zhijian2,jdbcType=VARCHAR},
+      </if>
+      <if test="customerManager != null" >
+        CustomerManager = #{customerManager,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandManager1 != null" >
+        MerchandManager1 = #{merchandManager1,jdbcType=VARCHAR},
+      </if>
+      <if test="merchandManager2 != null" >
+        MerchandManager2 = #{merchandManager2,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer1 != null" >
+        Engineer1 = #{engineer1,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer2 != null" >
+        Engineer2 = #{engineer2,jdbcType=VARCHAR},
+      </if>
+      <if test="engineer3 != null" >
+        Engineer3 = #{engineer3,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+       <if test="plantAnalysis != null" >
+        plant_analysis  = #{plantAnalysis,jdbcType=INTEGER},
+      </if>
+       <if test="projectMaterialProperties != null" >
+        project_material_properties = #{projectMaterialProperties,jdbcType=INTEGER},
+      </if>
+      <if test="dateSample != null" >
+        date_sample=#{dateSample,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completionTime != null" >
+         completion_time=#{completionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dateSampleUploading != null" >
+         date_sample_uploading=#{dateSampleUploading,jdbcType=TIMESTAMP},
+      </if>
+       <if test="createDate != null" >
+        create_date=#{createDate,jdbcType=TIMESTAMP},
+       </if>
+        <if test="moneyDate != null" >
+        money_date=#{moneyDate,jdbcType=TIMESTAMP},
+       </if>
+       
+    </set>
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

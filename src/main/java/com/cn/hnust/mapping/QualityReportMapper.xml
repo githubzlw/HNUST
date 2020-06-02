@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.QualityReportMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="pic_url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="explain_cause" jdbcType="VARCHAR" property="explainCause"/>
+    <result column="check_explain" jdbcType="VARCHAR" property="checkExplain"/>
+    <result column="package_explain" jdbcType="VARCHAR" property="packageExplain"/>
+    <result column="spend_time" jdbcType="VARCHAR" property="spendTime"/>
+    <result column="place" jdbcType="VARCHAR" property="place"/>
+    <result column="check_date" jdbcType="TIMESTAMP" property="checkDate"/>
+    <result column="orders" jdbcType="VARCHAR" property="orders"/>
+    <result column="box_number" jdbcType="VARCHAR" property="boxNumber"/>
+    <result column="per_qty" jdbcType="VARCHAR" property="perQty"/>
+    <result column="inventory_qty" jdbcType="VARCHAR" property="inventoryQty"/>
+    <result column="open_qty" jdbcType="VARCHAR" property="openQty"/>
+    <result column="inspection_form" jdbcType="VARCHAR" property="inspectionForm"/>
+    <result column="inspection_path" jdbcType="VARCHAR" property="inspectionPath"/>
+    <result column="pic_num" jdbcType="VARCHAR" property="picNum"/>
+    <result column="conclusion" jdbcType="LONGVARCHAR" property="conclusion"/>
+    <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    <result column="no_check" jdbcType="INTEGER" property="noCheck"/>
+    <result column="key_size_exceed" jdbcType="INTEGER" property="keySizeExceed"/>
+    <result column="factory_inspection" jdbcType="VARCHAR" property="factoryInspection"/>
+    <result column="meeting_no" jdbcType="VARCHAR" property="meetingNo"/>
+    <result column="project_no_id" jdbcType="VARCHAR" property="projectNoId"/>
+    <result column="is_all_right" jdbcType="INTEGER" property="isAllRight"/>
+    <result column="inspection_create_date" jdbcType="DATE" property="inspectionCreateDate"/>
+   
+    
+    <result column="startDate" jdbcType="TIMESTAMP" property="startDate"/>
+    <result column="endDate" jdbcType="TIMESTAMP" property="endDate"/>
+    <result column="testReport" jdbcType="INTEGER" property="testReport"/>
+    <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+    <result column="purchase_name" jdbcType="VARCHAR" property="purchaseName"/>
+    <result column="sell_name" jdbcType="VARCHAR" property="sellName"/>
+    <result column="operate_explain" jdbcType="VARCHAR" property="operateExplain"/>
+    <result column="product_file_name" jdbcType="VARCHAR" property="productFileName"/>
+    <result column="open_rate" property="openRate" jdbcType="VARCHAR"/>
+    <result column="dingTalkId" property="dingTalkId" jdbcType="VARCHAR"/>
+    <result column="process_instance_id" property="processInstanceId" jdbcType="VARCHAR"/>
+    <result column="dingding_status" property="dingdingStatus" jdbcType="VARCHAR"/>
+    <result column="dingding_result" property="dingdingResult" jdbcType="VARCHAR"/>
+    
+    <result column="material_selection" property="materialSelection" jdbcType="INTEGER"/>
+    <result column="specific_license_plate" property="specificLicensePlate" jdbcType="VARCHAR"/>
+    <result column="material_judgement" property="materialJudgement" jdbcType="INTEGER"/>
+    <result column="surface_treatment" property="surfaceTreatment" jdbcType="INTEGER"/>
+    <result column="surface_result_entry" property="surfaceResultEntry" jdbcType="VARCHAR"/>
+    <result column="film_thickness" property="filmThickness" jdbcType="VARCHAR"/>
+    
+    
+    
+    
+  <!-- <collection property="taskList" column="id" select="com.cn.hnust.dao.ProjectTaskMapper.selectByQualityId"/> -->
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, status, type, pic_url, createTime, user, project_no,explain_cause,check_explain,package_explain,
+    spend_time,place,check_date,orders,box_number,per_qty,inventory_qty,open_qty,inspection_form,
+    inspection_path,pic_num,conclusion ,company_name, no_check, key_size_exceed,factory_inspection,
+    meeting_no,is_all_right ,inspection_create_date,process_instance_id,dingding_status,dingding_result
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select q.id,q.status, q.type, q.pic_url, q.createTime, q.user, q.project_no,q.explain_cause,q.check_explain,q.package_explain,
+    q.spend_time,q.place,q.check_date,q.orders,q.box_number,q.per_qty,q.inventory_qty,q.open_qty,q.inspection_form,q.inspection_create_date,
+    q.inspection_path,q.pic_num,q.conclusion ,q.company_name, q.no_check, q.key_size_exceed,q.factory_inspection,
+    q.meeting_no,q.is_all_right,i.open_rate,t.operate_explain,t.product_file_name,q.process_instance_id,q.dingding_status,q.dingding_result    
+    ,ifnull(dingTalk_id,'')dingTalkId,q.material_selection,q.specific_license_plate,q.material_judgement,q.surface_treatment,q.surface_result_entry
+    ,q.film_thickness from quality_report q 
+    left join inspection_reservation i on i.project_no_id = q.project_no_id  
+    left join project_task t on q.id = t.quality_id 
+    left join user u on q.user=u.user_name  
+    where q.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+   <select id="selectByProjectNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    q.*,ifnull(dingTalk_id,'')dingTalkId
+    from quality_report q left join user u on q.user=u.user_name  
+    where project_no = #{projectNo,jdbcType=VARCHAR} order by createTime desc
+  </select>
+  
+  <select id="selectByProjectNo1" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    q.*,ifnull(dingTalk_id,'')dingTalkId
+    from quality_report q left join user u on q.user=u.user_name  
+    where project_no = #{projectNo,jdbcType=VARCHAR} and user=#{user,jdbcType=VARCHAR} order by createTime desc
+  </select>
+  
+  
+   <select id="getReport" resultType="int">
+    select 
+    count(1)
+    from quality_report 
+    where project_no = #{projectNo,jdbcType=VARCHAR} and datediff(now(),createTime)&lt;30
+  </select>
+  
+  
+  <!-- 根据项目号和阶段查询 -->
+   <select id="selectByProjectNoAndType" resultMap="BaseResultMap">
+    select  
+    <include refid="Base_Column_List" /> 
+    from quality_report   
+    where project_no = #{projectNo,jdbcType=VARCHAR}  
+     <choose>
+	    <when test="type == 23">
+	       and type in (2,3)
+	    </when>
+	    <otherwise>
+	       and type = #{type,jdbcType=INTEGER}
+	    </otherwise>
+	 </choose>
+    order by createTime desc  
+  </select>
+  
+  <!-- 查询所有质检报告 -->
+  <select id="selectAllReport" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.QualityReportQuery">
+    select  
+    q.id, q.status, q.type, q.pic_url, q.createTime, q.user, q.project_no,q.explain_cause,q.check_explain,q.package_explain,
+    q.spend_time,q.place,q.check_date,q.orders,q.box_number,q.per_qty,q.inventory_qty,q.open_qty,q.inspection_form,u1.user_name as sell_name, 
+    q.inspection_path,q.pic_num,q.conclusion ,q.company_name, q.no_check, q.key_size_exceed,q.factory_inspection,p.project_name,u.user_name as purchase_name,
+    t.operate_explain,t.product_file_name          
+    from quality_report q left join project p   
+    on q.project_no = p.project_no    
+    left join user u on p.purchase_id = u.id  
+    left join user u1 on p.email_user_id = u1.id  
+    left join project_task t on q.id = t.quality_id  
+     where 1=1   
+    <choose>
+	    <when test="roleNo == 100">
+	         <if test="inputKey !=null and inputKey!=''"> 
+				AND (
+					   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+				    	OR (q.project_no like CONCAT('%', #{inputKey}, '%'))
+					 )
+			 </if> 
+			  order by q.createTime desc limit #{pageNumber},#{pageSize} 
+	    </when>
+	    <otherwise>
+	        and (q.user = #{userName} OR u1.user_name = #{userName} OR u.user_name = #{userName})  
+		    <if test="inputKey !=null and inputKey!=''"> 
+					AND (
+					   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+					OR (q.project_no like CONCAT('%', #{inputKey}, '%'))
+					    )
+		    </if> 
+		     order by q.createTime desc limit #{pageNumber},#{pageSize}
+	    </otherwise>
+    </choose>   
+  </select>
+  
+  
+  <!-- 查询所有质检报告数量 -->
+  <select id="totalReports" resultType="int" parameterType="com.cn.hnust.pojo.QualityReportQuery">
+    select count(1) from  
+    (
+	    select q.id from quality_report q  left join project p   
+	    on q.project_no = p.project_no    
+	    left join user u on p.purchase_id = u.id  
+	    left join user u1 on p.email_user_id = u1.id  
+	    <if test="isComment != null and isComment != ''">
+	       left join comment on q.id = comment.quality_report_id  
+	    </if>
+	     where 1=1   
+	    <choose>
+		    <when test="roleNo == 100">
+		         <if test="inputKey !=null and inputKey!=''"> 
+					AND (
+						   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+					    	OR (q.project_no like CONCAT('%', #{inputKey}, '%'))
+						 )				 
+				 </if> 	
+				 <if test="isComment != null and isComment != ''">
+			         and (comment.reviewer != #{userName} or comment.reviewer is null) 
+			         GROUP BY q.id  
+			     </if>		   		  
+		    </when>
+		    <otherwise>
+		       and (q.user = #{userName} OR u1.user_name = #{userName} OR u.user_name = #{userName}) 
+			    <if test="inputKey !=null and inputKey!=''"> 
+						AND (
+						   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+						OR (q.project_no like CONCAT('%', #{inputKey}, '%'))
+						    )
+			    </if> 
+			    <if test="isComment != null and isComment != ''">
+			         and (comment.reviewer != #{userName} or comment.reviewer is null) 
+			         GROUP BY q.id 
+			    </if>		   
+		    </otherwise>
+	    </choose>
+    )qs    
+  </select>
+  <!--  -->
+  <select id="inspectionPlanningCondition" resultType="int" parameterType="java.lang.String">
+    select b.num3 from (
+select num3 from(select count(1)num3 from (select count(1)num2 from (
+select * from quality_report where type=3 and project_no=#{projectNo,jdbcType=VARCHAR}
+)b)a where num2=1)
+b)b
+
+   
+  </select>
+  
+  
+  <select id="selectNewestReportByProjectNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from quality_report where createTime = (select MAX(createTime) 
+      from quality_report  where  1=1
+      <if test="projectNo != null" >
+       AND project_no=#{projectNo,jdbcType=VARCHAR}
+      </if>
+      )
+     <if test="projectNo != null" >
+      AND project_no=#{projectNo,jdbcType=VARCHAR}
+     </if>
+  </select>
+  <!--根据项目号查询最后一个检验报告  -->
+  <select id="selectProjectNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from quality_report where 1=1
+     <if test="projectNo != null" >
+      AND project_no=#{projectNo,jdbcType=VARCHAR}
+     </if>
+     order by createTime desc limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from quality_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QualityReport">
+    insert into quality_report (id, status, type, 
+      pic_url, createTime, user, 
+      project_no)
+    values (#{id,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{picUrl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{user,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QualityReport" useGeneratedKeys="true" keyProperty="id">
+    insert into quality_report   
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="picUrl != null">
+        pic_url,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="user != null">
+        user,
+      </if>  
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="projectNoId != null">
+        project_no_id,
+      </if>
+      <if test="explainCause !=null">
+         explain_cause,
+      </if>
+      <if test="checkExplain !=null">
+         check_explain,
+      </if>
+      <if test="spendTime !=null">
+         spend_time,
+      </if>
+      <if test="place !=null">
+         place,
+      </if>
+      <if test="checkDate !=null">
+         check_date,
+      </if>
+      <if test="orders !=null">
+         orders,
+      </if>
+      <if test="boxNumber !=null">
+         box_number,
+      </if>
+      <if test="perQty !=null">
+         per_qty,
+      </if>
+      <if test="inventoryQty !=null">
+         inventory_qty,
+      </if>
+      <if test="openQty !=null">
+         open_qty,
+      </if>
+      <if test="inspectionForm !=null">
+         inspection_form,
+      </if>
+      <if test="inspectionPath !=null">
+         inspection_path,
+      </if>
+      <if test="picNum !=null">
+         pic_num,
+      </if>
+     <if test="conclusion !=null">
+         conclusion,
+      </if>
+     <if test="companyName !=null">
+         company_name,
+      </if>
+     <if test="noCheck !=null">
+         no_check,
+      </if>
+     <if test="keySizeExceed !=null">
+         key_size_exceed,
+      </if>
+     <if test="factoryInspection !=null">
+         factory_inspection,
+      </if>
+     <if test="isAllRight !=null">
+         is_all_right,
+      </if>
+      <if test="inspectionCreateDate !=null">
+         inspection_create_date,
+      </if>
+     <if test="materialSelection !=0">
+         material_selection,
+      </if>
+     <if test="specificLicensePlate !=null">
+         specific_license_plate,
+      </if>
+     <if test="materialJudgement !=0">
+         material_judgement,
+      </if>
+     <if test="surfaceTreatment !=0">
+         surface_treatment,
+      </if>
+     <if test="surfaceResultEntry !=null">
+         surface_result_entry,
+      </if>
+     <if test="filmThickness !=null">
+         film_thickness,
+      </if>
+     
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null">
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNoId != null">
+        #{projectNoId,jdbcType=VARCHAR},
+      </if>
+      <if test="explainCause != null">
+        #{explainCause,jdbcType=VARCHAR},
+      </if>
+      <if test="checkExplain !=null">
+        #{checkExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="packageExplain !=null">
+          #{packageExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="spendTime !=null">
+          #{spendTime,jdbcType=VARCHAR},
+      </if>
+      <if test="place !=null">
+          #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate !=null">
+          #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orders !=null">
+          #{orders,jdbcType=VARCHAR},
+      </if>
+      <if test="boxNumber !=null">
+          #{boxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="perQty !=null">
+          #{perQty,jdbcType=VARCHAR},
+      </if>
+      <if test="inventoryQty !=null">
+          #{inventoryQty,jdbcType=VARCHAR},
+      </if>
+      <if test="openQty !=null">
+          #{openQty,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionForm !=null">
+          #{inspectionForm,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionPath !=null">
+          #{inspectionPath,jdbcType=VARCHAR},
+      </if>
+      <if test="picNum !=null">
+          #{picNum,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion !=null">
+          #{conclusion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="companyName !=null">
+          #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="noCheck !=null">
+          #{noCheck,jdbcType=INTEGER},
+      </if>
+      <if test="keySizeExceed !=null">
+          #{keySizeExceed,jdbcType=INTEGER},
+      </if>
+      <if test="factoryInspection !=null">
+          #{factoryInspection,jdbcType=VARCHAR},
+      </if>
+      <if test="isAllRight !=null">
+          #{isAllRight,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionCreateDate !=null">
+          #{inspectionCreateDate,jdbcType=DATE},
+      </if>
+      <if test="materialSelection !=0">
+          #{materialSelection,jdbcType=INTEGER},
+      </if>
+     <if test="specificLicensePlate !=null">
+         #{specificLicensePlate,jdbcType=VARCHAR},
+      </if>
+     <if test="materialJudgement !=0">
+         #{materialJudgement,jdbcType=INTEGER},
+      </if>
+     <if test="surfaceTreatment !=0">
+        #{surfaceTreatment,jdbcType=INTEGER},
+      </if>
+     <if test="surfaceResultEntry !=null">
+         #{surfaceResultEntry,jdbcType=VARCHAR},
+      </if>
+     <if test="filmThickness !=null">
+         #{filmThickness,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QualityReport">
+    update quality_report
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null">
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user != null">
+        user = #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingNo != null">
+        meeting_no = #{meetingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="processInstanceId != null">
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingStatus != null">
+        dingding_status = #{dingdingStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingResult != null">
+        dingding_result = #{dingdingResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QualityReport">
+    update quality_report
+    set status = #{status,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      user = #{user,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

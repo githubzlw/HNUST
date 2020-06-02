@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.QuotePriceMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QuotePrice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="employe_name" property="employeName" jdbcType="VARCHAR" />
+    <result column="current_status" property="currentStatus" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="uploadurl" property="uploadurl" jdbcType="VARCHAR" />
+    <result column="dingding" property="dingding" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, employe_name, current_status, update_time, uploadurl, dingding
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getall" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_price
+    where id &gt; #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getOne" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_price
+    where project_no=#{projectNo,jdbcType=VARCHAR}
+    and uploadurl is not null
+    order by id desc limit 1
+  </select>
+  <select id="getAllQuote" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_price
+    where project_no=#{projectNo,jdbcType=VARCHAR}
+    and uploadurl is not null and current_status='材料证明'
+    order by id desc 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from quote_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QuotePrice" >
+    insert into quote_price (id, project_no, employe_name, 
+      current_status, update_time, uploadurl, 
+      dingding)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{employeName,jdbcType=VARCHAR}, 
+      #{currentStatus,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{uploadurl,jdbcType=VARCHAR}, 
+      #{dingding,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QuotePrice" >
+    insert into quote_price
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="employeName != null" >
+        employe_name,
+      </if>
+      <if test="currentStatus != null" >
+        current_status,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="uploadurl != null" >
+        uploadurl,
+      </if>
+      <if test="dingding != null" >
+        dingding,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="employeName != null" >
+        #{employeName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStatus != null" >
+        #{currentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadurl != null" >
+        #{uploadurl,jdbcType=VARCHAR},
+      </if>
+      <if test="dingding != null" >
+        #{dingding,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QuotePrice" >
+    update quote_price
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="employeName != null" >
+        employe_name = #{employeName,jdbcType=VARCHAR},
+      </if>
+      <if test="currentStatus != null" >
+        current_status = #{currentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadurl != null" >
+        uploadurl = #{uploadurl,jdbcType=VARCHAR},
+      </if>
+      <if test="dingding != null" >
+        dingding = #{dingding,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QuotePrice" >
+    update quote_price
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      employe_name = #{employeName,jdbcType=VARCHAR},
+      current_status = #{currentStatus,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      uploadurl = #{uploadurl,jdbcType=VARCHAR},
+      dingding = #{dingding,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.EmailClientidMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.EmailClientid" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="erp_client_id" property="erpClientId" jdbcType="INTEGER" />
+    <result column="email_client_id" property="emailClientId" jdbcType="INTEGER" />
+    <result column="projectStatus" property="projectstatus" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="INTEGER" />
+    <result column="sale_id1" property="saleId1" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="sale_id2" property="saleId2" jdbcType="INTEGER" />
+    <result column="sale_id3" property="saleId3" jdbcType="INTEGER" />
+    <result column="sale_id4" property="saleId4" jdbcType="INTEGER" />
+    <result column="sale_id5" property="saleId5" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="INTEGER" />
+    <result column="project_descc" property="projectDescc" jdbcType="VARCHAR" />
+    <result column="project_desce" property="projectDesce" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="blacklist" property="blacklist" jdbcType="INTEGER" />
+    <result column="cusquotetime" property="cusquotetime" jdbcType="VARCHAR" />
+    <result column="valueorder" property="valueorder" jdbcType="VARCHAR" />
+    <result column="annualorder" property="annualorder" jdbcType="VARCHAR" />
+    <result column="quoter" property="quoter" jdbcType="INTEGER" />
+    <result column="quoter1" property="quoter1" jdbcType="INTEGER" />
+    <result column="quoter2" property="quoter2" jdbcType="INTEGER" />
+    <result column="quoter3" property="quoter3" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, erp_client_id, email_client_id, projectStatus, sale_id, sale_id1, project_id, 
+    sale_id2, sale_id3, sale_id4, sale_id5, time, project_descc, project_desce, create_time, 
+    blacklist, cusquotetime, valueorder, annualorder, quoter, quoter1, quoter2, quoter3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from email_clientid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询所有的信息-->
+  <select id="selectAllEmailClientid" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from email_clientid
+    where sale_id1 !=0
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from email_clientid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.EmailClientid" >
+    insert into email_clientid (id, erp_client_id, email_client_id, 
+      projectStatus, sale_id, sale_id1, 
+      project_id, sale_id2, sale_id3, 
+      sale_id4, sale_id5, time, 
+      project_descc, project_desce, create_time, 
+      blacklist, cusquotetime, valueorder, 
+      annualorder, quoter, quoter1, 
+      quoter2, quoter3)
+    values (#{id,jdbcType=INTEGER}, #{erpClientId,jdbcType=INTEGER}, #{emailClientId,jdbcType=INTEGER}, 
+      #{projectstatus,jdbcType=INTEGER}, #{saleId,jdbcType=INTEGER}, #{saleId1,jdbcType=INTEGER}, 
+      #{projectId,jdbcType=VARCHAR}, #{saleId2,jdbcType=INTEGER}, #{saleId3,jdbcType=INTEGER}, 
+      #{saleId4,jdbcType=INTEGER}, #{saleId5,jdbcType=INTEGER}, #{time,jdbcType=INTEGER}, 
+      #{projectDescc,jdbcType=VARCHAR}, #{projectDesce,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{blacklist,jdbcType=INTEGER}, #{cusquotetime,jdbcType=VARCHAR}, #{valueorder,jdbcType=VARCHAR}, 
+      #{annualorder,jdbcType=VARCHAR}, #{quoter,jdbcType=INTEGER}, #{quoter1,jdbcType=INTEGER}, 
+      #{quoter2,jdbcType=INTEGER}, #{quoter3,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.EmailClientid" >
+    insert into email_clientid
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="erpClientId != null" >
+        erp_client_id,
+      </if>
+      <if test="emailClientId != null" >
+        email_client_id,
+      </if>
+      <if test="projectstatus != null" >
+        projectStatus,
+      </if>
+      <if test="saleId != null" >
+        sale_id,
+      </if>
+      <if test="saleId1 != null" >
+        sale_id1,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="saleId2 != null" >
+        sale_id2,
+      </if>
+      <if test="saleId3 != null" >
+        sale_id3,
+      </if>
+      <if test="saleId4 != null" >
+        sale_id4,
+      </if>
+      <if test="saleId5 != null" >
+        sale_id5,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="projectDescc != null" >
+        project_descc,
+      </if>
+      <if test="projectDesce != null" >
+        project_desce,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="blacklist != null" >
+        blacklist,
+      </if>
+      <if test="cusquotetime != null" >
+        cusquotetime,
+      </if>
+      <if test="valueorder != null" >
+        valueorder,
+      </if>
+      <if test="annualorder != null" >
+        annualorder,
+      </if>
+      <if test="quoter != null" >
+        quoter,
+      </if>
+      <if test="quoter1 != null" >
+        quoter1,
+      </if>
+      <if test="quoter2 != null" >
+        quoter2,
+      </if>
+      <if test="quoter3 != null" >
+        quoter3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="erpClientId != null" >
+        #{erpClientId,jdbcType=INTEGER},
+      </if>
+      <if test="emailClientId != null" >
+        #{emailClientId,jdbcType=INTEGER},
+      </if>
+      <if test="projectstatus != null" >
+        #{projectstatus,jdbcType=INTEGER},
+      </if>
+      <if test="saleId != null" >
+        #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="saleId1 != null" >
+        #{saleId1,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleId2 != null" >
+        #{saleId2,jdbcType=INTEGER},
+      </if>
+      <if test="saleId3 != null" >
+        #{saleId3,jdbcType=INTEGER},
+      </if>
+      <if test="saleId4 != null" >
+        #{saleId4,jdbcType=INTEGER},
+      </if>
+      <if test="saleId5 != null" >
+        #{saleId5,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=INTEGER},
+      </if>
+      <if test="projectDescc != null" >
+        #{projectDescc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDesce != null" >
+        #{projectDesce,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="blacklist != null" >
+        #{blacklist,jdbcType=INTEGER},
+      </if>
+      <if test="cusquotetime != null" >
+        #{cusquotetime,jdbcType=VARCHAR},
+      </if>
+      <if test="valueorder != null" >
+        #{valueorder,jdbcType=VARCHAR},
+      </if>
+      <if test="annualorder != null" >
+        #{annualorder,jdbcType=VARCHAR},
+      </if>
+      <if test="quoter != null" >
+        #{quoter,jdbcType=INTEGER},
+      </if>
+      <if test="quoter1 != null" >
+        #{quoter1,jdbcType=INTEGER},
+      </if>
+      <if test="quoter2 != null" >
+        #{quoter2,jdbcType=INTEGER},
+      </if>
+      <if test="quoter3 != null" >
+        #{quoter3,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.EmailClientid" >
+    update email_clientid
+    <set >
+      <if test="erpClientId != null" >
+        erp_client_id = #{erpClientId,jdbcType=INTEGER},
+      </if>
+      <if test="emailClientId != null" >
+        email_client_id = #{emailClientId,jdbcType=INTEGER},
+      </if>
+      <if test="projectstatus != null" >
+        projectStatus = #{projectstatus,jdbcType=INTEGER},
+      </if>
+      <if test="saleId != null" >
+        sale_id = #{saleId,jdbcType=INTEGER},
+      </if>
+      <if test="saleId1 != null" >
+        sale_id1 = #{saleId1,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleId2 != null" >
+        sale_id2 = #{saleId2,jdbcType=INTEGER},
+      </if>
+      <if test="saleId3 != null" >
+        sale_id3 = #{saleId3,jdbcType=INTEGER},
+      </if>
+      <if test="saleId4 != null" >
+        sale_id4 = #{saleId4,jdbcType=INTEGER},
+      </if>
+      <if test="saleId5 != null" >
+        sale_id5 = #{saleId5,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=INTEGER},
+      </if>
+      <if test="projectDescc != null" >
+        project_descc = #{projectDescc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDesce != null" >
+        project_desce = #{projectDesce,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="blacklist != null" >
+        blacklist = #{blacklist,jdbcType=INTEGER},
+      </if>
+      <if test="cusquotetime != null" >
+        cusquotetime = #{cusquotetime,jdbcType=VARCHAR},
+      </if>
+      <if test="valueorder != null" >
+        valueorder = #{valueorder,jdbcType=VARCHAR},
+      </if>
+      <if test="annualorder != null" >
+        annualorder = #{annualorder,jdbcType=VARCHAR},
+      </if>
+      <if test="quoter != null" >
+        quoter = #{quoter,jdbcType=INTEGER},
+      </if>
+      <if test="quoter1 != null" >
+        quoter1 = #{quoter1,jdbcType=INTEGER},
+      </if>
+      <if test="quoter2 != null" >
+        quoter2 = #{quoter2,jdbcType=INTEGER},
+      </if>
+      <if test="quoter3 != null" >
+        quoter3 = #{quoter3,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.EmailClientid" >
+    update email_clientid
+    set erp_client_id = #{erpClientId,jdbcType=INTEGER},
+      email_client_id = #{emailClientId,jdbcType=INTEGER},
+      projectStatus = #{projectstatus,jdbcType=INTEGER},
+      sale_id = #{saleId,jdbcType=INTEGER},
+      sale_id1 = #{saleId1,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      sale_id2 = #{saleId2,jdbcType=INTEGER},
+      sale_id3 = #{saleId3,jdbcType=INTEGER},
+      sale_id4 = #{saleId4,jdbcType=INTEGER},
+      sale_id5 = #{saleId5,jdbcType=INTEGER},
+      time = #{time,jdbcType=INTEGER},
+      project_descc = #{projectDescc,jdbcType=VARCHAR},
+      project_desce = #{projectDesce,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=DATE},
+      blacklist = #{blacklist,jdbcType=INTEGER},
+      cusquotetime = #{cusquotetime,jdbcType=VARCHAR},
+      valueorder = #{valueorder,jdbcType=VARCHAR},
+      annualorder = #{annualorder,jdbcType=VARCHAR},
+      quoter = #{quoter,jdbcType=INTEGER},
+      quoter1 = #{quoter1,jdbcType=INTEGER},
+      quoter2 = #{quoter2,jdbcType=INTEGER},
+      quoter3 = #{quoter3,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

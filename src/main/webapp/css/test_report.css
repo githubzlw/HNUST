@@ -1,0 +1,305 @@
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.test_report {
+    width: 1200px;
+    margin: 0 auto;
+    min-height: 50px;
+    font-size: 16px;
+    padding-top: 20px;
+    text-align: center;
+}
+
+.row {
+    margin: 0;
+}
+
+.row1 button {
+    float: left;
+    height: 30px;
+    background-color: #fff;
+    border: 1px solid #bbb;
+    margin-right: 20px;
+}
+
+.row1 select, .row1 span {
+    width: 50%;
+    float: left;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.div1 {
+    margin-right: 20px;
+}
+
+.test_report .row1 select {
+    height: 30px;
+    padding-top: 2px;
+}
+
+.test_report .row1 span {
+    margin-top: 5px;
+}
+
+.test_report .form-inline {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.test_report .form-inline input {
+    width: 255px;
+}
+
+.test_report .form-inline .form-group {
+    margin-right: 15px;
+}
+
+.test_report .p1 {
+    font-weight: 700;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    margin-bottom: 0;
+    border-bottom: 0 none;
+    margin-top: 20px;
+    padding: 5px;
+    border-top-color: #333;
+}
+
+.test_report .table1 button {
+    width: 60px;
+}
+
+.test_report .table1 th {
+    text-align: center;
+}
+
+.test_report .table1 input[type="checkbox"] {
+    height: 26px;
+    width: 26px;
+    /* margin:0 auto; */
+    display: inline-block;
+}
+
+.test_report .tips p {
+    text-align: left;
+}
+
+.test_report .b_b {
+    width: 70px;
+    text-align: right;
+
+}
+
+.test_report .s1 {
+    width: 110px;
+}
+
+.test_report .select1 {
+    width: 260px;
+}
+
+.test_report .a_btn button {
+    background-color: #006dcc;
+    color: #fff;
+    border-color: transparent;
+}
+
+.test_report .last_a button {
+    margin-right: 0;
+}
+
+.test_report .h1 {
+    font-weight: 700;
+}
+
+.test_report .div_line {
+    border: 1px solid #ddd;
+    margin-bottom: -20px;
+    border-bottom: 0 none;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-top: 16px;
+}
+
+.test_report .th1 {
+    width: 100px;
+}
+
+.test_report .th2 {
+    width: 160px;
+}
+
+.test_report .th5 {
+    width: 135px;
+}
+
+.test_report .th6 {
+    width: 82px;
+}
+
+.test_report .th8 {
+    width: 75px;
+}
+
+.test_report .addtr {
+    margin-top: -20px;
+    border-top: 0 none;
+    font-size: 16px;
+}
+
+.test_report .w290 {
+    width: 290px;
+    vertical-align: middle;
+}
+
+.test_report .table5 input[type=radio] {
+    margin-left: 15px;
+}
+
+.test_report .table5 input[type=radio]:first-child {
+    margin-left: 0;
+}
+
+.test_report .w245 {
+    width: 245px;
+    vertical-align: middle;
+}
+
+.test_report .t_j {
+    margin-left: 15px;
+}
+
+.last_div {
+    margin-bottom: 30px;
+}
+
+.test_report .red {
+    color: red;
+}
+
+.test_report .form-inline .w570 {
+    width: 570px;
+}
+
+.test_report .table6 tr td {
+
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.test_report .div_line {
+    position: relative;
+}
+
+.test_report .logo {
+    position: absolute;
+    right: 0;
+    top: 17px;
+}
+
+.plan_list {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.plan_list .div_h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    line-height: 70px;
+}
+
+.plan_list .btns_search .form-control {
+    display: inline-block;
+    width: auto;
+}
+
+.plan_list table {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.plan_list th, .plan_list td {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
+    font-size: 16px;
+    padding: 5px;
+}
+.plan_list td i{
+	font-style:normal;
+	color:#ff5900;
+	
+}
+.plan_list .page-box {
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.plan_list .page-box a {
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+
+.plan_list .last_page {
+    margin-right: 20px;
+}
+
+.plan_list .n {
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+    width: 50px;
+    text-align: center;
+}
+
+.plan_list .btns_search button {
+    font-size: 16px;
+}
+
+.plan_list .btns_search .last_btn {
+    background-color: #027cff;
+    color: #fff;
+}
+.task_entry{
+    width:1200px;
+    margin:0 auto;
+    padding-top: 20px;
+}
+.pl0{
+	padding-left:0;
+}
+.task_entry ul li label{
+	font-size:16px;
+	width:155px;
+}
+.task_entry ul li input[type=text]{
+	height:30px;
+}
+.task_entry ul li input[type=text].w200{
+	width:200px;
+}
+.task_entry .row{
+	margin-bottom:-8px;
+}
+.task_entry .row span{
+	margin-left:5px;
+}
+.task_list{
+	padding-top:20px;
+}
+

@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.ProjectComplaintMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectComplaint">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="complaint_date" jdbcType="DATE" property="complaintDate" />
+    <result column="cost_analysis" jdbcType="VARCHAR" property="costAnalysis" />
+    <result column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="sell_id" jdbcType="INTEGER" property="sellId" />
+    <result column="is_purchase" jdbcType="INTEGER" property="isPurchase" />
+    <result column="is_sell" jdbcType="INTEGER" property="isSell" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_person" jdbcType="VARCHAR" property="createPerson" />
+    <result column="purchase_content" jdbcType="VARCHAR" property="purchaseContent" />
+    <result column="sell_content" jdbcType="VARCHAR" property="sellContent" />
+    <result column="purchase_confirm_date" jdbcType="TIMESTAMP" property="purchaseConfirmDate" />
+    <result column="sell_confirm_date" jdbcType="TIMESTAMP" property="sellConfirmDate" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="meeting_no" jdbcType="VARCHAR" property="meetingNo" />
+    <result column="serious_level" jdbcType="INTEGER" property="seriousLevel" />
+    <result column="zhijian_reply_time" jdbcType="TIMESTAMP" property="zhijianReplyTime" />
+    <result column="rectification_zhijian_reply" jdbcType="VARCHAR" property="rectificationZhijianReply" />
+    <result column="rectification_sell_purchase_reply" jdbcType="VARCHAR" property="rectificationSellPurchaseReply" />
+    <result column="rectification_zhijian_time" jdbcType="TIMESTAMP" property="rectificationZhijianTime" />
+    <result column="rectification_sell_purchase_time" jdbcType="TIMESTAMP" property="rectificationSellPurchaseTime" />
+    <result column="technician_reply_time" jdbcType="TIMESTAMP" property="technicianReplyTime" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+    <result column="predict_complete_time" jdbcType="TIMESTAMP" property="predictCompleteTime" />
+    <result column="inspection_content" jdbcType="VARCHAR" property="inspectionContent" />
+    <result column="project_stage" jdbcType="INTEGER" property="projectStage" />
+    <result column="inspection_leader_confirm" jdbcType="INTEGER" property="inspectionLeaderConfirm" />
+    <result column="purchase_leader_confirm" jdbcType="INTEGER" property="purchaseLeaderConfirm" />
+    <result column="inspection_leader_confirm_date" jdbcType="TIMESTAMP" property="inspectionLeaderConfirmDate" />
+    <result column="purchase_leader_confirm_date" jdbcType="TIMESTAMP" property="purchaseLeaderConfirmDate" />
+    <result column="process_instance_id" jdbcType="TIMESTAMP" property="processInstanceId" />
+    <result column="dingding_status" jdbcType="TIMESTAMP" property="dingdingStatus" />
+    <result column="dingding_result" jdbcType="TIMESTAMP" property="dingdingResult" />
+     <result column="pic_up" jdbcType="INTEGER" property="picUp" />
+     <result column="task_brief" jdbcType="VARCHAR" property="taskBrief" />
+     <result column="task_attachment" jdbcType="VARCHAR" property="taskAttachment" />
+     
+    <!-- 虚拟字段 -->
+    <result column="verification" jdbcType="INTEGER" property="verification" />
+    <result column="task_status" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="purchase_name" jdbcType="VARCHAR" property="purchaseName" />
+    <result column="sell_name" jdbcType="VARCHAR" property="sellName" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="zhijian1" jdbcType="VARCHAR" property="zhijian1" />
+    <result column="zhijian2" jdbcType="VARCHAR" property="zhijian2" />
+    <result column="zhijian3" jdbcType="VARCHAR" property="zhijian3" />
+    <result column="master_quality_inspection" property="masterQualityInspection" jdbcType="VARCHAR" />
+    <result column="quality_inspector1" property="qualityInspector1" jdbcType="VARCHAR" />
+    <result column="quality_inspector2" property="qualityInspector2" jdbcType="VARCHAR" />
+    <result column="quality_inspector3" property="qualityInspector3" jdbcType="VARCHAR" />
+    <result column="quality_inspector4" property="qualityInspector4" jdbcType="VARCHAR" />
+    <result column="quality_inspector5" property="qualityInspector5" jdbcType="VARCHAR" />
+    <result column="quality_inspector6" property="qualityInspector6" jdbcType="VARCHAR" />
+    <result column="quality_inspector7" property="qualityInspector7" jdbcType="VARCHAR" />
+    <result column="process" jdbcType="VARCHAR" property="process" />
+    <result column="startingTime" jdbcType="TIMESTAMP" property="startingTime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="inspectionTimelinessNumber" jdbcType="INTEGER" property="inspectionTimelinessNumber" />
+    <result column="complaintsNumber" jdbcType="INTEGER" property="complaintsNumber" />
+    <result column="projectAmount" jdbcType="DOUBLE" property="projectAmount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.cn.hnust.pojo.ProjectComplaint">
+    <result column="complaint_content" jdbcType="LONGVARCHAR" property="complaintContent" />
+  </resultMap>
+  <sql id="Base_Column_List"> 
+    id, project_no, complaint_date, cost_analysis, purchase_id, sell_id, is_purchase, 
+    is_sell, create_time, create_person,purchase_content,sell_content,purchase_confirm_date,sell_confirm_date,
+    file_name,file_path,meeting_no,serious_level,zhijian_reply_time,technician_reply_time,complete_time,predict_complete_time,
+    inspection_content ,project_stage,inspection_leader_confirm,purchase_leader_confirm,inspection_leader_confirm_date,
+    purchase_leader_confirm_date,rectification_zhijian_reply,rectification_sell_purchase_reply,rectification_zhijian_time,  
+    rectification_sell_purchase_time  
+  </sql> 
+  <sql id="Blob_Column_List">
+    complaint_content
+  </sql>
+  <!-- 获取质量投诉次数 -->
+  <select id="getComplaintsNumber" parameterType="String" resultType="java.lang.String">
+    select 
+   count(1)
+    from project_complaint
+    where project_no in (${projectNo})
+  </select>
+  <!-- 获取未处理投诉项目列表-->
+  <select id="unprocessedItems" resultMap="ResultMapWithBLOBs" >
+   select * from project_complaint where id not in (
+SELECT id FROM project_complaint
+where  complete_time is not null
+and inspection_leader_confirm_date is not null 
+) and serious_level is not null  and id&gt;342
+and serious_level!=5 and serious_level=5
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select  
+     c.id, c.project_no,  c.complaint_date,  c.cost_analysis, c.purchase_id,  c.sell_id,  c.is_purchase ,p.project_name,p.customer_name,  
+     c.is_sell,  c.create_time,  c.create_person,  c.purchase_content, c.sell_content, c.purchase_confirm_date,c.meeting_no, 
+     c.sell_confirm_date,c.file_name,c.file_path,c.serious_level,c.zhijian_reply_time,c.technician_reply_time,c.complete_time,
+     c.inspection_leader_confirm,c.purchase_leader_confirm,c.inspection_leader_confirm_date,c.project_stage,
+     c.purchase_leader_confirm_date,c.rectification_zhijian_reply,c.rectification_sell_purchase_reply,c.rectification_zhijian_time,  
+     c.rectification_sell_purchase_time,  
+     predict_complete_time,inspection_content,<include refid="Blob_Column_List" />,p.zhijian1,p.zhijian2,p.zhijian3,p.purchase_name,s.process    
+      ,c.pic_up,pt.verification 
+     from project_complaint c 
+    left join project_task pt on c.id=pt.complaint_id    
+     left join  
+     ( 
+     select project_no,project_name,purchase_id,email_user_id,company_name,customer_name,zhijian1,zhijian2,zhijian3,u.user_name as purchase_name from project    
+     left join user u on u.id = project.purchase_id  
+     )p   
+    on c.project_no = p.project_no  
+     LEFT JOIN 
+    (select GROUP_CONCAT(DISTINCT(process)) as process,project_no from analysis_issue GROUP BY project_no)s
+     on c.project_no = s.project_no
+     where c.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据项目号查询 -->
+    <select id="selectByProjectNo" parameterType="string" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_complaint
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询投诉列表数据 -->
+    <select id="getComplaintsList" parameterType="com.cn.hnust.pojo.ProjectComplaint" resultMap="ResultMapWithBLOBs">
+    select ifnull(a.project_amount,0.0)projectAmount,a.project_no,b.*,c.* from (
+select sum(project_amount)project_amount,GROUP_CONCAT(project_no)project_no from(
+SELECT pt.project_no,ifnull(p.project_amount,0)project_amount FROM project_task pt
+ left join project p on pt.project_no=p.project_no where accepter=#{zhijian1} and task_type=2 
+and pt.finish_time&gt;#{startingTime} and pt.finish_time&lt;#{endTime})c
+
+)a
+,(
+SELECT count(1)inspectionTimelinessNumber FROM `project_task` where accepter=#{zhijian1} and task_type=2 
+and (task_status=0 or (task_status=1 and finish_time&lt;operator_time))
+and finish_time&gt;#{startingTime} and finish_time&lt;#{endTime})b
+,(select pc.id,p.zhijian1,p.zhijian2,p.zhijian3 from project_complaint pc
+left join project p on pc.project_no=p.project_no
+where pc.create_time&gt;#{startingTime} 
+and pc.create_time&lt;#{endTime}
+and (zhijian1 like CONCAT('%',#{zhijian1},'%') or 
+zhijian2 like CONCAT('%',#{zhijian1},'%') or 
+zhijian3 like CONCAT('%',#{zhijian1},'%')))c
+  </select>
+ 
+  <!-- 根据项目号模糊查询 -->
+    <select id="selectByProjectNoDim" parameterType="string" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from project_complaint
+    where project_no like CONCAT(#{projectNo,jdbcType=VARCHAR}, '%')
+  </select>
+  
+  <!-- 根据条件查询客户投诉列表 -->
+  <select id="queryComplaintList" parameterType="com.cn.hnust.pojo.ProjectComplaintQuery" resultMap="ResultMapWithBLOBs">
+    select  
+     c.inspection_leader_confirm,c.inspection_leader_confirm_date,c.id, c.project_no,  c.complaint_date,  c.cost_analysis, c.purchase_id,  c.sell_id,  c.is_purchase ,p.project_name,p.customer_name,  
+     c.is_sell,  c.create_time,  c.create_person,  c.purchase_content, c.sell_content, c.purchase_confirm_date,c.meeting_no, 
+     c.sell_confirm_date,c.file_name,c.file_path,c.serious_level,c.zhijian_reply_time,c.technician_reply_time,c.complete_time,c.project_stage,
+     <include refid="Blob_Column_List" />,p.zhijian1,p.zhijian2,p.zhijian3,p.purchase_name,s.process,c.pic_up,pt.verification
+     ,p.master_quality_inspection,p.quality_inspector1,p.quality_inspector2,p.quality_inspector3, p.quality_inspector4,
+	p.quality_inspector5,p.quality_inspector6,p.quality_inspector7          
+    from project_complaint c 
+    left join project_task pt on c.id=pt.complaint_id 
+    left join  
+    ( 
+    select project_no,project_name,purchase_id,email_user_id,company_name,customer_name,zhijian1,zhijian2,zhijian3
+    ,master_quality_inspection,quality_inspector1,quality_inspector2,quality_inspector3, quality_inspector4,
+	quality_inspector5,quality_inspector6,quality_inspector7
+    ,u.user_name as purchase_name,u1.user_name as sell_name from project    
+    left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+    )p   
+    on c.project_no = p.project_no  
+    LEFT JOIN 
+    (select GROUP_CONCAT(DISTINCT(process)) as process,project_no from analysis_issue GROUP BY project_no)s
+     on c.project_no = s.project_no
+      
+    where 1=1   
+    <if test="seriousLevel == -1"> 
+      and c.serious_level=10 
+    </if>
+    <if test="seriousLevel == 0"> 
+      and c.serious_level!=5 
+    </if>
+    <if test="seriousLevel == 5"> 
+      and c.serious_level=5
+    </if>
+    <if test="isSolve == 2"> 
+      and c.complete_time is not null 
+      and inspection_leader_confirm_date != null 
+      and inspection_leader_confirm =0 
+    </if>
+    <if test="isSolve == 0"> 
+      and (c.complete_time is null  
+      or  inspection_leader_confirm = 0 
+          )
+    </if>
+    <if test="isSolve == 3"> 
+      and c.complete_time is not null  
+      and  inspection_leader_confirm != 0 
+          
+    </if>
+    <if test="purchaseName !=null "> 
+      and p.purchase_name like  CONCAT('%', #{purchaseName}, '%')
+    </if>
+    <if test="sellName !=null "> 
+      and p.sell_name like  CONCAT('%', #{sellName}, '%')
+    </if>
+    
+    <choose>
+	    <when test="roleNo == 100 or roleNo == 7">
+	         <if test="inputKey !=null and inputKey!=''"> 
+				AND (
+				   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+				OR (c.project_no like CONCAT('%', #{inputKey}, '%'))
+				OR (p.company_name like CONCAT('%', #{inputKey}, '%'))
+				    )
+			 </if> 
+			  order by create_time desc  
+			<if test="pageNumber !=null and pageNumber >= 0">		     
+			  limit #{pageNumber},#{pageSize}
+		     </if>
+	    </when>
+	    <otherwise>
+	        and (p.purchase_id = #{userId} or p.email_user_id = #{userId} or p.zhijian1 = #{zhijian1} 
+	        or p.zhijian2 = #{zhijian1} or p.zhijian3 = #{zhijian1}
+	        or p.master_quality_inspection = #{zhijian1} or p.quality_inspector1 = #{zhijian1}
+	        or p.quality_inspector2 = #{zhijian1} or p.quality_inspector3 = #{zhijian1}
+	        or p.quality_inspector4 = #{zhijian1} or p.quality_inspector5 = #{zhijian1}
+	        or p.quality_inspector6 = #{zhijian1} or p.quality_inspector7 = #{zhijian1}
+	       )  
+		    <if test="inputKey !=null and inputKey!=''"> 
+					AND (
+					   (p.project_name like CONCAT('%', #{inputKey}, '%'))
+					OR (c.project_no like CONCAT('%', #{inputKey}, '%'))
+					OR (p.company_name like CONCAT('%', #{inputKey}, '%'))
+					    )
+		    </if>  
+		     order by create_time desc  
+		     <if test="pageNumber !=null and pageNumber >= 0">	
+		     limit #{pageNumber},#{pageSize}
+		     </if>
+	    </otherwise>
+    </choose>
+    
+  </select>
+  
+  
+  
+  
+    <!-- 根据条件查询客户投诉总数 -->
+  <select id="queryCount" parameterType="com.cn.hnust.pojo.ProjectComplaintQuery" resultType="int">
+    select count(1)    
+    from project_complaint c 
+    left join  
+    ( 
+    select project_no,project_name,purchase_id,email_user_id,company_name,customer_name
+    ,zhijian1,zhijian2,zhijian3,master_quality_inspection,quality_inspector1,quality_inspector2,quality_inspector3, quality_inspector4,
+	quality_inspector5,quality_inspector6,quality_inspector7 ,u.user_name as purchase_name,u1.user_name as sell_name from project    
+    left join user u on u.id = project.purchase_id   left join user u1 on u1.id = project.email_user_id
+    )project on c.project_no = project.project_no
+   
+    where 1=1 
+    <if test="seriousLevel == 0"> 
+      and c.serious_level!=5 
+    </if>
+    <if test="seriousLevel == 5"> 
+      and c.serious_level=5
+    </if>
+    <if test="isSolve == 2"> 
+      and c.complete_time is not null 
+      and inspection_leader_confirm_date != null 
+      and inspection_leader_confirm =0 
+    </if>
+    <if test="isSolve == 0"> 
+      and (c.complete_time is null  
+      or  inspection_leader_confirm = 0 
+          )
+    </if>
+    <if test="isSolve == 3"> 
+      and c.complete_time is not null  
+      and  inspection_leader_confirm != 0 
+          
+    </if>
+    <if test="purchaseName !=null "> 
+      and project.purchase_name like  CONCAT('%', #{purchaseName}, '%')
+    </if>
+    <if test="sellName !=null "> 
+      and project.sell_name like  CONCAT('%', #{sellName}, '%')
+    </if>
+    <choose>
+	    <when test="roleNo == 100 or roleNo == 7">
+	         <if test="inputKey !=null and inputKey!=''"> 
+				AND (
+				   (project.project_name like CONCAT('%', #{inputKey}, '%')) 
+				OR (c.project_no like CONCAT('%', #{inputKey}, '%'))
+				OR (project.company_name like CONCAT('%', #{inputKey}, '%'))
+				    )
+			 </if> 
+	    </when>
+	    <otherwise>
+	         and (project.purchase_id = #{userId} or project.email_user_id = #{userId} or project.zhijian1 = #{zhijian1} 
+	        or project.zhijian2 = #{zhijian1} or project.zhijian3 = #{zhijian1}
+	        or project.master_quality_inspection = #{zhijian1} or project.quality_inspector1 = #{zhijian1}
+	        or project.quality_inspector2 = #{zhijian1} or project.quality_inspector3 = #{zhijian1}
+	        or project.quality_inspector4 = #{zhijian1} or project.quality_inspector5 = #{zhijian1}
+	        or project.quality_inspector6 = #{zhijian1} or project.quality_inspector7 = #{zhijian1}
+	       ) 
+	       <if test="inputKey !=null and inputKey!=''"> 
+					AND (
+					   (project.project_name like CONCAT('%', #{inputKey}, '%'))
+					OR (c.project_no like CONCAT('%', #{inputKey}, '%'))
+					OR (project.company_name like CONCAT('%', #{inputKey}, '%'))
+					    )
+		    </if> 
+	    </otherwise>
+    </choose>
+  </select>
+  
+  <!-- 根据条件查询客户投诉列表 -->
+  <select id="getLate"  resultMap="ResultMapWithBLOBs">
+    select  
+    create_time,id         
+    from project_complaint c  
+    where c.project_no =#{projectNo}   
+    order by id desc limit 1
+    
+  </select>
+  <!-- 根据条件查询客户投诉列表 -->
+  <select id="getAll"  resultMap="ResultMapWithBLOBs">
+    select  
+    *          
+    from project_complaint c  
+    where c.id &gt;#{id} 
+    and serious_level is not null  
+    
+    
+  </select>
+  
+  
+  
+  
+  <!-- 根据条件查询客户投诉列表 -->
+  <select id="getQueryComplaintCount" parameterType="com.cn.hnust.pojo.ProjectComplaintQuery" resultType="int">
+    select  
+    count(1)           
+    from project_complaint c  
+    where c.project_no like CONCAT('%', #{inputKey}, '%') and complete_time is null   
+    
+    
+  </select>
+  <!-- 查询项目未完成任务 -->
+  <select id="countUnFinished" resultType="int" parameterType="string"> 
+  select count(p2.id) from  
+  project_complaint p1   
+  left JOIN   
+  project_task p2   
+  on p1.meeting_no = p2.meeting_no where p2.task_status = 0   
+  and p2.project_no = #{projectNo,jdbcType=VARCHAR}  
+  </select> 
+   
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from project_complaint
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectComplaint">
+    insert into project_complaint (id, project_no, complaint_date, 
+      cost_analysis, purchase_id, sell_id, 
+      is_purchase, is_sell, create_time, 
+      create_person, complaint_content)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{complaintDate,jdbcType=DATE}, 
+      #{costAnalysis,jdbcType=VARCHAR}, #{purchaseId,jdbcType=INTEGER}, #{sellId,jdbcType=INTEGER}, 
+      #{isPurchase,jdbcType=INTEGER}, #{isSell,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{complaintContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectComplaint" useGeneratedKeys="true" keyProperty="id">
+    insert into project_complaint
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="complaintDate != null">
+        complaint_date,
+      </if>
+      <if test="costAnalysis != null">
+        cost_analysis,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="sellId != null">
+        sell_id,
+      </if>
+      <if test="isPurchase != null">
+        is_purchase,
+      </if>
+      <if test="isSell != null">
+        is_sell,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createPerson != null">
+        create_person,
+      </if>
+      <if test="complaintContent != null">
+        complaint_content,
+      </if>
+      <if test="purchaseContent != null">
+        purchase_content,
+      </if>
+      <if test="sellContent != null">
+        sell_content,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="meetingNo != null">
+        meeting_no,
+      </if>
+      <if test="seriousLevel != null">
+        serious_level,
+      </if>
+      <if test="zhijianReplyTime != null">
+       zhijian_reply_time,
+      </if>
+      <if test="technicianReplyTime != null">
+        technician_reply_time,
+      </if>
+      <if test="completeTime != null">
+       complete_time,
+      </if>
+      <if test="predictCompleteTime != null">
+       predict_complete_time,
+      </if>
+      <if test="inspectionContent != null">
+       inspection_content,
+      </if>
+      <if test="projectStage != null">
+       project_stage,
+      </if>
+      <if test="inspectionLeaderConfirm != null">
+       inspection_leader_confirm,
+      </if>
+      <if test="purchaseLeaderConfirm != null">
+       purchase_leader_confirm,
+      </if>
+      <if test="inspectionLeaderConfirmDate != null">
+       inspection_leader_confirm_date,
+      </if>
+      <if test="purchaseLeaderConfirmDate != null">
+       purchase_leader_confirm_date,
+      </if>
+      <if test="picUp != null">
+       pic_up,
+      </if>
+      <if test="taskBrief != null">
+       task_brief,
+      </if>
+      <if test="taskAttachment != null">
+       task_attachment,
+      </if>
+     
+     
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintDate != null">
+        #{complaintDate,jdbcType=DATE},
+      </if>
+      <if test="costAnalysis != null">
+        #{costAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="sellId != null">
+        #{sellId,jdbcType=INTEGER},
+      </if>
+      <if test="isPurchase != null">
+        #{isPurchase,jdbcType=INTEGER},
+      </if>
+      <if test="isSell != null">
+        #{isSell,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null">
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintContent != null">
+        #{complaintContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="purchaseContent != null">
+        #{purchaseContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sellContent != null">
+        #{sellContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingNo != null">
+        #{meetingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seriousLevel != null">
+        #{seriousLevel,jdbcType=INTEGER},
+      </if>
+      <if test="zhijianReplyTime != null">
+        #{zhijianReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="technicianReplyTime != null">
+        #{technicianReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="predictCompleteTime != null">
+        #{predictCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectionContent != null">
+        #{inspectionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStage != null">
+        #{projectStage,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionLeaderConfirm != null">
+        #{inspectionLeaderConfirm,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseLeaderConfirm != null">
+        #{purchaseLeaderConfirm,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionLeaderConfirmDate != null">
+        #{inspectionLeaderConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseLeaderConfirmDate != null">
+        #{purchaseLeaderConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picUp != null">
+        #{picUp,jdbcType=INTEGER},
+      </if>
+      <if test="taskBrief != null">
+        #{taskBrief,jdbcType=VARCHAR},
+      </if>
+      <if test="taskAttachment != null">
+        #{taskAttachment,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectComplaint">
+    update project_complaint
+    <set>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintDate != null">
+        complaint_date = #{complaintDate,jdbcType=DATE},
+      </if>
+      <if test="costAnalysis != null">
+        cost_analysis = #{costAnalysis,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="sellId != null">
+        sell_id = #{sellId,jdbcType=INTEGER},
+      </if>
+      <if test="isPurchase != null">
+        is_purchase = #{isPurchase,jdbcType=INTEGER},
+      </if>
+      <if test="isSell != null">
+        is_sell = #{isSell,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null">
+        create_person = #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintContent != null">
+        complaint_content = #{complaintContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="purchaseContent != null">
+        purchase_content = #{purchaseContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sellContent != null">
+        sell_content = #{sellContent,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseConfirmDate != null">
+        purchase_confirm_date = #{purchaseConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sellConfirmDate != null">
+        sell_confirm_date = #{sellConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="zhijianReplyTime != null">
+        zhijian_reply_time = #{zhijianReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="technicianReplyTime != null">
+        technician_reply_time = #{technicianReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="predictCompleteTime != null">
+        predict_complete_time = #{predictCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectionContent != null">
+        inspection_content = #{inspectionContent,jdbcType=VARCHAR},
+      </if>
+       <if test="inspectionLeaderConfirm != null">
+        inspection_leader_confirm = #{inspectionLeaderConfirm,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseLeaderConfirm != null">
+        purchase_leader_confirm = #{purchaseLeaderConfirm,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionLeaderConfirmDate != null">
+        inspection_leader_confirm_date = #{inspectionLeaderConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="purchaseLeaderConfirmDate != null">
+        purchase_leader_confirm_date = #{purchaseLeaderConfirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rectificationZhijianReply != null">
+        rectification_zhijian_reply = #{rectificationZhijianReply,jdbcType=VARCHAR},
+      </if>
+      <if test="rectificationSellPurchaseReply != null">
+        rectification_sell_purchase_reply = #{rectificationSellPurchaseReply,jdbcType=VARCHAR},
+      </if>
+       <if test="rectificationZhijianTime != null">
+        rectification_zhijian_time = #{rectificationZhijianTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="rectificationSellPurchaseTime != null">
+        rectification_sell_purchase_time = #{rectificationSellPurchaseTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="processInstanceId != null">
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+       <if test="dingdingStatus != null">
+        dingding_status = #{dingdingStatus,jdbcType=VARCHAR},
+      </if>
+       <if test="dingdingResult != null">
+        dingding_result = #{dingdingResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cn.hnust.pojo.ProjectComplaint">
+    update project_complaint
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      complaint_date = #{complaintDate,jdbcType=DATE},
+      cost_analysis = #{costAnalysis,jdbcType=VARCHAR},
+      purchase_id = #{purchaseId,jdbcType=INTEGER},
+      sell_id = #{sellId,jdbcType=INTEGER},
+      is_purchase = #{isPurchase,jdbcType=INTEGER},
+      is_sell = #{isSell,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      complaint_content = #{complaintContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectComplaint">
+    update project_complaint
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      complaint_date = #{complaintDate,jdbcType=DATE},
+      cost_analysis = #{costAnalysis,jdbcType=VARCHAR},
+      purchase_id = #{purchaseId,jdbcType=INTEGER},
+      sell_id = #{sellId,jdbcType=INTEGER},
+      is_purchase = #{isPurchase,jdbcType=INTEGER},
+      is_sell = #{isSell,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

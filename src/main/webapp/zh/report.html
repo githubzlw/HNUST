@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>任务系统，质检报告</title>
+	<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/add.css">
+</head>
+<body>
+	<div class="quality quality_report">
+		<div class="title">
+			<span class="glyphicon glyphicon-menu-left"></span>质检情况
+		</div>
+		<div class="wrap">
+			<div class="wrap_top">
+				<div class="imgs"><img src="../img/arrow-right.png" alt=""></div>
+				<div class="bottom clearfix">
+					<button class="pull-left">删除</button>
+					<div class="pull-right">
+						<span>2017-12-8</span>
+						<span>1/2</span>
+					</div>
+				</div>
+			</div>
+			<div class="s_m">
+				<textarea></textarea>
+			</div>
+			<h3>本报告是：</h3>
+			<div class="s_m">
+				<textarea class="form-control" placeholder="对采购的任务要求文字展示一下"></textarea>
+			</div>
+
+		</div>	
+	</div>
+</body>
+</html>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script>
+        window.onload = window.onresize = function(){
+
+            var clientWidth =document.documentElement.clientWidth;
+
+            document.getElementsByTagName("html")[0].style.fontSize =
+
+                    clientWidth / 768* 40 + "px";
+        }
+</script>
+<script>
+	/*添加图片*/
+	var $li = '<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>';
+	$('.quality .wrap2 li:last-child').on('click',function(){
+		$('.quality .wrap2 ul').prepend($li);
+		var $length = $('.quality .wrap2 ul li').length;
+		console.log($length);
+		if($length > 50){
+			alert('最多可添加50张图片');
+			$('.quality .wrap2 li:last-child').off('click').remove();			
+		}
+	})
+
+
+	/*删除当前图片*/
+	$('.quality .wrap2 li span').on('click',function(){
+		$(this).parent().remove();
+	})
+	/*报告结果*/
+	//$('.quality .wrap2 .report .task').hide();
+	$('.quality .last_radio').click(function(){		
+		$('.quality .wrap2 .report .task').show();		
+	})
+	
+</script>
+
+
+
+
+
+
+
+
+
+

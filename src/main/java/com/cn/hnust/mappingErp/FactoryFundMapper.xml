@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoErp.FactoryFundMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.FactoryFund">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="caseno" jdbcType="VARCHAR" property="caseno" />
+    <result column="ApNumber" jdbcType="VARCHAR" property="apNumber" />
+    <result column="ItemManager" jdbcType="VARCHAR" property="name" />
+    <result column="OtherMoney" jdbcType="DOUBLE" property="money" />
+    <result column="OtherDate" jdbcType="DATE" property="moneydate" />
+    <result column="OtherReason" jdbcType="VARCHAR" property="content" />
+    <result column="State" jdbcType="VARCHAR" property="state" />
+    <result column="moneytype" jdbcType="INTEGER" property="moneytype" />
+    <result column="inputDate" jdbcType="DATE" property="moneydate" />
+    <result column="payDepartment" jdbcType="VARCHAR" property="payDepartment" />
+    
+    
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, caseno, complaint_state, complaint_id 
+  </sql>
+
+  <insert id="insertAll" parameterType="com.cn.hnust.pojo.FactoryFund" >
+    insert into FactoryFund(ApNumber,CaseNo,ItemManager,OtherMoney,OtherDate,OtherReason,State,moneytype,inputDate,payDepartment)
+     values(#{apNumber},#{caseno},#{name},#{money},#{moneydate},#{content},#{state},#{moneytype},#{moneydate},#{payDepartment})
+  </insert>
+  
+
+
+
+ 
+ 
+</mapper>

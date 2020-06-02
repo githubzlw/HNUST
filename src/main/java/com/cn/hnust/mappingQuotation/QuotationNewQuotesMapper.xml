@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.daoQuotation.QuotationNewQuotesMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QuotationNewQuotes" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="customer_name" property="customername" jdbcType="VARCHAR" />
+    <result column="project_descc" property="projectdescc" jdbcType="VARCHAR" />
+    <result column="project_desce" property="projectdesce" jdbcType="VARCHAR" />
+    <result column="create_time" property="createtime" jdbcType="VARCHAR" />
+    <result column="createtime1" property="createtime1" jdbcType="VARCHAR" />
+    <result column="sale_name" property="salename" jdbcType="VARCHAR" />
+    <result column="quoter" property="quoter" jdbcType="VARCHAR" />
+    <result column="project_types" property="projecttypes" jdbcType="INTEGER" />
+    <result column="item_size" property="itemsize" jdbcType="DOUBLE" />
+    <result column="quotation_status" property="quotationstatus" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="quotation_result" property="quotationresult" jdbcType="INTEGER" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="quote_time" property="quotetime" jdbcType="VARCHAR" />
+    <result column="approval_time" property="approvaltime" jdbcType="VARCHAR" />
+    <result column="quotation_time" property="quotationtime" jdbcType="VARCHAR" />
+    <result column="complete_data" property="completeData" jdbcType="VARCHAR" />
+    <result column="feedback_time" property="feedbacktime" jdbcType="VARCHAR" />
+    <result column="promptquotation" property="promptquotation" jdbcType="VARCHAR" />
+    <result column="permissionsetting" property="permissionsetting" jdbcType="INTEGER" />
+    <result column="englishkeywords" property="englishkeywords" jdbcType="VARCHAR" />
+    <result column="chinesekeywords1" property="chinesekeywords1" jdbcType="VARCHAR" />
+    <result column="chinesekeywords2" property="chinesekeywords2" jdbcType="VARCHAR" />
+    <result column="chinesekeywords3" property="chinesekeywords3" jdbcType="VARCHAR" />
+    <result column="rfqid" property="rfqid" jdbcType="INTEGER" />
+    <result column="moldPriceRise" property="moldPriceRise" jdbcType="DOUBLE" />
+    <result column="proportionMaterialPriceIncrease" property="proportionMaterialPriceIncrease" jdbcType="DOUBLE" />
+    <result column="dollarExchangeRate" property="dollarExchangeRate" jdbcType="DOUBLE" />
+    <result column="euroExchangeRate" property="euroExchangeRate" jdbcType="DOUBLE" />
+    <result column="sterlingExchangeRate" property="sterlingExchangeRate" jdbcType="DOUBLE" />
+    <result column="several_decimal_places" property="severalDecimalPlaces" jdbcType="INTEGER" />
+    <result column="technological_analysis" property="technologicalAnalysis" jdbcType="VARCHAR" />
+    <result column="main_figure" property="mainFigure" jdbcType="VARCHAR" />
+    <result column="all_drawings" property="allDrawings" jdbcType="VARCHAR" />
+    <result column="rapid_manufacturing" property="RapidManufacturing" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="customer_reply" property="customerReply" jdbcType="INTEGER" />
+    <result column="bid_time" property="bidTime" jdbcType="VARCHAR" />
+    <result column="quotation_assistant" property="quotationAssistant" jdbcType="VARCHAR" />
+    <result column="quotation_clerk_selection" property="quotationClerkSelection" jdbcType="TIMESTAMP" />
+    <result column="fast_manufacturing_time" property="fastManufacturingTime" jdbcType="TIMESTAMP" />
+    <result column="process_approval" property="processApproval" jdbcType="VARCHAR" />
+    <result column="process_approval_status" property="processApprovalStatus" jdbcType="INTEGER" />
+    <result column="process_approval_detail" property="processApprovalDetail" jdbcType="VARCHAR" />
+    <result column="price_approval_status" property="priceApprovalStatus" jdbcType="INTEGER" />
+    <result column="price_approval_detail" property="priceApprovalDetail" jdbcType="VARCHAR" />
+    <result column="process_approval_time" property="processApprovalTime" jdbcType="TIMESTAMP" />
+    <result column="price_approval_time" property="priceApprovalTime" jdbcType="TIMESTAMP" />
+    <result column="boss_approval_detail" property="bossApprovalDetail" jdbcType="VARCHAR" />
+    <result column="boss_approval_time" property="bossApprovalTime" jdbcType="TIMESTAMP" />
+     <result column="quote_follow_status" property="quoteFollowStatus" jdbcType="INTEGER" />
+    <result column="follow_time" property="followTime" jdbcType="TIMESTAMP" />
+    <result column="quote_type" property="quoteType" jdbcType="INTEGER" />
+    <result column="flag1" property="flag1" jdbcType="INTEGER" />
+    <result column="flag2" property="flag2" jdbcType="INTEGER" />
+    <result column="flag3" property="flag3" jdbcType="INTEGER" />
+    <result column="flag4" property="flag4" jdbcType="INTEGER" />
+    <result column="suitable_for_doing" property="suitableForDoing" jdbcType="INTEGER" />
+   
+     <result column="business_bidding_project" property="businessBiddingProject" jdbcType="INTEGER" />
+     <result column="order_state" property="orderState" jdbcType="INTEGER" />
+     <result column="order_state_time" property="orderStateTime" jdbcType="TIMESTAMP" />
+     <result column="ask_for_assistance" property="askForAssistance" jdbcType="VARCHAR" />
+     <result column="beOverdue" property="beOverdue" jdbcType="VARCHAR" />
+     <result column="ask_for_assistance_person" property="askForAssistancePerson" jdbcType="VARCHAR" />
+     <result column="ask_for_assistance_time" property="askForAssistanceTime" jdbcType="VARCHAR" />
+     <result column="operation" property="operation" jdbcType="INTEGER" />
+    <result column="projectimportance" property="projectimportance" jdbcType="VARCHAR" />
+    <result column="projectimportance1" property="projectimportance1" jdbcType="VARCHAR" />
+    <result column="nonProjectState" property="nonProjectState" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    
+    <result column="one_remaining_time" property="oneRemainingTime" jdbcType="VARCHAR" />
+    <result column="onetimeout_time" property="oneTimeoutTime" jdbcType="VARCHAR" />
+    <result column="three_remaining_time" property="threeRemainingTime" jdbcType="VARCHAR" />
+    <result column="three_timeout_time" property="threeTimeoutTime" jdbcType="VARCHAR" />
+    <result column="sales_remaining_time" property="salesRemainingTime" jdbcType="VARCHAR" />
+    <result column="sales_over_time" property="salesOvertime" jdbcType="VARCHAR" />
+    <result column="quoter_remaining_time" property="quoterRemainingTime" jdbcType="VARCHAR" />
+    <result column="quoter_over_time" property="quoterOvertime" jdbcType="VARCHAR" />
+    <result column="purchase" property="purchase" jdbcType="VARCHAR" />
+    <result column="new_information" property="newInformation" jdbcType="VARCHAR" />
+    <result column="new_quotation" property="newQuotation" jdbcType="VARCHAR" />
+    <result column="business_bidding_project" property="businessBiddingProject" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+     <result column="all_process" property="allProcess" jdbcType="VARCHAR" />
+     <result column="market_price_of_products" property="marketPriceOfProducts" jdbcType="VARCHAR" />
+     <result column="project_definition_size" property="projectDefinitionSize" jdbcType="VARCHAR" />
+    
+    <!--虚拟字段  -->
+   <result column="queryDate" property="queryDate" jdbcType="INTEGER" />
+   <result column="clienttype" property="clienttype" jdbcType="INTEGER" />
+   <result column="clientDefining" property="clientDefining" jdbcType="VARCHAR" />
+   <result column="factory_name" property="factoryName1" jdbcType="VARCHAR" />
+   <result column="create_time" property="createTime1" jdbcType="VARCHAR" />
+   <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="contact_number" property="telephone" jdbcType="VARCHAR" /> 
+    <result column="external_quotation" property="externalQuotation" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_id, cid, customer_name, project_descc, project_desce, create_time, sale_name, 
+    quoter, project_types, item_size, quotation_status, type, status, quotation_result, 
+    notes, quote_time, approval_time, quotation_time, complete_data, feedback_time, promptquotation,  
+    permissionsetting, englishkeywords, chinesekeywords1, chinesekeywords2, chinesekeywords3, 
+    rfqid, moldPriceRise, proportionMaterialPriceIncrease, dollarExchangeRate, euroExchangeRate, 
+    sterlingExchangeRate, technological_analysis, main_figure, 
+    all_drawings, rapid_manufacturing, url, customer_reply, bid_time, quotation_assistant, 
+    quotation_clerk_selection, fast_manufacturing_time, process_approval, process_approval_status, 
+    process_approval_detail, price_approval_status, price_approval_detail, process_approval_time, 
+    price_approval_time,boss_approval_detail,boss_approval_time,quote_follow_status,follow_time,quote_type,
+    flag1,flag2,flag3,flag4,order_state,order_state_time, operation,content,business_bidding_project,purchase,external_quotation
+    ,all_process
+  </sql>
+
+
+
+ 
+ 
+ <!-- 老客户报价 -->
+<select id="getNew" resultType="int" parameterType="java.lang.String" >
+    select 
+    count(1)
+    from new_quotes
+    where project_id in (${projectId}) and item_size>20 and cid in(select cid from (
+select cid,count(1)num from new_quotes group by cid
+)a where num=1)
+  </select>
+  <!-- 新客户报价 -->
+<select id="getOld" resultType="int" parameterType="java.lang.String" >
+   select 
+    count(1)
+    from new_quotes
+    where project_id in (${projectId}) and item_size>20 and cid in(select cid from (
+select cid,count(1)num from new_quotes group by cid
+)a where num>1)
+  </select>
+
+
+	
+
+ 
+</mapper>

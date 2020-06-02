@@ -1,0 +1,3653 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectMapper">
+	<resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Project">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="project_no" property="projectNo" jdbcType="VARCHAR"/>
+		<result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+		<result column="project_name_en" property="projectNameEn" jdbcType="VARCHAR"/>
+		<result column="delivery_date" property="deliveryDate" jdbcType="TIMESTAMP"/>
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="role_no" property="roleNo" jdbcType="INTEGER"/>
+		<result column="purchaseName" property="purchaseName" jdbcType="VARCHAR" />
+		<result column="delivery_status" property="deliveryStatus" jdbcType="INTEGER"/>
+		<result column="warning_status" property="warningStatus" jdbcType="INTEGER"/>
+		<result column="importance" property="importance" jdbcType="INTEGER" />
+		<result column="stage" property="stage" jdbcType="INTEGER" />
+		<result column="finish" property="finish" jdbcType="INTEGER" />
+		<result column="email_user_id" property="emailUserId" jdbcType="INTEGER" />
+		<result column="purchase_id" property="purchaseId" jdbcType="INTEGER" />
+		<result column="sale_id" property="saleId" jdbcType="INTEGER" />
+		<result column="po_date" property="poDate" jdbcType="TIMESTAMP" />
+		<result column="scheduled_date" property="scheduledDate" jdbcType="TIMESTAMP" />
+		<result column="actual_start_date" property="actualStartDate" jdbcType="TIMESTAMP" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="is_pause" property="isPause" jdbcType="VARCHAR" />
+		<result column="pause_reason" property="pauseReason" jdbcType="VARCHAR" />
+		<result column="sample_scheduled_date" property="sampleScheduledDate" jdbcType="TIMESTAMP" />
+		<result column="report_name" property="reportName" jdbcType="VARCHAR" />
+		<result column="report" property="report" jdbcType="VARCHAR" />
+		<result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+		<result column="true_name" property="trueName" jdbcType="VARCHAR" />
+		<result column="sellName" property="sellName" jdbcType="VARCHAR" />
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+	    <result column="plant_analysis" property="plantAnalysis" jdbcType="INTEGER"  />
+        <result column="project_material_properties" property="projectMaterialProperties" jdbcType="INTEGER" />
+        <result column="zhijian1" property="zhijian1" jdbcType="VARCHAR" />
+        <result column="zhijian2" property="zhijian2" jdbcType="VARCHAR" />
+        <result column="zhijian3" property="zhijian3" jdbcType="VARCHAR" />
+        <result column="project_amount" property="projectAmount" jdbcType="VARCHAR" />
+        <result column="sort_field" property="sortField" jdbcType="INTEGER"/>
+        <result column="date_sample" property="dateSample" jdbcType="TIMESTAMP" />
+        <result column="completion_time" property="completionTime" jdbcType="TIMESTAMP" />
+        <result column="date_sample_uploading" property="dateSampleUploading" jdbcType="TIMESTAMP" />
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP"/>
+        <result column="product_img" property="productImg" jdbcType="VARCHAR"/>
+        <result column="sample_finish" property="sampleFinish" jdbcType="INTEGER"/>
+        <result column="operator_type" property="operatorType" jdbcType="VARCHAR"/>
+        <result column="delay_trigger_flag" property="delayTriggerFlag" jdbcType="INTEGER"/>
+        <result column="delay_trigger_flag_bind" property="delayTriggerFlagBind" jdbcType="INTEGER"/>
+        <result column="project_status" property="projectStatus" jdbcType="INTEGER"/>
+        <result column="technology" property="technology" jdbcType="VARCHAR"/>
+        <result column="money_date" property="moneyDate" jdbcType="TIMESTAMP" />
+        <result column="detail_status" property="detailStatus" jdbcType="INTEGER" />
+        <result column="sample_finish_time" property="sampleFinishTime" jdbcType="TIMESTAMP" />
+        <result column="create_person_id" property="createPersonId" jdbcType="INTEGER" />
+        <result column="scheduled_days" property="scheduledDays" jdbcType="VARCHAR" />
+        <result column="new_predict_date" property="newPredictDate" jdbcType="DATE" />
+        <result column="urgent_delivery_date" property="urgentDeliveryDate" jdbcType="DATE" />
+        <result column="technician" property="technician" jdbcType="VARCHAR" />
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+        <result column="original_delivery_date" property="originalDeliveryDate" jdbcType="DATE" />
+        <result column="original_sample_scheduled_date" property="originalSampleScheduledDate" jdbcType="DATE" />
+        <result column="customer_grade" property="customerGrade" jdbcType="INTEGER" />
+        <result column="export_date" property="exportDate" jdbcType="DATE" />
+        <result column="prev_sample_date" property="prevSampleDate" jdbcType="DATE" />
+        <result column="customer_attitude" property="customerAttitude" jdbcType="VARCHAR" />
+        <result column="date_delivery" property="dateDelivery" jdbcType="DATE" />
+        <result column="delay_days" property="delayDay" jdbcType="INTEGER" />
+        <result column="new_explain" property="explain" jdbcType="VARCHAR" />
+        <result column="interpretation_document" property="interpretationDocument" jdbcType="VARCHAR" />
+        <result column="delayed_delivery_date" property="delayedDeliveryDate" jdbcType="VARCHAR" />
+        <result column="cargo_delayed_delivery_date" property="cargoDelayedDeliveryDate" jdbcType="VARCHAR" />
+        <result column="sailing_date" property="sailingDate" jdbcType="VARCHAR" />
+        <result column="late_delivery_date" property="lateDeliveryDate" jdbcType="DATE" />
+        <result column="history_inspection" property="historyInspection" jdbcType="VARCHAR" />
+        <result column="sample_delivery_date" property="sampleDeliveryDate" jdbcType="VARCHAR" />
+        <result column="delivery_time" property="deliveryTime" jdbcType="VARCHAR" />
+        <result column="master_quality_inspection" property="masterQualityInspection" jdbcType="VARCHAR" />
+        <result column="quality_inspector1" property="qualityInspector1" jdbcType="VARCHAR" />
+        <result column="quality_inspector2" property="qualityInspector2" jdbcType="VARCHAR" />
+        <result column="quality_inspector3" property="qualityInspector3" jdbcType="VARCHAR" />
+        <result column="quality_inspector4" property="qualityInspector4" jdbcType="VARCHAR" />
+        <result column="quality_inspector5" property="qualityInspector5" jdbcType="VARCHAR" />
+        <result column="quality_inspector6" property="qualityInspector6" jdbcType="VARCHAR" />
+        <result column="quality_inspector7" property="qualityInspector7" jdbcType="VARCHAR" />
+        
+        
+        <!-- 虚拟字段 -->
+        <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+        <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+        <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+        <result column="sale_name" property="saleName" jdbcType="VARCHAR" />
+        <result column="sell_name" property="sellName" jdbcType="VARCHAR" />
+        <result column="sell_dingTalkId" property="sellDingTalkId" jdbcType="VARCHAR" />
+        <result column="purchase_dingTalkId" property="purchaseDingTalkId" jdbcType="VARCHAR" />
+        <result column="sell_name" property="sellName" jdbcType="VARCHAR" />
+        <result column="create_name" property="createName" jdbcType="VARCHAR" />
+        <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />
+        <result column="difficult_project" property="difficultProject" jdbcType="INTEGER" />
+        <result column="dateBefore" property="dateBefore" jdbcType="INTEGER" />
+        <result column="importantTaskTotal" property="importantTaskTotal" jdbcType="INTEGER" />
+        <result column="importantTaskFinish" property="importantTaskFinish" jdbcType="INTEGER" />
+        <result column="metalDeliveryTime" property="metalDeliveryTime" jdbcType="INTEGER" />
+        <result column="metalDeliveryTime1" property="metalDeliveryTime1" jdbcType="INTEGER" />
+        <result column="plasticDeliveryPeriod1" property="plasticDeliveryPeriod1" jdbcType="INTEGER" />
+        <result column="plasticDeliveryPeriod" property="plasticDeliveryPeriod" jdbcType="INTEGER" />
+        <result column="monthlyComplaints" property="monthlyComplaints" jdbcType="INTEGER" />
+        <result column="complaintVolume" property="complaintVolume" jdbcType="INTEGER" />
+        <result column="projectsUnderWay" property="projectsUnderWay" jdbcType="INTEGER" />
+        <result column="allContracts" property="allContracts" jdbcType="INTEGER" />
+        <result column="sampleContracts" property="sampleContracts" jdbcType="INTEGER" />
+        <result column="deliveryReminder" property="deliveryReminder" jdbcType="INTEGER" />
+        <result column="factoryName" property="factoryName" jdbcType="INTEGER" />
+        <result column="incompleteInspectionTasks" property="incompleteInspectionTasks" jdbcType="INTEGER" />
+        
+ <!-- 质量分析表 -->      
+<!-- <association property="qualityAnalysis" column="project_no" select="com.cn.hnust.dao.QualityAnalysisMapper.selectByProjectNo"/>   
+
+ <collection property="analysisIssueList" column="project_no" select="com.cn.hnust.dao.AnalysisIssueMapper.selectByProjectNo"/>
+ <collection property="scheduleList" column="project_no" select="com.cn.hnust.dao.ProjectScheduleMapper.selectByProjectNo"/>
+ <collection property="deliveryList" column="project_no" select="com.cn.hnust.dao.DeliveryDateLogMapper.selectDeliveryList"/>
+ <collection property="milestones" column="project_no" select="com.cn.hnust.dao.DingTalkMileStoneMapper.selectByProjectNo"/>
+ -->
+ 
+</resultMap>
+
+	
+	<!-- 用于快制造获取产品信息 -->
+	<resultMap id="BaseResultProjectVOMap" type="com.cn.hnust.pojo.ProjectVO">
+		<result column="project_no" property="projectNo" jdbcType="VARCHAR"/>
+		<result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+		<result column="delivery_date" property="deliveryDate" jdbcType="TIMESTAMP"/>		
+		<result column="finish" property="finish" jdbcType="INTEGER" />				
+		<result column="scheduled_date" property="scheduledDate" jdbcType="TIMESTAMP" />
+		<result column="actual_start_date" property="actualStartDate" jdbcType="TIMESTAMP" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />		
+		<result column="sample_scheduled_date" property="sampleScheduledDate" jdbcType="TIMESTAMP" />	
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />			   
+        <result column="zhijian1" property="zhijian1" jdbcType="VARCHAR" />
+        <result column="zhijian2" property="zhijian2" jdbcType="VARCHAR" />
+        <result column="zhijian3" property="zhijian3" jdbcType="VARCHAR" />
+        <result column="project_amount" property="projectAmount" jdbcType="VARCHAR" />
+        <result column="date_sample" property="dateSample" jdbcType="TIMESTAMP" />
+        <result column="completion_time" property="completionTime" jdbcType="TIMESTAMP" />
+        <result column="date_sample_uploading" property="dateSampleUploading" jdbcType="TIMESTAMP" />
+        <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP"/>
+        <result column="product_img" property="productImg" jdbcType="VARCHAR"/>
+        <result column="sample_finish" property="sampleFinish" jdbcType="INTEGER"/>
+        <result column="project_status" property="projectStatus" jdbcType="INTEGER"/>
+        <result column="detail_status" property="detailStatus" jdbcType="INTEGER" />
+        <result column="sample_finish_time" property="sampleFinishTime" jdbcType="TIMESTAMP" />
+        <result column="scheduled_days" property="scheduledDays" jdbcType="VARCHAR" />
+        <result column="new_predict_date" property="newPredictDate" jdbcType="DATE" />
+        <result column="urgent_delivery_date" property="urgentDeliveryDate" jdbcType="DATE" />
+        <result column="technician" property="technician" jdbcType="VARCHAR" />
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+        <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+        <result column="sell_name" property="sellName" jdbcType="VARCHAR" />
+        <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />     
+	</resultMap>
+	
+	
+	<sql id="Base_Column_List">
+	    project_no, project_name, project_name_en,delivery_date, delivery_status,
+		warning_status,finish,
+		importance, stage, email_user_id,purchase_id, po_date, scheduled_date,
+		actual_start_date, create_date,sample_scheduled_date,detail_status,sample_finish_time,
+		sample_finish_time,create_person_id,zhijian1,zhijian2,zhijian3,scheduled_days,new_predict_date,
+		urgent_delivery_date,technician ,customer_name,difficult_project
+	</sql>
+	
+	<!-- 查询本周下周完成未安排质检项目 -->
+	
+	<select id="getNoInspectionTask" resultType="int"
+		parameterType="com.cn.hnust.pojo.Project">
+		select count(project_no) from project where ((sample_delivery_date&gt;#{startTime} and sample_delivery_date&lt;#{endTime})
+or (delivery_time&gt;#{startTime} and delivery_time&lt;#{endTime}))
+and project_no not in (
+select pt.project_no from project_task pt left join inspection_reservation ir on pt.project_no_id= ir.project_no_id
+where pt.task_status=0 and pt.task_type=2
+and ir.finish_time &gt;#{startTime} and ir.finish_time&lt;#{endTime})
+	</select>
+	<!-- 查询第一次大货，但尚未安排中期检验的项目 -->
+	<select id="getNoInterimInspection" resultType="int"
+		parameterType="com.cn.hnust.pojo.Project">
+		select count(1) from project pt where
+
+project_no not in (
+select pt.project_no from project_task pt left join inspection_reservation ir on pt.project_no_id= ir.project_no_id
+where pt.task_status=0 and pt.task_type=2)
+and (project_no not like '%-%' or project_no like '%-1')
+and project_no not in (SELECT project_no FROM `quality_report` where type=2 or type=3)
+and (pt.project_status=0 or pt.project_status=1)
+and delivery_time is not null
+and project_no not in ('SHS21222','SHS21539')
+
+	</select>
+	
+	<!-- 查询本周下周完成未安排质检项目 -->
+	
+	<select id="getNoInspectionTaskList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		select project_no,
+		(select user_name from user where id = pt.email_user_id)
+	sellName,
+	(select user_name from user where id = pt.purchase_id) purchaseName 
+	,project_name	
+	,plant_analysis
+	,DATE_FORMAT(sample_delivery_date,"%Y-%m-%d") AS sample_delivery_date
+		,DATE_FORMAT(delivery_time,"%Y-%m-%d") AS delivery_time	
+		 from project pt where ((sample_delivery_date&gt;#{startTime} and sample_delivery_date&lt;#{endTime})
+or (delivery_time&gt;#{startTime} and delivery_time&lt;#{endTime}))
+and project_no not in (
+select pt.project_no from project_task pt left join inspection_reservation ir on pt.project_no_id= ir.project_no_id
+where pt.task_status=0 and pt.task_type=2
+and ir.finish_time &gt;#{startTime} and ir.finish_time&lt;#{endTime})
+	</select>
+	<!-- 查询第一次大货，但尚未安排中期检验的项目 -->
+	<select id="getNoInterimInspectionList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		select  project_no,
+		(select user_name from user where id = pt.email_user_id)
+	sellName,
+	(select user_name from user where id = pt.purchase_id) purchaseName 
+	,project_name	
+	,plant_analysis
+	,DATE_FORMAT(sample_delivery_date,"%Y-%m-%d") AS sample_delivery_date
+		,DATE_FORMAT(delivery_time,"%Y-%m-%d") AS delivery_time		 from project pt where
+
+project_no not in (
+select pt.project_no from project_task pt left join inspection_reservation ir on pt.project_no_id= ir.project_no_id
+where pt.task_status=0 and pt.task_type=2)
+and (project_no not like '%-%' or project_no like '%-1')
+and project_no not in (SELECT project_no FROM `quality_report` where type=2 or type=3)
+and (pt.project_status=0 or pt.project_status=1)
+and delivery_time is not null
+and project_no not in ('SHS21222','SHS21539')
+
+	</select>
+	
+	
+	
+	
+	
+	<!-- 查询该项目下的采购列表 -->
+	<select id="selectProjectPurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_no,
+		pro.project_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project pro left join user ema on pro.purchase_id
+		= ema.id
+		where
+		1=1
+		AND
+		emu.id=pro.email_user_id
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		GROUP BY purchaseName
+	</select>
+	
+	<!--查询大货完结的数量-->
+	<select id="selectBigGoodsFinish" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+    select * from
+	(select
+	pro.project_no,
+	pro.project_name,
+	pro.delivery_date,
+	pro.delivery_status,
+	pro.warning_status,
+	pro.importance,
+	pro.finish,
+	pro.stage,
+	(select user_name from user where id = pro.email_user_id)
+	sellName,
+	pro.company_name ,
+	(select user_name from user where id = pro.purchase_id) purchaseName ,
+	pro.po_date,
+	pro.scheduled_date,
+	pro.actual_start_date,
+	pro.sample_scheduled_date,
+	pro.is_pause,
+	pro.pause_reason,
+	pro.create_date,
+	pro.sort_field,
+	pro.finish_time,
+	pro.product_img,
+	pro.sample_finish,
+	pro.technology,
+	pro.zhijian1,
+	pro.zhijian2,
+	(select COUNT(1) from project_report where project_no =  pro.project_no ) weekReportNum,
+	(select project_stage from project_report where project_no = pro.project_no  order by create_date desc LIMIT 1) projectStage,
+	erp.plant_analysis,
+	pro.project_amount
+	from project pro
+	left join project_erp erp
+	on pro.project_no = erp.project_no) c
+	where 1=1 AND finish=1 
+    <if test="inputKey !=null and inputKey!=''"> 
+	AND (project_no like CONCAT('%', #{inputKey}, '%') OR project_name like CONCAT('%', #{inputKey},'%')
+		OR purchaseName like CONCAT('%', #{inputKey}, '%') OR sellName like CONCAT('%', #{inputKey}, '%')
+		OR zhijian1 like CONCAT('%', #{inputKey}, '%') OR zhijian2 like CONCAT('%', #{inputKey}, '%'))
+	</if>
+	
+    <if test="userName !=null and userName!='' and roleNo!=98 and roleNo!=99 and roleNo!=100"> 
+	AND (purchaseName like CONCAT('%', #{userName}, '%') OR sellName like CONCAT('%', #{userName}, '%')
+		OR zhijian1 like CONCAT('%', #{userName}, '%') OR zhijian2 like CONCAT('%', #{userName}, '%'))
+	</if> 
+	
+	<if test="purchaseName !=null and purchaseName!=''"> 
+	 <!-- AND (purchaseName like CONCAT('%', #{purchaseName}, '%')) -->
+	 <choose>
+		<when test="purchaseName == '无采购'.toString()">
+			AND (purchaseName="" or purchaseName is null)
+		</when>
+		<otherwise>
+			 AND (purchaseName like CONCAT('%', #{purchaseName}, '%'))
+		</otherwise> 
+	</choose>
+	</if> 
+	<if test="sellName !=null and sellName!=''"> 
+	  <choose>
+		<when test="sellName == '无跟单'.toString()">
+			AND (sellName="" or sellName is null)
+		</when>
+		<otherwise>
+			 AND (sellName like CONCAT('%', #{sellName}, '%'))
+		</otherwise> 
+	 </choose>
+	</if> 	 
+    <if test="qualityName !=null and qualityName!=''"> 
+      <choose>
+		<when test="qualityName == '无质检'.toString()">
+			AND ((zhijian1="" or zhijian1 is null) and (zhijian2="" or zhijian2 is null))
+		</when>
+		<otherwise>
+		    AND (zhijian1 like CONCAT('%', #{qualityName}, '%') OR zhijian2 like CONCAT('%', #{qualityName}, '%') )
+		</otherwise> 
+	 </choose>
+	</if> 
+   <if test="projectStage!= null">
+       and projectStage =#{projectStage,jdbcType=INTEGER}
+   </if>
+	order by c.sort_field ASC,c.plant_analysis ASC
+	
+    </select>
+    
+	<!-- 查询项目列表根据登录用户的权限 (管理员和销售共用) -->
+	<select id="findProjectList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+			select
+			pro.project_no,
+			pro.project_name,
+			pro.delivery_date,
+			pro.delivery_status,
+			pro.warning_status,
+			pro.importance,
+			pro.finish,
+			pro.stage,
+			pro.detail_status,
+			pro.date_sample_uploading,
+			e1.user_name as sell_name,
+			pro.company_name ,
+			e2.user_name as purchase_name,
+			e3.user_name as sale_name,
+			pro.po_date,
+			pro.scheduled_date,
+			pro.actual_start_date,
+			pro.sample_scheduled_date,
+			pro.is_pause,
+			pro.pause_reason,
+			pro.create_date,
+			pro.sort_field,
+			pro.finish_time,
+			pro.product_img,
+			pro.sample_finish,
+			pro.technology,
+			pro.project_status,
+			pro.money_date,
+			pro.sample_finish_time,
+			pro.zhijian1,
+			pro.zhijian2,
+			pro.zhijian3,
+			pro.technician,
+			pro.scheduled_days,
+			pro.new_predict_date,
+			pro.urgent_delivery_date,
+			pro.original_delivery_date,
+			pro.original_sample_scheduled_date,
+			p2.createTime,
+			q1.weekReportNum,
+			q1.projectStage,
+			q2.importantNum,
+			pro.plant_analysis,  
+			pro.project_amount,
+			pro.customer_grade,
+			pro.customer_name,
+			pro.export_date,
+			f.contract_date,
+			t1.importantTaskFinish,
+			t2.importantTaskTotal,  
+		    pro.date_delivery,
+			pro.delay_days,
+			pro.interpretation_document,
+			pro.new_explain,
+			pro.delayed_delivery_date,
+			pro.cargo_delayed_delivery_date,
+			pro.late_delivery_date,
+			pro.master_quality_inspection,
+		    pro.quality_inspector1,
+		    pro.quality_inspector2,
+		    pro.quality_inspector3,
+		    pro.quality_inspector4,
+		    pro.quality_inspector5,
+		    pro.quality_inspector6,
+		    pro.quality_inspector7
+			from project pro  
+		    left join  (select createTime,project_no,status from (select * from quality_report ORDER BY createTime desc LIMIT 10000000)p1 GROUP BY project_no)p2 on pro.project_no = p2.project_no    
+		    left join  (select COUNT(1) as weekReportNum,project_no,project_stage as projectStage from project_report GROUP BY project_no)q1 on pro.project_no = q1.project_no   
+		    left join  (select COUNT(1) as importantNum,project_no from project_report where DATE_SUB(CURDATE(), INTERVAL 14 DAY) &lt;= project_report.create_date GROUP BY project_no)q2 on pro.project_no = q2.project_no    
+		<!--     left join  (select s1.predict_date,s1.actual_date,s1.project_no from (select predict_date,actual_date,project_no from project_schedule order by predict_date desc)s1 GROUP BY project_no) s2 on pro.project_no = s2.project_no     -->
+		<!-- 	left join  project_schedule p on pro.project_no = p.project_no     -->
+			left join  (select new_delivery_date,project_no from delivery_date_log GROUP BY project_no) d2 on pro.project_no = d2.project_no
+			left join user e1 on e1.id = pro.email_user_id   
+			left join user e2 on e2.id = pro.purchase_id  
+			left join user e3 on e3.id = pro.sale_id  
+			left join project_factory f on f.project_no = pro.project_no  and factory_id is not null   
+			left join (
+			           select count(1) as importantTaskFinish,project_no from project_task where task_status = 1 and task_type = '10' GROUP BY project_no
+					  )t1 on pro.project_no = t1.project_no  
+			left join (
+			           select count(1) as importantTaskTotal,project_no from project_task where task_type = '10' GROUP BY project_no
+					  )t2 on pro.project_no = t2.project_no
+			left join (
+			SELECT project_no,max(start_time)start_time FROM `project_task` where task_type=12 group by project_no
+			) x on x.project_no=pro.project_no 
+			where 1=1  
+		
+		   <!-- 详细状态查询 -->
+		   <if test="detailStatusS!=null and detailStatusS.size > 0" >
+		       and (pro.detail_status in (  
+		          <foreach collection="detailStatusS" item="detailStatusS" index="index" separator="," >    
+		              #{detailStatusS,jdbcType=INTEGER}   
+		          </foreach>  
+		         ) 
+		         
+		       <!-- 当详细状态包含0时，包括为更新状态 -->
+		          <if test="detailUnUpdate == 0" >
+		             or pro.detail_status is null 
+		          </if>  
+		          )        
+		     </if>
+		     
+		   <!-- 延期查询 -->  
+				<if test="delayStatusS!=null and delayStatusS.size > 0" >
+			          and      
+			         <trim prefix="("  suffix=")" prefixOverrides="AND |OR "> 
+			         <foreach collection="delayStatusS" item="delayStatusS" index="index" separator="" >    
+			              <if test="delayStatusS == 0" > 
+			                   and  
+				                ((((
+				                   ((pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.sample_scheduled_date)
+				                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.sample_scheduled_date)
+				                   or (pro.delivery_date is null and pro.sample_finish_time is null and pro.sample_finish = 1) 
+				                   or (pro.delivery_date is null and pro.finish = 1) 
+				                   or (pro.delivery_date is not null)
+				                   ) )and pro.late_delivery_date is null) or (((
+				                   (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.late_delivery_date)
+				                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY) &lt;= pro.late_delivery_date)
+				                   or (pro.delivery_date is null and pro.sample_finish_time is null and pro.sample_finish = 1) 
+				                   or (pro.delivery_date is null and pro.finish = 1) 
+				                   or (pro.delivery_date is not null)
+				                   ) )and pro.late_delivery_date is not null))
+				                   and (
+					                    (((pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.delivery_date) 
+					                    or (pro.finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.delivery_date )  
+					                    or (pro.finish = 1 and pro.finish_time is null) 
+					                    or (pro.delivery_date is null) and pro.late_delivery_date is  null ) or
+					                    ((pro.finish = 1 and DATE_SUB(pro.finish_time, INTERVAL 7 DAY) &lt;= pro.late_delivery_date) 
+					                    or (pro.finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.late_delivery_date )  
+					                    or (pro.finish = 1 and pro.finish_time is null) 
+					                    or (pro.delivery_date is null) )and pro.late_delivery_date is not null )
+				                   )
+				                ) 
+		                       or pro.project_status = 4  
+			                   or pro.project_status = 5  
+			              </if>
+			              <if test="delayStatusS == 1" >
+			                   and pro.project_status != 4 and pro.project_status != 5 and  
+			                   (
+			                     ( ((pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date ) 
+			                   or (pro.finish = 0 and   DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and 
+			                   DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date)
+			                   ) and pro.late_delivery_date is  null) or
+			                   (( (pro.finish = 1 and pro.finish_time &gt; pro.late_delivery_date ) 
+			                   or (pro.finish = 0 and   CURDATE() &gt; pro.late_delivery_date)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and CURDATE() &gt; pro.late_delivery_date)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and 
+			                   pro.sample_finish_time &gt; pro.late_delivery_date)
+			                   ) and pro.late_delivery_date is not null)
+			                   )
+			              </if>		
+			          </foreach> 
+			          </trim>          
+			    </if>
+		
+		
+		
+		    <if test="inputKey !=null and inputKey!=''"> 
+			AND (pro.project_no like CONCAT('%', #{inputKey}, '%') OR pro.project_name like CONCAT('%', #{inputKey},'%')
+				OR e2.user_name like CONCAT('%', #{inputKey}, '%') OR e1.user_name like CONCAT('%', #{inputKey}, '%') OR e3.user_name like CONCAT('%', #{inputKey}, '%')
+				OR pro.zhijian1 like CONCAT('%', #{inputKey}, '%') OR pro.zhijian2 like CONCAT('%', #{inputKey}, '%') OR pro.zhijian3 like CONCAT('%', #{inputKey}, '%')
+				OR pro.master_quality_inspection like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector1 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector2 like CONCAT('%', #{inputKey}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector4 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector5 like CONCAT('%', #{inputKey}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector7 like CONCAT('%', #{inputKey}, '%') 
+				
+				)
+			</if>
+			
+			<if test="userName !=null and userName!='' and roleNo!=98 and roleNo!=99 and roleNo!=100 and userName!='OwenCui' and userName!='DeanZhang'"> 
+			AND (e2.user_name like CONCAT('%', #{userName}, '%') OR e1.user_name like CONCAT('%', #{userName}, '%')OR e3.user_name like CONCAT('%', #{userName}, '%')
+				OR pro.zhijian1 like CONCAT('%', #{userName}, '%') OR pro.zhijian2 like CONCAT('%', #{userName}, '%') OR pro.zhijian3 like CONCAT('%', #{userName}, '%')
+				OR pro.master_quality_inspection like CONCAT('%', #{userName}, '%') OR pro.quality_inspector1 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector2 like CONCAT('%', #{userName}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector4 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector5 like CONCAT('%', #{userName}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector7 like CONCAT('%', #{userName}, '%') 
+				
+				
+				
+				)
+			</if> 
+			<if test="purchaseName !=null and purchaseName!=''"> 
+			 <!-- AND (purchaseName like CONCAT('%', #{purchaseName}, '%')) -->
+			 <choose>
+				<when test="purchaseName == '无采购'.toString()">
+					AND (e2.user_name="" or e2.user_name is null)
+				</when>
+				<otherwise>
+					 AND (e2.user_name like CONCAT('%', #{purchaseName}, '%'))
+				</otherwise> 
+			</choose>
+			</if> 
+			<if test="sellName !=null and sellName!=''"> 
+			  <choose>
+				<when test="sellName == '无跟单'.toString()">
+					AND (e1.user_name="" or e1.user_name is null)
+				</when>
+				<otherwise>
+					 AND (e1.user_name like CONCAT('%', #{sellName}, '%'))
+				</otherwise> 
+			 </choose>
+			</if> 	 
+		    <if test="qualityName !=null and qualityName!=''"> 
+		      <choose>
+				<when test="qualityName == '无质检'.toString()">
+					AND ((pro.zhijian1="" or pro.zhijian1 is null) and (pro.zhijian2="" or pro.zhijian2 is null) and (pro.zhijian3="" or pro.zhijian3 is null))
+					and (pro.master_quality_inspection="" or pro.master_quality_inspection is null)) and (pro.quality_inspector1="" or pro.quality_inspector1 is null)) 
+					and (pro.quality_inspector2="" or pro.quality_inspector2 is null)) and (pro.quality_inspector3="" or pro.quality_inspector3 is null)) 
+					and (pro.quality_inspector4="" or pro.quality_inspector4 is null)) and (pro.quality_inspector5="" or pro.quality_inspector5 is null)) 
+					and (pro.quality_inspector6="" or pro.quality_inspector6 is null)) and (pro.quality_inspector7="" or pro.quality_inspector7 is null)) 
+				</when>
+				<otherwise>
+				    AND (pro.zhijian1 like CONCAT('%', #{qualityName}, '%') OR pro.zhijian2 like CONCAT('%', #{qualityName}, '%') OR pro.zhijian3 like CONCAT('%', #{qualityName}, '%')
+				    OR pro.master_quality_inspection like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector1 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector2 like CONCAT('%', #{qualityName}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector4 like CONCAT('%', #{inpqualityNameutKey}, '%') OR pro.quality_inspector5 like CONCAT('%', #{qualityName}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector7 like CONCAT('%', #{qualityName}, '%') 
+				    )
+				</otherwise> 
+			 </choose>
+			</if> 	
+			
+		 <if test="technicianStr !=null and technicianStr!=''"> 
+				<choose>
+				<when test="technicianStr == '无技术'.toString()">
+					AND (technician="" or technician is null)
+				</when>
+				<otherwise>
+				    AND (technician like CONCAT('%', #{technicianStr}, '%'))
+				</otherwise> 
+			   </choose>
+			</if> 
+			<choose><!-- 项目状态筛选 -->
+		      <when test="projectStatusS!=null and projectStatusS.size>0" >
+		       and pro.project_status in(  
+		          <foreach collection="projectStatusS" item="projectStatus" index="index" separator="," >    
+		              #{projectStatus,jdbcType=INTEGER}   
+		          </foreach>  
+		         )     
+		     </when>
+		     <otherwise>
+		
+		        <if test="projectType == 0" ><!-- 新立项项目(样品,大货没完结,并且日报没上传) -->
+				 and pro.project_status = 0  
+				</if>
+				<!-- 1. 样品交期，大货交期 (大货为空 样品交期不为为空样品 大于当前时间,样品为空,大货不为空 大货交期大于当前时间 ,样品大货不为空都大于)
+				2.样品交期完结(大货交期为空 或者大货交期大于 当前时间) 3.新立项项目更新了周报，在正常项目里面 -->
+				<if test="projectType == 1" ><!-- 正在进行的项目项目 -->
+				 and pro.project_status = 1   
+			    </if>
+			    <if test="projectType == 6"><!-- 样品完结 -->
+			     and pro.project_status = 6  
+			    </if>
+			    <if test="projectType == 2" ><!-- 完结项目(大货完结) -->
+			      and pro.project_status = 2  
+			    </if> 
+			    <if test="projectType == 4"><!-- 暂停 -->
+			       and pro.project_status = 4   
+			    </if>
+			    <if test="projectType == 5"><!-- 取消 -->
+			       and pro.project_status = 5   
+			   </if>
+		
+		
+		     </otherwise>
+		   </choose>
+		   <choose><!-- 项目阶段 -->
+		     <when test="projectStageS!=null and projectStageS.size>0" >
+		       and ( projectStage in(  
+			          <foreach collection="projectStageS" item="projectStage" index="index" separator="," >    
+			              #{projectStage,jdbcType=INTEGER}   
+			          </foreach>  
+			         )   
+		      <!-- 项目阶段包含-2时，包括为未更新状态 -->
+		          <if test="stageUnUpdate == 3" >
+		             or projectStage is null 
+		          </if>   
+		          )   
+		     </when>
+		     <otherwise>
+		         <if test="projectStage!=null">
+		            and projectStage =#{projectStage,jdbcType=INTEGER}
+		         </if>
+		     </otherwise>
+		   </choose>
+		   <choose><!-- 项目等级 -->
+		       <when test="plantAnalysisS!=null and plantAnalysisS.size>0">
+		         and pro.plant_analysis in(  
+		            <foreach collection="plantAnalysisS" item="plantAnalysis" index="index" separator="," >    
+		                #{plantAnalysis,jdbcType=INTEGER}   
+		            </foreach>  
+		           )     
+		       </when>
+		       <otherwise>
+		          <if test="plantAnalysis!=null"> 
+		              and pro.plant_analysis =#{plantAnalysis,jdbcType=INTEGER}
+		          </if>
+		       </otherwise>
+		   </choose>
+		   <choose><!-- 今后预计七天出货 -->
+		       <when test="expectedShipmentSelect!=null and expectedShipmentSelect!=''">
+		         and pro.project_no in(SELECT project_no FROM inspection_reservation  where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt; date(inspection_reservation.expected_delivery))
+		       </when>
+		       <otherwise>
+		       </otherwise>
+		   </choose>
+		   <if test="projectStatus != null and projectStatus == 7">
+		       or (finish =1 and  DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= finish_time)
+		   </if>
+		   
+		   <!-- A\B级项目两周未更新周报 -->
+		   <if test="importantSelect == 1">
+		       and importantNum = 0  
+		   </if>
+		   <!-- 处于暂停状态 超过2周的项目 -->
+		   <if test="importantSelect == 2">
+		       and exists (select project_no from project_pause pause where pro.project_no = pause.project_no and DATE_ADD(pause.create_date,INTERVAL 14 DAY) &lt; now() and pause.is_pause = 1)  and  pro.project_status = 4 
+		   </if>
+		      <!-- 过去2周取消的项目 -->
+		   <if test="importantSelect == 3">
+		       and pro.project_status = 5 and  DATE_ADD(pro.finish_time,INTERVAL 14 DAY) &gt;= now()
+		   </if>
+		      <!-- 有PO 合同未签的项目，而且PO时间距离今天超过5天 -->
+		   <if test="importantSelect == 4">
+		       and pro.project_status = 0 and pro.date_sample_uploading is not null and DATE_ADD(pro.date_sample_uploading,INTERVAL 5 DAY) &lt; now()
+		   </if>
+		      <!-- 处于样品完结状态 超过一个月的项目 -->
+		   <if test="importantSelect == 5">
+		       and pro.project_status = 6 and pro.sample_finish = 1 and DATE_ADD(pro.sample_finish_time,INTERVAL 1 MONTH) &lt; now()
+		   </if>
+		      <!-- 进行中有紧急交货日的项目 -->
+		   <if test="importantSelect == 6">
+		       and d2.new_delivery_date is not null  
+		   </if>
+		      <!-- 项目结束超过4个月无新项目的 -->
+		   <if test="importantSelect == 8">
+		      and pro.project_no in (select p1.project_no from 
+				(
+			       select * from 
+			          (
+						select project_no,customer_name,finish_time,export_date from (select project_no,customer_name,finish_time,project_status,export_date from project ORDER BY finish_time desc LIMIT 10000000)p 
+											 where p.customer_name is not null and project_status = 2 GROUP BY p.customer_name
+			          )p3 where  p3.export_date &lt; DATE_SUB(CURDATE(), INTERVAL 4 MONTH)  
+				)p1
+				left join 
+				(select customer_name from project p1 where (p1.project_status = 1 or p1.project_status = 0) GROUP BY customer_name)p2 
+				on p1.customer_name = p2.customer_name where p2.customer_name is null
+				)
+		   </if>
+		    
+		   <choose><!-- 质检报告排序 -->
+		       <when test="qualityReportSelect!=null and qualityReportSelect!=''">
+		       <if test="qualityReportSelect==1">
+		        and (pro.plant_analysis in (1,2) or (pro.plant_analysis = 3 and p2.status != 0)) GROUP BY pro.project_no order by  p2.createTime!=null desc,p2.createTime desc,pro.project_no desc
+		      </if>
+		       <if test="qualityReportSelect==2">
+		      and pro.project_no in(  select project_no from  (
+SELECT project_no,ifnull(ifnull(pro.original_delivery_date,original_sample_scheduled_date),ifnull(pro.completion_time,pro.date_sample))time FROM `project` pro where pro.finish_time is null and 
+(date_sample is not null or completion_time is not null or original_delivery_date is not null or original_sample_scheduled_date is not null) group by project_no  )a where datediff(a.time,now())&lt;15   and datediff(a.time,now())&gt;0) GROUP BY pro.project_no order by  p2.createTime!=null desc,p2.createTime desc,pro.project_no desc
+		      </if>
+		      <if test="qualityReportSelect==3">
+		        and pro.project_no in(SELECT project_no FROM project_task where task_type=12 group by project_no) GROUP BY pro.project_no order by  x.start_time desc
+		      </if>
+		       </when>
+		       <otherwise>
+		          <choose>
+		                <!-- 合同上传日期排序 -->
+		                <when test="importantSelect == 7">
+		                GROUP BY pro.project_no order by f.contract_date desc
+		                </when>
+		                <otherwise>
+		                  GROUP BY pro.project_no order by pro.plant_analysis!=0 desc,pro.plant_analysis ASC,case when customer_grade is null then 1 else 0 end asc,customer_grade!=0 desc,customer_grade asc,pro.project_no desc,pro.sort_field ASC 
+		                </otherwise>
+		          </choose>		        
+		       </otherwise>
+		   </choose>  
+	limit #{pageNumber},#{pageSize}	 
+    </select>
+	
+	<select id="findProjectListCount" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+	select   
+	count(pro.id) 
+	from project pro    
+	left join  (select createTime,project_no,status from (select * from quality_report ORDER BY createTime desc LIMIT 10000000)p1 GROUP BY project_no)p2 on pro.project_no = p2.project_no    
+    left join  (select COUNT(1) as weekReportNum,project_no,project_stage as projectStage from project_report GROUP BY project_no)q1 on pro.project_no = q1.project_no   
+    left join  (select COUNT(1) as importantNum,project_no from project_report where DATE_SUB(CURDATE(), INTERVAL 14 DAY) &lt;= project_report.create_date GROUP BY project_no)q2 on pro.project_no = q2.project_no    
+    left join  (select s1.predict_date,s1.actual_date,s1.project_no from (select predict_date,actual_date,project_no from project_schedule order by predict_date desc)s1 GROUP BY project_no) s2 on pro.project_no = s2.project_no    
+<!-- 	left join  project_schedule p on pro.project_no = p.project_no     -->
+    left join  (select new_delivery_date,project_no from delivery_date_log GROUP BY project_no) d2 on pro.project_no = d2.project_no   
+	left join user e1 on e1.id = pro.email_user_id   
+	left join user e2 on e2.id = pro.purchase_id   
+	left join user e3 on e3.id = pro.sale_id      
+	where 1=1  	
+	
+  <!-- 延期查询 -->  
+				<if test="delayStatusS!=null and delayStatusS.size > 0" >
+			          and      
+			         <trim prefix="("  suffix=")" prefixOverrides="AND |OR "> 
+			         <foreach collection="delayStatusS" item="delayStatusS" index="index" separator="" >    
+			              <if test="delayStatusS == 0" > 
+			                   and  
+				                ((((
+				                   ((pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.sample_scheduled_date)
+				                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.sample_scheduled_date)
+				                   or (pro.delivery_date is null and pro.sample_finish_time is null and pro.sample_finish = 1) 
+				                   or (pro.delivery_date is null and pro.finish = 1) 
+				                   or (pro.delivery_date is not null)
+				                   ) )and pro.late_delivery_date is null) or (((
+				                   (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.late_delivery_date)
+				                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY) &lt;= pro.late_delivery_date)
+				                   or (pro.delivery_date is null and pro.sample_finish_time is null and pro.sample_finish = 1) 
+				                   or (pro.delivery_date is null and pro.finish = 1) 
+				                   or (pro.delivery_date is not null)
+				                   ) )and pro.late_delivery_date is not null))
+				                   and (
+					                    (((pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.delivery_date) 
+					                    or (pro.finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &lt;= pro.delivery_date )  
+					                    or (pro.finish = 1 and pro.finish_time is null) 
+					                    or (pro.delivery_date is null) and pro.late_delivery_date is  null ) or
+					                    ((pro.finish = 1 and DATE_SUB(pro.finish_time, INTERVAL 7 DAY) &lt;= pro.late_delivery_date) 
+					                    or (pro.finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.late_delivery_date )  
+					                    or (pro.finish = 1 and pro.finish_time is null) 
+					                    or (pro.delivery_date is null) )and pro.late_delivery_date is not null )
+				                   )
+				                ) 
+		                       or pro.project_status = 4  
+			                   or pro.project_status = 5  
+			              </if>
+			              <if test="delayStatusS == 1" >
+			                   and pro.project_status != 4 and pro.project_status != 5 and  
+			                   (
+			                     ( ((pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date ) 
+			                   or (pro.finish = 0 and   DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and 
+			                   DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date)
+			                   ) and pro.late_delivery_date is  null) or
+			                   (( (pro.finish = 1 and pro.finish_time &gt; pro.late_delivery_date ) 
+			                   or (pro.finish = 0 and   CURDATE() &gt; pro.late_delivery_date)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and CURDATE() &gt; pro.late_delivery_date)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and 
+			                   pro.sample_finish_time &gt; pro.late_delivery_date)
+			                   ) and pro.late_delivery_date is not null)
+			                   )
+			              </if>		
+			          </foreach> 
+			          </trim>          
+			    </if>
+	
+     <if test="inputKey !=null and inputKey!=''"> 
+			AND (pro.project_no like CONCAT('%', #{inputKey}, '%') OR pro.project_name like CONCAT('%', #{inputKey},'%')
+				OR e2.user_name like CONCAT('%', #{inputKey}, '%') OR e1.user_name like CONCAT('%', #{inputKey}, '%') OR e3.user_name like CONCAT('%', #{inputKey}, '%')
+				OR pro.zhijian1 like CONCAT('%', #{inputKey}, '%') OR pro.zhijian2 like CONCAT('%', #{inputKey}, '%') OR pro.zhijian3 like CONCAT('%', #{inputKey}, '%')
+				OR pro.master_quality_inspection like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector1 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector2 like CONCAT('%', #{inputKey}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector4 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector5 like CONCAT('%', #{inputKey}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{inputKey}, '%') OR pro.quality_inspector7 like CONCAT('%', #{inputKey}, '%') 
+				
+				)
+			</if>
+			
+	
+    <if test="userName !=null and userName!='' and roleNo!=98 and roleNo!=99 and roleNo!=100 and userName!='OwenCui' and userName!='DeanZhang'"> 
+			AND (e2.user_name like CONCAT('%', #{userName}, '%') OR e1.user_name like CONCAT('%', #{userName}, '%')OR e3.user_name like CONCAT('%', #{userName}, '%')
+				OR pro.zhijian1 like CONCAT('%', #{userName}, '%') OR pro.zhijian2 like CONCAT('%', #{userName}, '%') OR pro.zhijian3 like CONCAT('%', #{userName}, '%')
+				OR pro.master_quality_inspection like CONCAT('%', #{userName}, '%') OR pro.quality_inspector1 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector2 like CONCAT('%', #{userName}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector4 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector5 like CONCAT('%', #{userName}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{userName}, '%') OR pro.quality_inspector7 like CONCAT('%', #{userName}, '%') 
+				
+				
+				
+				)
+			</if> 
+	
+
+	
+   <if test="purchaseName !=null and purchaseName!=''"> 
+	 <choose>
+		<when test="purchaseName == '无采购'.toString()">
+			AND (e2.user_name="" or e2.user_name is null)
+		</when>
+		<otherwise>
+			 AND (e2.user_name like CONCAT('%', #{purchaseName}, '%'))
+		</otherwise> 
+	</choose>
+	</if> 
+	<if test="sellName !=null and sellName!=''"> 
+	  <choose>
+		<when test="sellName == '无跟单'.toString()">
+			AND (e1.user_name="" or e1.user_name is null)
+		</when>
+		<otherwise>
+			 AND (e1.user_name like CONCAT('%', #{sellName}, '%'))
+		</otherwise> 
+	 </choose>
+	</if> 	 
+    <if test="qualityName !=null and qualityName!=''"> 
+		      <choose>
+				<when test="qualityName == '无质检'.toString()">
+					AND ((pro.zhijian1="" or pro.zhijian1 is null) and (pro.zhijian2="" or pro.zhijian2 is null) and (pro.zhijian3="" or pro.zhijian3 is null))
+					and (pro.master_quality_inspection="" or pro.master_quality_inspection is null)) and (pro.quality_inspector1="" or pro.quality_inspector1 is null)) 
+					and (pro.quality_inspector2="" or pro.quality_inspector2 is null)) and (pro.quality_inspector3="" or pro.quality_inspector3 is null)) 
+					and (pro.quality_inspector4="" or pro.quality_inspector4 is null)) and (pro.quality_inspector5="" or pro.quality_inspector5 is null)) 
+					and (pro.quality_inspector6="" or pro.quality_inspector6 is null)) and (pro.quality_inspector7="" or pro.quality_inspector7 is null)) 
+				</when>
+				<otherwise>
+				    AND (pro.zhijian1 like CONCAT('%', #{qualityName}, '%') OR pro.zhijian2 like CONCAT('%', #{qualityName}, '%') OR pro.zhijian3 like CONCAT('%', #{qualityName}, '%')
+				    OR pro.master_quality_inspection like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector1 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector2 like CONCAT('%', #{qualityName}, '%')
+				OR pro.quality_inspector3 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector4 like CONCAT('%', #{inpqualityNameutKey}, '%') OR pro.quality_inspector5 like CONCAT('%', #{qualityName}, '%')
+				OR pro.quality_inspector6 like CONCAT('%', #{qualityName}, '%') OR pro.quality_inspector7 like CONCAT('%', #{qualityName}, '%') 
+				    )
+				</otherwise> 
+			 </choose>
+			</if> 	
+	
+<if test="technicianStr !=null and technicianStr!=''"> 
+		<choose>
+		<when test="technicianStr == '无技术'.toString()">
+			AND (technician="" or technician is null)
+		</when>
+		<otherwise>
+		    AND (technician like CONCAT('%', #{technicianStr}, '%'))
+		</otherwise> 
+	   </choose>
+	</if> 
+	
+	
+	<choose><!-- 项目状态筛选 -->
+      <when test="projectStatusS!=null and projectStatusS.size>0" >
+       and pro.project_status in(  
+          <foreach collection="projectStatusS" item="projectStatus" index="index" separator="," >    
+              #{projectStatus,jdbcType=INTEGER}   
+          </foreach>  
+         )     
+     </when>
+     <otherwise>
+		       <if test="projectType == 0" ><!-- 新立项项目(样品,大货没完结,并且日报没上传) -->
+				 and pro.project_status = 0
+				</if>
+				<!-- 1. 样品交期，大货交期 (大货为空 样品交期不为为空样品 大于当前时间,样品为空,大货不为空 大货交期大于当前时间 ,样品大货不为空都大于)
+				2.样品交期完结(大货交期为空 或者大货交期大于 当前时间) 3.新立项项目更新了周报，在正常项目里面 -->
+				<if test="projectType == 1" ><!-- 正在进行的项目项目 -->
+				 and pro.project_status = 1
+			    </if>
+			    <if test="projectType == 6"><!-- 样品完结 -->
+			     and pro.project_status = 6
+			    </if>
+			    <if test="projectType == 2" ><!-- 完结项目(大货完结) -->
+			      and pro.project_status = 2
+			    </if>
+			    <if test="projectType == 4"><!-- 暂停 -->
+			       and pro.project_status = 4
+			    </if>
+			    <if test="projectType == 5"><!-- 取消 -->
+			       and pro.project_status = 5
+			   </if>
+     </otherwise>
+   </choose>
+     <choose><!-- 项目阶段 -->
+     <when test="projectStageS!=null and projectStageS.size>0" >
+       and (projectStage in(  
+	          <foreach collection="projectStageS" item="projectStage" index="index" separator="," >    
+	              #{projectStage,jdbcType=INTEGER}   
+	          </foreach>  
+	         )   
+	         <!-- 项目阶段包含3时，包括为未更新状态 -->
+	          <if test="stageUnUpdate == 3" >
+	             or projectStage is null 
+	          </if>  
+          )  
+     </when>
+     <otherwise>
+         <if test="projectStage!=null">
+            and projectStage =#{projectStage,jdbcType=INTEGER}
+         </if>
+     </otherwise>
+   </choose>
+   <choose><!-- 项目等级 -->
+       <when test="plantAnalysisS!=null and plantAnalysisS.size>0">
+         and pro.plant_analysis in(  
+            <foreach collection="plantAnalysisS" item="plantAnalysis" index="index" separator="," >    
+                #{plantAnalysis,jdbcType=INTEGER}   
+            </foreach>  
+           )     
+       </when>
+       <otherwise>
+          <if test="plantAnalysis!=null"> 
+              and pro.plant_analysis =#{plantAnalysis,jdbcType=INTEGER}
+          </if>
+       </otherwise>
+   </choose>
+   <choose><!-- 今后预计七天出货 -->
+       <when test="expectedShipmentSelect!=null and expectedShipmentSelect!=''">
+         and pro.project_no in(SELECT project_no FROM inspection_reservation  where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt; date(inspection_reservation.expected_delivery))
+       </when>
+       <otherwise>
+       </otherwise>
+   </choose>
+   
+   
+   	<if test="projectStatus != null and projectStatus == 7">
+       or (finish =1 and  DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= finish_time)
+   </if>
+   
+   
+<!-- A\B级项目两周未更新周报 -->
+   <if test="importantSelect == 1">
+       and importantNum = 0  
+   </if>
+   <!-- 处于暂停状态 超过2周的项目 -->
+   <if test="importantSelect == 2">
+       and exists (select project_no from project_pause pause where pro.project_no = pause.project_no and DATE_ADD(pause.create_date,INTERVAL 14 DAY) &lt; now() and pause.is_pause = 1)  and  pro.project_status = 4 
+   </if>
+      <!-- 过去2周取消的项目 -->
+   <if test="importantSelect == 3">
+       and pro.project_status = 5 and  DATE_ADD(pro.finish_time,INTERVAL 14 DAY) &gt;= now()
+   </if>
+      <!-- 有PO 合同未签的项目，而且PO时间距离今天超过5天 -->
+   <if test="importantSelect == 4">
+       and pro.project_status = 0 and pro.date_sample_uploading is not null and DATE_ADD(pro.date_sample_uploading,INTERVAL 5 DAY) &lt; now()
+   </if>
+      <!-- 处于样品完结状态 超过一个月的项目 -->
+   <if test="importantSelect == 5">
+       and pro.project_status = 6 and pro.sample_finish = 1 and DATE_ADD(pro.sample_finish_time,INTERVAL 1 MONTH) &lt; now()
+   </if>
+     <!-- 进行中有紧急交货日的项目 -->
+   <if test="importantSelect == 6">
+       and d2.new_delivery_date is not null
+   </if>
+   
+    <!-- 项目结束超过4个月无新项目的 -->
+   <if test="importantSelect == 8">
+      and pro.project_no in (select p1.project_no from 
+		(
+		  select * from 
+			          (
+						select project_no,customer_name,finish_time,export_date from (select project_no,customer_name,finish_time,project_status,export_date from project ORDER BY finish_time desc LIMIT 10000000)p 
+											 where p.customer_name is not null and project_status = 2 GROUP BY p.customer_name
+			          )p3 where  p3.export_date &lt; DATE_SUB(CURDATE(), INTERVAL 4 MONTH)  
+		)p1
+		left join 
+		(select customer_name from project p1 where (p1.project_status = 1 or p1.project_status = 0) GROUP BY customer_name)p2 
+		on p1.customer_name = p2.customer_name where p2.customer_name is null
+		)
+   </if>
+   
+   <!-- 质检报告筛选 -->
+  <choose>
+       <when test="qualityReportSelect!=null and qualityReportSelect!=''">
+       <if test="qualityReportSelect==1">
+		         and (pro.plant_analysis in (1,2) or (pro.plant_analysis = 3 and p2.status != 0)) 
+		      </if>
+		       <if test="qualityReportSelect==2">
+		      and pro.project_no in(  select project_no from  (
+SELECT project_no,ifnull(ifnull(pro.original_delivery_date,original_sample_scheduled_date),ifnull(pro.completion_time,pro.date_sample))time FROM project pro where pro.finish_time is null and 
+(date_sample is not null or completion_time is not null or original_delivery_date is not null or original_sample_scheduled_date is not null) group by project_no )a where datediff(a.time,now())&lt;15   and datediff(a.time,now())&gt;0) 
+		      </if>
+		      <if test="qualityReportSelect==3">
+		        and pro.project_no in(select project_no from (SELECT project_no FROM project_task where task_type=12 group by project_no)a) 
+		      </if> 
+		     
+       
+       </when>
+   </choose>
+   
+   <!-- 详细状态查询 -->
+   <choose>
+   <when test="detailStatusS!=null and detailStatusS.size>0" >
+   
+       and (pro.detail_status in(  
+          <foreach collection="detailStatusS" item="detailStatusS" index="index" separator="," >    
+              #{detailStatusS,jdbcType=INTEGER}   
+          </foreach>  
+           ) 
+         <!-- 当详细状态包含0时，包括为更新状态 -->
+          <if test="detailUnUpdate == 0" >
+             or pro.detail_status is null 
+          </if>  
+          )
+    </when>
+    </choose>    
+    
+   </select>
+    
+	<!-- 查询项目列表根据登录用户的权限 (采购) -->
+	<select id="findPurchaseProjectList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.purchase_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.company_name,
+		pro.is_pause,
+		pro.pause_reason,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project pro
+		left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND
+		emu.id=pro.purchase_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="inputKey !=null and inputKey!=''">
+			AND (project_no like CONCAT('%', #{inputKey}, '%') OR
+			ema.role_name like CONCAT('%', #{inputKey}, '%') OR
+			ema.true_name like CONCAT('%', #{inputKey}, '%') OR
+			pro.project_name like CONCAT('%', #{inputKey}, '%')
+			)
+		</if>
+		<if test="purchaseNameId !=null and purchaseNameId!=''">
+			AND (
+			ema.role_name like CONCAT('%', #{purchaseNameId}, '%') OR
+			ema.true_name like CONCAT('%', #{purchaseNameId}, '%')
+			)
+		</if>
+			<choose>
+			<when test="projectType == '2'.toString()">
+				AND pro.is_pause = 1
+			</when>
+			<when test="projectType == '3'.toString()">
+				AND pro.is_pause = 2
+			</when>
+			<when test="projectType == '1'.toString()">
+				AND pro.finish = 1
+			</when>
+			<otherwise>
+				AND pro.finish = 0  AND ( pro.is_pause =0 or  pro.is_pause is null)
+			</otherwise> 
+		</choose>
+		
+		order by delivery_date !='' desc ,delivery_date asc
+		
+		limit #{pageNumber},#{pageSize}
+	</select>
+	
+	<!-- 根据登录用户的权限 (采购)查询记录数 -->
+	<select id="findPurchaseProjectListCount" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.purchase_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.company_name,
+		pro.is_pause,
+		pro.pause_reason,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project pro
+		left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND
+		emu.id=pro.purchase_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="inputKey !=null and inputKey!=''">
+			AND (project_no like CONCAT('%', #{inputKey}, '%') OR
+			ema.role_name like CONCAT('%', #{inputKey}, '%') OR
+			ema.true_name like CONCAT('%', #{inputKey}, '%') OR
+			pro.project_name like CONCAT('%', #{inputKey}, '%')
+			)
+		</if>
+		<if test="purchaseNameId !=null and purchaseNameId!=''">
+			AND (
+			ema.role_name like CONCAT('%', #{purchaseNameId}, '%') OR
+			ema.true_name like CONCAT('%', #{purchaseNameId}, '%')
+			)
+		</if>
+		<choose>
+			<when test="projectType == '2'.toString()">
+				AND pro.is_pause = 1
+			</when>
+			<when test="projectType == '3'.toString()">
+				AND pro.is_pause = 2
+			</when>
+			<when test="projectType == '1'.toString()">
+				AND pro.finish = 1
+			</when>
+			<otherwise>
+				AND pro.finish = 0  AND ( pro.is_pause =0 or  pro.is_pause is null)
+			</otherwise> 
+		</choose>
+		order by delivery_date !='' desc ,delivery_date asc
+	</select>
+
+<!-- 项目准时完成 -->
+<select id="getFinishTime" resultType="int" parameterType="java.lang.String">
+		SELECT count(1) FROM `project` where   ( 
+		 (project_material_properties=0 or project_material_properties=2)
+		<if test="plasticDeliveryPeriod!=0">
+		and datediff(finish_time,money_date)&lt;=${plasticDeliveryPeriod}
+		</if> 
+		<if test="plasticDeliveryPeriod1!=0">
+		and datediff(finish_time,money_date)&gt;${plasticDeliveryPeriod1}
+		</if>   
+		
+		
+		) and project_no in (${projectNo}) 
+or (project_material_properties=1
+
+<if test="metalDeliveryTime!=0">
+		and datediff(finish_time,money_date)&lt;=${metalDeliveryTime}
+		</if> 
+		<if test="metalDeliveryTime1!=0">
+		and datediff(finish_time,money_date)&gt;${metalDeliveryTime1}
+		</if>  
+  ) and project_no in (${projectNo})  
+</select>
+
+
+
+
+
+	<!-- 查询历史质检 -->
+	<select id="getReturnItem" resultMap="BaseResultMap">
+		SELECT project_no
+
+ FROM `project` pro
+ where project_no like '%-%' and history_inspection is null
+
+	</select>
+	<!-- A/B级打样阶段项目导出 -->
+	<select id="selectProofingPhaseProject" resultMap="BaseResultMap">
+		SELECT project_no,project_name,project_name_en,plant_analysis,actual_start_date,money_date,original_sample_scheduled_date
+,(select user_name from user where id = pro.email_user_id)
+		sellName,
+		
+		(select user_name from user where id = pro.purchase_id) purchaseName 
+,project_status
+
+ FROM `project` pro
+ where project_status in (1,2) and original_sample_scheduled_date is not null and sample_finish_time is null
+
+	</select>
+	<!-- A/B级打样阶段项目导出 -->
+	<select id="getAllZhiJian" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+		SELECT * FROM `project` where project_no like CONCAT('%', #{projectName}, '%') and project_no!=#{projectNo}
+order by project_no desc limit 1
+
+	</select>
+	
+	
+	<!-- 查询所有的项目 -->
+	
+	<!-- <select id="selectAllProject" resultMap="BaseResultMap">
+		select project_no from project   where id>'3c5bace20b40406682fb8d21fccbb518'
+	</select> -->
+	<select id="selectAllProject" resultMap="BaseResultMap">
+		select * from project where 1=1
+		 and ((finish =0 and (is_pause = 0 or is_pause is null ) and delivery_date!= '' and DATE_ADD(delivery_date,INTERVAL 7 DAY) &lt; now())
+	         or(delivery_date is NULL AND sample_finish =0 and (is_pause = 0 or is_pause is null ) and sample_scheduled_date!= '' and DATE_ADD(sample_scheduled_date,INTERVAL 7 DAY) &lt; now())
+	         or(sample_finish=1 and finish=0 and (is_pause = 0 or is_pause is null )and delivery_date!= '' and DATE_ADD(delivery_date,INTERVAL 7 DAY) &lt; now()))
+	</select>
+
+
+	<!-- add by sang -->
+	<select id="selectProjectList" resultMap="BaseResultMap">
+		select * from project where 1=1
+		<if test="hasEmailUserId">
+			and email_user_id !=0
+		</if>
+		<if test="hasPurchaseId">
+			and purchase_id !=0
+		</if>
+		</select>
+	<select id="getAll" resultType="String" parameterType="java.lang.String">
+		select GROUP_CONCAT(project_no SEPARATOR ',') project_no from project where 1=1
+		and (zhijian1 like CONCAT('%', #{zhijian1}, '%') 
+       or zhijian2 like CONCAT('%', #{zhijian1}, '%')
+       or zhijian3 like CONCAT('%', #{zhijian1}, '%')
+        )
+	</select>
+	<!-- 获取打样项目数 -->
+	<select id="getProofingProject" resultType="int">
+		select count(1) from project where  original_sample_scheduled_date is not null and project_status=1
+		and (zhijian1 like  CONCAT('%', #{zhijian1}, '%') 
+         or zhijian2 like  CONCAT('%', #{zhijian1}, '%')
+         or zhijian3 like  CONCAT('%', #{zhijian1}, '%')
+         )
+
+	</select>
+	<!--获取量产项目数  -->
+	<select id="getMassProductionProject" resultType="int">
+		select count(1) from project where  original_delivery_date is not null and project_status=1
+		and (zhijian1 like  CONCAT('%', #{zhijian1}, '%') 
+         or zhijian2 like  CONCAT('%', #{zhijian1}, '%')
+         or zhijian3 like  CONCAT('%', #{zhijian1}, '%')
+         )
+
+	</select>
+	<!-- 查询疑难项目列表 -->
+	<select id="getDifficultItemListPage" resultMap="BaseResultMap">
+		select project_no,project_name,datediff(now(),money_date)dateBefore from project  where 1=1 and difficult_project =1
+		
+		<if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+		</select>
+	<!-- 查询疑难项目列表数-->
+	<select id="getNumberOfDifficultProjects" resultType="int" >
+		select count(1) from project  where 1=1 and difficult_project =1
+		
+		<if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+		</select>
+	<!--一个月内完成的项目数量 -->
+	<select id="getNumberOfProjectsCompletedInOneMonth" resultMap="BaseResultMap" >
+		select project_no from project  where 1=1 and project_status=2 and datediff (now(),finish_time) &lt;=31
+		
+		<if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+
+
+	</select>
+	
+	<!-- 根据创建人id查询，用于项目录入查看(管理员查看全部) -->
+	<select id="selectByCreatePersonId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	    SELECT pro.*,u1.user_name as purchase_name,u2.user_name as sell_name,u3.user_name as create_name FROM project pro 
+		left join user u1 on pro.purchase_id = u1.id   
+		left join user u2 on pro.email_user_id = u2.id   
+		left join user u3 on pro.create_person_id = u3.id   
+		where 1=1 
+		<choose>
+			<when test="roleNo == 100">
+			 and create_person_id is not null 
+			</when>
+			<otherwise>
+			 and create_person_id = #{createPersonId,jdbcType=INTEGER}  
+			</otherwise>
+		</choose>
+		order by date_sample_uploading desc 
+		limit #{pageNumber},#{pageSize}
+	</select>
+	
+	<select id="countNewProject" resultType="int" parameterType="java.lang.Integer">
+	  SELECT count(1) from project where 1=1 
+	  <choose>
+			<when test="roleNo == 100">
+			 and create_person_id is not null 
+			</when>
+			<otherwise>
+			 and create_person_id = #{createPersonId,jdbcType=INTEGER}    
+			</otherwise>
+		</choose>
+	
+	</select>
+	<!--  查询延期项目数-->
+	<select id="getNumberOfDeferredItems" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+	 select count(1) from project   where (datediff(completion_time,now())&lt;-7 or datediff(date_sample,now())&lt;-7)
+		
+		<if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+	
+	</select>
+	<!--查询超过3个月跟单项目数  -->
+	<select id="getNumberOfDocumentaryItemsOver3Months" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+	 select count(1) from project where project_status = 1 and datediff(now(),create_date)&lt;90
+	 <if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="findAllCount" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+	 select count(1) from project where 1=1
+	 <if test="projectStatus!=null">
+	  and project_status = 1 
+	 </if>
+	 <if test="delayStatusS!=null and delayStatusS.size>0" >
+        and  
+        <trim prefix="("  suffix=")" prefixOverrides="AND |OR "> 
+        <foreach collection="delayStatusS" item="delayStatusS" index="index" separator="" >    
+	              <if test="delayStatusS == 0" > 
+	                   and  
+		                ((
+		                   (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.sample_scheduled_date)
+		                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY) &lt;= pro.sample_scheduled_date)
+		                   or (pro.delivery_date is null and pro.sample_finish_time is null and pro.sample_finish = 1) 
+		                   or (pro.delivery_date is null and pro.finish = 1) 
+		                   or (pro.delivery_date is not null)
+		                   )
+		                   and (
+			                    (pro.finish = 1 and DATE_SUB(pro.finish_time, INTERVAL 7 DAY) &lt;= pro.delivery_date) 
+			                    or (pro.finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= pro.delivery_date )  
+			                    or (pro.finish = 1 and pro.finish_time is null) 
+			                    or (pro.delivery_date is null)
+		                   )
+		                ) 
+	                   or (pro.urgent_delivery_date is not null and CURDATE() &lt;= pro.urgent_delivery_date and pro.finish = 0)
+	                   or (pro.urgent_delivery_date is not null and pro.finish_time &lt;= pro.urgent_delivery_date and pro.finish = 1)
+	                   or pro.project_status = 4  
+	                   or pro.project_status = 5  
+	              </if>
+	              <if test="delayStatusS == 1" >
+	                   and pro.project_status != 4 and pro.project_status != 5 and  
+	                   (
+	                      (pro.finish = 1 and DATE_SUB(pro.finish_time, INTERVAL 7 DAY) &gt; pro.delivery_date ) 
+	                   or (pro.finish = 0 and  DATE_SUB(CURDATE(), INTERVAL 7 DAY) &gt; pro.delivery_date)                   
+	                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &gt; pro.sample_scheduled_date)
+	                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY) &gt; pro.sample_scheduled_date)
+	                   or (pro.urgent_delivery_date is not null and CURDATE() &gt; pro.urgent_delivery_date and pro.project_status != 5  and pro.finish = 0)
+	                   or (pro.urgent_delivery_date is not null and pro.finish_time &gt; pro.urgent_delivery_date and pro.project_status != 5  and pro.finish = 1)
+	                   )
+	              </if>		
+	          </foreach> 
+         </trim>          
+   </if>
+	 <if test="emailUserId!=0">
+			and email_user_id =#{emailUserId,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+
+
+	<!-- 根据项目号查询项目详情 -->
+	<select id="selectProjctDetails" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT 
+		pro.sailing_date,
+		pro.project_no,
+		pro.project_name,
+		pro.project_name_en,
+		pro.delivery_status,
+		pro.delivery_date,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.detail_status,
+		pro.customer_name,
+		pro.date_sample_uploading,
+		u1.user_name as sell_name,
+		u2.user_name as purchase_name,
+		u1.dingTalk_id as sell_dingTalkId,
+		u2.dingTalk_id as purchase_dingTalkId,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchase_name ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.finish_time,
+		pro.product_img,
+		pro.sample_finish,
+		pro.technology,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+		pro.scheduled_days,
+		pro.new_predict_date, 
+		pro.urgent_delivery_date,  
+		pro.plant_analysis,
+		pro.project_amount,
+		pro.export_date,
+		pro.customer_grade,
+		pro.date_delivery,
+		pro.delay_days,
+		pro.interpretation_document,
+		pro.new_explain,
+		pro.delayed_delivery_date,
+		pro.cargo_delayed_delivery_date,
+		pro.master_quality_inspection,
+		pro.quality_inspector1,
+		pro.master_quality_inspection,
+		pro.quality_inspector1,
+		pro.quality_inspector2,
+		pro.quality_inspector3,
+		pro.quality_inspector4,
+		pro.quality_inspector5,
+		pro.quality_inspector6,
+		pro.quality_inspector7
+		FROM project pro  
+		left join user u1 on pro.email_user_id = u1.id 
+		left join user u2 on pro.purchase_id = u2.id  
+		where pro.project_no = #{projectNo,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="string">
+		delete from project
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insertSelective" parameterType="com.cn.hnust.pojo.Project">
+		insert into project
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="projectNo != null">
+				project_no,
+			</if>
+			<if test="projectName != null">
+				project_name,
+			</if>
+			<if test="projectNameEn != null">
+				project_name_en,
+			</if>
+			<if test="deliveryDate != null">
+				delivery_date,
+			</if>
+			<if test="deliveryStatus != null">
+				delivery_status,
+			</if>
+			<if test="warningStatus != null">
+				warning_status,
+			</if>
+			<if test="importance != null">
+				importance,
+			</if>
+			<if test="finish != null">
+				finish,
+			</if>
+			<if test="stage != null">
+				stage,
+			</if>
+			<if test="emailUserId != null">
+				email_user_id,
+			</if>
+			<if test="purchaseId != null">
+				purchase_id,
+			</if>
+			<if test="poDate != null">
+				po_date,
+			</if>
+			<if test="scheduledDate != null">
+				scheduled_date,
+			</if>
+			<if test="actualStartDate != null">
+				actual_start_date,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="companyName != null">
+				company_name,
+			</if>
+	        <if test="plantAnalysis != null">
+				plant_analysis,
+			</if>
+			<if test="projectMaterialProperties != null">
+				project_material_properties,
+			</if>
+			<if test="dateSample != null" >
+		        date_sample,
+		    </if>
+		    <if test="completionTime != null" >
+		        completion_time,
+		    </if>
+		    <if test="dateSampleUploading != null" >
+		        date_sample_uploading,
+		    </if>
+		     <if test="moneyDate != null" >
+		        money_date,
+		    </if>
+		     <if test="projectStatus != null" >
+		        project_status,
+		    </if>
+		     <if test="sampleFinishTime != null" >
+		        sample_finish_time,
+		    </if>
+		     <if test="sampleScheduledDate != null" >
+		        sample_scheduled_date,
+		    </if>
+		     <if test="createPersonId != null" >
+		        create_person_id,
+		    </if>
+		     <if test="projectAmount != null" >
+		        project_amount,
+		    </if>
+		     <if test="zhijian1 != null" >
+		        zhijian1,
+		    </if>
+		     <if test="zhijian2 != null" >
+		        zhijian2,
+		    </if>		  
+		     <if test="zhijian3 != null" >
+		        zhijian3,
+		    </if>		  
+		    <if test="urgentDeliveryDate !=null">
+			  urgent_delivery_date,
+			</if>
+			<if test="scheduledDays !=null">
+			  scheduled_days,
+			</if>  
+			<if test="newPredictDate !=null">
+			  new_predict_date,
+			</if>  
+			<if test="customerName !=null">
+			  customer_name,
+			</if>  
+			<if test="originalDeliveryDate !=null">
+			  original_delivery_date,
+			</if>  
+			<if test="originalSampleScheduledDate !=null">
+			  original_sample_scheduled_date,
+			</if> 
+			<if test="productImg!=null" >
+		        product_img,
+		     </if> 
+			<if test="customerGrade!=null" >
+		        customer_grade,
+		     </if> 
+			<if test="exportDate!=null" >
+		        export_date,
+		     </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectNo != null">
+				#{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectNameEn != null">
+				#{projectNameEn,jdbcType=VARCHAR},
+			</if>
+			<if test="deliveryDate != null">
+				#{deliveryDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliveryStatus != null">
+				#{deliveryStatus,jdbcType=INTEGER},
+			</if>
+			<if test="warningStatus != null">
+				#{warningStatus,jdbcType=INTEGER},
+			</if>
+			<if test="importance != null">
+				#{importance,jdbcType=INTEGER},
+			</if>
+			<if test="finish != null">
+				#{finish,jdbcType=INTEGER},
+			</if>
+			<if test="stage != null">
+				#{stage,jdbcType=INTEGER},
+			</if>
+			<if test="emailUserId != null">
+				#{emailUserId,jdbcType=INTEGER},
+			</if>
+			<if test="purchaseId != null">
+				#{purchaseId,jdbcType=INTEGER},
+			</if>
+			<if test="poDate != null">
+				#{poDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="scheduledDate != null">
+				#{scheduledDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actualStartDate != null">
+				#{actualStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+	        <if test="plantAnalysis != null">
+				#{plantAnalysis,jdbcType=INTEGER},
+			</if>
+			<if test="projectMaterialProperties != null">
+				#{projectMaterialProperties,jdbcType=INTEGER},
+			</if>
+			<if test="dateSample != null" >
+		         #{dateSample,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="completionTime != null" >
+		        #{completionTime,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="dateSampleUploading != null" >
+		       #{dateSampleUploading,jdbcType=TIMESTAMP},
+		    </if>
+		     <if test="moneyDate != null" >
+		       #{moneyDate,jdbcType=TIMESTAMP},
+		    </if>
+		     <if test="projectStatus != null" >
+		       #{projectStatus,jdbcType=INTEGER},
+		    </if>
+		     <if test="sampleFinishTime != null" >
+		       #{sampleFinishTime,jdbcType=TIMESTAMP},
+		    </if>
+		     <if test="sampleScheduledDate != null" >
+		       #{sampleScheduledDate,jdbcType=TIMESTAMP},
+		    </if>
+		     <if test="createPersonId != null" >
+		       #{createPersonId,jdbcType=INTEGER},
+		    </if>
+		     <if test="projectAmount != null" >
+		       #{projectAmount,jdbcType=VARCHAR},
+		    </if>
+		     <if test="zhijian1 != null" >
+		       #{zhijian1,jdbcType=VARCHAR},
+		    </if>
+		     <if test="zhijian2 != null" >
+		       #{zhijian2,jdbcType=VARCHAR},
+		    </if>
+		     <if test="zhijian3 != null" >
+		       #{zhijian3,jdbcType=VARCHAR},
+		    </if>
+	        <if test="urgentDeliveryDate !=null">
+			   #{urgentDeliveryDate,jdbcType=DATE},
+			</if>
+			<if test="scheduledDays !=null">
+			   #{scheduledDays,jdbcType=INTEGER},
+			</if>
+			<if test="newPredictDate !=null">
+			   #{newPredictDate,jdbcType=DATE},
+			</if>
+			<if test="customerName !=null">
+			   #{customerName,jdbcType=VARCHAR},
+			</if>
+			<if test="originalDeliveryDate !=null">
+			   #{originalDeliveryDate,jdbcType=DATE},
+			</if>  
+			<if test="originalSampleScheduledDate !=null">
+			  #{originalSampleScheduledDate,jdbcType=DATE},
+			</if>  
+			<if test="productImg!=null" >
+		       #{productImg,jdbcType=VARCHAR},
+		     </if>
+			<if test="customerGrade!=null" >
+		       #{customerGrade,jdbcType=INTEGER},
+		     </if>
+			<if test="exportDate!=null" >
+		       #{exportDate,jdbcType=DATE},
+		     </if>
+		</trim>
+	</insert>
+	<!-- 更新项目基本信息 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.Project">
+		update project
+		<set>
+			<if test="projectNo != null">
+				project_no = #{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				project_name = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="deliveryDate != null">
+				delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliveryStatus != null">
+				delivery_status = #{deliveryStatus,jdbcType=INTEGER},
+			</if>
+			<if test="warningStatus != null">
+				warning_status = #{warningStatus,jdbcType=INTEGER},
+			</if>
+			<if test="importance != null">
+				importance = #{importance,jdbcType=INTEGER},
+			</if>
+			<if test="finish != null">
+				finish = #{finish,jdbcType=INTEGER},
+			</if>
+			<if test="stage != null">
+				stage = #{stage,jdbcType=INTEGER},
+			</if>
+			<if test="emailUserId != 0">
+				email_user_id = #{emailUserId,jdbcType=INTEGER},
+			</if>
+			<if test="purchaseId != 0">
+				purchase_id = #{purchaseId,jdbcType=INTEGER},
+			</if>
+			<if test="poDate != null">
+				po_date = #{poDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="scheduledDate != null">
+				scheduled_date = #{scheduledDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actualStartDate != null">
+				actual_start_date = #{actualStartDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sampleScheduledDate!=null">
+				sample_scheduled_date = #{sampleScheduledDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="companyName != null">
+				company_name = #{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="isPause != null">
+				is_pause = #{isPause,jdbcType=VARCHAR},
+			</if>
+			<if test="pauseReason != null">
+				pause_reason = #{pauseReason,jdbcType=VARCHAR},
+			</if>
+	        <if test="plantAnalysis != null">
+				plant_analysis = #{plantAnalysis,jdbcType=INTEGER},
+			</if>
+			<if test="projectMaterialProperties != null">
+				project_material_properties =
+				#{projectMaterialProperties,jdbcType=INTEGER},
+			</if>
+			<if test="projectAmount != null">
+				project_amount =
+				#{projectAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="sortField != null">
+				sort_field = #{sortField,jdbcType=INTEGER},
+			</if>
+			 <if test="dateSample != null" >
+		        date_sample=#{dateSample,jdbcType=TIMESTAMP},
+		     </if>
+		     <if test="completionTime != null" >
+		         completion_time=#{completionTime,jdbcType=TIMESTAMP},
+		     </if>
+		     <if test="dateSampleUploading != null" >
+		         date_sample_uploading=#{dateSampleUploading,jdbcType=TIMESTAMP},
+		     </if>
+		     <if test="finishTime!=null" >
+		        finish_time= #{finishTime,jdbcType=TIMESTAMP},
+		     </if>
+		     <if test="productImg!=null" >
+		        product_img= #{productImg,jdbcType=VARCHAR},
+		     </if>
+		     <if test="sampleFinish!=null">
+		        sample_finish= #{sampleFinish,jdbcType=INTEGER},
+		     </if>
+		     <if test="technology!=null">
+		        technology= #{technology,jdbcType=VARCHAR},
+		     </if>
+		    <if test="moneyDate != null" >
+		       money_date =#{moneyDate,jdbcType=TIMESTAMP},
+		    </if>
+		    <if test="projectStatus != null" >
+		       project_status =#{projectStatus,jdbcType=INTEGER},
+		    </if>
+		    <if test="sampleFinishTime!=null">
+		       sample_finish_time =#{sampleFinishTime,jdbcType=TIMESTAMP},
+		    </if>
+			<if test="sortField !=null">
+			   sort_field=#{sortField,jdbcType=INTEGER},
+			</if>
+			<if test="detailStatus !=null">
+			  detail_status=#{detailStatus,jdbcType=INTEGER},
+			</if>
+			<if test="zhijian1 !=null">
+			  zhijian1=#{zhijian1,jdbcType=VARCHAR},
+			</if>
+			<if test="zhijian2 !=null">
+			  zhijian2=#{zhijian2,jdbcType=VARCHAR},
+			</if>
+			<if test="zhijian3 !=null">
+			  zhijian3=#{zhijian3,jdbcType=VARCHAR},
+			</if>		
+			  new_predict_date=#{newPredictDate,jdbcType=DATE},
+			  urgent_delivery_date=#{urgentDeliveryDate,jdbcType=DATE},
+			<if test="scheduledDays !=null">
+			  scheduled_days=#{scheduledDays,jdbcType=INTEGER},
+			</if>
+			<if test="technician !=null">
+			  technician=#{technician,jdbcType=VARCHAR},
+			</if>
+			<if test="customerName !=null">
+			  customer_name=#{customerName,jdbcType=VARCHAR},
+			</if>
+			<if test="originalDeliveryDate !=null">
+			   original_delivery_date=#{originalDeliveryDate,jdbcType=DATE},
+			</if>  
+			<if test="originalSampleScheduledDate !=null">
+			  original_sample_scheduled_date=#{originalSampleScheduledDate,jdbcType=DATE},
+			</if>  
+			<if test="exportDate !=null">
+			  export_date=#{exportDate,jdbcType=DATE},
+			</if>  
+			<if test="prevSampleDate !=null">
+			  prev_sample_date=#{prevSampleDate,jdbcType=DATE},
+			</if>  
+			<if test="customerAttitude !=null">
+			  customer_attitude=#{customerAttitude,jdbcType=VARCHAR},
+			</if>  
+			<if test="delayDay !=null">
+			  delay_days=#{delayDay,jdbcType=INTEGER},
+			</if>  
+			<if test="dateDelivery !=null">
+			  date_delivery=#{dateDelivery,jdbcType=DATE},
+			</if>  
+			<if test="interpretationDocument !=null">
+			  interpretation_document=#{interpretationDocument,jdbcType=VARCHAR},
+			</if> 
+			<if test="explain !=null">
+			  new_explain=#{explain,jdbcType=VARCHAR},
+			</if>  
+			<if test="delayedDeliveryDate !=null">
+			  delayed_delivery_date=#{delayedDeliveryDate,jdbcType=DATE},
+			</if>  
+			<if test="cargoDelayedDeliveryDate !=null">
+			  cargo_delayed_delivery_date=#{cargoDelayedDeliveryDate,jdbcType=DATE},
+			</if>  
+			<if test="saleId !=null">
+			  sale_id=#{saleId,jdbcType=VARCHAR},
+			</if>  
+			<if test="sailingDate !=null">
+			  sailing_date=#{sailingDate,jdbcType=VARCHAR},
+			</if>  
+			<if test="lateDeliveryDate !=null">
+			  late_delivery_date=#{lateDeliveryDate,jdbcType=DATE},
+			</if>  
+			
+			<if test="sampleDeliveryDate !=null">
+			  sample_delivery_date=#{sampleDeliveryDate,jdbcType=VARCHAR},
+			</if> 
+			<if test="deliveryTime !=null">
+			  delivery_time=#{deliveryTime,jdbcType=VARCHAR},
+			</if>  
+			
+			 
+			
+			<if test="masterQualityInspection !=null">
+			  master_quality_inspection=#{masterQualityInspection,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector1 !=null">
+			  quality_inspector1=#{qualityInspector1,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector2 !=null">
+			  quality_inspector2=#{qualityInspector2,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector3 !=null">
+			  quality_inspector3=#{qualityInspector3,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector4 !=null">
+			  quality_inspector4=#{qualityInspector4,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector5 !=null">
+			  quality_inspector5=#{qualityInspector5,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector6 !=null">
+			  quality_inspector6=#{qualityInspector6,jdbcType=VARCHAR},
+			</if>  
+			<if test="qualityInspector7 !=null">
+			  quality_inspector7=#{qualityInspector7,jdbcType=VARCHAR},
+			</if>  
+		</set>
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- 更新项目基本信息 -->
+	<update id="updateHistoryInspection" parameterType="com.cn.hnust.pojo.Project">
+		update project  
+		set
+		        history_inspection=#{historyInspection,jdbcType=VARCHAR}
+	 
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</update>
+	<!-- 更新项目基本信息 -->
+	<update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.Project">
+		update project  
+		<set>
+                delivery_date = #{deliveryDate,jdbcType=TIMESTAMP},
+				delivery_status = #{deliveryStatus,jdbcType=INTEGER}, 
+				finish = #{finish,jdbcType=INTEGER},  
+				sample_scheduled_date = #{sampleScheduledDate,jdbcType=TIMESTAMP}, 
+				project_amount = #{projectAmount,jdbcType=VARCHAR},	 		
+		        finish_time= #{finishTime,jdbcType=TIMESTAMP},  
+		        sample_finish= #{sampleFinish,jdbcType=INTEGER},	 	    
+		        project_status =#{projectStatus,jdbcType=INTEGER}, 
+		        sample_finish_time =#{sampleFinishTime,jdbcType=TIMESTAMP}, 
+		        scheduled_days=#{scheduledDays,jdbcType=INTEGER}, 
+		        urgent_delivery_date=#{urgentDeliveryDate,jdbcType=DATE}
+		</set>  
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</update>
+	<update id="updateStatus" parameterType="com.cn.hnust.pojo.Project">
+		update project  
+		<set>
+		      <if test="projectStatus !=null">
+              project_status=#{projectStatus,jdbcType=INTEGER},
+              </if>	
+               <if test="finishTime !=null">
+		      finish_time=null,
+		      </if> 
+		       <if test="finish !=null">
+		      finish=#{finish,jdbcType=INTEGER},
+		      </if>  	    
+		      <if test="sampleFinish !=null">
+		      sample_finish=#{sampleFinish,jdbcType=INTEGER},
+		      </if> 
+		      <if test="sampleFinishTime !=null">
+		      sample_finish_time=null,
+		      </if> 
+		 </set> 
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</update>
+    <!--修改项目是否为疑难项目  -->
+	<update id="updateDifficultProject" parameterType="com.cn.hnust.pojo.Project">
+		update project  
+		<set>
+                
+		        difficult_project=#{difficultProject,jdbcType=INTEGER} 		
+		</set>  
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</update>
+	
+
+  <update id="updateFlogByProjectNoFirst" parameterType="java.util.Set">
+		update project
+		set trigger_flag_1 = 1
+		where 1=1
+		and project_no in
+		<foreach collection="set" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<update id="updateaddFlogByProjectNoFirst" parameterType="java.util.Set">
+		update project
+		set trigger_flag_2 = 1
+		where 1=1
+		and project_no in
+		<foreach collection="set" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateFlogByProjectNo" parameterType="java.util.Set">
+		update project
+		set trigger_flag = 1
+		where 1=1
+		and project_no in
+		<foreach collection="set" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="updateaddFlogByProjectNo" parameterType="java.util.Set">
+		update project
+		set add_trigger_flag = 1
+		where 1=1
+		and project_no in
+		<foreach collection="set" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 项目原定交期 超期一周后 ，给采购布置一个解释情况的任务 -->
+	<select id="updateProjectDeliveryDateDelay" parameterType="java.util.Set">
+        update project
+		set delay_trigger_flag = 1
+		where 1=1
+		and project_no in
+		<foreach collection="set" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+    </select>
+    
+	<!-- 定时任务，批量添加项目信息 -->
+	<select id="batchAddProject" parameterType="java.util.List">
+		INSERT INTO
+		project(id,project_no,project_name,delivery_date,delivery_status,warning_status,finish,importance,stage,email_user_id,purchase_id,po_date,scheduled_date,actual_start_date,create_date)
+		VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.id,jdbcType=VARCHAR},#{item.projectNo,jdbcType=VARCHAR},#{item.projectName,jdbcType=VARCHAR},#{item.deliveryDate,jdbcType=TIMESTAMP},#{item.deliveryStatus,jdbcType=INTEGER},#{item.warningStatus,jdbcType=INTEGER},#{item.finish,jdbcType=INTEGER},#{item.importance,jdbcType=INTEGER},#{item.stage,jdbcType=INTEGER},#{item.emailUserId,jdbcType=INTEGER},#{item.purchaseId,jdbcType=INTEGER},#{item.poDate,jdbcType=TIMESTAMP},#{item.scheduledDate,jdbcType=TIMESTAMP},#{item.actualStartDate,jdbcType=TIMESTAMP},#{item.createDate,jdbcType=TIMESTAMP}
+			)
+		</foreach>
+	</select>
+	<!-- 查询需要更新交期的项目 -->
+	<select id="selectProjectByProjectNo" resultMap="BaseResultMap">  
+		SELECT 
+		pro.sailing_date,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.delivery_date,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.detail_status,
+		pro.customer_name,
+		pro.date_sample_uploading,
+		(select user_name from user where id = pro.email_user_id) sell_name,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchase_name ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.finish_time,
+		pro.product_img,
+		pro.sample_finish,
+		pro.technology,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.scheduled_days,
+		pro.new_predict_date, 
+		pro.urgent_delivery_date, 
+		pro.plant_analysis, 
+		pro.project_amount,  
+		pro.export_date,
+		pro.customer_grade,  
+		pro.original_delivery_date,  
+		pro.original_sample_scheduled_date  
+		FROM project pro   	  	
+		where pro.project_no = #{projectNo,jdbcType=VARCHAR} 
+	</select>
+
+	<!-- 查询交期变更的项目列表 (销售和管理员共用) -->
+	<select id="findDelayProjectList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		emu.role_no,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		delay del,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND pro.project_no=del.project_no
+		AND emu.id=pro.email_user_id
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 采购登录进去，统计采购交期变更的项目 -->
+	<select id="findDelayProjectPurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		emu.role_no,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.create_date,
+		pro.sample_scheduled_date,
+		pro.company_name,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		delay del,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND pro.project_no=del.project_no
+		AND emu.id=pro.purchase_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 未设定实际交期的项目(管理员 销售共用) -->
+	<select id="findSetDeliveryTimeList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND pro.delivery_date is null
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+	</select>
+	<!-- 未设定实际交期的项目(采购) -->
+	<select id="findSetDeliveryTimePurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.create_date,
+		pro.company_name,
+		pro.sample_scheduled_date,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.purchase_id
+		AND pro.delivery_date is null
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+	</select>
+	<!-- 统计近两周的采购情况汇报(管理员，销售) -->
+	<select id="findProjectReportList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND pro.project_no=prr.project_no
+		AND emu.id=pro.email_user_id
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 统计近两周的采购情况汇报(采购) -->
+	<select id="findProjectReportPurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND pro.project_no=prr.project_no
+		AND emu.id=pro.purchase_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 查询没有任务汇报图片 的项目(管理员,销售) -->
+	<select id="findProjectReportNoPicList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND pro.project_no=prr.project_no
+		AND prr.pic_url =''
+		AND emu.id=pro.email_user_id
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 查询没有任务汇报图片 的项目(采购) -->
+	<select id="findProjectReportNoPicPurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND pro.project_no=prr.project_no
+		AND prr.pic_url =''
+		AND emu.id=pro.purchase_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 查询没有任务汇报的项目 (管理员，销售) -->
+	<select id="findProjectNoTaskReportList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		task tas ,
+		task_report tar,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND pro.project_no=tas.project_no
+		AND tas.id=tar.task_id
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 查询没有任务汇报的项目 (采购) -->
+	<select id="findProjectNoTaskReportPurchaseList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		task tas ,
+		task_report tar,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.purchase_id
+		AND pro.project_no=tas.project_no
+		AND tas.id=tar.task_id
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+		group by pro.project_no
+	</select>
+	<!-- 查询统计延期的项目(管理员，销售) -->
+	<select id="findProjectDelayCountList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND pro.finish=0
+		AND pro.delivery_date &lt;= NOW()
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+	</select>
+
+	<!-- 查询统计延期的项目(采购) -->
+	<select id="findProjectDelayPurchaseCountList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.id,
+		emu.role_name,
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_date,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.email_user_id,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.create_date,
+		pro.company_name,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.purchase_id
+		AND pro.finish=0
+		AND pro.delivery_date &lt;= NOW()
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			AND pro.create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			AND pro.create_date &lt;= #{endDate}
+		</if>
+	</select>
+
+	<!-- 消息中心 (销售) -->
+	<select id="selectProjectRelationTask" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_name,
+		prr.project_no,
+		prr.report_name,
+		prr.report,
+		prr.pic_url,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND prr.project_no=pro.project_no
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		limit #{pageNumber},#{pageSize}
+	</select>
+
+	<select id="selectProjectRelationTaskCount" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_name,
+		prr.project_no,
+		prr.report_name,
+		prr.report,
+		prr.pic_url,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND prr.project_no=pro.project_no
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<!-- 消息中心 (采购) -->
+	<select id="selectPurchaseProjectRelationTask" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_name,
+		prr.project_no,
+		prr.report_name,
+		prr.report,
+		prr.pic_url,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.purchase_id
+		AND prr.project_no=pro.project_no
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		limit #{pageNumber},#{pageSize}
+	</select>
+
+	<select id="selectPurchaseProjectRelationTaskCount" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_name,
+		prr.project_no,
+		prr.report_name,
+		prr.report,
+		prr.pic_url,
+		ema.true_name as sellName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.email_user_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.purchase_id
+		AND prr.project_no=pro.project_no
+		<if test="purchaseId !=0">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<!-- 销售进来查看是否有新的采购计划 -->
+	<select id="findProjectReportMessage" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		SELECT
+		emu.role_name,
+		emu.true_name,
+		emu.role_no,
+		pro.project_name,
+		prr.project_no,
+		prr.report_name,
+		prr.`status`,
+		prr.report,
+		prr.pic_url,
+		ema.true_name as purchaseName
+		FROM
+		user emu,
+		project_report prr,
+		project pro left join user ema on pro.purchase_id = ema.id
+		where
+		1=1
+		AND emu.id=pro.email_user_id
+		AND prr.project_no=pro.project_no
+		AND prr.status=0
+		<if test="emailUserId !=0">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+	</select>
+<!-- 查询项目列表最近两个月 -->
+	<select id="selectProject" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+	     SELECT
+	  erp.CustomerManager,
+    erp.MerchandManager1,
+    erp.MerchandManager2,
+    erp.zhijian1,
+    erp.zhijian2,
+ 	  pro.project_no,
+		pro.project_name,
+		pro.create_date,
+		pro.delivery_date,
+		ifnull(ema.true_name,'')sellName,
+		ifnull(qa.create_time,'')createTime
+		FROM
+		
+		project pro
+		left join user ema on pro.email_user_id = ema.id
+		left join quality_analysis_table qa on qa.project_id=pro.project_no
+    left  join  project_erp erp on erp.project_no=pro.project_no
+		where
+		1=1
+		 <![CDATA[ AND DATEDIFF(now(),pro.create_date) <= 60 ]]> 
+		and pro.create_date is not null
+		<if test="userName !=null and userName!=''">
+			AND (
+			erp.CustomerManager like CONCAT('%', #{userName}, '%') OR
+			erp.MerchandManager1 like CONCAT('%', #{userName}, '%')OR
+			erp.MerchandManager2 like CONCAT('%', #{userName}, '%')OR
+			erp.zhijian1 like CONCAT('%', #{userName}, '%')OR
+			erp.zhijian2 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer1 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer2 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer3 like CONCAT('%', #{userName}, '%')
+			)
+		</if>
+	   group by pro.project_no,
+		pro.project_name,
+		pro.create_date,
+		pro.delivery_date
+		order by pro.create_date !='' desc ,pro.create_date asc
+		limit #{pageNumber},#{pageSize}
+	</select>
+	<!-- 根据登录用户的权限 (采购)查询记录数 -->
+	<select id="selectProjectCount" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Project">
+		  SELECT
+	  erp.CustomerManager,
+    erp.MerchandManager1,
+    erp.MerchandManager2,
+    erp.zhijian1,
+    erp.zhijian2,
+ 	  pro.project_no,
+		pro.project_name,
+		pro.create_date,
+		pro.delivery_date,
+		ifnull(ema.true_name,'')sellName,
+		ifnull(qa.create_time,'')createTime
+		FROM
+		
+		project pro
+		left join user ema on pro.email_user_id = ema.id
+		left join quality_analysis_table qa on qa.project_id=pro.project_no
+    left  join  project_erp erp on erp.project_no=pro.project_no
+		where
+		1=1
+		
+		 <![CDATA[ AND DATEDIFF(now(),pro.create_date) <= 60 ]]> 
+		and pro.create_date is not null
+		<if test="userName !=null and userName!=''">
+			AND (
+			erp.CustomerManager like CONCAT('%', #{userName}, '%') OR
+			erp.MerchandManager1 like CONCAT('%', #{userName}, '%')OR
+			erp.MerchandManager2 like CONCAT('%', #{userName}, '%')OR
+			erp.zhijian1 like CONCAT('%', #{userName}, '%')OR
+			erp.zhijian2 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer1 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer2 like CONCAT('%', #{userName}, '%')OR
+			erp.Engineer3 like CONCAT('%', #{userName}, '%')
+			)
+		</if>
+	   group by pro.project_no,
+		pro.project_name,
+		pro.create_date,
+		pro.delivery_date
+		order by pro.create_date !='' desc ,pro.create_date asc
+	</select>
+	
+	<select id="updateProjectDataSortField" parameterType="com.cn.hnust.pojo.Project">
+	   update project
+		<set>
+			<if test="sortField !=null">
+			   sort_field=#{sortField,jdbcType=INTEGER},
+			</if>
+			<if test="projectStatus !=null">
+			  project_status=#{projectStatus,jdbcType=INTEGER},
+			</if>
+		</set>
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</select> 
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 根据用户类型查启动项目最多的 -->
+	<select id="maxStartProject" resultType="String">
+	     select c.user_name from 
+			(
+			select count(1)as totalCount,e.user_name from project p inner JOIN user e on  
+			<if test="type == 1">
+			  	p.create_person_id = e.id 
+			</if>
+			<if test="type == 2">
+			  	p.email_user_id = e.id 
+			</if>
+			<if test="type == 3">
+			  	p.purchase_id = e.id 
+			</if>
+			where 1 = 1 
+			<if test="type == 1">
+			   and e.job = '销售'
+			</if>
+			<if test="type == 2">
+			   and e.job = '跟单'
+			</if>
+			<if test="type == 3">
+			   and e.job = '采购'
+			</if>
+			<!-- 查询一周数据 -->
+			<if test="dateType == 1">
+			   and p.create_date &gt;= DATE_SUB(NOW(),INTERVAL 7 DAY)
+			</if>
+			<!-- 查询一月数据 -->
+			<if test="dateType == 2">
+			   and p.create_date &gt;= DATE_SUB(NOW(),INTERVAL 1 MONTH)
+			</if>
+		
+			<if test="type == 1">
+			  GROUP BY create_person_id 		
+			</if>
+			<if test="type == 2">
+			  GROUP BY email_user_id 
+			</if>
+			<if test="type == 3">
+			  GROUP BY purchase_id 	
+			</if>		
+			)c
+		 ORDER BY c.totalCount desc LIMIT 1 
+	</select>
+	
+	
+	
+	<select id="selectCount" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+	   select * from project where 1=1 	  
+	   <if test="purchaseId != null and purchaseId != 0">
+	     and purchase_id = #{purchaseId,jdbcType=INTEGER} 
+	   </if>
+	   <if test="emailUserId != null and emailUserId != 0"> 
+	     and email_user_id = #{emailUserId,jdbcType=INTEGER} 
+	   </if>
+        <if test="projectNo != null">
+	     and project_no like CONCAT('%', #{projectNo}, '%') 
+	   </if>
+	   <!-- 查询一周数据 -->
+	   <if test="dateType == 1">
+	   	 and create_date &gt;= DATE_SUB(NOW(),INTERVAL 7 DAY)   
+	   </if>
+	   <!-- 查询一个月数据 -->
+  	   <if test="dateType == 2">
+	     and create_date &gt;= DATE_SUB(NOW(),INTERVAL 1 MONTH)
+	   </if>
+	   <if test="projectStatus != null">
+	     and project_status = #{projectStatus,jdbcType=INTEGER}
+	   </if>
+	   <!-- 查询到账一个月数据 -->
+	   <if test="moneyDateType == 1">
+	     and money_date &gt;= DATE_SUB(NOW(),INTERVAL 1 MONTH)   
+	   </if>
+	   <!-- 查询到账两个月数据 -->
+	   <if test="moneyDateType == 2">
+	     and money_date &gt;= DATE_SUB(NOW(),INTERVAL 2 MONTH)   
+	   </if>
+	   <!-- 查询到账三个月数据 -->
+	   <if test="moneyDateType == 3">
+	     and money_date &gt;= DATE_SUB(NOW(),INTERVAL 3 MONTH)   
+	   </if>
+	   <!-- 查询到账三个月以上数据 -->
+	   <if test="moneyDateType == 4">
+	     and money_date &lt; DATE_SUB(NOW(),INTERVAL 3 MONTH)   
+	   </if>
+	   
+	</select>
+	
+	<!-- 根据状态查询延期项目列表 -->
+	<select id="selectProjectByStatus" resultMap="BaseResultMap">
+	  select  
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.date_sample_uploading,
+		pro.detail_status,
+		(select user_name from user where id = pro.email_user_id)
+		sellName,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchaseName ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.product_img,
+		pro.sample_finish,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.urgent_delivery_date,
+		pro.original_delivery_date,
+	    pro.original_sample_scheduled_date,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+        pro.delivery_date,
+        pro.finish_time,
+         pro.date_delivery,
+			pro.delay_days,
+			pro.interpretation_document,
+			pro.new_explain,
+			pro.delayed_delivery_date,
+			pro.cargo_delayed_delivery_date ,
+			pro.late_delivery_date 
+	  from project pro  	  
+	  left join 
+      (select p1.predict_date,p1.actual_date,p1.project_no from (select predict_date,actual_date,project_no 
+      from project_schedule order by predict_date desc)p1 GROUP BY project_no) p2 
+      on pro.project_no = p2.project_no  
+	  
+	  where 1=1    
+	  <if test="projectStatus == 2">
+	     and  pro.project_status = 2 and
+	    (( DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date 
+	     and pro.late_delivery_date is  null )or(
+	      pro.finish_time &gt; pro.late_delivery_date 
+	     and pro.late_delivery_date is not null
+	     ) )   
+	 	and pro.finish_time &gt;= DATE_SUB(NOW(),INTERVAL 2 MONTH)   
+	  </if>
+	   <if test="projectStatus == 6">
+	     and  pro.project_status = 6 and
+	      ((DATE_SUB(DATE_SUB(sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; sample_scheduled_date 
+	      and pro.late_delivery_date is  null) or(sample_finish_time &gt; late_delivery_date 
+	      and pro.late_delivery_date is not null))      
+	     and sample_finish_time &gt;= DATE_SUB(NOW(),INTERVAL 2 MONTH)   
+	  </if>
+	   <if test="projectStatus == 1">
+	     and  pro.project_status = 1 and  
+	    <!--  (
+	      (pro.delivery_date is null and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &gt; sample_scheduled_date )  
+	      or
+	      (pro.delivery_date is not null and DATE_SUB(CURDATE(), INTERVAL 7 DAY) &gt; pro.delivery_date  )  
+	     ) -->	
+	      
+			                   (
+			                      (pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date and pro.late_delivery_date is  null) 
+			                   or (pro.finish = 0 and  DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date and pro.late_delivery_date is  null)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date and pro.late_delivery_date is  null)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.sample_scheduled_date and pro.late_delivery_date is  null)
+			                   or   (pro.finish = 1 and pro.finish_time &gt; pro.late_delivery_date and pro.late_delivery_date is not null) 
+			                   or (pro.finish = 0 and  CURDATE() &gt; pro.late_delivery_date and pro.late_delivery_date is not null)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and CURDATE() &gt; pro.late_delivery_date and pro.late_delivery_date is not null)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and pro.sample_finish_time &gt; pro.late_delivery_date and pro.late_delivery_date is not null)
+			                   
+			                   )   
+	  </if> 
+	  <if test="projectStatus == 4">
+	     and  pro.project_status = 4  
+	  </if>
+	  <if test="projectStatus == 5">
+	     and  pro.project_status = 5    
+	  </if>
+	  ORDER BY pro.company_name desc  
+	</select>
+	<!--查询样品或大货准时交期  -->
+	<select id="selectCompleteTasks" resultMap="BaseResultMap">
+	  select  
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.date_sample_uploading,
+		pro.detail_status,
+		(select user_name from user where id = pro.email_user_id)
+		sellName,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchaseName ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.product_img,
+		pro.sample_finish,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.urgent_delivery_date,
+		pro.original_delivery_date,
+	    pro.original_sample_scheduled_date,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+        pro.delivery_date,
+        pro.finish_time,
+         pro.date_delivery,
+			pro.delay_days,
+			pro.interpretation_document,
+			pro.new_explain,
+			pro.delayed_delivery_date,
+			pro.cargo_delayed_delivery_date 
+	  from project pro  	  
+	  left join 
+      (select p1.predict_date,p1.actual_date,p1.project_no from (select predict_date,actual_date,project_no 
+      from project_schedule order by predict_date desc)p1 GROUP BY project_no) p2 
+      on pro.project_no = p2.project_no  
+	  
+	  where 1=1    
+	  <if test="projectStatus == 2">
+	  and date_format(finish_time,'%Y-%m')=date_format(#{dateSample},'%Y-%m')
+	  and  datediff(original_delivery_date,finish_time)&gt;=0 
+	  </if>
+	   <if test="projectStatus == 6">
+	    and sample_finish=1 and date_format(sample_finish_time,'%Y-%m')=date_format(#{dateSample},'%Y-%m')
+	  and datediff(original_sample_scheduled_date,sample_finish_time)&gt;=0 
+	  </if>
+	   
+	  ORDER BY pro.company_name desc  
+	</select>
+	
+	
+	<!--最近半年出货状态项目查询  -->
+	<select id="selectSemiAnnualProject" resultMap="BaseResultMap">
+	  select * from (select  
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.date_sample_uploading,
+		pro.detail_status,
+		(select user_name from user where id = pro.email_user_id)
+		sellName,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchaseName ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.product_img,
+		pro.sample_finish,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.urgent_delivery_date,
+		pro.original_delivery_date,
+	    pro.original_sample_scheduled_date,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+        pro.delivery_date,
+        pro.finish_time 
+	  from project pro  	  
+	  left join 
+      (select p1.predict_date,p1.actual_date,p1.project_no from (select predict_date,actual_date,project_no 
+      from project_schedule order by predict_date desc)p1 GROUP BY project_no) p2 
+      on pro.project_no = p2.project_no  
+	  )pro
+	  where 1=1    
+	  <if test="projectStatus == 0">
+	  AND datediff(NOW(),create_date)&lt;=183 and datediff(NOW(),create_date)&gt;=30
+	   and finish_time is null
+	  </if>
+	   <if test="projectStatus == 1">
+	   AND finish_time is null and datediff(NOW(),create_date)&gt;183
+	   
+	  </if>
+	  <if test="projectStatus == 2">
+	    AND finish_time is not  null and  datediff(now(),finish_time)&lt;=0
+	    
+	  </if> 
+	  <if test="sellName != null">
+		           and sellName like CONCAT('%', #{sellName}, '%')   
+		</if>
+		<if test="purchaseName != null">
+		           and purchaseName like CONCAT('%', #{purchaseName}, '%')   
+		</if>
+	  ORDER BY pro.company_name desc  
+	</select>
+
+
+     <!-- 查询技术员进行中项目数量 -->
+    <select id="selectByTechnician" resultType="int">
+      select count(1) from project where technician = #{technician,jdbcType=VARCHAR} and project_status in (0,1,6)  
+    </select>
+  
+     <!-- 查询projectVO对象 -->
+     <select id="selectProjectVO" resultMap="BaseResultProjectVOMap">
+		 
+	  select pro.project_no, pro.project_name, pro.delivery_status,pro.finish,pro.product_img,pro.company_name, 		
+		 actual_start_date, create_date,sample_scheduled_date,detail_status,sample_finish_time,
+		 sample_finish_time,zhijian1,zhijian2,zhijian3,technician,f.delivery_date,f.contract_date as date_sample_uploading,   
+		 u1.user_name as sell_name,
+		 u2.user_name as purchase_name,
+		 technician from project pro 
+	     LEFT JOIN user u1 on pro.email_user_id = u1.id  
+	     LEFT JOIN user u2 on pro.purchase_id = u2.id  
+	     LEFT JOIN (select max(delivery_date)delivery_date,contract_date,project_no from project_factory where project_no = #{projectNo,jdbcType=VARCHAR} and factory_id = #{factoryId,jdbcType=VARCHAR}) f 
+	     on pro.project_no = f.project_no  
+	     where pro.project_no = #{projectNo,jdbcType=VARCHAR} group by project_no  
+     </select>
+     
+     
+      <!-- 查询projectVO对象 -->
+     <select id="selectProjectVOList" resultMap="BaseResultProjectVOMap">
+		select pro.project_no, pro.project_name, pro.delivery_status,pro.finish,		
+			 pro.actual_start_date, pro.create_date,pro.sample_scheduled_date,pro.detail_status,pro.sample_finish_time,pro.zhijian1,pro.zhijian2,pro.zhijian3,pro.technician,
+		     f.delivery_date,f.contract_date as date_sample_uploading,f.factory_id,pro.sell_name,pro.purchase_name,pro.product_img,
+			 pro.technician from (select delivery_date,contract_date,project_no,factory_id from project_factory where factory_id = #{factoryId,jdbcType=VARCHAR}) f    
+		     LEFT JOIN (select project_no,project_name, delivery_status,finish,		
+				 actual_start_date, create_date,sample_scheduled_date,detail_status,
+				 sample_finish_time,zhijian1,zhijian2,zhijian3,technician,product_img, u1.user_name as sell_name,
+				 u2.user_name as purchase_name,project_status from project p LEFT JOIN user u1 on p.email_user_id = u1.id  
+			     LEFT JOIN user u2 on p.purchase_id = u2.id) pro   
+		        on pro.project_no = f.project_no  where pro.project_status = 1   
+		        <if test="selectStr != null">
+		           and pro.project_no like CONCAT('%', #{selectStr}, '%')   
+		        </if>
+     </select>
+     
+     
+     <!-- 查询总数 -->
+     <select id="selectProjectVOListCount" resultType="int">
+     
+     
+     </select>
+     
+
+     
+     
+     <!-- 查询工厂180天内延期或者正常比例 (所有项目)-->
+     <select id="selectRateByFactory" resultType="double">
+     
+     select s1.a/s2.b as delay_rate from 
+       (
+	      select count(1) as a from project p inner JOIN  
+				(
+					select * from  
+					(
+						select id,contract_date,factory_name,project_no,delivery_date from project_factory  ORDER BY contract_date desc 
+					)pt
+					where DATE_SUB(CURDATE(), INTERVAL 180 DAY) &lt;= pt.contract_date   GROUP BY pt.project_no 
+				)t on p.project_no = t.project_no  
+				where 1 = 1   
+				<if test="delayStatus == 1">   <!-- 延期查询 -->
+					and (
+							(p.project_status = 2 and (p.finish_time &gt; p.delivery_date + 7)) 
+							or 
+							(p.project_status = 6 and (p.sample_finish_time &gt; p.sample_scheduled_date + 7))
+							or
+							( 
+							  (p.project_status = 1 and p.delivery_date is not null and (CURDATE() &gt; p.delivery_date + 7)) or 
+							  (p.project_status = 1 and p.delivery_date is null and sample_scheduled_date is not null and (CURDATE() &gt; p.sample_scheduled_date +7))
+							)
+					  )
+				</if>
+				<if test="delayStatus == 0">  <!-- 正常交货查询 -->
+					and ( 
+							(p.project_status = 2 and (p.finish_time &lt;= p.delivery_date + 7)) 
+							or 
+							(p.project_status = 6 and (p.sample_finish_time &lt;= p.sample_scheduled_date + 7))
+							or
+							( 
+							  (p.project_status = 1 and p.delivery_date is not null and (CURDATE() &lt;= p.delivery_date + 7)) or 
+							  (p.project_status = 1 and p.delivery_date is null and sample_scheduled_date is not null and (CURDATE() &lt;= p.sample_scheduled_date +7))
+							)
+					  )
+				</if>
+				 and t.factory_name = #{factoryName,jdbcType=VARCHAR}  
+		  ) s1, 
+		  (
+		   select count(1) as b from project p inner JOIN  
+				(
+					select * from  
+					(
+						select id,contract_date,factory_name,project_no,delivery_date from project_factory  ORDER BY contract_date desc 
+					)pt
+					where DATE_SUB(CURDATE(), INTERVAL 180 DAY) &lt;= pt.contract_date   GROUP BY pt.project_no 
+				)t on p.project_no = t.project_no  
+				where 1 = 1 and t.factory_name = #{factoryName,jdbcType=VARCHAR}  
+		  ) s2 
+     </select>
+     
+     
+      <!-- 查询工厂180天内延期或者正常比例(单一项目) -->
+     <select id="selectRateByFactoryOnly" resultType="double">
+     
+     select s1.a/s2.b as delay_rate from 
+       (
+	      select count(1) as a from project p inner JOIN  
+				(
+					select pt.id,pt.contract_date,pt.factory_name,pt.project_no,pt.delivery_date,constractCount from  
+					(
+					  select id,contract_date,factory_name,project_no,delivery_date from project_factory  ORDER BY contract_date desc 
+					)pt  		
+					LEFT JOIN (select count(1)as constractCount,factory_name,project_no from project_factory GROUP BY project_no)s 
+					on pt.project_no = s.project_no 
+					where DATE_SUB(CURDATE(), INTERVAL 180 DAY) &lt;= pt.contract_date and s.constractCount = 1 GROUP BY pt.project_no 
+				)t on p.project_no = t.project_no  
+				where 1 = 1   
+				<if test="delayStatus == 1">   <!-- 延期查询 -->
+					and (
+							(p.project_status = 2 and (p.finish_time &gt; p.delivery_date + 7)) 
+							or 
+							(p.project_status = 6 and (p.sample_finish_time &gt; p.sample_scheduled_date + 7))
+							or
+							( 
+							  (p.project_status = 1 and p.delivery_date is not null and (CURDATE() &gt; p.delivery_date + 7)) or 
+							  (p.project_status = 1 and p.delivery_date is null and sample_scheduled_date is not null and (CURDATE() &gt; p.sample_scheduled_date +7))
+							)
+					  )
+				</if>
+				<if test="delayStatus == 0">  <!-- 正常交货查询 -->
+					and ( 
+							(p.project_status = 2 and (p.finish_time &lt;= p.delivery_date + 7)) 
+							or 
+							(p.project_status = 6 and (p.sample_finish_time &lt;= p.sample_scheduled_date + 7))
+							or
+							( 
+							  (p.project_status = 1 and p.delivery_date is not null and (CURDATE() &lt;= p.delivery_date + 7)) or 
+							  (p.project_status = 1 and p.delivery_date is null and sample_scheduled_date is not null and (CURDATE() &lt;= p.sample_scheduled_date +7))
+							)
+					  )
+				</if>
+				 and t.factory_name = #{factoryName,jdbcType=VARCHAR}  
+		  ) s1, 
+		  (
+		   select count(1) as b from project p inner JOIN  
+				(
+					select pt.id,pt.contract_date,pt.factory_name,pt.project_no,pt.delivery_date,constractCount from  
+					(
+						select id,contract_date,factory_name,project_no,delivery_date from project_factory  ORDER BY contract_date desc 
+					)pt  
+					LEFT JOIN (select count(1)as constractCount,factory_name,project_no from project_factory GROUP BY project_no)s 
+					on pt.project_no = s.project_no
+					where DATE_SUB(CURDATE(), INTERVAL 180 DAY) &lt;= pt.contract_date  and s.constractCount = 1 GROUP BY pt.project_no 
+				)t on p.project_no = t.project_no  
+				where 1 = 1 and t.factory_name = #{factoryName,jdbcType=VARCHAR}  
+		  ) s2 
+     </select>
+     
+     
+    	<!-- 根据状态查询延期项目列表 -->
+	<select id="selectMonthProject" resultMap="BaseResultMap">
+	  select  
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.date_sample_uploading,
+		pro.detail_status,
+		(select user_name from user where id = pro.email_user_id)
+		sell_name,
+		f.factory_name as company_name,
+		(select user_name from user where id = pro.purchase_id) purchase_name ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.product_img,
+		pro.sample_finish,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.urgent_delivery_date,
+		pro.original_delivery_date,
+	    pro.original_sample_scheduled_date,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+        pro.delivery_date,
+        pro.finish_time  
+	  from project pro  	  
+	  left join 
+      project_factory f  
+      on pro.project_no = f.project_no  
+	  left join (select q1.user,q1.project_no from (select user,project_no,id from quality_report ORDER BY id desc LIMIT 100000)q1 GROUP BY q1.project_no)q2 on pro.project_no = q2.project_no 	  
+	  where 1=1    
+	  and  
+	  (
+	   (pro.project_status = 2 and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) &lt;= pro.finish_time )
+	   OR
+	   (pro.project_status = 6 and DATE_SUB(CURDATE(), INTERVAL 1 MONTH) &lt;= pro.sample_finish_time and sample_scheduled_date is not null)
+	  ) 
+      order by pro.finish_time desc
+	</select>
+	
+	
+	
+	
+	<!-- 查询AB级项目15天无项目评审会的项目 -->
+	<select id="selectByMeetingTask" resultMap="BaseResultMap">
+	   select project.project_no,user.user_name as sell_name from project_task t  
+		LEFT JOIN  
+		(select * from (select * from project_factory ORDER BY contract_date asc LIMIT 1000000)f GROUP BY f.project_no)fs
+		on t.project_no = fs.project_no 
+		LEFT JOIN project on t.project_no = project.project_no 
+		LEFT JOIN user on project.email_user_id = user.id 
+		where  TO_DAYS(fs.contract_date) = TO_DAYS(DATE_SUB(NOW(),INTERVAL 15 DAY)) and (project.plant_analysis = 1 or project.plant_analysis = 2)	and t.task_type != '8'  
+		group by t.project_no  
+	</select>
+	
+	
+	<!-- 查询AB级项目每15天需要开重要项目评审会 -->
+	<select id="selectByImportantMeetingTask" resultMap="BaseResultMap">
+  		select p1.project_no,u1.user_name as sell_name,u2.user_name as purchase_name from project p1  
+		LEFT JOIN user u1 on p1.email_user_id = u1.id  
+		LEFT JOIN user u2 on p1.purchase_id = u2.id  
+		where p1.project_status = 1 and (p1.plant_analysis = 1 or p1.plant_analysis = 2) 
+		and  p1.project_no not in (select project_no from project_task p2 where p2.task_type = 10 and p2.create_time &gt;= DATE_SUB(NOW(),INTERVAL 15 DAY))
+		group by p1.project_no 
+	</select>
+	
+	<!-- 根据原始项目号查询 -->
+	<select id="selectByProjectDim" resultMap="BaseResultMap" resultType="string">
+	     select project_no,product_img from project where project_no like CONCAT('%', #{projectNo}, '%')  
+	</select>
+	<!-- 根据工厂名称查询数据 -->
+	<select id="getProductingProject" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+	
+	SELECT p.project_no,p.project_name,p.plant_analysis,ifnull(pf.factory_name,'')factoryName,ifnull(a.num,0)incompleteInspectionTasks
+	,p.project_status FROM `project` p  left join project_factory pf on p.project_no=pf.project_no
+left join (select project_no,count(1)num from project_task where task_type=2 and task_status=0  group by project_no)
+a on p.project_no=a.project_no
+where factory_name=#{factoryName,jdbcType=VARCHAR}
+group by p.project_no,pf.factory_name
+	limit #{pageNumber},#{pageSize}    
+	</select>
+	<!-- 根据工厂名称查询数据 -->
+	<select id="getProductingProjectCount" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+	
+	select count(1) from (SELECT p.project_no,pf.factory_name FROM `project` p  left join project_factory pf on p.project_no=pf.project_no
+left join (select project_no,count(1)num from project_task where task_type=2 and task_status=0  group by project_no)
+a on p.project_no=a.project_no
+where factory_name=#{factoryName,jdbcType=VARCHAR}
+group by p.project_no,pf.factory_name)a
+	    
+	</select>
+	
+	
+	
+	
+	<select id="selectByProjectList" resultMap="BaseResultMap" resultType="string">
+	     select project_no from project where product_img is null 
+	</select>
+	
+	<select id="getNoDrawing" resultMap="BaseResultMap" >
+	     select p.project_no from project 
+	     p left join (select * from project_drawing where category=4 or category=5 ) pd on p.project_no=pd.project_no
+where pd.project_no is null
+	     
+	     
+	</select>
+	
+    <update id="updateByNoPic">
+         update project set product_img = #{productImg,jdbcType=VARCHAR}   where project_no like CONCAT('%', #{projectNo}, '%') and product_img is null 
+    </update>
+    
+    
+    <!-- 查询项目列表 -->
+	<select id="findProjectByStatus" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Project">
+			select  
+			pro.project_no,
+			pro.project_name,
+			pro.delivery_date,
+			pro.delivery_status,
+			pro.warning_status,
+			pro.importance,
+			pro.finish,
+			pro.stage,
+			pro.detail_status,
+			pro.date_sample_uploading,
+			e1.user_name as sell_name,
+			pro.company_name,
+			e2.user_name as purchase_name,
+			pro.po_date,
+			pro.scheduled_date,
+			pro.actual_start_date,
+			pro.sample_scheduled_date,
+			pro.create_date,
+			pro.finish_time,
+			pro.product_img,
+			pro.sample_finish,
+			pro.project_status,
+			pro.money_date,
+			pro.sample_finish_time,
+			pro.zhijian1,
+			pro.zhijian2,
+			pro.zhijian3,
+			pro.technician,
+			pro.scheduled_days,
+			pro.new_predict_date,
+			pro.urgent_delivery_date,
+			pro.original_delivery_date,
+			pro.original_sample_scheduled_date,
+			q1.projectStage,
+			q1.report,
+			pro.plant_analysis,  
+			pro.project_amount,
+			pro.customer_grade,
+			pro.customer_name,
+			pro.prev_sample_date,
+			pro.customer_attitude,
+			pro.export_date,
+			pro.date_delivery,
+			pro.delay_days,
+			pro.interpretation_document,
+			pro.new_explain,
+			pro.delayed_delivery_date,
+			pro.cargo_delayed_delivery_date,
+			ifnull(e3.num,0)deliveryReminder 
+			from project pro    
+		    left join  (select report,project_no,project_stage as projectStage from project_report GROUP BY project_no)q1 on pro.project_no = q1.project_no     
+		    left join user e1 on e1.id = pro.email_user_id   
+			left join user e2 on e2.id = pro.purchase_id  
+			left join (select project_no,count(1)num from project where (original_sample_scheduled_date>date_delivery) or (original_delivery_date>date_delivery) 
+              and (original_delivery_date > DATE_SUB(money_date,INTERVAL 30 DAY) or original_sample_scheduled_date> DATE_SUB(money_date,INTERVAL 30 DAY))
+			 group by project_no
+			 ) e3 on pro.project_no = e3.project_no
+			where 1=1  
+			<!-- 项目状态筛选 -->
+			<choose>
+		      <when test="projectStatusS!=null and projectStatusS.size>0" >
+		       and pro.project_status in(  
+		          <foreach collection="projectStatusS" item="projectStatus" index="index" separator="," >    
+		              #{projectStatus,jdbcType=INTEGER}   
+		          </foreach>  
+		         )     
+		     </when>
+		     <otherwise>		
+		        <if test="projectType == 0" ><!-- 新立项项目(样品,大货没完结,并且日报没上传) -->
+				 and pro.project_status = 0  
+				</if>
+				<!-- 1. 样品交期，大货交期 (大货为空 样品交期不为为空样品 大于当前时间,样品为空,大货不为空 大货交期大于当前时间 ,样品大货不为空都大于)
+				2.样品交期完结(大货交期为空 或者大货交期大于 当前时间) 3.新立项项目更新了周报，在正常项目里面 -->
+				<if test="projectType == 1" ><!-- 正在进行的项目项目 -->
+				 and pro.project_status = 1   
+			    </if>
+			    <if test="projectType == 6"><!-- 样品完结 -->
+			     and pro.project_status = 6  
+			    </if>
+			    <if test="projectType == 2" ><!-- 完结项目(大货完结) -->
+			      and pro.project_status = 2  
+			    </if> 
+			    <if test="projectType == 4"><!-- 暂停 -->
+			       and pro.project_status = 4   
+			    </if>
+			    <if test="projectType == 5"><!-- 取消 -->
+			       and pro.project_status = 5   
+			   </if>		
+		     </otherwise>
+		   </choose>
+		   <choose> 
+			   <when test="roleNo==100"> 
+			          <if test="purchaseName!=null and purchaseName !=''">
+			            and (  
+				            e2.user_name = #{purchaseName,jdbcType=VARCHAR} 				           
+				            )
+			          </if>
+			          <if test="sellName!=null and sellName !=''">
+			            and (  
+				            e1.user_name = #{sellName,jdbcType=VARCHAR} 
+				            )
+			         </if>
+			   </when>
+			   <otherwise>
+			         <if test="userName!=null and userName !=''">
+			            and (  
+				            e1.user_name = #{userName,jdbcType=VARCHAR} 
+				            or   
+				            e2.user_name = #{userName,jdbcType=VARCHAR} 
+				            )
+			         </if>
+			   </otherwise>
+		   </choose>
+    </select>
+<!-- 根据状态查询延期项目列表 -->
+	<select id="selectProjectByStatus1" resultMap="BaseResultMap">
+	  select  
+		pro.project_no,
+		pro.project_name,
+		pro.delivery_status,
+		pro.warning_status,
+		pro.importance,
+		pro.finish,
+		pro.stage,
+		pro.date_sample_uploading,
+		pro.detail_status,
+		(select user_name from user where id = pro.email_user_id)
+		sellName,
+		pro.company_name ,
+		(select user_name from user where id = pro.purchase_id) purchaseName ,
+		pro.po_date,
+		pro.scheduled_date,
+		pro.actual_start_date,
+		pro.sample_scheduled_date,
+		pro.is_pause,
+		pro.pause_reason,
+		pro.create_date,
+		pro.sort_field,
+		pro.product_img,
+		pro.sample_finish,
+		pro.project_status,
+		pro.money_date,
+		pro.sample_finish_time,
+		pro.urgent_delivery_date,
+		pro.original_delivery_date,
+	    pro.original_sample_scheduled_date,
+		pro.zhijian1,
+		pro.zhijian2,
+		pro.zhijian3,
+        pro.delivery_date,
+        pro.finish_time,
+         pro.date_delivery,
+			pro.delay_days,
+			pro.interpretation_document,
+			pro.new_explain,
+			pro.delayed_delivery_date,
+			pro.cargo_delayed_delivery_date ,
+			pro.late_delivery_date 
+	  from project pro  	  
+	  left join 
+      (select p1.predict_date,p1.actual_date,p1.project_no from (select predict_date,actual_date,project_no 
+      from project_schedule order by predict_date desc)p1 GROUP BY project_no) p2 
+      on pro.project_no = p2.project_no  
+	  
+	  where 1=1    
+	  <if test="projectStatus == 2">
+	     and  pro.project_status = 2 and
+	    (( DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; pro.delivery_date 
+	     and pro.late_delivery_date is  null )or(
+	      pro.finish_time &gt; pro.late_delivery_date 
+	     and pro.late_delivery_date is not null
+	     ) )   
+	 	and datediff(pro.finish_time,#{createTime,jdbcType=VARCHAR}) &gt;0  and  pro.finish_time &lt;= #{finishTime,jdbcType=TIMESTAMP}    
+	  </if>
+	   <if test="projectStatus == 6">
+	     and  pro.project_status = 6 and
+	      ((DATE_SUB(DATE_SUB(sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY) &gt; sample_scheduled_date 
+	      and pro.late_delivery_date is  null) or(sample_finish_time &gt; late_delivery_date 
+	      and pro.late_delivery_date is not null))      
+	     and datediff(pro.sample_finish_time,#{createTime,jdbcType=VARCHAR}) &gt;0  and pro.sample_finish_time &lt;= #{finishTime,jdbcType=TIMESTAMP}    
+	  </if>
+	   <if test="projectStatus == 1">
+	 and  pro.project_status = 1 and
+	  
+	  (
+			                      (pro.finish = 1 and DATE_SUB(DATE_SUB(pro.finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY)> pro.delivery_date and pro.late_delivery_date is  null) 
+			                   or (pro.finish = 0 and  DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY)> pro.delivery_date and pro.late_delivery_date is  null)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and DATE_SUB(DATE_SUB(CURDATE(), INTERVAL 7 DAY),INTERVAL pro.delay_days DAY)> pro.sample_scheduled_date and pro.late_delivery_date is  null)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and DATE_SUB(DATE_SUB(pro.sample_finish_time, INTERVAL 7 DAY),INTERVAL pro.delay_days DAY)> pro.sample_scheduled_date and pro.late_delivery_date is  null)
+			                   or   (pro.finish = 1 and pro.finish_time> pro.late_delivery_date and pro.late_delivery_date is not null) 
+			                   or (pro.finish = 0 and  CURDATE()> pro.late_delivery_date and pro.late_delivery_date is not null)                   
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish = 0 and CURDATE()> pro.late_delivery_date and pro.late_delivery_date is not null)
+			                   or (pro.delivery_date is null and pro.sample_scheduled_date is not null and pro.sample_finish_time is not null and pro.sample_finish = 1 and pro.sample_finish_time> pro.late_delivery_date and pro.late_delivery_date is not null)
+			                   
+			                   ) 
+	
+	
+	  </if> 
+	  <if test="projectStatus == 4">
+	     and  pro.project_status = 4  
+	  </if>
+	  <if test="projectStatus == 5">
+	     and  pro.project_status = 5    
+	  </if>
+	  ORDER BY pro.company_name desc  
+	</select>
+</mapper>

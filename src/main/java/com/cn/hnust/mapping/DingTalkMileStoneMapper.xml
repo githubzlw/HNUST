@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.DingTalkMileStoneMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.DingTalkMileStone" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dingTalkId" property="dingtalkid" jdbcType="VARCHAR" />
+    <result column="mileStone_name" property="milestoneName" jdbcType="VARCHAR" />
+    <result column="mileStone_date" property="milestoneDate" jdbcType="DATE" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="process_instance_id" property="processInstanceId" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dingTalkId, mileStone_name, mileStone_date, project_no, process_instance_id, create_date, uid 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dingtalk_milestone
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByProjectNo" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from dingtalk_milestone where 1=1 and  
+    (
+			(
+				process_instance_id =  
+				(
+				select process_instance_id from dingtalk_milestone where  
+				project_no = #{projectNo,jdbcType=VARCHAR} GROUP BY process_instance_id  ORDER BY id desc limit 1
+				)  and process_instance_id is not null and process_instance_id!=''
+			)
+		or
+	     	(
+				uid =  
+				(
+				select uid from dingtalk_milestone where  
+				project_no = #{projectNo,jdbcType=VARCHAR} GROUP BY uid  ORDER BY id desc limit 1
+				) and uid is not null  and uid !=''
+			)
+	  )
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dingtalk_milestone
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+   <delete id="deleteByUid" parameterType="string">  
+     delete from dingtalk_milestone  
+     where uid = #{uid,jdbcType=VARCHAR} 
+   </delete>  
+   <delete id="deleteByProcessInstanceId" parameterType="string">  
+     delete from dingtalk_milestone  
+     where process_instance_id = #{processInstanceId,jdbcType=VARCHAR} 
+   </delete>  
+  
+   <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">       
+    insert into dingtalk_milestone ( 
+       mileStone_name, mileStone_date, project_no, process_instance_id, create_date, uid
+       ) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.milestoneName},
+              #{item.milestoneDate},
+              #{item.projectNo},
+              #{item.processInstanceId},
+              #{item.createDate},
+              #{item.uid}
+		      ) 
+        </foreach>  
+    </insert>  
+  
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.DingTalkMileStone" >
+    insert into dingtalk_milestone (id, dingTalkId, mileStone_name, 
+      mileStone_date, project_no)
+    values (#{id,jdbcType=INTEGER}, #{dingtalkid,jdbcType=VARCHAR}, #{milestoneName,jdbcType=VARCHAR}, 
+      #{milestoneDate,jdbcType=DATE}, #{projectNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.DingTalkMileStone" >
+    insert into dingtalk_milestone
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dingtalkid != null" >
+        dingTalkId,
+      </if>
+      <if test="milestoneName != null" >
+        mileStone_name,
+      </if>
+      <if test="milestoneDate != null" >
+        mileStone_date,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dingtalkid != null" >
+        #{dingtalkid,jdbcType=VARCHAR},
+      </if>
+      <if test="milestoneName != null" >
+        #{milestoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="milestoneDate != null" >
+        #{milestoneDate,jdbcType=DATE},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.DingTalkMileStone" >
+    update dingtalk_milestone
+    <set >
+      <if test="dingtalkid != null" >
+        dingTalkId = #{dingtalkid,jdbcType=VARCHAR},
+      </if>
+      <if test="milestoneName != null" >
+        mileStone_name = #{milestoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="milestoneDate != null" >
+        mileStone_date = #{milestoneDate,jdbcType=DATE},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.DingTalkMileStone" >
+    update dingtalk_milestone
+    set dingTalkId = #{dingtalkid,jdbcType=VARCHAR},
+      mileStone_name = #{milestoneName,jdbcType=VARCHAR},
+      mileStone_date = #{milestoneDate,jdbcType=DATE},
+      project_no = #{projectNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+    <update id="updateBatch" parameterType="java.util.List">       
+         <foreach collection="list" item="item" index="index"  open="" close="" separator=";">   
+     	    update dingtalk_milestone     
+     	    <set>     
+			  mileStone_name = #{milestoneName,jdbcType=VARCHAR},
+		      mileStone_date = #{milestoneDate,jdbcType=DATE}  
+			</set> 
+            where id = #{item.id}            
+          </foreach>       
+   </update>  
+  
+</mapper>

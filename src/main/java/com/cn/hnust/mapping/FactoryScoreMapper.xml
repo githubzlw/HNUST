@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.FactoryScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.FactoryScore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="factory_name" property="factoryName" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="scorer" property="scorer" jdbcType="VARCHAR" />
+    <result column="score_time" property="scoreTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, factory_name, score, scorer, score_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from factory_score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询是否所有工厂已打分 -->
+  <select id="selectByProjectNo" resultType="int">  
+	 select count(1) from project_factory p  
+	     left join factory_score s on p.factory_name = s.factory_name and  p.project_no = s.project_no 
+	  where p.project_no = #{projectNo,jdbcType=VARCHAR} and s.id is null  
+  </select>
+  
+  <!-- 查询工厂平均分 -->
+  <select id="selectAvgScore" resultType="map">
+      select avg(score) as avgScore,scoreCount from factory_score f1
+       left join
+       (select count(1) as scoreCount,factory_name from factory_score 
+	       where 1=1 
+	        <if test="queryDate != null and queryDate != ''">
+			     <if test="queryDate == 1">
+			       and score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+			     </if>
+			     <if test="queryDate == 2">
+			       and score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+			     </if>
+			     <if test="queryDate == 3">
+			       and score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+			     </if>
+	       </if>
+       group by factory_name)f2  
+       on f1.factory_name = f2.factory_name   
+       where f1.factory_name = #{factoryName,jdbcType=VARCHAR}  
+        <if test="queryDate != null and queryDate != ''">
+		     <if test="queryDate == 1">
+		       and f1.score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+		     </if>
+		     <if test="queryDate == 2">
+		       and f1.score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+		     </if>
+		     <if test="queryDate == 3">
+		       and f1.score_time &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+		     </if>
+       </if>
+  </select>
+  
+
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from factory_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 批量插入 -->
+ <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">       
+       insert into factory_score ( 
+        project_no, factory_name, score, scorer, score_time) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.projectNo},            
+		      #{item.factoryName},
+		      #{item.score},  
+		      #{item.scorer},
+		      #{item.scoreTime}
+		    ) 
+        </foreach>  
+    </insert>  
+	
+  
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.FactoryScore" >
+    insert into factory_score (id, project_no, factory_name, 
+      score, scorer, score_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{factoryName,jdbcType=VARCHAR}, 
+      #{score,jdbcType=INTEGER}, #{scorer,jdbcType=VARCHAR}, #{scoreTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.FactoryScore" >
+    insert into factory_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="factoryName != null" >
+        factory_name,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="scorer != null" >
+        scorer,
+      </if>
+      <if test="scoreTime != null" >
+        score_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="scorer != null" >
+        #{scorer,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreTime != null" >
+        #{scoreTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.FactoryScore" >
+    update factory_score
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        factory_name = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="scorer != null" >
+        scorer = #{scorer,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreTime != null" >
+        score_time = #{scoreTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.FactoryScore" >
+    update factory_score
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      factory_name = #{factoryName,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      scorer = #{scorer,jdbcType=VARCHAR},
+      score_time = #{scoreTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.RoleBindListMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.RoleBindList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="INTEGER" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, create_id, create_name, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role_bind_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectRoleBindList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role_bind_list where 1=1
+    <if test="projectNo !=null and projectNo!=''">
+       AND project_no like CONCAT('%', #{projectNo}, '%')
+    </if>
+    
+    ORDER BY update_time DESC
+    
+    limit #{start},#{pageSize}
+    
+  </select>
+  
+  
+   <select id="selectRoleBindListCount" resultType="int" >
+    select 
+           count(id)
+           
+    from role_bind_list where 1=1
+    <if test="projectNo !=null and projectNo!=''">
+       AND project_no like CONCAT('%', #{projectNo}, '%')
+    </if>
+  </select>
+  
+   
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role_bind_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.RoleBindList" >
+    insert into role_bind_list (id, project_no, create_id, 
+      create_name, create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{createId,jdbcType=INTEGER}, 
+      #{createName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.RoleBindList"  useGeneratedKeys="true"  keyProperty="id">
+  
+    insert into role_bind_list
+    
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createName != null" >
+        create_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.RoleBindList" >
+    update role_bind_list
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="createName != null" >
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.RoleBindList" >
+    update role_bind_list
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      create_id = #{createId,jdbcType=INTEGER},
+      create_name = #{createName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+</mapper>

@@ -1,0 +1,346 @@
+@charset "utf-8";
+.tableWrap{
+    width:100%;
+    box-sizing: border-box;
+}
+.table-thead{
+    width:auto;
+    font-size: 14px;
+    background-color: #FFF;
+    border: 1px solid #CFCFCF;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.table-thead tr th{
+    text-align: left;
+    padding-left:10px;
+    border-right:1px solid #CFCFCF;
+}
+.table-thead tr th:last-child, .table-thead tr th:nth-last-child(2){
+    border-right:0;
+}
+.table-thead tr, .table-tbody tr{
+    height:35px;
+}
+.table-tbody{
+    width:auto;
+    font-size: 14px;
+    background-color: #FFF;
+    border-left:1px solid #CFCFCF;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+.table-tbody tr{
+    border-bottom:1px solid #CFCFCF;
+}
+.table-tbody tr:last-child{
+    border-bottom: 0;
+}
+.table-tbody tr td{
+    padding-left:10px;
+    padding-right:10px;
+    border-right:1px solid #CFCFCF;
+}
+.comTbody{
+    width:auto;
+    display: inline-block;
+    max-height:100px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #CFCFCF;
+}
+
+.list-bgcolor{background-color: #f2f2f2;}
+.main-container{
+	width: 1200px;
+	margin: 0 auto;
+	background-color: #fff;
+}
+.main-container>div:first-child{
+	padding-bottom: 30px;
+    background-color: #f2f2f2;
+}
+.main-container h3{
+	font-size: 24px;
+	font-weight: 100;
+    color: #222222;
+    line-height: 30px;
+	padding-left: 10px;
+	margin-top: 40px;
+    margin-bottom: 0;
+    border-left: 5px solid #496ab4;
+}
+.main-table{
+	padding: 24px 15px 100px;
+}
+.project-status{
+	height: 28px;
+	width: 100px;
+	border: 1px solid #dddddd;
+}
+.meeting-list-table>span>input[type="text"]{
+	width: 184px;
+    padding: 6px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    margin-right: 6px;
+}
+.meeting-list-table .linear-btn,.meeting-list-table .color-blocks-btn{
+	height: 28px;
+    line-height: 28px;
+    border: 1px solid #027CFF;
+    background-color: #FFF;
+    color: #027CFF;
+    padding: 1px 16px;
+    margin-left: 6px;
+    border-radius: 2px;
+    vertical-align: top;
+}
+.meeting-list-table .linear-btn:hover{
+	background-color: #027CFF;
+	color: #FFF;
+}
+.meeting-list-table .color-blocks-btn{
+    border: none;
+    background-color: #027CFF;
+    color: #FFF;
+    font-size:18px;
+}
+.meeting-list-table .color-blocks-btn:hover{
+	background-color: #4362C5;
+}
+.table-wrap{
+    width:100%;
+    outline: none;
+    position: relative;
+    font-size: 14px;
+    color:#444;
+    border: 1px #dddddd solid;
+    margin-bottom: 40px;
+}
+.table-head{
+    /* padding-right:17px; */
+    /* background-color: #FAFAFA; */
+    border-bottom: 1px #dddddd solid;
+}
+.table-head-wrap{
+    width:100%;
+    position: relative;
+    overflow: hidden;
+}
+.grid{
+    margin: 0px;
+    table-layout: fixed;
+    width: 100%;
+    max-width: none;
+    border-spacing: 0px;
+    empty-cells: show;
+    border-width: 0px;
+    outline: 0px none;
+    border-collapse: collapse;
+}
+.grid tbody tr:nth-child(odd){background-color: #f7f7f7;}
+.grid tr th{
+    padding: 1.5em 0.85em;
+    vertical-align: bottom;
+    border-left: 1px #dddddd solid;
+    overflow: hidden;
+    font-weight: normal;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+.grid tr th:first-child{
+    border-left-width: 0;
+}
+.grid tr td{
+	font-size: 12px;
+    color: #666666;
+    border-bottom: 1px #dddddd solid;
+    border-left: 1px #dddddd solid;
+    padding: 1.3em 0.85em;
+    overflow: hidden;
+    line-height: 1.6em;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+}
+/* .grid tr td:first-child{
+    border-left-width: 0px;
+} */
+.grid tr td:nth-of-type(1){
+	border-left-width: 0px;
+}
+.grid tr:last-child td{
+    border-bottom: none;
+}
+.grid tr td.mession-status{color: #ff5900;}
+.grid tr td div a{
+	color: #027cff;
+	text-decoration: none;
+}
+tr.project-flag td:first-child{
+	
+}
+.tab-link{
+	font-size: 13px;
+    color: #666666;
+    font-weight: bold;
+    display: block;
+    min-height: 18px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table-content{
+    white-space: normal;
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    /* overflow-y: scroll; */
+    min-height: 0;
+}
+.data-grid{
+    width: 100%;
+    height: 201px;
+    position: relative;
+    overflow: hidden;
+    font-size: 14px;
+    color:#444;
+    box-sizing: border-box;
+    border-color: #95B8E7;
+    border-width: 1px;
+    border-style: solid;
+}
+.data-view{
+     width: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    right: 0px;
+}
+.grid-head{
+     width: 100%;
+    height: 30px;
+    border-color: #DDD;
+    overflow: hidden;
+    cursor: default;
+    border-width: 0px 0px 1px;
+    border-style: solid;
+    background-color:#efefef;
+}
+.grid-head-inner{
+    display: block;
+    float: left;
+}
+.data-table{
+    height: 30px;
+    border-collapse: separate;
+}
+.data-table-row{
+    height: 30px;
+}
+.data-table td{
+    border-color: #CCC;
+    border-width: 0px 1px 1px 0px;
+    border-style: dotted;
+    margin: 0px;
+    padding: 0px;
+    line-height: 1.65em;
+}
+.page-box a{
+	color: #666666;
+	font-size: 13px;
+	padding: 6px 11px;
+	text-decoration: none;
+	border: 1px solid #ddd;
+}
+.page-box a:hover{
+	color: #fff;
+	background-color: #027cff;
+	border-color: #027cff;
+}
+.page-box a.first-padding{padding: 6px 10px 6px 22px;}
+.page-box a:nth-last-child(2),.page-box a:last-child{
+	padding: 6px 22px 6px 10px;
+}
+/* statistics_project_task页面 */
+.complate-bgcolor{
+	background-color: #f2f2f2;
+}
+.complate-content{
+	width: 99%;
+	margin: 40px auto;
+	height: 100%;
+    overflow: hidden;
+}
+.complate-detail{
+	width: 23.5%;
+	padding: 15px;
+	margin-right: 2%;
+	margin-bottom: 20px;
+	float: left;
+	background-color: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 2px;
+}
+.complate-detail:last-child{
+	margin-right: 0;
+}
+.complate-detail h3{
+	font-size: 16px;
+    color: #333;
+	padding-left: 15px;
+    padding-bottom: 15px;
+    margin: 0;
+    margin-left: -15px;
+    margin-right: -15px;
+    border-bottom: 1px solid #dddddd;
+}
+.complate-detail .table-wrap{
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+.complate-detail .grid tr th{
+	padding: 0.8em 0.85em;
+}
+.complate-detail .grid tr td{
+	padding: 0.9em 0.85em;
+}
+
+.page2 >div{
+	padding-top:10px;
+}
+.roleform  div{
+	padding-top:8px;
+}
+.roleform input {
+	width:300px;
+}
+.roleform select {
+	width:300px;
+}
+
+.ffhh {
+  color: #ff4a4a;
+}
+
+.ff4{
+	 color: #ff4a4a;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

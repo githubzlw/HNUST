@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>任务系统，质检报告</title>
+	<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/add.css">
+</head>
+<body>
+	<div class="quality">
+		<div class="title">
+			<span class="glyphicon glyphicon-menu-left"></span>质检情况
+		</div>
+		<div class="wrap wrap1">
+			<p>项目编号&nbsp;&nbsp;&nbsp;&nbsp;SHS07034-2</p>
+			<ul>
+				<li class="clearfix"><div class="c_l pull-left"><span class="pull-left">检验计划(采购)A版</span><input type="file" class="pull-left"></div>
+				<button class="pull-right">上传</button></li>
+				<li class="clearfix"><div class="c_l pull-left"><span class="pull-left">检验计划(质检)B版</span><input type="file" class="pull-left"></div>
+				<button class="pull-right">上传</button></li>
+				<li class="clearfix"><div class="c_l pull-left"><span class="pull-left">验厂报告</span><input type="file" class="pull-left"></div>
+				<button class="pull-right">上传</button></li>
+				<!-- <li class="clearfix"><div class="c_l pull-left"><span class="pull-left">校验报告</span><input type="file" class="pull-left"></div>
+				<button class="pull-right">上传</button></li> -->
+			</ul>
+		</div>
+		<div class="wrap wrap2">
+			<p>检验报告</p>
+			<div class="imgs">
+				<ul class="clearfix">
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>
+					<li><em class="glyphicon glyphicon-plus"></em><input type="file" multiple/></li>
+				</ul>
+			</div>
+			<div class="sele_">
+				<label>这次上传的是：</label>
+				<select>
+					<option value="">样品检验</option>
+					<option value="">样品检验</option>
+					<option value="">样品检验</option>
+					<option value="">样品检验</option>
+				</select>
+				<span>报告</span>
+			</div>
+			<div class="report">
+				<!-- <p >报告</p> -->
+				<div class="radios">
+					<div class="radio_0"><input type="radio" name="state"> 没问题</div>
+					<div class="radio_0"><input type="radio" name="state"> 有问题，但已经处理</div>
+					<div class="radio_0 last_radio"><input type="radio" name="state"> 有问题，需要采购解决
+
+						<div class="task">
+							<div class="select_more">
+								<span><input type="checkbox"><em>采购名1</em></span><span><input type="checkbox"><em>采购名2</em></span><span><input type="checkbox"><em>采购名3</em></span>
+							</div>
+							<textarea class="form-control" placeholder="任务说明"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="btns text-right">
+			<button class="btn">提交所有上传图片和问题</button>
+		</div>
+	</div>
+</body>
+</html>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script>
+        window.onload = window.onresize = function(){
+
+            var clientWidth =document.documentElement.clientWidth;
+
+            document.getElementsByTagName("html")[0].style.fontSize =
+
+                    clientWidth / 768* 40 + "px";
+        }
+</script>
+<script>
+	/*添加图片*/
+	var $li = '<li><div class="img_in"><img src="" alt=""></div><span class="glyphicon glyphicon-remove"></span></li>';
+	$('.quality .wrap2 li:last-child').on('click',function(){
+		$('.quality .wrap2 ul').prepend($li);
+		var $length = $('.quality .wrap2 ul li').length;
+		console.log($length);
+		if($length > 50){
+			alert('最多可添加50张图片');
+			$('.quality .wrap2 li:last-child').off('click').remove();			
+		}
+	/*删除当前图片*/
+	$('.quality .wrap2 li span').on('click',function(){
+		$(this).parent().remove();
+	})
+	/*报告结果*/
+	//$('.quality .wrap2 .report .task').hide();
+	$('.quality .wrap2 .report input').click(function(){
+		if($('.quality .last_radio input').is(':checked')){
+			$('.quality .wrap2 .report .task').show();
+		}else{
+			$('.quality .wrap2 .report .task').hide();
+		}
+	})
+	
+</script>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.TaskMapper">
+	<resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Task">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+		<result column="task_demand" property="taskDemand" jdbcType="VARCHAR" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="sellName" property="sellName" jdbcType="VARCHAR" />
+		<result column="node" property="node" jdbcType="INTEGER" />
+		<result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		
+		
+		<result column="email_user_name"  property="sellName" jdbcType="VARCHAR"/>
+		<result column="purchase_name"  property="purchaseName" jdbcType="VARCHAR"/>
+		
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, project_no, task_demand, node, end_date, status,
+		create_date,operator,type
+	</sql>
+	<!--根据项目号查询任务信息(详情页显示) -->
+	<select id="findTaskByProjectNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from task
+		where project_no = #{projectNo,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 销售 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		tas.id,
+		tas.project_no,
+		tas.task_demand,
+		tas.node,
+		tas.end_date,
+		tas.`status`,
+		tas.operator,
+		emu.role_name,
+		ema.role_Name as purchaseName
+		FROM
+		task tas,
+		email_user emu,
+		project pro left join email_user ema on pro.purchase_id = ema.id
+		where
+		emu.id=pro.email_user_id
+		AND
+		pro.project_no=tas.project_no
+		AND
+		tas.id = #{id,jdbcType=VARCHAR}
+		order by tas.create_date
+	</select>
+	<!-- 采购 -->
+	<select id="selectTaskPurchaseById" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		tas.id,
+		tas.project_no,
+		tas.task_demand,
+		tas.node,
+		tas.end_date,
+		tas.`status`,
+		tas.operator,
+		emu.role_name,
+		ema.role_Name as sellName
+		FROM
+		task tas,
+		email_user emu,
+		project pro left join email_user ema on pro.email_user_id = ema.id
+		where
+		emu.id=pro.purchase_id
+		AND
+		pro.project_no=tas.project_no
+		AND
+		tas.id = #{id,jdbcType=VARCHAR}
+		order by tas.create_date
+	</select>
+
+	<!--根据项目号查询任务信息采购 采购 -->
+	<select id="selectTaskPurchaseByProjectNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		tas.id,
+		tas.project_no,
+		tas.task_demand,
+		tas.node,
+		tas.end_date,
+		tas.`status`,
+		tas.operator,
+		pro.purchase_id,
+		pro.email_user_id,
+		ema.role_Name as sellName
+		FROM
+		task tas,
+		email_user emu,
+		project pro left join email_user ema on pro.email_user_id = ema.id
+		where
+		emu.id=pro.purchase_id
+		AND pro.project_no=tas.project_no
+		<if test="projectNo!=null and projectNo!=''">
+			AND pro.project_no = #{projectNo,jdbcType=VARCHAR}
+		</if>
+		<if test="purchaseId!=null">
+			AND pro.purchase_id = #{purchaseId,jdbcType=INTEGER}
+		</if>
+		<if test="searchType!=null and searchType!=''">
+			AND tas.type=0
+		</if>
+		order by tas.create_date
+	</select>
+
+	<!--根据项目号查询任务信息采购 （销售登录） -->
+	<select id="selectTaskByProjectNo" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		tas.id,
+		tas.project_no,
+		tas.task_demand,
+		tas.node,
+		tas.end_date,
+		tas.`status`,
+		tas.operator,
+		pro.purchase_id,
+		pro.email_user_id,
+		ema.role_Name as purchaseName
+		FROM
+		task tas,
+		email_user emu,
+		project pro left join email_user ema on pro.purchase_id = ema.id
+		where
+		emu.id=pro.email_user_id
+		AND pro.project_no=tas.project_no
+		<if test="projectNo!=null and projectNo!=''">
+			AND pro.project_no = #{projectNo,jdbcType=VARCHAR}
+		</if>
+		<if test="emailUserId!=null">
+			AND pro.email_user_id = #{emailUserId,jdbcType=INTEGER}
+		</if>
+		<if test="searchType!=null and searchType!=''">
+			AND tas.type=0
+		</if>
+		order by tas.create_date
+	</select>
+	<!-- 查询任务列表 -->
+	<!-- <select id="selectTaskList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.Task"> 
+		SELECT tas.id, tas.project_no, tas.task_demand, tas.node, tas.end_date, tas.status, 
+		tas.operator, emu.role_name, ema.true_name as purchaseName FROM task tas, 
+		email_user emu, project pro left join email_user ema on pro.purchase_id = 
+		ema.id where emu.id=pro.email_user_id AND pro.project_no=tas.project_no <if 
+		test="projectNo !=null and projectNo!=''" > AND pro.project_no = #{projectNo,jdbcType=VARCHAR} 
+		</if> <if test="inputKey !=null and inputKey!=''"> AND (tas.project_no like 
+		CONCAT('%', #{inputKey}, '%') OR ema.role_name like CONCAT('%', #{inputKey}, 
+		'%') ) </if> <if test="purchaseNameId !=null and purchaseNameId!=''"> AND 
+		( ema.role_name like CONCAT('%', #{purchaseNameId}, '%') OR ema.true_name 
+		like CONCAT('%', #{purchaseNameId}, '%') ) </if> <if test="searchType!=null 
+		and searchType!=''"> AND tas.type=0 </if> order by tas.create_date </select> -->
+
+
+
+	<select id="selectTaskList" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.Task">
+
+
+		select * from (
+		select
+		a.id,
+		a.project_no,
+		b.project_name,
+		a.task_demand,
+		a.node,
+		a.end_date,
+		a.status,
+		a.operator,
+		(select user_name from email_user where id = b.purchase_id) purchase_name ,
+		(select user_name from email_user where id = b.email_user_id)
+		email_user_name,
+		a.create_date
+		
+        
+		from task a
+		left join project b on
+		a.project_no = b.project_no
+		)c where 1=1
+		
+		<if test="inputKey !=null and inputKey!=''"> 
+		AND (project_no like CONCAT('%', #{inputKey}, '%') OR project_name like CONCAT('%', #{inputKey},'%')
+		OR purchase_name like CONCAT('%', #{inputKey}, '%') OR email_user_name like CONCAT('%', #{inputKey}, '%')
+		 ) 
+ 		</if>
+	    <if test="userName!=null and userName!='' and roleNo!=98 and roleNo!=99 and roleNo!=100">
+	        and purchase_name like CONCAT('%', #{userName}, '%') OR email_user_name like CONCAT('%', #{userName}, '%')
+	    </if>
+	    <if test="purchaseName!=null and purchaseName!=''">
+	        and purchase_name like CONCAT('%', #{purchaseName}, '%')
+	    </if>
+	    <if test="sellName!=null and sellName!=''">
+	        and email_user_name like CONCAT('%', #{sellName}, '%')
+	    </if>
+	    
+	    <if test="projectNo!=null and projectNo!=''">
+	        and project_no = #{projectNo}
+	    </if>
+		order by create_date desc
+		
+		
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!--查询所有的项目 -->
+	<select id="selectAllTask" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from task
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from task
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.cn.hnust.pojo.Task">
+		insert into task (id, project_no, task_demand,
+		node, end_date, status,
+		create_date)
+		values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR},
+		#{taskDemand,jdbcType=VARCHAR},
+		#{node,jdbcType=INTEGER}, #{endDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.cn.hnust.pojo.Task">
+		insert into task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="projectNo != null">
+				project_no,
+			</if>
+			<if test="taskDemand != null">
+				task_demand,
+			</if>
+			<if test="node != null">
+				node,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectNo != null">
+				#{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="taskDemand != null">
+				#{taskDemand,jdbcType=VARCHAR},
+			</if>
+			<if test="node != null">
+				#{node,jdbcType=INTEGER},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.Task">
+		update task
+		<set>
+			<if test="projectNo != null">
+				project_no = #{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="taskDemand != null">
+				task_demand = #{taskDemand,jdbcType=VARCHAR},
+			</if>
+			<if test="node != null">
+				node = #{node,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where
+		<if test="id!=null">
+			id = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="type!=null">
+			project_no = #{projectNo,jdbcType=VARCHAR}
+		</if>
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.Task">
+		update task
+		set project_no = #{projectNo,jdbcType=VARCHAR},
+		task_demand = #{taskDemand,jdbcType=VARCHAR},
+		node = #{node,jdbcType=INTEGER},
+		end_date = #{endDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		create_date = #{createDate,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>	
+</mapper>

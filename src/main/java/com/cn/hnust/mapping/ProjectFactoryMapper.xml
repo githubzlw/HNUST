@@ -1,0 +1,877 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectFactoryMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectFactory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />
+    <result column="factory_name" property="factoryName" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="is_upload" property="isUpload" jdbcType="INTEGER" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="DATE" />
+    <result column="sample_date" property="sampleDate" jdbcType="DATE" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+    <result column="inspection_name" property="inspectionName" jdbcType="VARCHAR" />
+    <result column="contract_date" property="contractDate" jdbcType="DATE" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="order_state" property="orderState" jdbcType="INTEGER" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="order_nature" property="orderNature" jdbcType="INTEGER" />
+    <result column="product_finish_time" property="productFinishTime" jdbcType="DATE" />
+    <result column="sample_finish_time" property="sampleFinishTime" jdbcType="DATE" />
+    <result column="repair_replenishment_finish_time" property="repairReplenishmentFinishTime" jdbcType="DATE" />    
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="project_stage" property="projectStage" jdbcType="INTEGER" />
+    
+    
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="complaint_count" property="complaintCount" jdbcType="INTEGER" />
+    <result column="complaint_count_only" property="complaintCountOnly" jdbcType="INTEGER" />
+    <result column="project_count" property="projectCount" jdbcType="INTEGER" />
+    <result column="delay_rate" property="delayRate" jdbcType="DOUBLE" />
+    <result column="trackPurchaseCount" property="trackPurchaseCount" jdbcType="INTEGER" />
+    <result column="trackQualityCount" property="trackQualityCount" jdbcType="INTEGER" />
+    <result column="complaintRate" property="complaintRate" jdbcType="DOUBLE" />
+    <result column="complaintRateOnly" property="complaintRateOnly" jdbcType="DOUBLE" />
+    <result column="onTimeRate" property="onTimeRate" jdbcType="DOUBLE" />
+    <result column="onTimeRateOnly" property="onTimeRateOnly" jdbcType="DOUBLE" />
+    <result column="delayCount" property="delayCount" jdbcType="INTEGER" />
+    <result column="delayCountOnly" property="delayCountOnly" jdbcType="INTEGER" />
+    <result column="complaint_count" property="complaintCount" jdbcType="INTEGER" />
+    <result column="complaint_count_only" property="complaintCountOnly" jdbcType="INTEGER" />
+    <result column="scoreCount" property="scoreCount" jdbcType="INTEGER" />
+    <result column="avgScore" property="avgScore" jdbcType="DOUBLE" />
+    <result column="finish" property="finish" jdbcType="INTEGER" />
+    <result column="rework" property="rework" jdbcType="INTEGER" />
+    <result column="modification_record" property="modificationRecord" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, factory_id, factory_name, project_no, is_upload,delivery_date,project_name,purchase_name,inspection_name,
+    contract_date,city,order_state,contract_no,order_nature,product_finish_time,sample_finish_time,
+    repair_replenishment_finish_time,update_time,project_stage,sample_date,modification_record
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_factory
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据项目号和工厂id查询 -->
+  <select id="selectByProjectNoAndFactoryId" resultMap="BaseResultMap">
+     select  
+     f.id, f.factory_id, f.factory_name, f.project_no, f.is_upload,f.delivery_date,f.purchase_name,f.inspection_name,
+     f.contract_date,f.city,f.contract_no,f.order_nature,f.product_finish_time,f.sample_finish_time,f.order_state,
+     f.repair_replenishment_finish_time,f.sample_date,p.project_name ,f.rework  
+     from project_factory f left join project p on f.project_no = p.project_no    
+     where f.project_no = #{projectNo,jdbcType=VARCHAR} and f.factory_id = #{factoryId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据项目号和工厂名查询 -->
+  <select id="selectByProjectNoAndFactoryName" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" />  
+     from project_factory     
+     where project_no = #{projectNo,jdbcType=VARCHAR} and factory_name = #{factoryName,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getFactory" resultType="int">
+     select count(1) 
+     from project_factory     
+     where project_no = #{projectNo,jdbcType=VARCHAR} and factory_name = #{factoryName,jdbcType=VARCHAR}
+     and  datediff(now(),contract_date)&lt;30
+  </select>
+  
+  
+  <!-- 根据项目号和工厂名查询 -->
+  <select id="getProjctDetails" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" />  
+     from project_factory     
+     where project_no = #{projectNo,jdbcType=VARCHAR} and contract_no = #{contractNo,jdbcType=VARCHAR}
+  </select>
+  <!--  -->
+  <select id="getCompletedCount" resultType="int" parameterType="com.cn.hnust.pojo.Project">
+     select count(1)num  
+     from project_factory     
+     where project_no = #{projectNo,jdbcType=VARCHAR} and product_finish_time is null and sample_finish_time is  null
+  </select>
+  
+  <!-- 根据项目号查询 -->
+  <select id="selectByProjectNo" resultMap="BaseResultMap">
+     select p.id, p.factory_id, p.factory_name, p.project_no, p.is_upload,p.contract_no,
+     p.contract_date, p.project_stage,p.product_finish_time,p.sample_finish_time,p.order_state,p.order_nature,
+     p.delivery_date, p.repair_replenishment_finish_time,p.sample_date,reportCount, p.rework  
+     from project_factory p   
+     left join 
+     (select count(1)as reportCount,r.company_name from quality_report r GROUP BY company_name)re  
+     on p.factory_name = re.company_name  
+     where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据项目号查询 根据工厂id去重-->
+  <select id="selectByProjectNoGroupByFactoryId" resultMap="BaseResultMap">
+     select p.id, p.factory_id, p.factory_name, p.project_no, p.is_upload,p.contract_no,
+     p.contract_date, p.project_stage,p.product_finish_time,p.sample_finish_time,p.order_state,p.order_nature,
+     p.delivery_date, p.repair_replenishment_finish_time,p.sample_date,reportCount   
+     from project_factory p   
+     left join 
+     (select count(1)as reportCount,r.company_name from quality_report r GROUP BY company_name)re  
+     on p.factory_name = re.company_name  
+     where project_no = #{projectNo,jdbcType=VARCHAR} Group by p.factory_id 
+  </select>
+  
+
+   <select id="selectByFactoryId" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List"/>  
+     from project_factory     
+     where factory_id = #{factoryId,jdbcType=VARCHAR}   
+     <if test="queryDate != null and queryDate != ''">
+		     <if test="queryDate == 1">
+		       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+		     </if>
+		     <if test="queryDate == 2">
+		       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+		     </if>
+		     <if test="queryDate == 3">
+		       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+		     </if>
+	 </if>
+   </select>
+   
+   <select id="selectCountByFactoryName" resultType="int">
+     select count(1) from project_factory      
+     where factory_name = #{factoryName,jdbcType=VARCHAR}  
+   </select>
+   
+   <select id="selectCountByFactoryNameOnly" resultType="int">
+     select count(1) from project_factory p    
+     LEFT JOIN (select count(1) as constractCount,factory_name,project_no from project_factory GROUP BY project_no)s 
+	 on p.project_no = s.project_no      
+     where constractCount = 1 and p.factory_name = #{factoryName,jdbcType=VARCHAR}  
+   </select>
+
+   <!-- 查询所有工厂 -->
+   <select id="selectAllFactory" resultType="string">
+     select factory_name from project_factory 
+     where 1=1  
+     <if test="inputKey != null">
+        and factory_name like  CONCAT('%', #{inputKey}, '%') 
+     </if>
+     group by factory_name   
+   </select>
+
+
+ <!-- 查询下单工厂列表 -->
+     <select id="selectFactoryList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectFactoryQuery">
+       select pt.*,delayCountOnly,delayCount,avgScore,scoreCount,t.complaint_count,ts.complaint_count_only,b.project_count,trackPurchaseCount,trackQualityCount,
+       (complaint_count/count)as complaintRate,(complaint_count_only/count)as complaintRateOnly,(1-delayCount/count)as onTimeRate,(1-delayCountOnly/count)as onTimeRateOnly   
+        from  
+				(
+				  select id,contract_date,factory_name,city,project_no,factory_id,count(factory_name) as count FROM 
+					(
+					select id,contract_date,factory_name,city,project_no,factory_id from project_factory 
+					where 1=1  
+					<if test="queryDate != null and queryDate != ''">
+						     <if test="queryDate == 1">
+						        and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+						     </if>
+						     <if test="queryDate == 2">
+						        and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+						     </if>
+						     <if test="queryDate == 3">
+						        and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+						     </if>
+					   </if>  
+					group by factory_name,project_no   
+					ORDER BY contract_date desc limit 10000000  				 
+					)t GROUP BY t.factory_name 
+				)pt 
+				 left join  			
+				(
+				  select p3.factory_name,count(1) as complaint_count FROM  
+				    (
+					  select p1.factory_name from project_factory p1  
+	                   inner JOIN project_complaint p2 on p1.project_no = p2.project_no          
+	                   where 1 = 1   
+	                   <if test="queryDate != null and queryDate != ''">
+					     <if test="queryDate == 1">
+					       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+					     </if>
+					     <if test="queryDate == 2">
+					       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+					     </if>
+					     <if test="queryDate == 3">
+					       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+					     </if>
+					   </if>
+	                     group by p1.factory_name,p1.project_no 
+                     )p3 group by p3.factory_name
+				)t on pt.factory_name = t.factory_name   
+				
+				 left join  			
+				(
+					 select p3.factory_name,count(1) as complaint_count_only FROM  
+					  (
+						  select p1.factory_name from project_factory p1  
+		                   inner JOIN project_complaint p2 on p1.project_no = p2.project_no  
+		                   LEFT JOIN (select count(1)as constractCount,factory_name,project_no from project_factory GROUP BY project_no)s 
+						   on p2.project_no = s.project_no   
+		                   where 1 = 1 and s.constractCount = 1  
+		                   <if test="queryDate != null and queryDate != ''">
+						     <if test="queryDate == 1">
+						       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+						     </if>
+						     <if test="queryDate == 2">
+						       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+						     </if>
+						     <if test="queryDate == 3">
+						       and p1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+						     </if>
+						   </if>
+		                     group by p1.factory_name,p1.project_no  
+	                   )p3 group by p3.factory_name
+				)ts on pt.factory_name = ts.factory_name   
+				
+				 left join 
+				 (				   
+				   select b1.factory_name,count(1) as project_count from project_factory b1  
+                   inner JOIN project b2 on b1.project_no = b2.project_no  where b2.project_status = 1 	
+                    <if test="queryDate != null and queryDate != ''">
+					     <if test="queryDate == 1">
+					       and b1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+					     </if>
+					     <if test="queryDate == 2">
+					       and b1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+					     </if>
+					     <if test="queryDate == 3">
+					       and b1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+					     </if>
+				   </if>
+				   group by factory_name			  
+				 )b on pt.factory_name = b.factory_name   
+				 left join 
+				 (
+					 select count(factory_name)as delayCount,factory_name from project_factory where 
+					   (
+					    sample_finish_time &gt; DATE_ADD(sample_date, INTERVAL 1 WEEK) 
+					    or 
+					    product_finish_time &gt; DATE_ADD(delivery_date, INTERVAL 1 WEEK)
+					   )
+			   		  <if test="queryDate != null and queryDate != ''">
+						     <if test="queryDate == 1">
+						       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+						     </if>
+						     <if test="queryDate == 2">
+						       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+						     </if>
+						     <if test="queryDate == 3">
+						       and contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+						     </if>
+						 </if>
+					   GROUP BY factory_name
+				  )f on pt.factory_name = f.factory_name  
+				  
+				 left join 
+				  (
+					 select count(factory_name)as delayCountOnly,pf3.factory_name FROM
+						(
+							select pf1.factory_name,pf1.delivery_date,pf1.product_finish_time,pf1.sample_date,pf1.sample_finish_time from project_factory pf1 LEFT JOIN 
+							(
+							select count(1)as constractCount,factory_name,project_no from project_factory GROUP BY project_no,factory_name  
+							)pf2 on pf1.project_no = pf2.project_no where constractCount = 1 and  
+			                     (
+								    sample_finish_time &gt; DATE_ADD(sample_date, INTERVAL 1 WEEK) 
+								    or 
+								    product_finish_time &gt; DATE_ADD(delivery_date, INTERVAL 1 WEEK)
+								   )
+								  <if test="queryDate != null and queryDate != ''">
+								     <if test="queryDate == 1">
+								       and pf1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+								     </if>
+								     <if test="queryDate == 2">
+								       and pf1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+								     </if>
+								     <if test="queryDate == 3">
+								       and pf1.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+								     </if>
+								 </if>
+						   GROUP BY pf1.project_no
+						)pf3 GROUP BY pf3.factory_name
+				   )f2 on pt.factory_name = f2.factory_name  
+				   
+				 left join 
+				 ( 
+				  select avg(score)as avgScore,factory_name,count(factory_name)as scoreCount from factory_score GROUP BY factory_name
+				 )f3 on pt.factory_name = f3.factory_name  
+				 
+				 left join  
+		          (select track_place.place,count(1)as trackPurchaseCount from track
+		           LEFT JOIN track_place on track.id = track_place.track_id   
+		           left join user on track.user_name = user.user_name  where 1=1 
+		            <if test="purchaseName != null and purchaseName != ''">
+		             and track.user_name = #{purchaseName,jdbcType=VARCHAR}   
+		            </if>
+		            and user.role_no = 6    
+<!-- 		            and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)  -->
+		             <if test="queryDate != null and queryDate != ''">
+								     <if test="queryDate == 1">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+								     </if>
+								     <if test="queryDate == 2">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+								     </if>
+								     <if test="queryDate == 3">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+								     </if>
+					   </if>
+		             
+		             GROUP BY track_place.place 
+		           )pl1 on pt.factory_name = pl1.place   
+		           
+		           left join  
+		          (select track_place.place,count(1)as trackQualityCount from track
+		           LEFT JOIN track_place on track.id = track_place.track_id   
+		           left join user on track.user_name = user.user_name where 1 = 1
+		            <if test="qualityName != null and qualityName != ''">
+		             and track.user_name = #{qualityName,jdbcType=VARCHAR}   
+		             </if>
+		            and user.role_no = 9   
+<!-- 		            and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)   -->
+		             <if test="queryDate != null and queryDate != ''">
+								     <if test="queryDate == 1">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+								     </if>
+								     <if test="queryDate == 2">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+								     </if>
+								     <if test="queryDate == 3">
+								        and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+								     </if>
+					   </if>
+		            GROUP BY track_place.place
+		           )pl2 on pt.factory_name = pl2.place    
+				  where 1 = 1   	 
+				 <if test="inputKey!=null and inputKey!=''">			
+					and (
+					     (pt.factory_name like CONCAT('%', #{inputKey}, '%'))
+					     or 
+					     (pt.project_no  like CONCAT('%', #{inputKey}, '%'))
+					    )	
+				 </if>	
+				 <if test="queryDate != null and queryDate != ''">
+				     <if test="queryDate == 1">
+				       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+				     </if>
+				     <if test="queryDate == 2">
+				       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+				     </if>
+				     <if test="queryDate == 3">
+				       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+				     </if>
+				 </if>
+				 
+           order by  
+           <if test="sortNum == null">
+               pt.contract_date desc  
+           </if>
+           <if test="sortNum == 0">
+               <if test="upOrDown == 0">
+                 b.project_count desc
+               </if>
+               <if test="upOrDown == 1">
+                 b.project_count asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 1">
+               <if test="upOrDown == 0">
+                 onTimeRate desc
+               </if>
+               <if test="upOrDown == 1">
+                 onTimeRate asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 2">
+              <if test="upOrDown == 0">
+                 complaintRate desc
+               </if>
+               <if test="upOrDown == 1">
+                 complaintRate asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 3">
+              <if test="upOrDown == 0">
+                 onTimeRateOnly desc
+               </if>
+               <if test="upOrDown == 1">
+                 onTimeRateOnly asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 4">
+              <if test="upOrDown == 0">
+                 complaintRateOnly desc
+               </if>
+               <if test="upOrDown == 1">
+                 complaintRateOnly asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 5">
+              <if test="upOrDown == 0">
+                 avgScore desc
+               </if>
+               <if test="upOrDown == 1">
+                 avgScore asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 6">
+              <if test="upOrDown == 0">
+                 trackQualityCount desc
+               </if>
+               <if test="upOrDown == 1">
+                 trackQualityCount asc
+               </if>
+           </if>
+           <if test="sortNum != null and sortNum == 7">
+              <if test="upOrDown == 0">
+                 trackPurchaseCount desc
+               </if>
+               <if test="upOrDown == 1">
+                 trackPurchaseCount asc
+               </if>
+           </if>  
+            limit #{pageNumber},#{pageSize}
+          
+     </select>
+     
+     
+     
+      <!-- 查询下单工厂列表 -->
+     <select id="selectFactoryListCount"  parameterType="com.cn.hnust.pojo.ProjectFactoryQuery" resultType="int">
+       select count(1) from  
+				(
+				  select id,contract_date,factory_name,project_no,count(factory_name) as count FROM 
+					(
+					select id,contract_date,factory_name,project_no from project_factory ORDER BY contract_date desc limit 10000000  				 
+					)t GROUP BY t.factory_name 
+				)pt 
+				 left join  			
+				(
+				  select p1.factory_name,count(1) as complaint_count from project_factory p1  
+                   inner JOIN project_complaint p2 on p1.project_no = p2.project_no  group by factory_name
+				)t on pt.factory_name = t.factory_name   
+				 left join 
+				 (				   
+				   select b1.factory_name,count(1) as project_count from project_factory b1  
+                   inner JOIN project b2 on b1.project_no = b2.project_no  where b2.project_status = 1 group by factory_name				  
+				 )b on pt.factory_name = b.factory_name   				
+                left join  
+		          (select track_place.place,count(1)as trackPurchaseCount from track
+		           LEFT JOIN track_place on track.id = track_place.track_id   
+		           left join user on track.user_name = user.user_name  where 1=1 
+		            <if test="purchaseName != null and purchaseName != ''">
+		             and track.user_name = #{purchaseName,jdbcType=VARCHAR}   
+		            </if>
+		            and user.role_no = 6    
+		            and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)  
+		             GROUP BY track_place.place
+		           )pl1 on pt.factory_name = pl1.place   
+		           
+		           left join  
+		          (select track_place.place,count(1)as trackQualityCount from track
+		           LEFT JOIN track_place on track.id = track_place.track_id   
+		           left join user on track.user_name = user.user_name where 1 = 1
+		            <if test="qualityName != null and qualityName != ''">
+		             and track.user_name = #{qualityName,jdbcType=VARCHAR}   
+		             </if>
+		            and user.role_no = 9   
+		            and track.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)  
+		            GROUP BY track_place.place
+		           )pl2 on pt.factory_name = pl2.place    
+				  where 1 = 1   	  
+                 <if test="inputKey!=null and inputKey!=''">			
+					and (pt.factory_name like CONCAT('%', #{inputKey}, '%'))	
+				 </if>
+			  <if test="queryDate != null and queryDate != ''">
+			     <if test="queryDate == 1">
+			       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+			     </if>
+			     <if test="queryDate == 2">
+			       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+			     </if>
+			     <if test="queryDate == 3">
+			       and pt.contract_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+			     </if>
+			 </if>
+     </select>
+     
+     
+     
+      <!-- 查询工厂项目 -->
+     <select id="selectProjectList" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectFactoryQuery">
+       select p1.project_no,p1.delivery_date,p2.project_name,p1.factory_id,p2.project_amount,
+           p1.factory_id, p1.factory_name, p1.contract_date,p1.city,p1.order_state,p1.contract_no,p1.order_nature,p1.product_finish_time,p1.sample_finish_time,
+           p1.repair_replenishment_finish_time,p1.update_time,p1.project_stage,p1.sample_date  
+        from  
+                project_factory p1 
+                   left join 
+				 project p2 
+				    on  
+				 p1.project_no = p2.project_no 
+				left join 
+				 (				   
+				   select b1.factory_name,count(1) as project_count from project_factory b1  
+                   inner JOIN project b2 on b1.project_no = b2.project_no  where b2.project_status = 1 	
+				   group by factory_name			  
+				 )b on p1.factory_name = b.factory_name  
+				 
+				  where 1 = 1  and p1.product_finish_time is null and (p1.delivery_date is not null or (p1.delivery_date is null and p1.sample_finish_time is null)) 
+				  <if test="factoryName!=null and factoryName!=''">
+				  and p1.factory_name = #{factoryName,jdbcType=VARCHAR}  	
+				  </if> 
+				 <if test="inputKey!=null and inputKey!=''">			
+					and 
+					(
+					p1.project_no like CONCAT('%', #{inputKey}, '%')	
+					or
+					p1.factory_name like CONCAT('%', #{inputKey}, '%')	
+					)
+				 </if>		
+				 <if test="orderStatus!= null and orderStatus > 0">
+				     <if test="orderStatus == 0">
+				        and p1.sample_date is not null and p1.order_nature = 1   
+				      </if>
+				     <if test="orderStatus == 1">
+				        and p1.delivery_date is not null and p1.order_nature = 1   
+				      </if>
+				     <if test="orderStatus == 2">
+				        and p1.order_nature = 2  
+				      </if>  
+				 </if>	
+				 <if test="orderState!= null and orderState > 0">  
+				     and p1.order_state	= #{orderState,jdbcType=INTEGER}   	 		 
+				 </if>	 
+				 <choose>
+				    <when test="roleNo == 100">				       
+						
+				    </when>
+				    <otherwise>
+				       and (p2.purchase_id = #{userId} or p2.email_user_id = #{userId} or p2.zhijian1 = #{userName} or p2.zhijian2 = #{userName} or p2.zhijian3 = #{userName})  				  
+	                </otherwise>
+                 </choose>
+                 <if test="otherSelect != null and otherSelect > 0">
+                       and p1.contract_date &lt; DATE_SUB(CURDATE(), INTERVAL 10 DAY)  
+                 </if>
+                 
+                 
+           group by p1.factory_name, p1.project_no,p1.id order by p1.contract_date desc,b.project_count desc , p1.factory_name, p1.project_no desc limit #{pageNumber},#{pageSize}          
+     </select>
+     
+     
+     
+      <!-- 查询下单工厂列表 -->
+     <select id="selectProjectListCount"  parameterType="com.cn.hnust.pojo.ProjectFactoryQuery" resultType="int">
+       select count(1) from  
+                project_factory p1 
+                   left join 
+				 project p2 
+				    on  
+				 p1.project_no = p2.project_no
+				  where 1 = 1 and p1.product_finish_time is null and (p1.delivery_date is not null or (p1.delivery_date is null and p1.sample_finish_time is null)) 
+				  <if test="factoryName!=null and factoryName!=''">
+				  and factory_name = #{factoryName,jdbcType=VARCHAR}
+				  </if>  
+				 <if test="inputKey!=null and inputKey!=''">			
+					and (
+						p1.project_no like CONCAT('%', #{inputKey}, '%')  
+						or  
+						p1.factory_name like CONCAT('%', #{inputKey}, '%')	 	
+						)				
+				 </if>						 
+				 <if test="orderStatus!= null and orderStatus > 0">
+				     <if test="orderStatus == 0">
+				        and p1.sample_date is not null and p1.order_nature = 1  
+				      </if>
+				     <if test="orderStatus == 1">
+				        and p1.delivery_date is not null and p1.order_nature = 1
+				      </if>
+				     <if test="orderStatus == 2">
+				        and p1.order_nature = 2 
+				      </if>
+				 </if>
+				 <if test="orderState!= null and orderState > 0">  
+				     and p1.order_state	= #{orderState,jdbcType=INTEGER}   	 		 
+				 </if>	 			 			 
+				 <choose>
+				    <when test="roleNo == 100">				       
+						
+				    </when>
+				    <otherwise>
+				        and (p2.purchase_id = #{userId} or p2.email_user_id = #{userId} or p2.zhijian1 = #{userName} or p2.zhijian2 = #{userName} or p2.zhijian3 = #{userName})  				  
+	                </otherwise>
+                 </choose>            
+     </select>
+     
+
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project_factory
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    insert into project_factory (id, factory_id, factory_name, 
+      project_no, is_upload)
+    values (#{id,jdbcType=INTEGER}, #{factoryId,jdbcType=INTEGER}, #{factoryName,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR}, #{isUpload,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    insert into project_factory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="factoryId != null" >
+        factory_id,
+      </if>
+      <if test="factoryName != null" >
+        factory_name,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="isUpload != null" >
+        is_upload,
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name,
+      </if>
+      <if test="inspectionName != null" >
+        inspection_name,
+      </if>
+      <if test="contractDate != null" >
+        contract_date,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="productFinishTime != null" >
+        product_finish_time,
+      </if>
+      <if test="sampleFinishTime != null" >
+        sample_finish_time,
+      </if>
+      <if test="orderNature != null" >
+        order_nature,
+      </if>
+      <if test="repairReplenishmentFinishTime != null" >
+        repair_replenishment_finish_time,
+      </if>
+      <if test="sampleDate != null" >
+        sample_date, 
+      </if>     
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="factoryId != null" >
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpload != null" >
+        #{isUpload,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryDate != null" >
+        #{deliveryDate,jdbcType=DATE},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseName != null" >
+        #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionName != null" >
+        #{inspectionName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDate != null" >
+        #{contractDate,jdbcType=DATE},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="productFinishTime != null" >
+        #{productFinishTime,jdbcType=DATE},
+      </if>
+      <if test="sampleFinishTime != null" >
+        #{sampleFinishTime,jdbcType=DATE},
+      </if>
+      <if test="orderNature != null" >
+        #{orderNature,jdbcType=INTEGER},
+      </if>
+      <if test="repairReplenishmentFinishTime != null" >
+        #{repairReplenishmentFinishTime,jdbcType=DATE},
+      </if>
+      <if test="sampleDate != null" >
+         #{sampleDate,jdbcType=DATE},
+      </if>   
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    update project_factory
+    <set >
+      <if test="factoryId != null" >
+        factory_id = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        factory_name = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpload != null" >
+        is_upload = #{isUpload,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        contract_date = #{contractDate,jdbcType=DATE},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=DATE},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="productFinishTime != null" >
+        product_finish_time = #{productFinishTime,jdbcType=DATE},
+      </if>
+      <if test="sampleFinishTime != null" >
+        sample_finish_time = #{sampleFinishTime,jdbcType=DATE},
+      </if>
+      <if test="repairReplenishmentFinishTime != null" >
+        repair_replenishment_finish_time = #{repairReplenishmentFinishTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    update project_factory
+    set factory_id = #{factoryId,jdbcType=VARCHAR},
+      factory_name = #{factoryName,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      is_upload = #{isUpload,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} 
+  </update>
+  
+  <update id="updateStatus" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    update project_factory
+    set
+   id = #{id,jdbcType=INTEGER}
+    <if test="rework ==0" >
+    ,rework=0
+    </if>
+    <if test="rework ==1" >
+    ,rework=1
+    </if>
+     <if test="finish ==0" >
+       ,sample_finish_time=null
+       ,product_finish_time=null
+      </if>
+        <if test="finish ==1" >
+     <if test="sampleDate !=null" >   
+    ,sample_finish_time=now()
+    </if>
+    <if test="deliveryDate !=null" >
+    ,product_finish_time=now()
+    </if>
+    </if>
+    <if test="modificationRecord!=null">
+    ,modification_record=#{modificationRecord,jdbcType=VARCHAR}
+    </if>
+     
+    where id = #{id,jdbcType=INTEGER} 
+  </update>
+  
+  
+  <update id="updateBatch" parameterType="java.util.List">		
+		<foreach collection="list" index="index" item="item" open="" separator=";" close="">
+			update project_factory 
+			   <trim suffixOverrides=",">
+			   <set>
+				<if test="item.orderState !=null">
+				order_state = #{item.orderState},
+				</if>
+				<if test="item.projectStage!=null">
+				project_stage = #{item.projectStage},
+				</if>
+				<if test="item.updateTime!=null">
+				update_time = #{item.updateTime},
+				</if>
+				<if test="item.productFinishTime!=null and item.productFinishTime!=''">
+				product_finish_time = #{item.productFinishTime},
+				</if>
+				<if test="item.sampleFinishTime!=null and item.sampleFinishTime!=''">
+				sample_finish_time = #{item.sampleFinishTime},
+				</if>
+				<if test="item.repairReplenishmentFinishTime!=null and item.repairReplenishmentFinishTime!=''">
+				repair_replenishment_finish_time = #{item.repairReplenishmentFinishTime},
+				</if>
+				</set>
+				</trim>
+				<where>
+			    id = #{item.id} 
+			    </where>
+		</foreach>
+  </update>
+  <update id="updateByPrimaryKey1" parameterType="com.cn.hnust.pojo.ProjectFactory" >
+    update project_factory
+    <set >
+      
+      
+    
+      <if test="isUpload != null" >
+        is_upload = #{isUpload,jdbcType=INTEGER},
+      </if>
+      <if test="contractDate != null" >
+        contract_date = #{contractDate,jdbcType=DATE},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=DATE},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="productFinishTime != null" >
+        product_finish_time = #{productFinishTime,jdbcType=DATE},
+      </if>
+      <if test="sampleFinishTime != null" >
+        sample_finish_time = #{sampleFinishTime,jdbcType=DATE},
+      </if>
+      <if test="repairReplenishmentFinishTime != null" >
+        repair_replenishment_finish_time = #{repairReplenishmentFinishTime,jdbcType=DATE},
+      </if>
+    </set>
+    where project_no = #{projectNo,jdbcType=VARCHAR} and contract_no =#{contractNo,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

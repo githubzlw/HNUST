@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.QualityAnalysisMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityAnalysis">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="technician_reply1" jdbcType="VARCHAR" property="technicianReply1" />
+    <result column="technician_reply2" jdbcType="VARCHAR" property="technicianReply2" />
+    <result column="purchase_reply" jdbcType="VARCHAR" property="purchaseReply" />
+    <result column="technology_upload_time" jdbcType="TIMESTAMP" property="technologyUploadTime" />
+    <result column="quality_upload_time" jdbcType="TIMESTAMP" property="qualityUploadTime" />
+    <result column="quality_analysis_name" jdbcType="VARCHAR" property="qualityAnalysisName" />
+    <result column="technology_analysis_name" jdbcType="VARCHAR" property="technologyAnalysisName" />
+    <result column="quality_analysis_new_name" jdbcType="VARCHAR" property="qualityAnalysisNewName" />
+    <result column="technology_analysis_new_name" jdbcType="VARCHAR" property="technologyAnalysisNewName" />
+    <result column="process" jdbcType="VARCHAR" property="process" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_no, technician_reply1, technician_reply2, purchase_reply,
+    quality_analysis_name, technology_analysis_name, quality_analysis_new_name, technology_analysis_new_name,
+    technology_upload_time,quality_upload_time,process  
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_analysis
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByProjectNo" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" />   
+     from quality_analysis  
+     where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据问题查询出现的项目号 -->
+   <select id="selectByIssue" resultType="string">    
+	    select project_no from  
+			(
+			select project_no from quality_report q where q.conclusion like CONCAT('%', #{issue}, '%')
+			<!-- UNION
+			select project_no from complaint_issue c 
+			LEFT JOIN project_complaint p on c.complaint_id = p.id   
+			where c.issue like CONCAT('%', #{issue}, '%')    -->
+			UNION  
+			select project_no from analysis_issue a where a.issue like CONCAT('%', #{issue}, '%') and a.is_complaint = 1  
+			)cn 
+    </select>
+    
+    
+    
+      <!-- 根据问题查询出现的项目号 -->
+      <!-- 1 代表质检报告问题  2 代表投诉问题  3 代表质量问题录入 -->
+   <select id="selectMapByIssue" resultType="map">    
+	    select project_no as projectNo,type,create_time as createTime,id,issue from  	    
+<!-- 		    <choose>
+			    <when test="issue != null and issue != ''"> -->
+					(
+					select project_no,'1' as type,null as create_time,q.id,createTime as sortDate,q.conclusion as issue from quality_report q 
+					where 1=1  
+<!-- 						<if test="issue != null and issue != ''"> -->
+						   and q.conclusion like CONCAT('%', #{issue}, '%')
+<!-- 						</if> -->
+					
+<!-- 					<choose>
+						<when test="inputKey != null and inputKey != ''">
+						    and  
+						    ( 
+						     q.conclusion like CONCAT('%', #{inputKey}, '%') 
+						    )
+						</when>
+						<otherwise>
+							  and q.conclusion like '%NULL%'
+						</otherwise>
+					</choose> -->
+<!-- 					UNION   -->
+<!-- 					select project_no,'2' as type,null as create_time,p.id,p.create_time as sortDate,c.issue as issue from complaint_issue c  -->
+<!-- 					LEFT JOIN project_complaint p on c.complaint_id = p.id    -->
+<!-- 					where 1=1   -->
+<!-- 					<if test="issue != null and issue != ''"> -->
+<!-- 					   and c.issue like CONCAT('%', #{issue}, '%')    -->
+<!-- 					</if> -->
+<!-- 					<choose>
+						<when test="inputKey != null and inputKey != ''">
+						    and  
+						    ( 
+						     c.issue like CONCAT('%', #{inputKey}, '%') 
+						    )
+						</when>
+						<otherwise>
+						     and c.issue like '%NULL%'
+						</otherwise>
+					</choose> -->
+					UNION  
+					select a.project_no,'2' as type,null as create_time,p.id,p.create_time as sortDate,a.issue from analysis_issue a   
+                     LEFT JOIN project_complaint p on a.complaint_id = p.id    
+                     where 1=1 
+<!-- 					<if test="issue != null and issue != ''"> -->
+						   and a.issue like CONCAT('%', #{issue}, '%') and a.is_complaint = 1  
+<!-- 					</if>		 -->
+	<!-- 			<choose>
+						<when test="inputKey != null and inputKey != ''">
+						    and  
+						    ( 
+						     a.project_no like CONCAT('%', #{inputKey}, '%')   
+						     OR
+						     a.issue like CONCAT('%', #{inputKey}, '%') 
+						    )
+						</when>
+						 <otherwise>
+						    and a.issue like '%NULL%'
+						 </otherwise>
+					 </choose> -->
+					)cn  
+					where 1 = 1  
+					<if test="type != null and type != 0">
+					   and cn.type = #{type}   
+					</if>
+		 			order by sortDate desc  
+		 			 <if test="pageNumber !=null and pageNumber >= 0">	
+		 			  limit #{pageNumber},#{pageSize}
+		 			</if>
+<!-- 		 	  </when>
+		 	  <otherwise>
+		 	     ( select project_no,'3' as type,create_time,a.id,a.create_time as sortDate,issue from analysis_issue a )c  
+			 	     where 1 = 1  
+			 	     <if test="inputKey != null and inputKey != ''">
+						    and  
+						    ( 
+						     c.project_no like CONCAT('%', #{inputKey}, '%') 
+						     or
+						     c.issue like CONCAT('%', #{inputKey}, '%')   
+						    )
+					  </if>
+					  order by sortDate desc   
+					  <if test="pageNumber !=null and pageNumber >= 0">	
+		 			    limit #{pageNumber},#{pageSize}
+		 			  </if>
+		 	  </otherwise>		
+	 	  </choose> -->
+    </select>
+   
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from quality_analysis
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QualityAnalysis">
+    insert into quality_analysis (id, project_no, technician_reply1, 
+      technician_reply2, purchase_reply, quality_upload_time, 
+      quality_analysis_name, technology_analysis_name, 
+      quality_analysis_new_name, technology_analysis_new_name,technology_upload_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{technicianReply1,jdbcType=VARCHAR}, 
+      #{technicianReply2,jdbcType=VARCHAR}, #{purchaseReply,jdbcType=VARCHAR}, #{qualityUploadTime,jdbcType=TIMESTAMP}, 
+      #{qualityAnalysisName,jdbcType=VARCHAR}, #{technologyAnalysisName,jdbcType=VARCHAR}, 
+      #{qualityAnalysisNewName,jdbcType=VARCHAR}, #{technologyAnalysisNewName,jdbcType=VARCHAR},
+      #{technologyUploadTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QualityAnalysis">
+    insert into quality_analysis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="technicianReply1 != null">
+        technician_reply1,
+      </if>
+      <if test="technicianReply2 != null">
+        technician_reply2,
+      </if>
+      <if test="purchaseReply != null">
+        purchase_reply,
+      </if>
+      <if test="qualityUploadTime != null">
+       quality_upload_time,
+      </if>
+      <if test="qualityAnalysisName != null">
+        quality_analysis_name,
+      </if>
+      <if test="technologyAnalysisName != null">
+        technology_analysis_name,
+      </if>
+      <if test="qualityAnalysisNewName != null">
+        quality_analysis_new_name,
+      </if>
+      <if test="technologyAnalysisNewName != null">
+        technology_analysis_new_name,
+      </if>
+      <if test="technologyUploadTime != null">
+         technology_upload_time,
+      </if>
+      <if test="process != null">
+         process,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="technicianReply1 != null">
+        #{technicianReply1,jdbcType=VARCHAR},
+      </if>
+      <if test="technicianReply2 != null">
+        #{technicianReply2,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseReply != null">
+        #{purchaseReply,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityUploadTime != null">
+        #{qualityUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityAnalysisName != null">
+        #{qualityAnalysisName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyAnalysisName != null">
+        #{technologyAnalysisName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityAnalysisNewName != null">
+        #{qualityAnalysisNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyAnalysisNewName != null">
+        #{technologyAnalysisNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyUploadTime != null">
+        #{technologyUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="process != null">
+        #{process,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QualityAnalysis">
+    update quality_analysis
+    <set>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="technicianReply1 != null">
+        technician_reply1 = #{technicianReply1,jdbcType=VARCHAR},
+      </if>
+      <if test="technicianReply2 != null">
+        technician_reply2 = #{technicianReply2,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseReply != null">
+        purchase_reply = #{purchaseReply,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityUploadTime != null">
+        quality_upload_time = #{qualityUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityAnalysisName != null">
+        quality_analysis_name = #{qualityAnalysisName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyAnalysisName != null">
+        technology_analysis_name = #{technologyAnalysisName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityAnalysisNewName != null">
+        quality_analysis_new_name = #{qualityAnalysisNewName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyAnalysisNewName != null">
+        technology_analysis_new_name = #{technologyAnalysisNewName,jdbcType=VARCHAR},
+      </if>
+         <if test="technologyUploadTime != null">
+        technology_upload_time = #{technologyUploadTime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="process != null">
+        process = #{process,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QualityAnalysis">
+    update quality_analysis
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      technician_reply1 = #{technicianReply1,jdbcType=VARCHAR},
+      technician_reply2 = #{technicianReply2,jdbcType=VARCHAR},
+      purchase_reply = #{purchaseReply,jdbcType=VARCHAR},
+      quality_analysis_name = #{qualityAnalysisName,jdbcType=VARCHAR},
+      technology_analysis_name = #{technologyAnalysisName,jdbcType=VARCHAR},
+      quality_analysis_new_name = #{qualityAnalysisNewName,jdbcType=VARCHAR},
+      technology_analysis_new_name = #{technologyAnalysisNewName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

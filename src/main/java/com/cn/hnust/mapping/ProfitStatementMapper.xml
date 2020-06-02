@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProfitStatementMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProfitStatement" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="profit" property="profit" jdbcType="DOUBLE" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, profit, date,role_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from profit_statement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getOne" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from profit_statement
+    where date=#{date,jdbcType=VARCHAR} and  user_name=#{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from profit_statement
+    where date=#{date,jdbcType=VARCHAR} and  role_name=#{roleName,jdbcType=VARCHAR}
+    order by profit desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from profit_statement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProfitStatement" >
+    insert into profit_statement (id, user_name, profit, 
+      date,role_name)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{profit,jdbcType=DOUBLE}, 
+      #{date,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR})
+  </insert>
+   <insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">       
+       insert into profit_statement ( 
+        user_name, profit, 
+      date,role_name) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.userName},            
+		      #{item.profit},
+		      #{item.date},
+		     #{item.roleName}
+		    ) 
+        </foreach>  
+    </insert> 
+    
+    <update id="updateAll" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    
+    <foreach collection="list" item="item" index="index" separator=";" > 
+    update profit_statement 
+      <set >
+      profit = #{item.profit},role_name=#{item.roleName}
+      </set>
+     where date = #{item.date} and user_name = #{item.userName}
+     </foreach>  
+  </update>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProfitStatement" >
+    insert into profit_statement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=DOUBLE},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProfitStatement" >
+    update profit_statement
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=DOUBLE},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProfitStatement" >
+    update profit_statement
+    set user_name = #{userName,jdbcType=VARCHAR},
+      profit = #{profit,jdbcType=DOUBLE},
+      date = #{date,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

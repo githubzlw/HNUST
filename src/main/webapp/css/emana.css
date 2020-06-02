@@ -1,0 +1,1256 @@
+@charset "utf-8";
+
+blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5,
+	h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul, div {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 14px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+	min-width: 100%;
+	line-height: 14px;
+}
+
+ul li {
+	list-style: none;
+}
+
+img {
+	border: 0 none;
+}
+
+.emanadiv { /* width:1580px; */
+	margin: 0 auto;
+	position: relative; /* left:50%;margin-left:-789px; */
+}
+
+table {
+	border-collapse: collapse;
+}
+
+textarea {
+	padding: 2px;
+}
+
+.emanager_left {
+	width: 190px;
+	float: left;
+	text-align: left;
+	position: absolute;
+	z-index: 100;
+	left: 0;
+}
+
+.emanager_right { /* width:1380px;float:left; */
+	background: #0a6da8;
+	padding-left: 190px;
+}
+
+.clear {
+	clear: both;
+	height: 0px;
+	width: 0px;
+}
+
+.emananav {
+	padding-top: 10px;
+	background: #e8e8f0;
+	border-right: 2px solid #096da8;
+	display: block;
+}
+
+.emaleftname {
+	width: 182px;
+	height: 24px;
+	background: url(/NBEmail/img/emana/emaname.png) no-repeat;
+	margin: 0 auto;
+}
+
+.emaleftname1 {
+	margin-left: 20px;
+	color: #fff;
+	font-size: 13px;
+	height: 24px;
+	line-height: 24px;
+	float: left;
+	width: 65px;
+}
+
+.emaleftname2 {
+	margin-left: 25px;
+	width: 65px;
+	height: 24px;
+	line-height: 24px;
+	float: right;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-size: 13px;
+	color: #000;
+}
+
+.emananavline_out, .emananavline_outg {
+	width: 190px;
+	position: relative;
+	cursor: pointer;
+	height: 40px;
+}
+
+.emananavlindiv_out, .emananavlindiv_outg {
+	width: 190px;
+	height: 30px;
+	position: absolute;
+	top: 5px;
+	left: 0;
+	z-index: 2;
+	cursor: pointer;
+	line-height: 30px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding-left: 20px;
+}
+
+.emananavline_out img {
+	vertical-align: middle;
+}
+
+.emananavlindiv_out:hover {
+	background: url(/NBEmail/img/emana/elion.png) 0 0 no-repeat;
+	color: #fff;
+}
+
+.emananavline_out:hover .emananavlite {
+	color: #fff;
+}
+
+.emananavlite {
+	margin-left: 1px;
+	color: #000;
+	text-decoration: none;
+}
+
+.emanagerrdiv {
+	width: 779px;
+	margin: 8px;
+	margin-bottom: 0;
+}
+
+.emanagerrtop {
+	position: relative;
+}
+
+.emanagerrma {
+	width: 755px;
+	border: 1px solid #096da8;
+	border-top: 0 none;
+	border-bottom: 0 none;
+	padding: 0 8px;
+	background: #e8e8f0;
+	margin: -8px 0 0 2px;
+	padding-bottom: 30px;
+}
+
+.emanagerrmaget {
+	width: 755px;
+	border: 1px solid #096da8;
+	border-top: 0 none;
+	border-bottom: 0 none;
+	padding: 0 8px;
+	background: #e8e8f0;
+	margin: -8px 0 0 2px;
+	padding-bottom: 461px;
+}
+
+.emanagerrmacon {
+	width: 733px;
+	background: #fff;
+	padding: 12px 10px;
+	border: 1px solid #c6c7c8;
+}
+
+.emanagerrmaconi1 {
+	width: 160px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #cbd1df;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #e8e8e8;
+}
+
+.emanagerrmaconi2 {
+	width: 160px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #27bcff;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #27bcff;
+}
+
+.emanagerrmaconl {
+	margin-left: 100px;
+}
+
+.emanagerrmaconi3 {
+	width: 240px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #cbd1df;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #e8e8e8;
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+.emanagerrmaconi4 {
+	padding: 3px;
+	border: 1px solid #cbd1df;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #e8e8e8;
+	margin-top: 5px;
+}
+
+.emanagerrmaconp {
+	margin-top: 20px;
+}
+
+.emanagerrmaconf {
+	width: 699px;
+	padding: 8px 18px;
+	margin: 10px auto;
+	background: #343434;
+}
+
+.emanagerrmaconf_l {
+	width: 268px;
+	height: 180px;
+	background: url(/NBEmail/img/emana/eaddp.png) no-repeat;
+	float: left;
+}
+
+.emanagerrmaconf_r {
+	width: 406px;
+	margin-left: 25px;
+	float: left;
+}
+
+.emanagerrmaconfnav {
+	width: 350px;
+	height: 27px;
+	border: 1px solid #146ec8;
+	background: #fff;
+	margin-top: 35px;
+	position: relative;
+}
+
+.emanagerrmaconfni {
+	width: 245px;
+	height: 17px;
+	padding: 5px;
+	border: 0 none;
+	line-height: 17px;
+}
+
+.emanagerrmaconfnb {
+	width: 95px;
+	height: 27px;
+	background: url(/NBEmail/img/login/basebtn.jpg) 0 0 no-repeat;
+	text-align: center;
+	line-height: 27px;
+	color: #fff;
+	border: 0 none;
+	cursor: pointer;
+}
+
+.emanagerrmaconfnb:hover {
+	background-position: -96px 0;
+}
+
+.emanagerrmaconfnt {
+	width: 120px;
+	height: 34px;
+	background: url(/NBEmail/img/emana/btn3.png) 0 0 no-repeat;
+	text-align: center;
+	line-height: 34px;
+	color: #000;
+	cursor: pointer;
+	border: 0 none;
+	margin: 40px 0 0 300px;
+}
+
+.emanagerrmaconfnt:hover {
+	background-position: -121px 0;
+}
+
+.emanagerrmaconfnta {
+	width: 153px;
+	height: 35px;
+	background: url(/NBEmail/img/emana/btn2.png) 0 0 no-repeat;
+	text-align: center;
+	line-height: 35px;
+	color: #fff;
+	cursor: pointer;
+	border: 0 none;
+	margin: 30px auto;
+}
+
+.emanagerrmaconfnta:hover {
+	background-position: -153px 0;
+}
+
+.emanagerrmaconl2 {
+	margin-left: 45px;
+}
+
+.emanagerrmaconsear {
+	width: 136px;
+	height: 27px;
+	background: url(/NBEmail/img/emana/searchbtn.png) 0 0 no-repeat;
+	text-align: center;
+	color: #fff;
+	line-height: 27px;
+	margin: 10px 0 0 20px;
+	border: 0 none;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.emanagerrmaconsear:hover {
+	background-position: -137px 0;
+}
+
+.emanagergetno {
+	margin-right: 3px;
+	border: 1px solid #0491d8;
+	margin-top: 20px;
+}
+
+.emanagergettable {
+	width: 100%;
+	border: 1px solid #c6c7c8;
+	background: #fff;
+	border-right: 0 none;
+	border-bottom: 0 none;
+	font-size: 12px;
+}
+
+.emanagergettr {
+	background: #058fd7;
+	color: #fff;
+}
+
+.emanagergettable td {
+	border-right: 1px solid #c6c7c8;
+	border-bottom: 1px solid #c6c7c8;
+	padding: 0px 3px;
+	text-align: center;
+}
+
+.emanagergettable td div {
+	text-align: left;
+}
+
+.emanagergettr td {
+	text-align: center;
+}
+
+.emanagergetall {
+	margin-right: 6px;
+	margin-left: 8px;
+}
+
+.emanagergettd2 {
+	width: 120px;
+}
+
+.emanagergettd3 {
+	width: 110px;
+}
+
+.emanagergettd4 {
+	width: 60px;
+	text-align: center;
+}
+
+.emanagergetview {
+	color: #1f99dd;
+	text-decoration: underline;
+}
+
+.emanagergetview:hover {
+	color: #5fb8e8;
+}
+
+.emanagergetdel {
+	width: 120px;
+	height: 34px;
+	background: transparent url("/NBEmail/img/emana/btn3.png") no-repeat
+		scroll 0px 0px;
+	text-align: center;
+	line-height: 34px;
+	color: #000;
+	cursor: pointer;
+	border: 0px none;
+	margin: 10px 0px 0px 6px;
+	font-size: 14px;
+}
+
+.emanagergetdel:hover {
+	background-position: -121px 0;
+}
+
+.emanagergetpage {
+	display: inline-block;
+	height: 34px;
+	line-height: 34px;
+	margin-left: 10px;
+	font-size: 12px;
+}
+
+.emanagergetpagea {
+	color: #000;
+	text-decoration: none;
+}
+
+.emanagergetpagea:hover {
+	color: #058FD7;
+	text-decoration: none;
+}
+
+.emanagergetpagee {
+	width: 30px;
+	height: 18px;
+	text-align: center;
+	line-height: 18px;
+	border: 1px solid #959595;
+}
+
+.emanagergetpager {
+	color: red;
+}
+
+.cusalldiv {
+	position: relative; /* width:1580px; */
+	margin: 0px auto; /* left:50%;margin-left:-790px; */
+	/* border:1px solid #000; */
+	min-width: 1300px;
+}
+/* .usechange{width:1370px;position:absolute;top:67px;right:0;z-index:1;padding:5px;text-align:left;width: 1370px;
+position: relative;
+top: -580;
+left: 220px;
+z-index: 1;
+padding: 5px;
+text-align: left;} */
+.usechange { /* width:1370px;position:absolute;*/
+	top: 67px;
+	left: 0;
+	z-index: 1; /* padding:5px; */
+	text-align: left;
+	padding-left: 190px;
+	box-sizing: border-box;
+	width: 100%;
+	float: left;
+}
+
+.usectable {
+	margin-top: /* 20 */ 0px;
+	font-size: 13px;
+}
+
+.mana_inbtn {
+	background: none;
+	border: none;
+	color: #00afff;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.mana_inbtn:hover {
+	color: #f90;
+}
+
+.usectable_re {
+	margin-left: 50px;
+	margin-top: 8px;
+}
+
+.usectable_re1 {
+	margin-left: 50px;
+}
+
+.usermatd_btn {
+	padding-left: 220px;
+}
+
+.usechange .title_h2 {
+	background: #eaeaea;
+	font-size: 16px;
+	padding: 7px 0 7px 10px;
+	margin-bottom: 10px;
+}
+
+.transhead {
+	width: 200px;
+	height: 36px;
+	line-height: 36px;
+	position: absolute;
+	top: 0;
+	left: 23px;
+}
+
+.transheadh1 {
+	margin-left: 12px;
+	font-size: 17px;
+	padding-top: 10px;
+}
+
+.transgerrmaconi2 {
+	width: 160px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #CBD1DF;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #CBD1DF;
+}
+
+.transgerrmaconi3 {
+	width: 160px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #CBD1DF;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #CBD1DF;
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+.emanagerrmaconp a {
+	color: #1973fb;
+	text-decoration: underline;
+}
+
+.emanagerrmaconp a:hover {
+	color: #7aa7f2;
+	text-decoration: underline;
+}
+
+.transmanav {
+	padding-bottom: 716px;
+}
+
+.transsentable {
+	margin-top: 0px;
+}
+
+.transsendcon {
+	padding-top: 10px;
+}
+
+.transgergettd {
+	width: 80px;
+	text-align: center;
+}
+
+.transmantd1 {
+	height: 60px;
+}
+
+.tran_title {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.tab_info {
+	margin-left: 22px;
+	float: left;
+	position: absolute;
+	left: 686px;;
+}
+
+.tab_info td {
+	padding: 5px 0;
+}
+
+#CompanyProfile {
+	border: 1px solid #cbd1df;
+}
+
+.custable {
+	width: 100%;
+}
+
+.custd1 {
+	width: 130px;
+	text-align: left;
+}
+
+.custd3 {
+	width: 138px;
+	text-align: left;
+}
+
+.custd2 {
+	height: 45px;
+}
+
+.custdin {
+	height: 25px;
+	padding: 3px;
+	border: 1px solid #CBD1DF;
+}
+
+.custdin_d {
+	width: 188px;
+	height: 25px;
+	border: 1px solid #CBD1DF;
+	line-height: 25px;
+	padding-left: 2px;
+}
+
+.custdarea {
+	padding: 3px;
+	border: 1px solid #CBD1DF;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px #E8E8E8 inset;
+	margin-top: 5px;
+}
+
+.custd_top {
+	vertical-align: top;
+}
+
+.custdin_ml {
+	margin-left: 7px;
+}
+
+.custdin_ml1 {
+	margin-left: 13px;
+}
+
+.efandiv {
+	margin-top: 30px;
+}
+
+.emaibtn-left {
+	margin-left: 370px;
+}
+
+.userselediv {
+	display: inline-block;
+	width: 160px;
+	height: 27px;
+	border: 1px solid #cbd1df;
+	position: relative;
+	border-radius: 4px;
+}
+
+.userselediv_nor {
+	display: inline-block;
+	width: 129px;
+	height: 24px;
+	border: 1px solid #cbd1df;
+	position: relative;
+}
+
+.userselein {
+	width: 128px;
+	border: 0 none;
+	padding: 3px;
+	margin: 1px 0 0 0px;
+	background: transparent;
+}
+
+.userselediv_nora {
+	display: inline-block;
+	width: 129px;
+	height: 23px;
+	border: 1px solid #cbd1df;
+	position: relative;
+}
+
+.userseleina {
+	width: 128px;
+	height: 21px;
+	line-height: 19px;
+	border: 0 none;
+	padding: 3px;
+	margin: 1px 0 0 0px;
+	background: transparent;
+}
+
+.userseleimg {
+	width: 27px;
+	height: 27px;
+	background: #d7d4cb;
+	border-radius: 0 4px 4px 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	cursor: pointer;
+}
+
+.userseleimgsq {
+	display: block;
+	width: 0;
+	height: 0;
+	border: 7px;
+	border-style: solid;
+	border-color: transparent transparent transparent #363636;
+	position: absolute;
+	top: 7px;
+	left: 11px;
+}
+
+.userselediv:hover {
+	border-color: #27BCFF;
+}
+
+.userselediv:hover .userseleimg {
+	background: #e9e4e0;
+}
+
+.userselediv:hover .userseleimgsq {
+	border-color: #363636 transparent transparent transparent;
+	top: 11px;
+	left: 7px;
+}
+
+.userexcise {
+	position: absolute;
+	top: 0;
+	right: 30px;
+	width: 50px;
+	height: 27px;
+}
+
+.userspan1 {
+	display: block;
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	border-width: 20px;
+	border-style: solid;
+	border-color: #fff #09F #09f #fff;
+}
+
+.userspan2 {
+	display: block;
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: 25px;
+	left: 5px;
+	border-width: 10px 20px;
+	border-style: dashed solid solid dashed;
+	border-color: transparent #fff #fff transparent;
+}
+
+.usermatd1 {
+	height: 28px;
+	padding-right: 15px;
+}
+
+.usermatd2 {
+	width: 320px;
+}
+
+.usermatd3 {
+	padding-left: 20px;
+	padding-right: 15px;
+	height: 40px;
+}
+
+.usermatd4 { /* padding-bottom:8px; */
+	padding-left: 10px;
+}
+
+.usermatd5 {
+	width: 230px;
+}
+
+.usermatd6 {
+	padding-left: 60px;
+}
+
+.usermatdu {
+	vertical-align: bottom;
+	padding-bottom: 5px;
+}
+
+.usersearchbtn {
+	width: 136px;
+	height: 27px;
+	text-align: center;
+	background: url(/NBEmail/img/emana/searchbtn.png) 0 0 no-repeat;
+	border: 0 none;
+	margin: 15px 0 5px 0px;
+	cursor: pointer;
+	font-family: inherit;
+	color: #fff;
+}
+
+.usersearchbtn:hover {
+	background-position: -137px 0;
+}
+
+.userpribarul li {
+	float: left;
+	width: auto;
+}
+
+.userpribarul:after {
+	clear: both;
+}
+
+.userpribarli1 {
+	margin-right: 14px;
+	padding-right: 28px;
+	background: url(/NBEmail/img/user/uarrow.png) right 5px no-repeat;
+}
+
+.userpribarul {
+	margin: -19px 0 0 76px;
+	font-size: 13px;
+}
+
+.userprogbar {
+	padding: 20px 0 20px 10px;
+}
+
+.userprogbarh {
+	font-size: 15px;
+}
+
+.usertabletd1 {
+	width: 100px;
+}
+
+.useralltable {
+	padding-top: 2px;
+}
+
+.useralltabletd1 {
+	width: 230px;
+}
+
+.useralltd_a {
+	margin-right: 40px;
+}
+
+.usernewinput1 {
+	width: 160px;
+	height: 20px;
+	padding: 3px;
+	border: 1px solid #CBD1DF;
+	border-radius: 4px;
+	box-shadow: inset 0 1px 1px #CBD1DF;
+	margin-top: 20px;
+	margin-left: 0px;
+}
+
+.usernewinleft {
+	margin-left: 15px;
+}
+
+.usernewinleft2 {
+	margin-left: 29px;
+}
+
+.line_on {
+	background: url(/NBEmail/img/emana/elion.png) 0 0 no-repeat;
+	color: #fff;
+}
+
+.exchanabtn {
+	display: block;
+	text-decoration: none;
+}
+
+.custd4 {
+	padding: 0 0 6px 10px;
+}
+
+.eretitle {
+	margin: 10px 0 5px 8px;
+}
+
+.eretable {
+	margin-left: 8px;
+}
+
+.eretdw {
+	width: 80px;
+}
+
+.ereinleft {
+	margin-left: 130px;
+}
+
+.ereinleft1 {
+	margin-left: 13px;
+}
+
+.eretdwb {
+	padding-bottom: 12px;
+}
+
+.egettd1 {
+	width: 60px;
+}
+
+.egettdli {
+	width: 30px;
+}
+
+.egettitle {
+	display: block;
+	text-align: left;
+}
+
+.sendpri {
+	margin-right: 40px;
+}
+
+.cusmessa {
+	font-size: 12px;
+	color: red;
+}
+
+.mprocus {
+	width: 100px;
+	border: 1px solid #ddd;
+	float: left;
+	margin-left: 10px;
+	padding: 5px;
+	height: 191px;
+	overflow-y: scroll;
+}
+
+.mprocusright {
+	float: left;
+	margin-left: 20px;
+}
+
+.mprolist {
+	margin-bottom: 20px;
+}
+
+.peochanleft, .peochanright {
+	float: left;
+}
+
+.peochanleft {
+	padding-right: 75px;
+	border-right: 1px dashed #ddd;
+}
+
+.peochanright {
+	margin-left: 75px;
+}
+
+.salenow {
+	margin-right: 20px;
+}
+
+.salenow1 {
+	margin-right: 10px;
+}
+
+.salenbtn {
+	margin-top: 0px;
+}
+
+.saletd1 {
+	width: 120px;
+	height: 45px;
+}
+
+.salebackbtn {
+	margin-bottom: 10px;
+	margin-left: 0px;
+}
+
+.peochanright table td {
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+.unkownemd {
+	width: 300px;
+	float: left;
+}
+
+.unkownembtnd {
+	float: left;
+}
+
+.unkownembtnd td {
+	padding-top: 10px;
+}
+
+.usermatd1wid {
+	width: 32px;
+}
+
+.spiconbl {
+	display: inline-block;
+	width: 28px;
+	padding: 2px;
+	border: 1px solid #00afff;
+	border-radius: 3px;
+	font-size: 12px;
+	margin: 2px;
+	background: #fff;
+}
+
+.spiconbr {
+	display: inline-block;
+	padding: 1px;
+	border: 1px solid #f00;
+	border-radius: 3px;
+	font-size: 12px;
+	margin: 2px;
+}
+
+.usersearchbtnpl {
+	padding-left: 16px;
+	font-size: 12px;
+}
+
+.proratediv {
+	width: 500px;
+	float: left;
+}
+
+.pronumdiv::after {
+	display: table;
+	content: "";
+	clear: both;
+	height: 0;
+	width: 0;
+}
+
+.pronbtnd {
+	margin-left: 105px;
+}
+
+.right_out {
+	right: 40px;
+	left: auto;
+	text-align: right;
+}
+
+.email_content {
+	float: left;
+	height: 100%;
+	width: 56%;
+	background-color: #ccc;
+}
+
+.email-left {
+	float: left;
+	width: 43%;
+	overflow: auto;
+	height: 100%;
+}
+
+.form_wrap {
+	margin-left: 40px;
+	float: left;
+}
+
+.form_wrap form {
+	display: inline-block;
+}
+
+.form_wrap>* {
+	vertical-align: middle;
+}
+
+.form_wrap .emanagergetdel {
+	margin-top: 20px;
+}
+
+.usechange_left {
+	float: left;
+}
+
+.usechange.frame {
+	padding-left: 10px;
+	padding-top: 5px;
+	background-color: #fff;
+}
+
+.head_itemList {
+	margin-top: 20px;
+	padding-left: 10px;
+}
+
+.usectable .new_btn {
+	/* margin-top: 6px; */
+	
+}
+
+.new_btn {
+	padding: 4px 14px;
+	border-radius: 6px;
+	cursor: pointer;
+	background-color: #058fd7;
+	color: #fff;
+}
+
+.new_btn:hover {
+	background-color: #54c9ff;
+}
+
+.new_Email_wrap {
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.userselediv_nor.input {
+	width: 240px;
+}
+
+.userselediv_nor.input input {
+	width: 100%;
+}
+
+.usectable {
+	display: inline-block;
+}
+
+input[type=button]:hover {
+	cursor: pointer;
+}
+
+.usectable.head {
+	margin-top: 0px;
+}
+
+.usermatd3.left {
+	padding-left: 0;
+}
+
+.cpoint {
+	cursor: pointer;
+}
+
+.emananav * {
+	font-size: 12px !important;
+}
+
+.email_re {
+	display: inline-block;
+	float: right;
+	text-align: center;
+	width: 40px !important;
+}
+
+.email_div span {
+	display: inline-block;
+	width: 120px;
+	/* overflow: hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	-webkit-text-overflow:ellipsis;
+	-moz-text-overflow:ellipsis;
+	white-space:nowrap; */
+}
+
+.emananavline_out {
+	height: 26px;
+}
+
+.email_value {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+	min-width: 60px;
+}
+
+.email_key {
+	display: inline-block;
+	vertical-align: middle;
+	min-width: 60px;
+}
+
+.email_accessories {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 3px 0px;
+}
+
+.emailContent {
+	margin-top: 10px;
+	padding-left: 3px;
+	font-size: 16px;
+}
+
+.email_div span {
+	width: 43%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.email_accessories a {
+	display: inline-block;
+	margin: 6px 6px 6px 0px;
+	width: 130px;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px solid #ccc;
+	padding: 2px 5px;
+}
+
+.emanager_right img:first-child {
+	height: 52px;
+}
+
+.emanager_right .right_out img {
+	height: auto;
+}
+
+.emanager_left img:first-child {
+	width: 190px;
+}
+
+.emanager_left .emananav img {
+	width: auto;
+}
+
+.email_detail {
+	font-size: 12px;
+}
+.usechange1 { /* width:1370px;position:absolute;*/
+	top: 67px;
+	left: 0;
+	z-index: 1; /* padding:5px; */
+	text-align: left;
+	box-sizing: border-box;
+	width: 100%;
+	float: left;
+}
+.e_title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 236px;
+}

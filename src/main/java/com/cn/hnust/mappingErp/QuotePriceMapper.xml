@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoErp.QuotePriceServiceMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QuotePrice1">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="caseNo" jdbcType="VARCHAR" property="caseNo" />
+    <result column="EmployeeName" jdbcType="VARCHAR" property="employeeName" />
+    <result column="CurrentStatus" jdbcType="VARCHAR" property="currentStatus" />
+    <result column="UploadUrl" jdbcType="VARCHAR" property="uploadUrl" />
+    <result column="kuzhizao" jdbcType="INTEGER" property="kuzhizao" />
+    <result column="dingding" jdbcType="INTEGER" property="dingding" />
+    
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, caseNo, EmployeeName, CurrentStatus
+  </sql>
+
+  
+  <insert id="add" parameterType="com.cn.hnust.pojo.QuotePrice1" >
+    insert into QuotePrice ( CaseNo, EmployeeName, 
+      CurrentStatus,UpdateTime)
+    values ( #{caseNo,jdbcType=VARCHAR}, #{employeeName,jdbcType=VARCHAR}, 
+      #{currentStatus,jdbcType=VARCHAR},getDate())
+  </insert>
+  
+  
+<select id="getLate" resultMap="BaseResultMap">
+     select top 1 * from  QuotePrice where kuzhizao!=0 order by id desc 
+  </select>
+<select id="getLateOne" resultMap="BaseResultMap">
+     select top 1 * from  QuotePrice where dingding!=0 order by id desc 
+  </select>
+<insert id="addAll" parameterType="com.cn.hnust.pojo.QuotePrice1" >
+    insert into QuotePrice (CaseNo, EmployeeName, 
+      CurrentStatus,UpdateTime,UploadUrl,kuzhizao)
+      values
+       <foreach collection="list"  item="item" separator=",">
+        (#{item.caseNo,jdbcType=VARCHAR},#{item.employeeName,jdbcType=VARCHAR},#{item.currentStatus,jdbcType=VARCHAR},getDate()
+       ,#{item.uploadUrl,jdbcType=VARCHAR},#{item.kuzhizao,jdbcType=INTEGER} )
+     </foreach>
+    
+  </insert>
+<insert id="addAll1" parameterType="com.cn.hnust.pojo.QuotePrice1" >
+    insert into QuotePrice (CaseNo, EmployeeName, 
+      CurrentStatus,UpdateTime,UploadUrl,dingding)
+      values
+       <foreach collection="list"  item="item" separator=",">
+        (#{item.caseNo,jdbcType=VARCHAR},#{item.employeeName,jdbcType=VARCHAR},#{item.currentStatus,jdbcType=VARCHAR},getDate()
+       ,#{item.uploadUrl,jdbcType=VARCHAR},#{item.dingding,jdbcType=INTEGER} )
+     </foreach>
+    
+  </insert>
+ 
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.IssueReplyMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.IssueReply" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="issue_id" property="issueId" jdbcType="INTEGER" />
+    <result column="reply_content" property="replyContent" jdbcType="VARCHAR" />
+    <result column="reply_user" property="replyUser" jdbcType="VARCHAR" />
+    <result column="reply_time" property="replyTime" jdbcType="TIMESTAMP" />
+    <result column="reply_type" property="replyType" jdbcType="INTEGER" />
+    <result column="qualification" property="qualification" jdbcType="VARCHAR" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="file_path" property="filePath" jdbcType="VARCHAR" />
+    <result column="inspection_name" property="inspectionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, issue_id, reply_content, reply_user, reply_time, reply_type,qualification,file_name,file_path,inspection_name 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from issue_reply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 根据问题id查询回复 -->
+  <select id="queryByIssueId" resultMap="BaseResultMap">
+    select   
+    <include refid="Base_Column_List" />
+    from issue_reply  
+    where issue_id = #{issueId,jdbcType=INTEGER}  
+  </select>
+  
+  <!-- 根据问题id查询回复 -->
+  <select id="queryReply" resultMap="BaseResultMap">
+    select   
+    <include refid="Base_Column_List" />
+    from issue_reply  
+    where issue_id = #{issueId,jdbcType=INTEGER} and reply_type = #{type,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from issue_reply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.IssueReply" >
+    insert into issue_reply (id, issue_id, reply_content, 
+      reply_user, reply_time, reply_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{issueId,jdbcType=INTEGER}, #{replyContent,jdbcType=VARCHAR}, 
+      #{replyUser,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, #{replyType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.IssueReply" >
+    insert into issue_reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="issueId != null" >
+        issue_id,
+      </if>
+      <if test="replyContent != null" >
+        reply_content,
+      </if>
+      <if test="replyUser != null" >
+        reply_user,
+      </if>
+      <if test="replyTime != null" >
+        reply_time,
+      </if>
+      <if test="replyType != null" >
+        reply_type,
+      </if>
+      <if test="qualification != null" >
+        qualification,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="filePath != null" >
+        file_path,
+      </if>
+      <if test="inspectionName != null" >
+        inspection_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="issueId != null" >
+        #{issueId,jdbcType=INTEGER},
+      </if>
+      <if test="replyContent != null" >
+        #{replyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUser != null" >
+        #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null" >
+        #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyType != null" >
+        #{replyType,jdbcType=INTEGER},
+      </if>
+      <if test="qualification != null" >
+        #{qualification,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionName != null" >
+        #{inspectionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.IssueReply" >
+    update issue_reply
+    <set >
+      <if test="issueId != null" >
+        issue_id = #{issueId,jdbcType=INTEGER},
+      </if>
+      <if test="replyContent != null and replyContent!=''" >
+        reply_content = #{replyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="replyUser != null" >
+        reply_user = #{replyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyTime != null" >
+        reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replyType != null" >
+        reply_type = #{replyType,jdbcType=INTEGER},
+      </if>
+      <if test="qualification != null and qualification != ''" >
+        qualification = #{qualification,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionName != null" >
+        inspection_name = #{inspectionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.IssueReply" >
+    update issue_reply
+    set issue_id = #{issueId,jdbcType=INTEGER},
+      reply_content = #{replyContent,jdbcType=VARCHAR},
+      reply_user = #{replyUser,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      reply_type = #{replyType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 批量插入 -->
+   <insert id="insertBatch" parameterType="java.util.List">      
+    insert into issue_reply ( 
+      issue_id, reply_content, reply_user, reply_time, reply_type , qualification, file_name,file_path,inspection_name 
+       ) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.issueId}, 
+              #{item.replyContent},
+              #{item.replyUser},
+              #{item.replyTime},
+              #{item.replyType},
+              #{item.qualification},
+              #{item.fileName},
+              #{item.filePath},
+              #{item.inspectionName}
+		      ) 
+        </foreach>  
+    </insert>  
+</mapper>

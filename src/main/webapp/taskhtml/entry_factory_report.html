@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="keywords" content="" />
+
+<meta name="Description"
+	content="Please contact us,we can help western companies to manufacture plastic injection molding products in China with Chinese factories since year 2003. ">
+
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<title>采购单/多日行踪录入</title>
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../lib/datetimepicker/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="../addcss/common.css">
+<link rel="stylesheet" href="../addcss/entry_factory_report.css">
+</head>
+<body>
+<div classs="entry_factory_report">
+	<div class="container">
+		<div class="row mt15">
+			<div class="col-xs-12">
+				<h1 class="pull-left">填写验厂报告</h1>
+				<a class="btn btn-default pull-right" target="_blank" href="/user/toIndex?userId=&lt;%=userId%&gt;&amp;roleNo=&lt;%=roleNo%&gt;&amp;userName=&lt;%=userName%&gt;">返回功能选择页
+				</a>
+			</div>			
+		</div>
+	</div>
+	<div class="container">
+		<div class="row as mt15">
+			<div class="col-xs-12">
+				<a class="col-xs-4 bg_ff0">工厂基本信息</a>
+				<a class="col-xs-4 ">资质设备</a>
+				<a class="col-xs-4 ">现场管控</a>
+			</div>
+		</div>
+		<div class="row mt15 form-horizontal">	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">公司名称(中文)</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>		
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">公司名称(英文)</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">联系人姓名</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">联系人职务</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">QQ号码</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">电子邮件</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">电话号码</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">是否愿意报价</label>
+				<div class="col-sm-10 col-xs-8 mean">
+					<label><input type="radio" name="mean">是</label>
+					<label><input type="radio" name="mean">否</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">主要工艺</label>
+				<div class="col-sm-10 col-xs-12">
+					<select class="form-control">
+						<option value="">工艺1</option>
+						<option value="">工艺1</option>
+						<option value="">工艺1</option>
+					</select>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">公司LOGO</label>
+				<div class="col-sm-10 col-xs-8"><input type="file"></div>									
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">1688网址</label>
+				<div class="col-sm-10 col-xs-8">
+					<div class="form-group">						
+						<div class="input-group">
+						  <div class="input-group-addon">https</div>
+						  <input type="text" class="form-control">						  
+						</div>
+					  </div>
+				</div>									
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">营业执照照片</label>
+				<div class="col-sm-10 col-xs-8"><img src="" alt="" class="img-responsive"></div>									
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">营业执照号码</label>
+				<div class="col-sm-10 col-xs-8"><input type="text" class="form-control"></div>									
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">公司地址</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>									
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">成立年份</label>
+				<div class="col-sm-10 col-xs-8">
+					<div class="input-group date form_datetime col-md-6 w300 posirela" data-date="2000" data-date-format="yyyy" data-link-field="dtp_input1">
+						<input class="form-control brt" size="16" type="text" readonly="" id="establishmentYear">
+						<!--<span class="input-group-addon blt"></span>-->
+						<span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+					</div>
+					<input type="hidden" id="dtp_input1" value="">
+				</div>									
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">雇员数量</label>
+				<div class="col-sm-10 col-xs-8">
+					<select class="form-control">
+						<option value="">0-49</option>
+						<option value="">50-99</option>
+						<option value="">100-200</option>
+						<option value="">201-500</option>
+						<option value="">500+</option>
+					</select>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">工厂面积</label>
+				<div class="col-sm-10 col-xs-8">
+					<select class="form-control">
+						<option value="0-1,000㎡">0-1,000㎡</option>
+						<option value="1,000-3,000㎡">1,000-3,000㎡</option>
+						<option value="3,000-5,000㎡">3,000-5,000㎡</option>
+						<option value="5,000-10,000㎡">5,000-10,000㎡</option>
+						<option value="10,000-30,000㎡">10,000-30,000㎡</option>
+						<option value="30,000+㎡">30,000+㎡</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">厂房性质</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">质检员数量</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">技术员数量</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">会英语的业务员数量</label>
+				<div class="col-sm-10 col-xs-12"><input type="text" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">年产值</label>
+				<div class="col-sm-10 col-xs-12">
+					<select class="form-control w300" id="factoryValue">
+						<option value="0-500万元">0-500万元</option>
+						<option value="500-1000万元">500-1000万元</option>
+						<option value="1000-2000万元">1000-2000万元</option>
+						<option value="2000-3000万元">2000-3000万元</option>
+						<option value="3000-4000万元">3000-4000万元</option>
+						<option value="4000万元+">4000万元+</option>
+					</select>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">进出口权</label>
+				<div class="col-sm-10 col-xs-12">
+					<select class="form-control w300" id="type">
+						<option value="yes">有</option>
+						<option value="no">无</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-4 control-label">网站</label>
+				<div class="col-sm-10 col-xs-8">
+					<div class="input-group">
+						<span class="input-group-addon">http://</span> <input type="text" class="form-control" id="website" value="" aria-describedby="inputGroupSuccess2Status">
+					</div>
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">公司简介</label>
+				<div class="col-sm-10 col-xs-12">					
+					<textarea class="form-control"></textarea>					
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<span class="col-xs-4">未保存</span>
+				<span class="col-xs-4">2019-05-08</span>
+				<button class="col-xs-4">保存</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<label>
+					<input type="checkbox" >
+					<span>保存并抓取工厂1688产品</span>
+				</label>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../lib/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../lib/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script>
+	/* 日历插件 */
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        /*weekStart: 1,*/
+        todayBtn:  1,
+        autoclose: 1,
+        /*todayHighlight: 1,*/
+        startView: 4,
+        minView: 4,
+        maxView: 4,
+        forceParse: 0,
+        showMeridian: 1
+    });
+    $('.table-condensed tfoot').remove();
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

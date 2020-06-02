@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectDrawingMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectDrawing" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="drawing_name" property="drawingName" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <!-- 虚拟字段 -->
+    
+    <result column="complaint_id" property="complaintId" jdbcType="INTEGER"/>
+		<result column="verification_time" property="verificationTime" jdbcType="INTEGER"/>
+		<result column="verifier" property="verifier" jdbcType="VARCHAR"/>
+		<result column="verification" property="verification" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, drawing_name,category,create_date,remark,upload_time,name 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_drawing
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project_drawing
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectDrawing" >
+    insert into project_drawing (id, project_no, drawing_name, 
+      create_date)
+    values (#{id,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, #{drawingName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectDrawing" >
+    insert into project_drawing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="drawingName != null" >
+        drawing_name,
+      </if>
+      <if test="category !=null">
+         category,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="uploadTime != null" >
+        upload_time,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="drawingName != null" >
+        #{drawingName,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null" >
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+         #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectDrawing" >
+    update project_drawing
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="drawingName != null" >
+        drawing_name = #{drawingName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectDrawing" >
+    update project_drawing
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      drawing_name = #{drawingName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 批量添加图纸信息 -->
+  <select id="batchAddProjectDrawing" parameterType="java.util.List">
+      INSERT INTO project_drawing(id,project_no,drawing_name,category,create_date,remark,upload_time )  VALUES
+      <foreach collection="list"  item="item" separator=",">
+        (#{item.id,jdbcType=VARCHAR},#{item.projectNo,jdbcType=VARCHAR},#{item.drawingName,jdbcType=VARCHAR},
+        #{item.category,jdbcType=VARCHAR},#{item.createDate,jdbcType=TIMESTAMP},#{item.remark,jdbcType=VARCHAR},
+        #{item.uploadTime,jdbcType=TIMESTAMP}
+        )
+     </foreach>
+  </select>
+  
+ 
+  <!-- 查询所有的记录信息 -->
+   <select id="selectAllProjectDrawing" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from project_drawing
+  </select>
+  <!-- 查询最新的图纸 -->
+  <select id="selectProjectDrawingByProjectNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+      pd.*,pt.complaint_id,pt.verification,pt.verifier,pt.verification_time
+    from project_drawing pd
+    left join project_task pt on pd.id=pt.drawing_id
+    where 1=1 and category in(4,5) AND pd.project_no = #{projectNo,jdbcType=VARCHAR} ORDER BY pd.create_date DESC
+  </select>
+  <select id="selectByProjectNo" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectDrawing">
+    select 
+      <include refid="Base_Column_List" />
+    from project_drawing
+    where 1=1 and category in(4,5) AND project_no = #{projectNo,jdbcType=VARCHAR}
+    and create_date&gt;#{createDate,jdbcType=TIMESTAMP}
+     ORDER BY create_date DESC
+  </select>
+  <!-- 项目需求汇总 -->
+  <select id="selectProjectDemandReportByNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+      <include refid="Base_Column_List" />
+    from project_drawing
+    where 1=1 and category in(4,5) AND project_no = #{projectNo,jdbcType=VARCHAR} AND  drawing_name like '%需求汇总%' ORDER BY create_date DESC
+  </select>
+</mapper>

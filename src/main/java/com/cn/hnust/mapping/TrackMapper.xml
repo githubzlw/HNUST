@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.TrackMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Track" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="out_date" property="outDate" jdbcType="DATE" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="factory_list" property="factoryList" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="report_id" property="reportId" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    
+    
+    <collection property="placeList" column="id" select="com.cn.hnust.dao.TrackPlaceMapper.selectTrackPlaceList"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, out_date, place, factory_list, create_time,report_id,remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select  
+    t1.id, t1.user_name, t1.out_date, t1.create_time,t1.remark,t2.place  
+    from track t1  
+    left join  
+    track_place t2 on t1.id = t2.track_id  
+    where t1.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询质检采购去仓库的次数 -->
+  <select id="selectFromStore" resultType="map">
+     select purchaseCount,qualityCount from 
+	     (select count(1) as purchaseCount,t2.place from track t1 
+	     left join track_place t2 on t1.id = t2.track_id 
+	     left join user on t1.user_name = user.user_name  
+	     where 1 = 1  
+	          <if test="purchaseName != null and purchaseName != ''">
+	           and t1.user_name = #{purchaseName,jdbcType=VARCHAR}   
+	           </if>
+	          and user.role_no = 6   
+<!-- 	          and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)   -->
+                 <if test="queryDate != null and queryDate != ''">
+					     <if test="queryDate == 1">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+					     </if>
+					     <if test="queryDate == 2">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+					     </if>
+					     <if test="queryDate == 3">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+						  </if>
+				  </if>
+	          and t2.place = #{place,jdbcType=VARCHAR} 
+	      )t3    
+	     LEFT JOIN 
+	     (
+	     select count(1) as qualityCount,t2.place from track t1 
+	     left join track_place t2 on t1.id = t2.track_id 
+	     left join user on t1.user_name = user.user_name  
+	     where 1 = 1  
+	          <if test="qualityName != null and qualityName != ''">
+	           and t1.user_name = #{qualityName,jdbcType=VARCHAR}   
+	           </if>
+	          and user.role_no = 9   
+<!-- 	          and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 WEEK)      -->
+	          <if test="queryDate != null and queryDate != ''">
+					     <if test="queryDate == 1">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  
+					     </if>
+					     <if test="queryDate == 2">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)  
+					     </if>
+					     <if test="queryDate == 3">
+					        and t1.out_date &gt;= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)  
+						  </if>
+				  </if>
+	          and t2.place = #{place,jdbcType=VARCHAR} 
+	      )t4 on t3.place = t4.place
+  </select>
+  
+  
+  
+  <select id="selectByDate" parameterType="com.cn.hnust.pojo.TrackQuery" resultMap="BaseResultMap">
+      select t1.id, t1.user_name, t1.out_date, t1.create_time,t1.remark,t2.place from track t1 
+	     left join track_place t2 on t1.id = t2.track_id 
+	     where 1=1  
+	     <if test="startTime != null">  
+	        and t1.out_date &gt;= #{startTime}   
+	     </if>
+	     <if test="endTime != null">  
+	        and t1.out_date &lt;= #{endTime}   
+	     </if> 
+	     <choose>
+	         <when test="roleNo == 100">
+	             
+	         </when>
+	         <otherwise>
+	             and t1.user_name = #{userName,jdbcType=VARCHAR} 
+	         </otherwise>
+	     </choose> 
+	     order by t1.out_date desc 
+  </select>
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from track
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByReportId" parameterType="java.lang.Integer" >
+   delete track,track_place from track left join track_place on track.id = track_place.track_id   
+   where track.report_id = #{reportId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.Track" >
+    insert into track (id, user_name, out_date, 
+      place, factory_list, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{outDate,jdbcType=DATE}, 
+      #{place,jdbcType=VARCHAR}, #{factoryList,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.Track" useGeneratedKeys="true" keyProperty="id">
+    insert into track
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="outDate != null" >
+        out_date,
+      </if>
+      <if test="place != null" >
+        place,
+      </if>
+      <if test="factoryList != null" >
+        factory_list,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null" >
+        #{outDate,jdbcType=DATE},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryList != null" >
+        #{factoryList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportId != null" >
+        #{reportId,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.TrackQuery" >
+    update track
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="outDate != null" >
+        out_date = #{outDate,jdbcType=DATE},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryList != null" >
+        factory_list = #{factoryList,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.Track" >
+    update track
+    set user_name = #{userName,jdbcType=VARCHAR},
+      out_date = #{outDate,jdbcType=DATE},
+      place = #{place,jdbcType=VARCHAR},
+      factory_list = #{factoryList,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+  
+    <!-- 批量插入 -->
+  	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+		 insert into track ( 
+	      user_name, out_date,remark,create_time) values   
+	        <foreach collection="list" item="item" index="index" separator="," >  
+	             ( 
+	              #{item.userName}, 
+	              #{item.outDate},
+	              #{item.remark},
+	              #{item.createTime}
+			      ) 
+	        </foreach>  
+	</insert>
+  
+  
+  
+  
+</mapper>

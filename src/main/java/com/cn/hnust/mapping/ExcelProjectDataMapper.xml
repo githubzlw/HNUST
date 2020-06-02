@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ExcelProjectDataMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ExcelProjectData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="purchase_name" property="purchaseName" jdbcType="VARCHAR" />
+    <result column="sales_name" property="salesName" jdbcType="VARCHAR" />
+    <result column="quality_name" property="qualityName" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="VARCHAR" />
+    <result column="project_statue" property="projectStatue" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, purchase_name, sales_name, quality_name, project_no, company_name, 
+    type, project_name, delivery_date, project_statue, order_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from excel_project_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询所有的记录信息-->
+  <select id="findAllExcelProjectData" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from excel_project_data
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from excel_project_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ExcelProjectData" >
+    insert into excel_project_data (id, create_date, purchase_name, 
+      sales_name, quality_name, project_no, 
+      company_name, type, project_name, 
+      delivery_date, project_statue, order_status
+      )
+    values (#{id,jdbcType=INTEGER}, #{createDate,jdbcType=DATE}, #{purchaseName,jdbcType=VARCHAR}, 
+      #{salesName,jdbcType=VARCHAR}, #{qualityName,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
+      #{deliveryDate,jdbcType=DATE}, #{projectStatue,jdbcType=VARCHAR}, #{orderStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ExcelProjectData" >
+    insert into excel_project_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name,
+      </if>
+      <if test="salesName != null" >
+        sales_name,
+      </if>
+      <if test="qualityName != null" >
+        quality_name,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date,
+      </if>
+      <if test="projectStatue != null" >
+        project_statue,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="purchaseName != null" >
+        #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityName != null" >
+        #{qualityName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        #{deliveryDate,jdbcType=DATE},
+      </if>
+      <if test="projectStatue != null" >
+        #{projectStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ExcelProjectData" >
+    update excel_project_data
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="purchaseName != null" >
+        purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        sales_name = #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityName != null" >
+        quality_name = #{qualityName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=DATE},
+      </if>
+      <if test="projectStatue != null" >
+        project_statue = #{projectStatue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ExcelProjectData" >
+    update excel_project_data
+    set create_date = #{createDate,jdbcType=DATE},
+      purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      sales_name = #{salesName,jdbcType=VARCHAR},
+      quality_name = #{qualityName,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      delivery_date = #{deliveryDate,jdbcType=DATE},
+      project_statue = #{projectStatue,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

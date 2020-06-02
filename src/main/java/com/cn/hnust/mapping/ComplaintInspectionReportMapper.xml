@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ComplaintInspectionReportMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ComplaintInspectionReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="complaint_id" property="complaintId" jdbcType="INTEGER" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="new_file_name" property="newFileName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="reviewer" property="reviewer" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, complaint_id, file_name, new_file_name, create_date, reviewer, project_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from complaint_inspection_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from complaint_inspection_report
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from complaint_inspection_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ComplaintInspectionReport" >
+    insert into complaint_inspection_report (id, complaint_id, file_name, 
+      new_file_name, create_date, reviewer, 
+      project_no)
+    values (#{id,jdbcType=INTEGER}, #{complaintId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, 
+      #{newFileName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{reviewer,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ComplaintInspectionReport" useGeneratedKeys="true" keyProperty="id" >
+    insert into complaint_inspection_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      
+      <if test="complaintId != null" >
+        complaint_id,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="newFileName != null" >
+        new_file_name,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="reviewer != null" >
+        reviewer,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="complaintId != null" >
+        #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="newFileName != null" >
+        #{newFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewer != null" >
+        #{reviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ComplaintInspectionReport" >
+    update complaint_inspection_report
+    <set >
+      <if test="complaintId != null" >
+        complaint_id = #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="newFileName != null" >
+        new_file_name = #{newFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewer != null" >
+        reviewer = #{reviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ComplaintInspectionReport" >
+    update complaint_inspection_report
+    set complaint_id = #{complaintId,jdbcType=INTEGER},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      new_file_name = #{newFileName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      reviewer = #{reviewer,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

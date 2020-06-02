@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.IUserDao" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.User" >
+       <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_no" property="roleNo" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pwd" property="password" jdbcType="VARCHAR" />
+    <result column="email_address" property="emailAddress" jdbcType="VARCHAR" />
+    <result column="email_pwd" property="emailPwd" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="register_date" property="registerDate" jdbcType="TIMESTAMP" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="leaving_date" property="leavingDate" jdbcType="TIMESTAMP" />
+    <result column="erp_role" property="erpRole" jdbcType="INTEGER" />
+    <result column="task_role" property="taskRole" jdbcType="INTEGER" />
+    <result column="crm_role" property="crmRole" jdbcType="INTEGER" />
+    <result column="quotation_role" property="quotationRole" jdbcType="INTEGER" />
+    <result column="nb_role" property="nbRole" jdbcType="INTEGER" />
+    <result column="kuai_role" property="kuaiRole" jdbcType="INTEGER" />
+    <result column="bonus_role" property="bonusRole" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="dingTalk_id" property="dingTalkId" jdbcType="VARCHAR" />
+    <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
+    <!--虚拟字段  -->
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+    <result column="inspectionItems" property="inspectionItems" jdbcType="VARCHAR" />
+    <result column="averageDelayDays" property="averageDelayDays" jdbcType="VARCHAR" />
+    <result column="onTimeCompletionRate" property="onTimeCompletionRate" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id,role_no, role_name,true_name,user_name, pwd,job,email_address,dingTalk_id
+  </sql>
+  <sql id="Base_Column_List1" >
+    id, role_name,true_name,user_name, pwd,job,email_address,dingTalk_id
+  </sql>
+  <select id="selectUser" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user  
+    where 
+      user_name = #{userName,jdbcType=VARCHAR}
+    AND
+      pwd = #{password,jdbcType=VARCHAR} 
+    and flag = 1   
+  </select>
+  
+  <select id="selectUserByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user  
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="findUserByName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user  
+    where  (role_name like CONCAT('%', #{userName}, '%')  OR
+			true_name like CONCAT('%', #{userName}, '%') OR
+			user_name like CONCAT('%', #{userName}, '%') 
+		   )
+	limit 1
+  </select>
+  
+  <select id="selectAllUser" resultMap="BaseResultMap">
+    select  *
+     from (SELECT id,role_no, role_name,true_name,user_name, pwd,job,email_address,dingTalk_id,flag FROM `user` where role_no!=1020 and flag = 1 and number=0
+union 
+SELECT id,6, role_name,true_name,user_name, pwd,job,email_address,dingTalk_id,flag  FROM `user` where role_no=1020 and flag = 1 and number=0
+    )a
+     GROUP BY id ,role_no ORDER BY role_no ASC
+  </select>
+  <select id="getInspectionTask" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.User">
+    select ifnull(accepter,'')user_name,inspectionItems,ifnull(days/inspectionItems,0)averageDelayDays,(((inspectionItems-nums)*100)/inspectionItems) as onTimeCompletionRate
+   from( select a.accepter ,a.inspectionItems,ifnull(b.days,0)days,ifnull(b.nums,0)nums
+     from (
+select accepter,count(1)inspectionItems from project_task where accepter in(
+select user_name from (SELECT * FROM `user` where (job='质检' or job='采购质检') and flag=1 and (role_no=9 or role_no=69))a
+)
+
+ <if test="startTime ==null and  endTime==null" >
+        and datediff(now(),start_time)&lt;30
+ </if>
+ <if test="startTime !=null " >
+        and datediff(#{startTime,jdbcType=VARCHAR},start_time)&lt;0
+ </if>
+<if test="endTime!=null " >
+        and datediff(start_time,#{endTime,jdbcType=VARCHAR})&lt;0
+ </if>
+and operator_time is not null and task_type=2
+
+group by accepter
+)a left join (
+
+
+select accepter , day as days,num as nums from (
+select accepter,sum(day)day,count(1)num from(
+select accepter,day from(
+select accepter,datediff(operator_time,finish_time)day from project_task where accepter in(
+select user_name from (SELECT * FROM `user` where (job='质检' or job='采购质检') and flag=1 and (role_no=9 or role_no=69))a
+)
+
+<if test="startTime ==null and  endTime==null" >
+        and datediff(now(),start_time)&lt;30
+ </if>
+<if test="startTime !=null " >
+        and datediff(#{startTime,jdbcType=VARCHAR},start_time)&lt;0
+ </if>
+<if test="endTime!=null " >
+        and datediff(start_time,#{endTime,jdbcType=VARCHAR})&lt;0
+ </if>
+and operator_time is not null and task_type=2
+and new_date is null 
+union
+select accepter,datediff(new_date,finish_time)day from project_task where accepter in(
+select user_name from (SELECT * FROM `user` where (job='质检' or job='采购质检') and flag=1 and (role_no=9 or role_no=69))a
+)
+
+<if test="startTime ==null and  endTime==null" >
+        and datediff(now(),start_time)&lt;30
+ </if>
+<if test="startTime !=null " >
+        and datediff(#{startTime,jdbcType=VARCHAR},start_time)&lt;0
+ </if>
+<if test="endTime!=null " >
+        and datediff(start_time,#{endTime,jdbcType=VARCHAR})&lt;0
+ </if>
+and operator_time is not null
+and new_date is not null 
+
+)a where day>2  
+
+)a group by accepter
+)a
+)b on a.accepter=b.accepter
+ )a
+  </select>
+  
+  <select id="selectUserByType" resultMap="BaseResultMap">
+   select id,user_name,job
+   from user  
+   where  1=1 and  
+   <choose>
+       <when test="roleNo == 9 or roleNo == 6 or roleNo == 5">
+		   <if test="roleNo == 9 or roleNo == 6">
+		    (
+		    role_no = #{roleNo,jdbcType=INTEGER}
+		    or role_no = 69 or role_no = 1020    
+		    )
+		   </if>
+		   <if test="roleNo == 5">
+		    (
+		    role_no = #{roleNo,jdbcType=INTEGER}  or role_no = 1020    
+		    )
+		   </if>
+	   </when>
+	   <otherwise>
+	       role_no = #{roleNo,jdbcType=INTEGER}   
+	   </otherwise>
+   </choose>
+   and flag = 1  
+   GROUP BY job,id
+  </select>
+  
+  <select id="selectByDingTalkId" resultMap="BaseResultMap" parameterType="string">
+     select  
+    <include refid="Base_Column_List" /> 
+    from user where dingTalk_id = #{dingTalkId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectById" resultMap="BaseResultMap">
+   select * from user where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.User" useGeneratedKeys="true" keyProperty="id" >
+    insert into user  
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleNo != null" >
+        role_no,
+      </if>
+      <if test="roleName != null and roleName !=''" >
+        role_name,
+      </if>
+      <if test="trueName != null and trueName != ''" >
+        true_name,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="password != null" >
+        pwd,
+      </if>
+      <if test="emailAddress != null and emailAddress !=''" >
+        email_address,
+      </if>
+      <if test="emailPwd != null and emailPwd!=''" >
+        email_pwd,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="registerDate != null" >
+        register_date,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="leavingDate != null" >
+        leaving_date,
+      </if>
+      <if test="erpRole != null" >
+        erp_role,
+      </if>
+      <if test="taskRole != null" >
+        task_role,
+      </if>
+      <if test="crmRole != null" >
+        crm_role,
+      </if>
+      <if test="quotationRole != null" >
+        quotation_role,
+      </if>
+      <if test="nbRole != null" >
+        nb_role,
+      </if>
+      <if test="kuaiRole != null" >
+        kuai_role,
+      </if>
+      <if test="bonusRole != null" >
+        bonus_role,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="dingTalkId != null" >
+        dingTalk_id,
+      </if>
+      <if test="jobNumber != null" >
+        job_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleNo != null" >
+        #{roleNo,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null and roleName !=''" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null and trueName!=''" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress != null and emailAddress!=''" >
+        #{emailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPwd != null and emailPwd!=''" >
+        #{emailPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="registerDate != null" >
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavingDate != null" >
+        #{leavingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="erpRole != null" >
+        #{erpRole,jdbcType=INTEGER},
+      </if>
+      <if test="taskRole != null" >
+        #{taskRole,jdbcType=INTEGER},
+      </if>
+      <if test="crmRole != null" >
+        #{crmRole,jdbcType=INTEGER},
+      </if>
+      <if test="quotationRole != null" >
+        #{quotationRole,jdbcType=INTEGER},
+      </if>
+      <if test="nbRole != null" >
+        #{nbRole,jdbcType=INTEGER},
+      </if>
+      <if test="kuaiRole != null" >
+        #{kuaiRole,jdbcType=INTEGER},
+      </if>
+      <if test="bonusRole != null" >
+        #{bonusRole,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="dingTalkId != null" >
+        #{dingTalkId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNumber != null" >
+        #{jobNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  
+   <!--查询所有用户-->
+  <select id="queryAllUser" resultMap="BaseResultMap">
+       select * from user  
+       where  1 = 1  
+       <if test="userName != null and userName != ''" >
+       and  
+         (role_name like CONCAT('%', #{userName}, '%')  OR
+			true_name like CONCAT('%', #{userName}, '%') OR
+			user_name like CONCAT('%', #{userName}, '%') 
+		   )  
+	   </if>  
+      order by flag desc
+  </select>
+  <select id="getAllInspection" resultMap="BaseResultMap">
+       
+SELECT * FROM user where (role_no=9 or role_no=69) and flag=1
+  </select>
+ 
+
+ <!-- 根据职位查询 -->
+  <select id="queryByJob" resultMap="BaseResultMap" parameterType="string">
+    select * from user where 1=1 and  
+   <choose>
+       <when test="job == '采购' or job == '质检' or job == '跟单'">
+		   <if test="job == '跟单'">
+		    (
+		    job = #{job,jdbcType=VARCHAR}     
+		    or job = '所有角色'   
+		    )
+		   </if>
+		   <if test="job == '采购' or job == '质检'">
+		    (
+		    job = #{job,jdbcType=VARCHAR}     
+		    or job = '采购质检'  or job = '所有角色'    
+		    )
+		   </if>
+	   </when>
+	   <otherwise>
+	       job = #{job,jdbcType=VARCHAR}    
+	   </otherwise>
+   </choose> 
+    and flag = 1  
+  </select>
+ <!-- 根据权限查询 -->
+  <select id="queryByRoleNo" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.User">
+    select * from user where 1=1 and 
+    <choose>
+       <when test="roleNo == 9 or roleNo == 6 or roleNo == 5">
+		   <if test="roleNo == 9 or roleNo == 6">
+		    (
+		    role_no = #{roleNo,jdbcType=INTEGER}
+		    or role_no = 69 or role_no = 1020    
+		    )
+		   </if>
+		   <if test="roleNo == 5">
+		    (
+		    role_no = #{roleNo,jdbcType=INTEGER}  or role_no = 1020    
+		    )
+		   </if>
+	   </when>
+	   <otherwise>
+	       role_no = #{roleNo,jdbcType=INTEGER}   
+	   </otherwise>
+   </choose>   
+   and flag = 1  
+  </select>
+   
+
+
+  <update id="update" parameterType="com.cn.hnust.pojo.User">
+    update user
+    <set >
+    <if test="roleNo != null" >
+      role_no = #{roleNo,jdbcType=INTEGER},
+    </if>
+    <if test="roleName != null" >
+      role_name = #{roleName,jdbcType=VARCHAR},
+    </if>
+    <if test="trueName != null" >
+      true_name = #{trueName,jdbcType=VARCHAR},
+    </if>
+    <if test="job != null" >
+      job = #{job,jdbcType=VARCHAR},
+    </if>
+    <if test="userName != null" >
+      user_name = #{userName,jdbcType=VARCHAR},
+    </if>
+    <if test="password != null" >
+      pwd = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="emailAddress != null" >
+      email_address = #{emailAddress,jdbcType=VARCHAR},
+    </if>
+    <if test="emailPwd != null" >
+      email_pwd = #{emailPwd,jdbcType=VARCHAR},
+    </if>
+    <if test="flag != null" >
+      flag = #{flag,jdbcType=INTEGER},
+    </if>
+      <if test="registerDate != null" >
+        register_date = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavingDate != null" >
+        leaving_date = #{leavingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="erpRole != null" >
+        erp_role = #{erpRole,jdbcType=INTEGER},
+      </if>
+      <if test="taskRole != null" >
+        task_role = #{taskRole,jdbcType=INTEGER},
+      </if>
+      <if test="crmRole != null" >
+        crm_role = #{crmRole,jdbcType=INTEGER},
+      </if>
+      <if test="quotationRole != null" >
+        quotation_role = #{quotationRole,jdbcType=INTEGER},
+      </if>
+      <if test="nbRole != null" >
+        nb_role = #{nbRole,jdbcType=INTEGER},
+      </if>
+      <if test="kuaiRole != null" >
+        kuai_role = #{kuaiRole,jdbcType=INTEGER},
+      </if>
+      <if test="bonusRole != null" >
+        bonus_role = #{bonusRole,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="jobNumber != null" >
+        job_number = #{jobNumber,jdbcType=VARCHAR},
+      </if>
+
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

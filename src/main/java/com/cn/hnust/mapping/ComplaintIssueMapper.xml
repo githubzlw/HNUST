@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ComplaintIssueMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ComplaintIssue" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="complaint_id" property="complaintId" jdbcType="INTEGER" />
+    <result column="issue" property="issue" jdbcType="VARCHAR" />
+    <result column="img_list" property="imgList" jdbcType="VARCHAR" />
+    
+    
+    <collection property="replyList" column="id" select="com.cn.hnust.dao.IssueReplyMapper.queryByIssueId">
+    </collection>
+  </resultMap>
+  
+
+  
+  <sql id="Base_Column_List" >
+    id, complaint_id, issue,img_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from complaint_issue
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByComplaintId" resultMap="BaseResultMap">
+     select 
+    ci.*
+    from complaint_issue  ci 
+    
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+   
+    
+  </select>
+  <select id="selectByComplaintId1" resultMap="BaseResultMap">
+     select 
+    ci.*
+    from complaint_issue  ci
+    left join  (select * from issue_reply where qualification!='合格') ir 
+    on ci.id=ir.issue_id 
+    
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+    
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from complaint_issue
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+    <delete id="deleteByComplaintId">
+    delete from complaint_issue  
+    where complaint_id = #{complaintId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ComplaintIssue" >
+    insert into complaint_issue (id, complaint_id, issue,img_list
+      )
+    values (#{id,jdbcType=INTEGER}, #{complaintId,jdbcType=INTEGER}, #{issue,jdbcType=VARCHAR}, #{imgList,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ComplaintIssue" >
+    insert into complaint_issue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="complaintId != null" >
+        complaint_id,
+      </if>
+      <if test="issue != null" >
+        issue,
+      </if>
+      <if test="imgList != null" >
+        img_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="complaintId != null" >
+        #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="issue != null" >
+        #{issue,jdbcType=VARCHAR},
+      </if>
+      <if test="imgList != null" >
+        #{imgList,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ComplaintIssue" >
+    update complaint_issue
+    <set >
+      <if test="complaintId != null" >
+        complaint_id = #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="issue != null" >
+        issue = #{issue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ComplaintIssue" >
+    update complaint_issue
+    set complaint_id = #{complaintId,jdbcType=INTEGER},
+      issue = #{issue,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+   <insert id="insertBatch" parameterType="java.util.List">  
+     
+    insert into complaint_issue ( 
+       complaint_id, issue,img_list
+       ) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.complaintId}, 
+              #{item.issue},
+              #{item.imgList}
+		      ) 
+        </foreach>  
+    </insert>  
+</mapper>

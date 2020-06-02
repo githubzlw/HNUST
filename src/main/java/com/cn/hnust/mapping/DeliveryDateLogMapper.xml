@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.DeliveryDateLogMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.DeliveryDateLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="new_delivery_date" property="newDeliveryDate" jdbcType="DATE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="sample_production" property="sampleProduction" jdbcType="INTEGER" />
+    <result column="original_date" property="originalDate" jdbcType="DATE" />
+    <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
+    <result column="scheduled_days" property="scheduledDays" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, new_delivery_date, create_time, sample_production, original_date, 
+    create_person,scheduled_days
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from delivery_date_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据项目号和类型查询 -->
+  <select id="selectCount" resultType="int" >
+    select count(1) from delivery_date_log      
+    where project_no = #{projectNo,jdbcType=VARCHAR} and sample_production = #{sampleProduction,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据项目号查询 -->
+  <select id="selectDeliveryList" resultMap="BaseResultMap" >
+    select <include refid="Base_Column_List"/> from delivery_date_log      
+    where project_no = #{projectNo,jdbcType=VARCHAR} 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from delivery_date_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.DeliveryDateLog" >
+    insert into delivery_date_log (id, project_no, new_delivery_date, 
+      create_time, sample_production, original_date, 
+      create_person)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{newDeliveryDate,jdbcType=DATE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{sampleProduction,jdbcType=INTEGER}, #{originalDate,jdbcType=DATE}, 
+      #{createPerson,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.DeliveryDateLog" >
+    insert into delivery_date_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="newDeliveryDate != null" >
+        new_delivery_date,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="sampleProduction != null" >
+        sample_production,
+      </if>
+      <if test="originalDate != null" >
+        original_date,
+      </if>
+      <if test="createPerson != null" >
+        create_person,
+      </if>
+      <if test="scheduledDays != null" >
+        scheduled_days,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newDeliveryDate != null" >
+        #{newDeliveryDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sampleProduction != null" >
+        #{sampleProduction,jdbcType=INTEGER},
+      </if>
+      <if test="originalDate != null" >
+        #{originalDate,jdbcType=DATE},
+      </if>
+      <if test="createPerson != null" >
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduledDays != null" >
+        #{scheduledDays,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.DeliveryDateLog" >
+    update delivery_date_log
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newDeliveryDate != null" >
+        new_delivery_date = #{newDeliveryDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sampleProduction != null" >
+        sample_production = #{sampleProduction,jdbcType=INTEGER},
+      </if>
+      <if test="originalDate != null" >
+        original_date = #{originalDate,jdbcType=DATE},
+      </if>
+      <if test="createPerson != null" >
+        create_person = #{createPerson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.DeliveryDateLog" >
+    update delivery_date_log
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      new_delivery_date = #{newDeliveryDate,jdbcType=DATE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sample_production = #{sampleProduction,jdbcType=INTEGER},
+      original_date = #{originalDate,jdbcType=DATE},
+      create_person = #{createPerson,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

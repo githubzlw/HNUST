@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoErp.ProductionPlanErpMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProductionPlan">
+    <result column="caseno" jdbcType="VARCHAR" property="projectNo" />
+    <result column="DrawingName" jdbcType="VARCHAR" property="planNode" />
+    <result column="UploadDate" jdbcType="DATE" property="createDate" />
+    <result column="name" jdbcType="VARCHAR" property="uploader" />
+    <result column="remark" jdbcType="VARCHAR" property="planDate2String" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    caseno, DrawingName, remark, UploadDate, name
+  </sql>
+
+  
+   <select id="selectByProjectNo" resultMap="BaseResultMap">
+     select (case when remark != '' then remark end) as r,caseno,convert(nvarchar(10),UploadDate,120) as [date],DrawingName 
+     from ProjectDrawings where remark='生产计划' and caseno = #{projectNo,jdbcType=VARCHAR}  
+  </select>
+
+
+  <select id="selectDemandByProjectNo" resultMap="BaseResultMap">
+    select top 1 caseno,convert(nvarchar(10),UploadDate,120) as [UploadDate],DrawingName,name, isnull(remark,'')remark  
+     from ProjectDrawings where DrawingName like '%需求汇总%' and remark not like '生产计划' and caseno = #{projectNo,jdbcType=VARCHAR} order by id desc   
+  </select>
+  <select id="getInspectionPlan" resultType="java.lang.Integer" parameterType="com.cn.hnust.daoErp.ProductionPlanErpMapper">
+     select count(1)num1 from POupload where type='JIANYANJIHUAZJ' 
+  and caseno=#{projectNo,jdbcType=VARCHAR}  
+  and uploadtime &gt;= #{createDate,jdbcType=DATE} 
+
+  </select>
+ 
+</mapper>

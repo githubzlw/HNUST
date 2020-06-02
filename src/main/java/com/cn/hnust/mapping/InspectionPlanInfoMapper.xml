@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.InspectionPlanInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.InspectionPlanInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no_id" property="projectNoId" jdbcType="VARCHAR" />
+    <result column="plan_name" property="planName" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="add_plan" property="addPlan" jdbcType="VARCHAR" />
+    <result column="w_audit" property="wAudit" jdbcType="VARCHAR" />
+    <result column="is_quality" property="isQuality" jdbcType="VARCHAR" />
+    <result column="y_audit" property="yAudit" jdbcType="VARCHAR" />
+    <result column="update_num" property="updateNum" jdbcType="INTEGER" />
+    <result column="upload_num" property="uploadNum" jdbcType="INTEGER" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    
+    <result column="initiator" property="initiator" jdbcType="VARCHAR" />
+    <result column="accepter" property="accepter" jdbcType="VARCHAR" />
+    <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+    <result column="task_status" property="taskStatus" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="projectTaskId" property="projectTaskId" jdbcType="VARCHAR" />
+    <result column="meeting_no" property="meetingNo" jdbcType="VARCHAR" />
+    <result column="send_type" property="sendType" jdbcType="VARCHAR"/>
+    
+    
+    <result column="reportCount" property="reportCount" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no_id, plan_name, project_no, add_plan, w_audit, is_quality, y_audit, 
+    update_num, upload_num, update_date, create_date,send_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_plan_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectInspectionPlan" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionPlanInfo">
+    select ir.project_no,ir.project_no_id,ir.plan_name,ir.add_plan,ir.w_audit,ir.is_quality,ir.y_audit,ifnull(pir.num,0)update_num,ir.upload_num,pt.id as id,reportCount   from inspection_plan_info  ir INNER  JOIN 
+    project_task pt on ir.project_no_id=pt.project_no_id 
+    left join (
+select project_no,count(*)num from project_inspection_report where category=2 group by project_no 
+) pir on pir.project_no=ir.project_no
+     left join 
+	  (
+	  select count(1)as reportCount,project_no from quality_report GROUP BY project_no
+	  )q on ir.project_no= q.project_no
+    where 1=1 
+    <if test="projectNo !=null and projectNo!=''"> 
+	 AND ir.project_no like CONCAT('%', #{projectNo}, '%')  
+	</if>	 
+	group by ir.project_no   
+    order by ir.create_date desc limit #{pageNumber},#{pageSize}
+  </select>
+  
+  <select id="selectInspectionPlanTask" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select ir.*,pt.initiator,pt.accepter,pt.task_type,pt.task_status,pt.operator,pt.meeting_no from inspection_plan_info  ir INNER  JOIN 
+    project_task pt on ir.project_no_id=pt.project_no_id where 1=1 
+    <if test="projectTaskId !=null"> 
+	 AND pt.id =#{projectTaskId,jdbcType=INTEGER}
+	</if>
+  </select>
+  
+   <select id="selectInspectionPlanTaskNoQuality" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select ir.*,pt.initiator,pt.accepter,pt.task_type,pt.task_status,pt.operator,pt.meeting_no from inspection_plan_info  ir INNER  JOIN 
+    project_task pt on ir.project_no_id=pt.project_no_id where 1=1 and add_plan=1 and w_audit=1 and is_quality=0 AND send_type=0
+  </select>
+  
+   <select id="selectInspectionPlanCount" resultType="java.lang.Integer" parameterType="com.cn.hnust.pojo.InspectionPlanInfo">
+    select count(*)  from inspection_plan_info  ir INNER  JOIN 
+    project_task pt on ir.project_no_id=pt.project_no_id where 1=1 
+    <if test="projectNo !=null and projectNo!=''"> 
+	 AND ir.project_no like CONCAT('%', #{projectNo}, '%') 
+	</if>	
+    order by ir.create_date desc 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inspection_plan_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.InspectionPlanInfo" >
+    insert into inspection_plan_info (id, project_no_id, plan_name, 
+      project_no, add_plan, w_audit, 
+      is_quality, y_audit, update_num, 
+      upload_num, update_date, create_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNoId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR}, #{addPlan,jdbcType=VARCHAR}, #{wAudit,jdbcType=VARCHAR}, 
+      #{isQuality,jdbcType=VARCHAR}, #{yAudit,jdbcType=VARCHAR}, #{updateNum,jdbcType=INTEGER}, 
+      #{uploadNum,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.InspectionPlanInfo" >
+    insert into inspection_plan_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNoId != null" >
+        project_no_id,
+      </if>
+      <if test="planName != null" >
+        plan_name,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="addPlan != null" >
+        add_plan,
+      </if>
+      <if test="wAudit != null" >
+        w_audit,
+      </if>
+      <if test="isQuality != null" >
+        is_quality,
+      </if>
+      <if test="yAudit != null" >
+        y_audit,
+      </if>
+      <if test="updateNum != null" >
+        update_num,
+      </if>
+      <if test="uploadNum != null" >
+        upload_num,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="sendType != null" >
+        send_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNoId != null" >
+        #{projectNoId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addPlan != null" >
+        #{addPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="wAudit != null" >
+        #{wAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="isQuality != null" >
+        #{isQuality,jdbcType=VARCHAR},
+      </if>
+      <if test="yAudit != null" >
+        #{yAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="updateNum != null" >
+        #{updateNum,jdbcType=INTEGER},
+      </if>
+      <if test="uploadNum != null" >
+        #{uploadNum,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendType != null" >
+        #{sendType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.InspectionPlanInfo" >
+    update inspection_plan_info
+    <set >
+      <if test="projectNoId != null" >
+        project_no_id = #{projectNoId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        plan_name = #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="addPlan != null" >
+        add_plan = #{addPlan,jdbcType=VARCHAR},
+      </if>
+      <if test="wAudit != null" >
+        w_audit = #{wAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="isQuality != null" >
+        is_quality = #{isQuality,jdbcType=VARCHAR},
+      </if>
+      <if test="yAudit != null" >
+        y_audit = #{yAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="updateNum != null" >
+        update_num = #{updateNum,jdbcType=INTEGER},
+      </if>
+      <if test="uploadNum != null" >
+        upload_num = #{uploadNum,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="sendType != null" >
+        send_type = #{sendType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.InspectionPlanInfo" >
+    update inspection_plan_info
+    set project_no_id = #{projectNoId,jdbcType=VARCHAR},
+      plan_name = #{planName,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      add_plan = #{addPlan,jdbcType=VARCHAR},
+      w_audit = #{wAudit,jdbcType=VARCHAR},
+      is_quality = #{isQuality,jdbcType=VARCHAR},
+      y_audit = #{yAudit,jdbcType=VARCHAR},
+      update_num = #{updateNum,jdbcType=INTEGER},
+      upload_num = #{uploadNum,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

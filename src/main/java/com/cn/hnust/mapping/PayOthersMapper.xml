@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.PayOthersMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.PayOthers" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="caseno" property="caseno" jdbcType="VARCHAR" />
+    <result column="application_amount" property="applicationAmount" jdbcType="DOUBLE" />
+    <result column="imoneytype" property="imoneytype" jdbcType="INTEGER" />
+    <result column="mailing_date" property="mailingDate" jdbcType="TIMESTAMP" />
+    <result column="entry_date" property="entryDate" jdbcType="TIMESTAMP" />
+    <result column="payment_type" property="paymentType" jdbcType="VARCHAR" />
+    <result column="payment_department" property="paymentDepartment" jdbcType="INTEGER" />
+    <result column="payment_instructions" property="paymentInstructions" jdbcType="VARCHAR" />
+    <result column="pass_ERP" property="passErp" jdbcType="INTEGER" />
+    <result column="process_instance_id" property="processInstanceId" jdbcType="VARCHAR" />
+    <result column="applicant" property="applicant" jdbcType="VARCHAR" />
+    <result column="reminder" property="reminder" jdbcType="INTEGER" />
+    <result column="process_instance_result" property="processInstanceResult" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, caseno, application_amount, imoneytype, mailing_date, entry_date, payment_type, 
+    payment_department, payment_instructions, pass_ERP, process_instance_id, applicant, 
+    reminder, process_instance_result, status, finish_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_others
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--获取全部待处理数据  -->
+  <select id="getAllPending" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_others
+    where pass_ERP=0 
+  </select>
+  
+  <!-- 修改状态 -->
+  <update id="updatePassERP"  >
+    update pay_others
+    set pass_ERP = #{passErp,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pay_others
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.PayOthers" >
+    insert into pay_others (id, caseno, application_amount, 
+      imoneytype, mailing_date, entry_date, 
+      payment_type, payment_department, payment_instructions, 
+      pass_ERP, process_instance_id, applicant, 
+      reminder, process_instance_result, status, 
+      finish_time)
+    values (#{id,jdbcType=INTEGER}, #{caseno,jdbcType=VARCHAR}, #{applicationAmount,jdbcType=DOUBLE}, 
+      #{imoneytype,jdbcType=INTEGER}, #{mailingDate,jdbcType=TIMESTAMP}, #{entryDate,jdbcType=TIMESTAMP}, 
+      #{paymentType,jdbcType=VARCHAR}, #{paymentDepartment,jdbcType=INTEGER}, #{paymentInstructions,jdbcType=VARCHAR}, 
+      #{passErp,jdbcType=INTEGER}, #{processInstanceId,jdbcType=VARCHAR}, #{applicant,jdbcType=VARCHAR}, 
+      #{reminder,jdbcType=INTEGER}, #{processInstanceResult,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{finishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.PayOthers" >
+    insert into pay_others
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseno != null" >
+        caseno,
+      </if>
+      <if test="applicationAmount != null" >
+        application_amount,
+      </if>
+      <if test="imoneytype != null" >
+        imoneytype,
+      </if>
+      <if test="mailingDate != null" >
+        mailing_date,
+      </if>
+      <if test="entryDate != null" >
+        entry_date,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="paymentDepartment != null" >
+        payment_department,
+      </if>
+      <if test="paymentInstructions != null" >
+        payment_instructions,
+      </if>
+      <if test="passErp != null" >
+        pass_ERP,
+      </if>
+      <if test="processInstanceId != null" >
+        process_instance_id,
+      </if>
+      <if test="applicant != null" >
+        applicant,
+      </if>
+      <if test="reminder != null" >
+        reminder,
+      </if>
+      <if test="processInstanceResult != null" >
+        process_instance_result,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseno != null" >
+        #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationAmount != null" >
+        #{applicationAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="imoneytype != null" >
+        #{imoneytype,jdbcType=INTEGER},
+      </if>
+      <if test="mailingDate != null" >
+        #{mailingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryDate != null" >
+        #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentDepartment != null" >
+        #{paymentDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="paymentInstructions != null" >
+        #{paymentInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="passErp != null" >
+        #{passErp,jdbcType=INTEGER},
+      </if>
+      <if test="processInstanceId != null" >
+        #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null" >
+        #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="reminder != null" >
+        #{reminder,jdbcType=INTEGER},
+      </if>
+      <if test="processInstanceResult != null" >
+        #{processInstanceResult,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.PayOthers" >
+    update pay_others
+    <set >
+      <if test="caseno != null" >
+        caseno = #{caseno,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationAmount != null" >
+        application_amount = #{applicationAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="imoneytype != null" >
+        imoneytype = #{imoneytype,jdbcType=INTEGER},
+      </if>
+      <if test="mailingDate != null" >
+        mailing_date = #{mailingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="entryDate != null" >
+        entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentDepartment != null" >
+        payment_department = #{paymentDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="paymentInstructions != null" >
+        payment_instructions = #{paymentInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="passErp != null" >
+        pass_ERP = #{passErp,jdbcType=INTEGER},
+      </if>
+      <if test="processInstanceId != null" >
+        process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicant != null" >
+        applicant = #{applicant,jdbcType=VARCHAR},
+      </if>
+      <if test="reminder != null" >
+        reminder = #{reminder,jdbcType=INTEGER},
+      </if>
+      <if test="processInstanceResult != null" >
+        process_instance_result = #{processInstanceResult,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.PayOthers" >
+    update pay_others
+    set caseno = #{caseno,jdbcType=VARCHAR},
+      application_amount = #{applicationAmount,jdbcType=DOUBLE},
+      imoneytype = #{imoneytype,jdbcType=INTEGER},
+      mailing_date = #{mailingDate,jdbcType=TIMESTAMP},
+      entry_date = #{entryDate,jdbcType=TIMESTAMP},
+      payment_type = #{paymentType,jdbcType=VARCHAR},
+      payment_department = #{paymentDepartment,jdbcType=INTEGER},
+      payment_instructions = #{paymentInstructions,jdbcType=VARCHAR},
+      pass_ERP = #{passErp,jdbcType=INTEGER},
+      process_instance_id = #{processInstanceId,jdbcType=VARCHAR},
+      applicant = #{applicant,jdbcType=VARCHAR},
+      reminder = #{reminder,jdbcType=INTEGER},
+      process_instance_result = #{processInstanceResult,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

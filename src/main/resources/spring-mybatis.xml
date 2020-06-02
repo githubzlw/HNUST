@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx
+     	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/task  
+		   http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="com.cn.hnust.*">
+<!-- 	  <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />  -->
+	</context:component-scan>
+
+
+    <!-- 定时任务 -->
+    <task:scheduler id="qbScheduler"/>  
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
+    
+    
+	<!-- 引入配置文件 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:jdbc.properties" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="${initialSize}"></property>
+		<!-- 连接池最大数量 -->
+		<property name="maxActive" value="${maxActive}"></property>
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="${maxIdle}"></property>
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="${minIdle}"></property>
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="${maxWait}"></property>
+	</bean>
+	
+	<!-- erp数据库配置 -->
+	<bean  id="sqlServerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver1}" />
+		<property name="url" value="${url1}" />
+		<property name="username" value="${username1}" />
+		<property name="password" value="${password1}" />
+	</bean>
+	
+	<!-- 快制造数据库配置 -->
+	<bean id="quickpartDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url3}" />
+		<property name="username" value="${username3}" />
+		<property name="password" value="${password3}" />
+	</bean>
+	<!--内部报价系统  -->
+	<bean id="newQuotationSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url4}" />
+		<property name="username" value="${username4}" />
+		<property name="password" value="${password4}" />
+	</bean>
+	<!--出运单系统  -->
+	<bean id="reportSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver1}" />
+		<property name="url" value="${url2}" />
+		<property name="username" value="${username2}" />
+		<property name="password" value="${password2}" />
+	</bean>
+
+	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cn/hnust/mapping/*.xml"></property>
+		<property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper">
+                    <property name="properties">
+                        <value>
+                            dialect=mysql
+                            reasonable=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+	</bean>
+	<!-- erp -->
+	<bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="sqlServerDataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cn/hnust/mappingErp/*.xml"></property>
+	</bean>
+	<!-- 快制造 -->
+	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="quickpartDataSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cn/hnust/mappingQuickpart/*.xml"></property>
+	</bean>
+	
+	<!-- 内部报价系统  -->
+	<bean id="sqlSessionFactory3" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="newQuotationSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cn/hnust/mappingQuotation/*.xml"></property>
+	</bean>
+	<!-- 内部报价系统  -->
+	<bean id="sqlSessionFactory4" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="reportSource" />
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations" value="classpath:com/cn/hnust/mappingReport/*.xml"></property>
+	</bean>
+	
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.hnust.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!-- erp Dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.hnust.daoErp" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"></property>
+	</bean>
+	<!--  快制造 Dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.hnust.daoQuickpart" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"></property>
+	</bean>
+	
+	<!-- 内部报价Dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.hnust.daoQuotation" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory3"></property>
+	</bean>
+	<!-- 出运单Dao -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.cn.hnust.daoReport" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory4"></property>
+	</bean>
+
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="transactionManager1"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="sqlServerDataSource" />
+	</bean>
+	<bean id="transactionManager2"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="quickpartDataSource" />
+	</bean>
+	<bean id="transactionManager3"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="newQuotationSource" />
+	</bean>
+	<bean id="transactionManager4"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="reportSource" />
+	</bean>
+
+    <!-- 使用annotation注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<tx:annotation-driven transaction-manager="transactionManager1"/>
+	<tx:annotation-driven transaction-manager="transactionManager2"/>
+	<tx:annotation-driven transaction-manager="transactionManager3"/>
+	<tx:annotation-driven transaction-manager="transactionManager4"/>
+	<!-- rabbitMQ  配置   -->
+	<import resource="spring-mq.xml"/>
+
+
+
+<!--      <import resource="spring-redis.xml"/> -->
+</beans>

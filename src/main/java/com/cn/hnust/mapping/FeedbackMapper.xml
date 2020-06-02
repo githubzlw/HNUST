@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Feedback">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_no, feedback, operator, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from feedback
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+    <!-- 查询本周是否更新客户反馈 -->
+  <select id="selectFeedbackByProjectNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select * from feedback where 1=1  
+      <if test="projectNo != null" >
+       AND project_no=#{projectNo,jdbcType=VARCHAR}
+      </if>
+      <choose>  
+           <when test="week ==1">and create_date &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY)</when>  
+           <when test="week !=1">and create_date &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY)</when>  
+      </choose> 
+      order by create_date desc
+  </select>
+  
+  <select id="getNumberOfItemsNotUpdated" resultType="java.lang.Integer" parameterType="com.cn.hnust.pojo.Project">
+    select count(*) from( select a.* from project p left join (SELECT project_no FROM `feedback` where  create_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) group by project_no
+    )a on p.project_no=a.project_no  where p.project_status=1 
+   <if test="emailUserId !=0">
+			and p.email_user_id=#{emailUserId} 
+		</if>
+     
+    
+     and a.project_no is not null)a
+  </select>
+  
+  <!-- 查询最后更新的反馈 -->
+   <select id="selectLastByProjectNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select * from feedback where project_no=#{projectNo,jdbcType=VARCHAR} order by create_date desc limit 1
+   </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from feedback
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.Feedback">
+    insert into feedback (id, project_no, feedback, 
+      operator, create_date)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{feedback,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.Feedback">
+    insert into feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  </mapper>

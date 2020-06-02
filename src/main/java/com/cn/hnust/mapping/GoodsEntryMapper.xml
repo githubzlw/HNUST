@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.GoodsEntryMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.GoodsEntry" >
+    <result column="text_count" property="textCount" jdbcType="VARCHAR" />
+    <result column="goods_weight" property="goodsWeight" jdbcType="VARCHAR" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="send_user" property="sendUser" jdbcType="VARCHAR" />
+    <result column="project_number" property="projectNumber" jdbcType="VARCHAR" />
+    <result column="claim_user" property="claimUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="business_id" property="businessId" jdbcType="VARCHAR" />
+    <result column="process_instance_result" property="processInstanceResult" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="goods_count" property="goodsCount" jdbcType="VARCHAR" />
+    <result column="bag_count" property="bagCount" jdbcType="VARCHAR" />
+    <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="VARCHAR" />
+    <result column="check_number" property="checkNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="listEntry" resultMap="BaseResultMap">
+  select 
+  text_count,goods_weight,goods_img,send_user,project_number,claim_user,create_time,
+  business_id,process_instance_result,goods_count,status,bag_count,goods_unit,finish_time,
+  check_number
+  from goods_entry where create_time &lt;#{eTime} and create_time > #{sTime}</select>
+  <select id="listEntryByCheckNumber" resultMap="BaseResultMap">
+  select  project_number,business_id,check_number,status,goods_img
+  from goods_entry where 
+  <foreach collection="checkNumbers" item="item">
+  check_number=#{item} OR 
+  </foreach>
+   1!=1
+  </select>
+ 
+</mapper>

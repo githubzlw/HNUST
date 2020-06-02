@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.InspectionReservationMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.InspectionReservation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no_id" property="projectNoId" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="initiator" property="initiator" jdbcType="VARCHAR" />
+    <result column="accepter" property="accepter" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="urgent_reason" property="urgentReason" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="produce_status" property="produceStatus" jdbcType="VARCHAR" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="expected_delivery" property="expectedDelivery" jdbcType="TIMESTAMP" />
+    <result column="shipping_date" property="shippingDate" jdbcType="TIMESTAMP" />
+    <result column="projectTaskId" property="projectTaskId" jdbcType="INTEGER"/>
+    <result column="task_status" property="taskStatus" jdbcType="VARCHAR"/>
+    <result column="operator_time" property="operatorTime" jdbcType="TIMESTAMP"/>
+    <result column="operator" property="operator" jdbcType="VARCHAR"/>
+    <result column="quality_date" property="qualityDate" jdbcType="TIMESTAMP"/>
+    <result column="inspection_address" property="inspectionAddress" jdbcType="VARCHAR"/>
+    <result column="test_type" property="testType" jdbcType="VARCHAR"/>
+    <result column="shipping_approval" property="shippingApproval" jdbcType="INTEGER" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+    <result column="open_rate" property="openRate" jdbcType="VARCHAR"/>
+    <result column="check_number" property="checkNumber" jdbcType="VARCHAR"/>
+    
+    <!-- 虚拟字段 -->
+    
+    <result column="zhijian1" property="zhijian1" jdbcType="TIMESTAMP"/>
+    <result column="new_date" property="newDate" jdbcType="TIMESTAMP"/>
+     <result column="start" property="start" jdbcType="VARCHAR"/>
+     <result column="end" property="end" jdbcType="VARCHAR"/>
+     <result column="projectAmount" property="projectAmount" jdbcType="VARCHAR"/>
+     <result column="plant_analysis" property="plantAnalysis" jdbcType="VARCHAR"/>
+     <result column="incomingInspection" property="incomingInspection" jdbcType="VARCHAR"/>
+     <result column="inspectionPlan" property="inspectionPlan" jdbcType="VARCHAR"/>
+     <result column="qualityComplaint" property="qualityComplaint" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no_id, project_no, initiator, accepter, description, urgent_reason, create_date, 
+    produce_status, finish_time, expected_delivery, shipping_date,quality_date,inspection_address,test_type,
+    shipping_approval,open_rate,check_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_reservation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectInspectionReservationById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_reservation
+    where project_no_id = #{projectNoId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectInspectionList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_reservation
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inspection_reservation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 验货任务列表 -->
+  <select id="selectInspectionReservation" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+    select ir.*,pt.operator_time,pt.operator,pt.task_status ,pt.id as projectTaskId,p.project_name,pt.new_date from inspection_reservation ir 
+    LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id  
+    LEFT JOIN project p on ir.project_no = p.project_no  
+    where 1=1 
+    <if test="inputKey !=null and inputKey!=''"> 
+	AND (ir.project_no like CONCAT('%',#{inputKey},'%')
+	     OR ir.inspection_address like CONCAT('%',#{inputKey},'%')
+		 OR ir.initiator like CONCAT('%',#{inputKey},'%') 
+		 OR ir.accepter like CONCAT('%',#{inputKey},'%') 
+		 OR pt.operator like CONCAT('%',#{inputKey},'%')
+		 )
+    </if>
+    <if test="qualityName !=null and qualityName!=''"> 
+	 AND ir.accepter like CONCAT('%', #{qualityName}, '%') 
+	 
+	 
+	</if>
+	<if test="userName !=null and userName!=''"> 
+	 AND (
+		    ir.initiator like CONCAT('%', #{userName}, '%') 
+		 OR ir.accepter like CONCAT('%', #{userName}, '%') 
+		 OR pt.operator like CONCAT('%', #{userName}, '%')
+		 or ir.accepter like '%质检部%' 
+		 )
+	</if>
+	<if test="taskStatus!=null and taskStatus!=''">
+		<choose>
+		   <when test="taskStatus == '-1'.toString()">
+				AND pt.task_status in(0,1,2,3)
+			</when>
+			<otherwise>
+				AND pt.task_status=#{taskStatus,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>	
+    </if>
+    
+    <!-- 根据质检名筛选 -->
+    <if test="qualityNames != null and qualityNames!=''">
+       AND (   ir.initiator in 
+             <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>
+		  OR ir.accepter in 
+		     <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>
+		  OR pt.operator in  
+		     <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>    
+         )
+    </if>
+    
+    <!-- 根据有无出货单筛选查询 -->
+    <if test="shippingApproval !=null and shippingApproval == 1"> 
+	   AND ir.shipping_approval = #{shippingApproval,jdbcType=INTEGER}  
+	</if>
+	<if test="shippingApproval !=null and shippingApproval == 0"> 
+	   AND (ir.shipping_approval = #{shippingApproval,jdbcType=INTEGER} or ir.shipping_approval is null) 
+	</if>	
+    order by finish_time desc   
+    <if test="pageNumber != null and pageSize != 0">   
+    limit #{pageNumber},#{pageSize}
+    </if>
+  </select>
+  
+  <!-- 验货任务列表 -->
+  <select id="selectInspectionReservationCount" resultType="java.lang.Integer" parameterType="com.cn.hnust.pojo.InspectionReservation">
+    select count(1) from inspection_reservation ir LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id  where 1=1 
+    <if test="inputKey !=null and inputKey!=''"> 
+	AND (ir.project_no like CONCAT('%',#{inputKey},'%')
+	     OR ir.inspection_address like CONCAT('%',#{inputKey},'%')
+		 OR ir.initiator like CONCAT('%',#{inputKey},'%') 
+		 OR ir.accepter like CONCAT('%',#{inputKey},'%') 
+		 OR pt.operator like CONCAT('%',#{inputKey},'%')
+		 )
+    </if>
+    <if test="qualityName !=null and qualityName!=''"> 
+	 AND ir.accepter like CONCAT('%', #{qualityName}, '%')
+	 
+	</if>
+	<if test="userName !=null and userName!=''"> 
+	 AND (
+		    ir.initiator like CONCAT('%', #{userName}, '%') 
+		 OR ir.accepter like CONCAT('%', #{userName}, '%') 
+		 OR pt.operator like CONCAT('%', #{userName}, '%')
+		 or ir.accepter like '%质检部%'
+		 )
+	</if>
+	
+	<if test="taskStatus!=null and taskStatus!=''">
+		<choose>
+		   <when test="taskStatus == '-1'.toString()">
+				AND pt.task_status in(0,1,2,3)
+			</when>
+			<otherwise>
+				AND pt.task_status=#{taskStatus,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>	
+    </if>
+    
+        <!-- 根据质检名筛选 -->
+    <if test="qualityNames != null and qualityNames!=''">
+     AND (   ir.initiator in 
+             <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>
+		  OR ir.accepter in 
+		     <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>
+		  OR pt.operator in  
+		     <foreach collection="qualityNames" item="item" index="index"  open="(" close=")" separator=",">
+		      (           
+			    #{item}
+		      )
+		    </foreach>    
+         )
+    </if>
+    
+    <!-- 根据有无出货单筛选查询 -->
+    <if test="shippingApproval !=null and shippingApproval == 1"> 
+	   AND ir.shipping_approval = #{shippingApproval,jdbcType=INTEGER}  
+	</if>
+	<if test="shippingApproval !=null and shippingApproval == 0"> 
+	   AND (ir.shipping_approval = #{shippingApproval,jdbcType=INTEGER} or ir.shipping_approval is null) 
+	</if>
+    
+  </select>
+  
+  <select id="selectInspectionReservationByNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+   select *from inspection_reservation where 1=1 
+   <if test="projectNo !=null and projectNo !=''">
+    AND  project_no = #{projectNo,jdbcType=VARCHAR}
+   </if>
+   ORDER BY create_date DESC LIMIT 1
+  </select>
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.InspectionReservation" >
+    insert into inspection_reservation (id, project_no_id, project_no, 
+      initiator, accepter, description, 
+      urgent_reason, create_date, produce_status, 
+      finish_time, expected_delivery, shipping_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNoId,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{initiator,jdbcType=VARCHAR}, #{accepter,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{urgentReason,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{produceStatus,jdbcType=VARCHAR}, 
+      #{finishTime,jdbcType=TIMESTAMP}, #{expectedDelivery,jdbcType=TIMESTAMP}, #{shippingDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.InspectionReservation" >
+    insert into inspection_reservation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNoId != null" >
+        project_no_id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="initiator != null" >
+        initiator,
+      </if>
+      <if test="accepter != null" >
+        accepter,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="urgentReason != null" >
+        urgent_reason,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="produceStatus != null" >
+        produce_status,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="expectedDelivery != null" >
+        expected_delivery,
+      </if>
+      <if test="shippingDate != null" >
+        shipping_date,
+      </if>
+      <if test="qualityDate !=null">
+        quality_date,
+      </if>
+      <if test="inspectionAddress !=null">
+         inspection_address,
+      </if>
+      <if test="testType !=null">
+         test_type,
+      </if>
+     <if test="shippingApproval != null" >
+        shipping_approval,
+       </if>
+     <if test="openRate != null" >
+        open_rate,
+       </if>
+     <if test="checkNumber != null" >
+        check_number,
+       </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNoId != null" >
+        #{projectNoId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="initiator != null" >
+        #{initiator,jdbcType=VARCHAR},
+      </if>
+      <if test="accepter != null" >
+        #{accepter,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="urgentReason != null" >
+        #{urgentReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="produceStatus != null" >
+        #{produceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedDelivery != null" >
+        #{expectedDelivery,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shippingDate != null" >
+        #{shippingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityDate !=null">
+        #{qualityDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inspectionAddress !=null">
+        #{inspectionAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="testType !=null">
+        #{testType,jdbcType=VARCHAR},
+      </if>
+      <if test="shippingApproval != null" >
+       #{shippingApproval,jdbcType=INTEGER},
+       </if>
+      <if test="openRate != null" >
+       #{openRate,jdbcType=VARCHAR},
+       </if>
+      <if test="checkNumber != null" >
+       #{checkNumber,jdbcType=VARCHAR},
+       </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.InspectionReservation" >
+    update inspection_reservation
+    <set >
+      <if test="projectNoId != null" >
+        project_no_id = #{projectNoId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="initiator != null" >
+        initiator = #{initiator,jdbcType=VARCHAR},
+      </if>
+      <if test="accepter != null" >
+        accepter = #{accepter,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="urgentReason != null" >
+        urgent_reason = #{urgentReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="produceStatus != null" >
+        produce_status = #{produceStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expectedDelivery != null" >
+        expected_delivery = #{expectedDelivery,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shippingDate != null" >
+        shipping_date = #{shippingDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="qualityDate !=null">
+        quality_date=#{qualityDate,jdbcType=TIMESTAMP},
+      </if>
+	   <if test="shippingApproval !=null">
+		  shipping_approval=#{shippingApproval,jdbcType=INTEGER},
+		</if>
+	   <if test="openRate !=null">
+		  open_rate=#{openRate,jdbcType=VARCHAR},
+		</if>
+    </set>
+    where project_no_id = #{projectNoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.InspectionReservation" >
+    update inspection_reservation
+    set project_no_id = #{projectNoId,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      initiator = #{initiator,jdbcType=VARCHAR},
+      accepter = #{accepter,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      urgent_reason = #{urgentReason,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      produce_status = #{produceStatus,jdbcType=VARCHAR},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      expected_delivery = #{expectedDelivery,jdbcType=TIMESTAMP},
+      shipping_date = #{shippingDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getQualityInspectionMap" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+   select ir.project_no,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.inspection_address,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,ir.check_number
+   ,pt.operator_time,pt.new_date,ir.produce_status,ir.urgent_reason,ir.project_no_id,qr.id,ifnull(p.history_inspection,'')zhijian1 from inspection_reservation ir left join project p
+   on ir.project_no=p.project_no
+   left join quality_report qr on qr.project_no_id=ir.project_no_id 
+   
+   LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id where 1=1
+    <if test="start!=null">
+    and ir.finish_time&gt;#{start} 
+   </if>
+   <if test="end!=null">
+   and ir.finish_time&lt;#{end} 
+   </if>
+   
+   and p.project_status!=2 
+   <if test="task_status=-1">
+   and (pt.task_status=0 or pt.task_status=1)
+   </if>
+   <if test="task_status=0">
+   and pt.task_status=0 
+   </if>
+   <if test="accepter != null">
+    and ir.accepter =#{accepter}
+   </if>
+  order by ir.finish_time
+  </select>
+  <select id="getQualityInspectionTime" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+   select ifnull(a.user_name,'')accepter,finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address ,
+GROUP_CONCAT(project_no SEPARATOR ',') project_no from (select a.user_name,b.finish_time,b.inspection_address ,
+GROUP_CONCAT(b.project_no SEPARATOR ',') project_no from (SELECT user_name FROM `user` where role_no=9 and job='质检')a
+left join (
+select ir.project_no,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.inspection_address,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
+   on ir.project_no=p.project_no
+   LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id where
+    ir.finish_time&gt;#{start} and ir.finish_time&lt;#{end}  and pt.task_status=0
+     <if test="accepter != null">
+    and ir.accepter =#{accepter}
+   </if>
+)b on a.user_name=b.accepter
+
+group by a.user_name,b.finish_time,b.inspection_address
+)a group by a.user_name,a.finish_time
+   
+  </select>
+  
+    <select id="getOne" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+    select 
+    *
+    from inspection_reservation
+    where  finish_time=#{finishTime,jdbcType=TIMESTAMP}
+    and inspection_address =(select inspection_address from inspection_reservation where project_no_id=#{projectNoId,jdbcType=VARCHAR} )
+    and project_no_id != #{projectNoId,jdbcType=VARCHAR}
+    and finish_time&gt;#{start} and finish_time&lt;#{end}
+    and accepter!=#{accepter} and inspection_address!='仓库' and inspection_address!='公司'
+    limit 1
+    
+  </select>
+    <select id="getAll" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (SELECT user_name FROM `user` where role_no=9 and job='质检')a
+left join (
+
+select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
+   on ir.project_no=p.project_no
+   LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id where
+    ir.finish_time=#{start}  and task_status=0
+   
+)b on a.user_name=b.accepter
+
+group by a.user_name,b.finish_time
+
+    
+  </select>
+  <select id="getAllArrangements" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (SELECT user_name FROM `user` where role_no=9 and job='质检')a
+left join (
+
+select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
+   on ir.project_no=p.project_no
+   LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id where
+    ir.finish_time=#{start}  and task_status=0
+    union 
+   select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','已完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
+   on ir.project_no=p.project_no
+   LEFT JOIN project_task pt on 
+    ir.project_no_id=pt.project_no_id where
+    ir.finish_time=#{start}  and task_status=1
+)b on a.user_name=b.accepter
+
+group by a.user_name,b.finish_time
+
+    
+  </select>
+    <select id="getAllInspection" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from inspection_reservation
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+    and datediff(finish_time,now())&gt;=0
+and datediff(finish_time,now())&lt;8
+  </select>
+  <select id="selectInspectionReservationCountByProjectNo" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*)
+    from inspection_reservation
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Comment" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="reviewer" property="reviewer" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="quality_report_id" property="qualityReportId" jdbcType="INTEGER" />
+    <result column="complaint_id" property="complaintId" jdbcType="INTEGER" />
+    <result column="shipping_id" property="shippingId" jdbcType="INTEGER" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="new_file_name" property="newFileName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_no, reviewer, comment, create_date,quality_report_id,file_name,new_file_name,shipping_id,complaint_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+ <select id="selectProjectComment" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment  
+    where project_no = #{projectNo,jdbcType=VARCHAR} and quality_report_id is null order by create_date desc  
+  </select>
+  
+ <select id="selectByReportId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment  
+    where quality_report_id = #{qualityReportId,jdbcType=INTEGER} order by create_date desc
+  </select>
+  
+ <select id="selectByShippingId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment  
+    where shipping_id = #{shippingId,jdbcType=INTEGER} order by create_date desc
+  </select>
+ <select id="selectByComplaintId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    co.*
+    from comment co left join user  u on co.reviewer=u.user_name    
+    where complaint_id = #{complaintId,jdbcType=INTEGER} and u.job ='技术' order by create_date desc
+  </select>
+ <select id="selectByComplaintId1" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    co.*
+    from comment co left join user  u on co.reviewer=u.user_name    
+    where complaint_id = #{complaintId,jdbcType=INTEGER} and u.role_no in(5,6,69,1020) order by create_date desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from comment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.Comment" >
+    insert into comment (id, project_no, reviewer,comment, create_date) values 
+    (#{id,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, #{reviewer,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="reviewer != null" >
+        reviewer,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="qualityReportId != null" >
+        quality_report_id,
+      </if>
+      <if test="shippingId != null" >
+        shipping_id,
+      </if>
+      <if test="complaintId != null" >
+        complaint_id,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="newFileName != null" >
+        new_file_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewer != null" >
+        #{reviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qualityReportId != null" >
+        #{qualityReportId,jdbcType=INTEGER},
+      </if>
+      <if test="shippingId != null" >
+        #{shippingId,jdbcType=INTEGER},
+      </if>
+      <if test="complaintId != null" >
+        #{complaintId,jdbcType=INTEGER},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="newFileName != null" >
+        #{newFileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.Comment" >
+    update comment
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewer != null" >
+       reviewer = #{reviewer,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.Comment" >
+    update comment
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+     reviewer = #{reviewer,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

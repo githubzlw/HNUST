@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.daoErp.InvoiceInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.InvoiceInfo" >
+    <id column="iid" property="id" jdbcType="INTEGER" />
+    <result column="iCaseNo" property="caseNo" jdbcType="INTEGER" />
+    <result column="caseno" property="projectNo" jdbcType="INTEGER" />
+    <result column="ifdate" property="ifdate" jdbcType="DATE" />
+    <result column="customercode" property="customercode" jdbcType="INTEGER" />
+    <!--虚拟字段  -->
+    <result column="singleNumber" property="singleNumber" jdbcType="INTEGER" />
+    <result column="subscribers" property="subscribers" jdbcType="INTEGER" />
+    <result column="customerManager" property="customerManager" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
+    <result column="newCustomerProofingNumber" property="newCustomerProofingNumber" jdbcType="INTEGER" />
+    <result column="newCustomerProofingMoney" property="newCustomerProofingMoney" jdbcType="DOUBLE" />
+    <result column="newCustomerBulkNumber" property="newCustomerBulkNumber" jdbcType="INTEGER" />
+    <result column="newCustomerBulkMoney" property="newCustomerBulkMoney" jdbcType="DOUBLE" />
+    <result column="customerProofingNumber" property="customerProofingNumber" jdbcType="INTEGER" />
+    <result column="customerProofingMoney" property="customerProofingMoney" jdbcType="DOUBLE" />
+    <result column="customerBulkNumber" property="customerBulkNumber" jdbcType="INTEGER" />
+    <result column="returnItemNumber" property="returnItemNumber" jdbcType="INTEGER" />
+    <result column="customerBulkMoney" property="customerBulkMoney" jdbcType="DOUBLE" />
+    <result column="returnItemMoney" property="returnItemMoney" jdbcType="DOUBLE" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+     id,caseNo,ifdate 
+  </sql>
+  
+  <select id="getOne" resultMap="BaseResultMap" >
+   select top 1 ifdate,icaseno from InvoiceInfo 
+   where icaseno=#{caseNo}   
+	</select>
+	
+	
+	
+  <select id="selectFirstDate" resultMap="BaseResultMap" >
+   select min(i.ifdate)ifdate,c.customercode from InvoiceInfo i  
+	inner JOIN 
+	(
+		select CaseNo,t1.customercode from itemCase t1 inner join 
+		(
+		select customercode from itemCase where CaseNo in(  
+          <foreach collection="list" item="item" index="index" separator="," >    
+              #{item}   
+          </foreach>  
+         )     
+		)t2 on t1.customercode = t2.customercode 
+	)c on i.iCaseNo = c.CaseNo GROUP BY c.customercode
+  </select>
+  
+  <!--获取各种统计数据及金额  -->
+  <select id="selectCountByStatus" resultMap="BaseResultMap">
+select a.newCustomerProofingNumber,isnull(a.newCustomerProofingMoney,0)newCustomerProofingMoney,b.newCustomerBulkNumber,isnull(b.newCustomerBulkMoney,0)newCustomerBulkMoney
+      ,c.customerProofingNumber,isnull(c.customerProofingMoney,0)customerProofingMoney,d.customerBulkNumber,isnull(d.customerBulkMoney,0)customerBulkMoney,e.returnItemNumber,isnull(e.returnItemMoney,0)returnItemMoney 
+      from ( select count(1)newCustomerProofingNumber,sum(ifmoney)newCustomerProofingMoney  from (
+  select info.icaseno,sum(ifmoney)ifmoney from InvoiceInfo info left join itemcase it on info.iCaseNo=it.CaseNo   
+  where ifdate is not null and ifmoney is not null and icaseno not like '%-%'
+  <if test="startTime != null"> 
+       and datediff(day,#{startTime},ifdate)&gt;0 
+        </if>
+   <if test="endTime != null"> 
+      and datediff(day,#{endTime},ifdate)&lt;0
+        </if>
+   
+    and 
+  (it.CustomerManager like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager1 like CONCAT(CONCAT('%',#{customerManager}),'%') or OriginalPurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  or Merchandising like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager2 like CONCAT(CONCAT('%',#{customerManager}),'%') or MaturePurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  )
+  and icaseno in (select caseno from (select caseno from bargain where MoldPrice!=0)a)
+  group by icaseno)a where icaseno  in (select icaseno from (
+select icaseno,min(ifdate)ifdate from invoiceinfo where ifdate is not null group by icaseno
+)a where datediff(day,ifdate,getdate())&lt;365))a,
+		(select count(1)newCustomerBulkNumber,sum(ifmoney)newCustomerBulkMoney  from (
+  select info.icaseno,sum(ifmoney)ifmoney from InvoiceInfo info left join itemcase it on info.iCaseNo=it.CaseNo  
+   where ifdate is not null and ifmoney is not null and icaseno not like '%-%'
+  <if test="startTime != null"> 
+       and datediff(day,#{startTime},ifdate)&gt;0 
+        </if>
+   <if test="endTime != null"> 
+      and datediff(day,#{endTime},ifdate)&lt;0
+        </if> 
+  and (it.CustomerManager like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager1 like CONCAT(CONCAT('%',#{customerManager}),'%') or OriginalPurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  or Merchandising like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager2 like CONCAT(CONCAT('%',#{customerManager}),'%') or MaturePurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+   )
+  and icaseno in (select caseno from (select caseno from bargain where ProductionPrice!=0)a)
+  group by icaseno)a where icaseno  in (select icaseno from (
+select icaseno,min(ifdate)ifdate from invoiceinfo where ifdate is not null group by icaseno
+)a where datediff(day,ifdate,getdate())&lt;365))b,
+		(select count(1)customerProofingNumber,sum(ifmoney)customerProofingMoney  from (
+  select info.icaseno,sum(ifmoney)ifmoney from InvoiceInfo info left join itemcase it on info.iCaseNo=it.CaseNo
+     where ifdate is not null and ifmoney is not null and icaseno not like '%-%'
+  <if test="startTime != null"> 
+       and datediff(day,#{startTime},ifdate)&gt;0 
+        </if>
+   <if test="endTime != null"> 
+      and datediff(day,#{endTime},ifdate)&lt;0
+        </if>
+   and (it.CustomerManager like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager1 like CONCAT(CONCAT('%',#{customerManager}),'%') or OriginalPurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  or Merchandising like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager2 like CONCAT(CONCAT('%',#{customerManager}),'%') or MaturePurchase like CONCAT(CONCAT('%',#{customerManager}),'%'))
+  and icaseno in (select caseno from (select caseno from bargain where MoldPrice!=0)a)
+  group by icaseno)a )c,
+		(select count(1)customerBulkNumber,sum(ifmoney)customerBulkMoney  from (
+  select info.icaseno,sum(ifmoney)ifmoney from InvoiceInfo info left join itemcase it on info.iCaseNo=it.CaseNo 
+    where ifdate is not null and ifmoney is not null and icaseno not like '%-%'
+  <if test="startTime != null"> 
+       and datediff(day,#{startTime},ifdate)&gt;0 
+        </if>
+   <if test="endTime != null"> 
+      and datediff(day,#{endTime},ifdate)&lt;0
+        </if> 
+  and (it.CustomerManager like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager1 like CONCAT(CONCAT('%',#{customerManager}),'%') or OriginalPurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  or Merchandising like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager2 like CONCAT(CONCAT('%',#{customerManager}),'%') or MaturePurchase like CONCAT(CONCAT('%',#{customerManager}),'%'))
+  and icaseno in (select caseno from (select caseno from bargain where ProductionPrice!=0)a)
+  group by icaseno)a )d,
+		(select count(1)returnItemNumber,sum(ifmoney)returnItemMoney  from (
+  select info.icaseno,sum(ifmoney)ifmoney from InvoiceInfo info left join itemcase it on info.iCaseNo=it.CaseNo   where ifdate is not null and ifmoney is not null 
+  <if test="startTime != null"> 
+       and datediff(day,#{startTime},ifdate)&gt;0 
+        </if>
+   <if test="endTime != null"> 
+      and datediff(day,#{endTime},ifdate)&lt;0
+        </if>
+  and (it.CustomerManager like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager1 like CONCAT(CONCAT('%',#{customerManager}),'%') or OriginalPurchase like CONCAT(CONCAT('%',#{customerManager}),'%')
+  or Merchandising like CONCAT(CONCAT('%',#{customerManager}),'%') or MerchandManager2 like CONCAT(CONCAT('%',#{customerManager}),'%') or MaturePurchase like CONCAT(CONCAT('%',#{customerManager}),'%'))
+  and icaseno like '%-%'
+  group by icaseno)a )e  	
+  </select>
+  
+  
+<select id="getAll" resultMap="BaseResultMap" >
+      select a.singleNumber,b.subscribers from (
+    select count(1)singleNumber from itemcase it left join bargain ba on it.caseno=ba.caseno where CONVERT(varchar(7), it.CreateTime, 23)= #{iCaseNo,jdbcType=VARCHAR}
+and 
+(CustomerManager=#{customercode,jdbcType=VARCHAR}  or MerchandManager1=#{customercode,jdbcType=VARCHAR}  
+ or Merchandising=#{customercode,jdbcType=VARCHAR} ) and it.caseno  like '%-%' and ba.id is not null
+)a , (select count(1)subscribers from (select count(1)num1 from itemcase it left join bargain ba on it.caseno=ba.caseno where CONVERT(varchar(7), it.CreateTime, 23)= #{iCaseNo,jdbcType=VARCHAR}  
+and
+ (CustomerManager=#{customercode,jdbcType=VARCHAR}  or MerchandManager1=#{customercode,jdbcType=VARCHAR} 
+  or Merchandising=#{customercode,jdbcType=VARCHAR} ) and it.caseno  like '%-%' and ba.id is not null group by customercode)c)b
+  </select>
+  
+  
+   <select id="getAllMoney" resultType="String" >
+   select money1+money2+money3+money4 from (
+select isnull(a.money1,0)money1,isnull(b.money2,0)money2,isnull(c.money3,0)money3,isnull(d.money4,0)money4 from (
+select sum((ifmoney*project/100))money1 from (
+select ifmoney,icaseno,  CAST(replace(left(GrossProfit, 5),'%','') as decimal(9,2))project,it.CustomerManager    from itemcase it left join invoiceinfo info  on info.icaseno=it.caseno  where CONVERT(varchar(7), info.ifdate, 23)= #{iCaseNo,jdbcType=VARCHAR}
+   and (it.CustomerManager=#{customercode,jdbcType=VARCHAR} 
+   or MerchandManager1=#{customercode,jdbcType=VARCHAR}  
+   or Merchandising=#{customercode,jdbcType=VARCHAR}) and imoneytype=1) a 
+)a ,(
+   select sum((ifmoney*project/(100*6.8)))money2 from (
+select ifmoney,icaseno,  CAST(replace(left(GrossProfit, 5),'%','') as decimal(9,2))project,it.CustomerManager    from itemcase it  left join invoiceinfo info  on info.icaseno=it.caseno  where CONVERT(varchar(7), info.ifdate, 23)= #{iCaseNo,jdbcType=VARCHAR}
+   and (it.CustomerManager=#{customercode,jdbcType=VARCHAR} 
+   or MerchandManager1=#{customercode,jdbcType=VARCHAR}  
+   or Merchandising=#{customercode,jdbcType=VARCHAR}) and imoneytype=2) a 
+   )b , (
+   select sum((ifmoney*project*1.128/(100)))money3 from (
+select ifmoney,icaseno,  CAST(replace(left(GrossProfit, 5),'%','') as decimal(9,2))project,it.CustomerManager    from itemcase it left join invoiceinfo info on info.icaseno=it.caseno  where CONVERT(varchar(7), info.ifdate, 23)= #{iCaseNo,jdbcType=VARCHAR}
+   and (it.CustomerManager=#{customercode,jdbcType=VARCHAR} 
+   or MerchandManager1=#{customercode,jdbcType=VARCHAR}  
+   or Merchandising=#{customercode,jdbcType=VARCHAR})  and imoneytype=3) a 
+   )c ,
+   (
+   select sum((ifmoney*project*1.308/(100)))money4 from (
+select ifmoney,icaseno,  CAST(replace(left(GrossProfit, 5),'%','') as decimal(9,2))project,it.CustomerManager    from itemcase it left join invoiceinfo info on info.icaseno=it.caseno  where CONVERT(varchar(7), info.ifdate, 23)= #{iCaseNo,jdbcType=VARCHAR}
+   and (it.CustomerManager=#{customercode,jdbcType=VARCHAR} 
+   or MerchandManager1=#{customercode,jdbcType=VARCHAR}  
+   or Merchandising=#{customercode,jdbcType=VARCHAR})  and imoneytype=5) a 
+   )d )a
+  </select>
+  
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.FactoryQualityInspectionVideoMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.FactoryQualityInspectionVideo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="factory_name" property="factoryName" jdbcType="VARCHAR" />
+    <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="quality_video_name" property="qualityVideoName" jdbcType="VARCHAR" />
+    <result column="video_file" property="videoFile" jdbcType="VARCHAR" />
+    <result column="uploader" property="uploader" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="video_type" property="videoType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, factory_name, factory_id, project_no, quality_video_name, video_file,uploader,remark,upload_time,task_id,video_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from factory_quality_inspection_video
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCompanyName" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" />
+    from factory_quality_inspection_video
+    where factory_name = #{factoryName,jdbcType=VARCHAR} order by upload_time desc 
+  </select>
+  
+  <select id="selectByProjectNo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from factory_quality_inspection_video   
+    where project_no = #{projectNo,jdbcType=VARCHAR} order by upload_time desc 
+  </select>
+  
+  <!-- 根据项目号和视频类型查询 -->
+   <select id="selectByProjectNoAndType" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />  
+    from factory_quality_inspection_video   
+    where project_no = #{projectNo,jdbcType=VARCHAR}   
+    and video_type = #{videoType,jdbcType=INTEGER}   
+    order by upload_time desc  
+  </select>
+  
+  
+  <!-- 根据任务id查询 -->
+  <select id="selectByTaskId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select <include refid="Base_Column_List" />  
+    from factory_quality_inspection_video   
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from factory_quality_inspection_video
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+      <!-- 批量插入 -->
+   <insert id="insertBatch" parameterType="java.util.List">
+    insert into factory_quality_inspection_video 
+	    (
+	  factory_name, factory_id, project_no, quality_video_name, video_file ,uploader, remark,upload_time,task_id,video_type
+           )
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (           
+	    #{item.factoryName},#{item.factoryId},#{item.projectNo},#{item.qualityVideoName},
+	    #{item.videoFile} ,#{item.uploader} ,#{item.remark} ,#{item.uploadTime},#{item.taskId},#{item.videoType}
+      )
+    </foreach>
+</insert>
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.FactoryQualityInspectionVideo" >
+    insert into factory_quality_inspection_video (id, factory_name, factory_id, 
+      project_no, quality_video_name, video_file
+      )
+    values (#{id,jdbcType=INTEGER}, #{factoryName,jdbcType=VARCHAR}, #{factoryId,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR}, #{qualityVideoName,jdbcType=VARCHAR}, #{videoFile,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.FactoryQualityInspectionVideo" >
+    insert into factory_quality_inspection_video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="factoryName != null" >
+        factory_name,
+      </if>
+      <if test="factoryId != null" >
+        factory_id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="qualityVideoName != null" >
+        quality_video_name,
+      </if>
+      <if test="videoFile != null" >
+        video_file,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="videoType != null" >
+        video_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="factoryName != null" >
+        #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null" >
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityVideoName != null" >
+        #{qualityVideoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoFile != null" >
+        #{videoFile,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="videoType != null" >
+        #{videoType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.FactoryQualityInspectionVideo" >
+    update factory_quality_inspection_video
+    <set >
+      <if test="factoryName != null" >
+        factory_name = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryId != null" >
+        factory_id = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityVideoName != null" >
+        quality_video_name = #{qualityVideoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoFile != null" >
+        video_file = #{videoFile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.FactoryQualityInspectionVideo" >
+    update factory_quality_inspection_video
+    set factory_name = #{factoryName,jdbcType=VARCHAR},
+      factory_id = #{factoryId,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      quality_video_name = #{qualityVideoName,jdbcType=VARCHAR},
+      video_file = #{videoFile,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

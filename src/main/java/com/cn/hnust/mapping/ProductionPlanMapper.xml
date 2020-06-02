@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProductionPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProductionPlan" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="plan_node" property="planNode" jdbcType="VARCHAR" />
+    <result column="plan_date" property="planDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, plan_node, plan_date, create_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from production_plan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 根据项目号查询项目的生产计划 -->
+   <select id="selectProductionPlan" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from production_plan
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+    order by plan_date
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from production_plan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+    <delete id="deleteByProjectNo" parameterType="java.lang.String" >
+    delete from production_plan
+    where project_no = #{projectNo,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProductionPlan" >
+    insert into production_plan (id, project_no, plan_node, 
+      plan_date, create_date)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{planNode,jdbcType=VARCHAR}, 
+      #{planDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProductionPlan" >
+    insert into production_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="planNode != null" >
+        plan_node,
+      </if>
+      <if test="planDate != null" >
+        plan_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="planNode != null" >
+        #{planNode,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null" >
+        #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProductionPlan" >
+    update production_plan
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="planNode != null" >
+        plan_node = #{planNode,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null" >
+        plan_date = #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProductionPlan" >
+    update production_plan
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      plan_node = #{planNode,jdbcType=VARCHAR},
+      plan_date = #{planDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

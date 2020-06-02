@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.TaskFlowMapper">
+	<resultMap id="BaseResultMap" type="com.cn.hnust.pojo.TaskFlow">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="condition_type" property="conditionType"
+			jdbcType="INTEGER" />
+		<result column="trigger_id" property="triggerId" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="condition_name" property="conditionName"
+			jdbcType="VARCHAR" />
+		<result column="plant_analysis" property="plantAnalysis"
+			jdbcType="INTEGER" />
+		<result column="project_material_properties" property="projectMaterialProperties"
+			jdbcType="INTEGER" />
+
+
+
+		<!--虚拟字段 -->
+		<result column="task_title" property="taskTitle" jdbcType="VARCHAR" />
+		<result column="role_type" property="roleType" jdbcType="INTEGER" />
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+		<collection property="tfDetails" ofType="com.cn.hnust.pojo.TaskFlowDetail">
+			<id column="detail_id" property="id" jdbcType="INTEGER" />
+			<result column="parent_id" jdbcType="INTEGER" property="parentId" />
+			<result column="detail_trigger_id" jdbcType="INTEGER"
+				property="triggerId" />
+			<result column="index_num" jdbcType="INTEGER" property="indexNum" />
+		</collection>
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, condition_type, trigger_id, update_time,condition_name,plant_analysis,project_material_properties
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from task_flow
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectAllDetail" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		a.id, a.condition_type, a.trigger_id,
+		a.update_time,a.condition_name,a.plant_analysis,a.project_material_properties,
+		b.parent_id,b.index_num,b.trigger_id
+		detail_trigger_id,b.id detail_id
+		from task_flow a
+		LEFT JOIN
+		task_flow_detail b
+		on a.id = b.parent_id
+		where a.id =
+		#{id,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="checkHasKey" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from task_flow
+		where 1=1
+		<if test="conditionType!=0">
+			and condition_type= #{conditionType,jdbcType=INTEGER}
+		</if>
+		and trigger_id = #{triggerId,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		a.id, a.condition_type,
+		a.trigger_id, a.update_time,a.condition_name,
+		a.plant_analysis,a.project_material_properties,
+		b.role_type,
+		b.task_title,
+		b.role_name
+		from task_flow a left join trigger_task b on a.trigger_id = b.id
+
+		ORDER
+		BY update_time DESC
+
+		limit #{start},#{pageSize}
+
+	</select>
+
+	<select id="selectAllList" resultMap="BaseResultMap">
+		select
+		a.id,
+		a.condition_type, a.trigger_id, a.condition_name,b.task_title,
+		b.role_type
+		from task_flow a left join trigger_task b on a.trigger_id =
+		b.id
+
+	</select>
+
+
+
+	<select id="selectListCount" resultType="int">
+		select
+		count(id)
+		from
+		task_flow
+	</select>
+
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		task_flow
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.cn.hnust.pojo.TaskFlow">
+		insert into task_flow (id,
+		condition_type, trigger_id,
+		update_time)
+		values (#{id,jdbcType=INTEGER},
+		#{conditionType,jdbcType=INTEGER},
+		#{triggerId,jdbcType=INTEGER},
+		#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.cn.hnust.pojo.TaskFlow">
+		insert into task_flow
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="conditionType != null">
+				condition_type,
+			</if>
+			<if test="triggerId != null">
+				trigger_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="conditionName != null">
+				condition_name,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="conditionType != null">
+				#{conditionType,jdbcType=INTEGER},
+			</if>
+			<if test="triggerId != null">
+				#{triggerId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="conditionName != null">
+				#{conditionName,jdbcType=VARCHAR},
+			</if>
+
+		</trim>
+	</insert>
+
+
+	<insert id="insertBackId" parameterType="com.cn.hnust.pojo.TaskFlow"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into task_flow
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="conditionType != null">
+				condition_type,
+			</if>
+			<if test="triggerId != null">
+				trigger_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="conditionName != null">
+				condition_name,
+			</if>
+			<if test="plantAnalysis != null">
+				plant_analysis,
+			</if>
+			<if test="projectMaterialProperties != null">
+				project_material_properties,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="conditionType != null">
+				#{conditionType,jdbcType=INTEGER},
+			</if>
+			<if test="triggerId != null">
+				#{triggerId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="conditionName != null">
+				#{conditionName,jdbcType=VARCHAR},
+			</if>
+			<if test="plantAnalysis != null">
+				#{plantAnalysis,jdbcType=INTEGER},
+			</if>
+			<if test="projectMaterialProperties != null">
+				#{projectMaterialProperties,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.TaskFlow">
+		update task_flow
+		<set>
+			<if test="conditionType != null">
+				condition_type = #{conditionType,jdbcType=INTEGER},
+			</if>
+			<if test="triggerId != null">
+				trigger_id = #{triggerId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="conditionName != null">
+				condition_name = #{conditionName,jdbcType=VARCHAR},
+			</if>
+			<if test="plantAnalysis != null">
+				plant_analysis = #{plantAnalysis,jdbcType=INTEGER},
+			</if>
+			<if test="projectMaterialProperties != null">
+				project_material_properties =
+				#{projectMaterialProperties,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.TaskFlow">
+		update task_flow
+		set condition_type = #{conditionType,jdbcType=INTEGER},
+		trigger_id =
+		#{triggerId,jdbcType=INTEGER},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectPauseMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectPause" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="is_pause" property="isPause" jdbcType="INTEGER" />
+    <result column="pause_reason" property="pauseReason" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="start_reason" property="startReason" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, is_pause, pause_reason, create_date, start_date,start_reason
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_pause
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 查询项目暂停数 -->
+  <select id="count" parameterType="string" resultType="int">
+    select count(1) from project_pause where project_no = #{projectNo,jdbcType=VARCHAR}  
+  </select>
+  
+  <!-- 根据项目号查询暂停列表 -->
+ <select id="selectByProjectNo" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from project_pause   
+    where project_no = #{projectNo,jdbcType=VARCHAR} order by create_date desc
+ </select>
+ 
+ <!-- 根据项目号查询最后一次暂停 -->
+  <select id="selectLastPause" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from project_pause   
+    where project_no = #{projectNo,jdbcType=VARCHAR} order by create_date desc limit 1 
+  </select>
+ 
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project_pause
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectPause" >
+    insert into project_pause (id, project_no, is_pause, 
+      pause_reason, create_date, start_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{isPause,jdbcType=INTEGER}, 
+      #{pauseReason,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{startDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectPause" >
+    insert into project_pause
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="isPause != null" >
+        is_pause,
+      </if>
+      <if test="pauseReason != null" >
+        pause_reason,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="startReason != null" >
+        start_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isPause != null" >
+        #{isPause,jdbcType=INTEGER},
+      </if>
+      <if test="pauseReason != null" >
+        #{pauseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="startReason != null" >
+        #{startReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectPause" >
+    update project_pause
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isPause != null" >
+        is_pause = #{isPause,jdbcType=INTEGER},
+      </if>
+      <if test="pauseReason != null" >
+        pause_reason = #{pauseReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="startReason != null" >
+        start_reason = #{startReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectPause" >
+    update project_pause
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      is_pause = #{isPause,jdbcType=INTEGER},
+      pause_reason = #{pauseReason,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=DATE},
+      start_date = #{startDate,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

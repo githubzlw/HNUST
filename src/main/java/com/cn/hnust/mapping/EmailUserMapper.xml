@@ -1,0 +1,1121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.EmailUserMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.EmailUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_no" property="roleNo" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
+    <result column="job" property="job" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="email_address" property="emailAddress" jdbcType="VARCHAR" />
+    <result column="email_pwd" property="emailPwd" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="regist_date" property="registDate" jdbcType="TIMESTAMP" />
+    <result column="dimission" property="dimission" jdbcType="INTEGER" />
+    <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+    <result column="wrong_number" property="wrongNumber" jdbcType="INTEGER" />
+    <result column="wrong_time" property="wrongTime" jdbcType="BIGINT" />
+    <result column="wrong_ip" property="wrongIp" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="work_time" property="workTime" jdbcType="VARCHAR" />
+    <result column="englishLVL" property="englishlvl" jdbcType="VARCHAR" />
+    <result column="phono" property="phono" jdbcType="VARCHAR" />
+    <result column="live_address" property="liveAddress" jdbcType="VARCHAR" />
+    <result column="work_month" property="workMonth" jdbcType="INTEGER" />
+    <result column="skape_email" property="skapeEmail" jdbcType="VARCHAR" />
+    <result column="msn" property="msn" jdbcType="VARCHAR" />
+    <result column="company_phono" property="companyPhono" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="login_ip1" property="loginIp1" jdbcType="VARCHAR" />
+    <result column="login_ip2" property="loginIp2" jdbcType="VARCHAR" />
+    <result column="login_ip3" property="loginIp3" jdbcType="VARCHAR" />
+    <result column="login_ip4" property="loginIp4" jdbcType="VARCHAR" />
+    <result column="login_ip5" property="loginIp5" jdbcType="VARCHAR" />
+    <result column="login_ip6" property="loginIp6" jdbcType="VARCHAR" />
+    <result column="login_ip7" property="loginIp7" jdbcType="VARCHAR" />
+    <result column="login_ip8" property="loginIp8" jdbcType="VARCHAR" />
+    <result column="login_ip9" property="loginIp9" jdbcType="VARCHAR" />
+    <result column="login_ip10" property="loginIp10" jdbcType="VARCHAR" />
+    <result column="login_ip11" property="loginIp11" jdbcType="VARCHAR" />
+    <result column="login_ip12" property="loginIp12" jdbcType="VARCHAR" />
+    <result column="login_ip13" property="loginIp13" jdbcType="VARCHAR" />
+    <result column="login_ip14" property="loginIp14" jdbcType="VARCHAR" />
+    <result column="login_ip15" property="loginIp15" jdbcType="VARCHAR" />
+    <result column="login_ip16" property="loginIp16" jdbcType="VARCHAR" />
+    <result column="login_ip17" property="loginIp17" jdbcType="VARCHAR" />
+    <result column="login_ip18" property="loginIp18" jdbcType="VARCHAR" />
+    <result column="login_ip19" property="loginIp19" jdbcType="VARCHAR" />
+    <result column="login_ip20" property="loginIp20" jdbcType="VARCHAR" />
+    <result column="login_ip21" property="loginIp21" jdbcType="VARCHAR" />
+    <result column="login_ip22" property="loginIp22" jdbcType="VARCHAR" />
+    <result column="login_ip23" property="loginIp23" jdbcType="VARCHAR" />
+    <result column="login_ip24" property="loginIp24" jdbcType="VARCHAR" />
+    <result column="login_ip25" property="loginIp25" jdbcType="VARCHAR" />
+    <result column="login_ip26" property="loginIp26" jdbcType="VARCHAR" />
+    <result column="login_ip27" property="loginIp27" jdbcType="VARCHAR" />
+    <result column="login_ip28" property="loginIp28" jdbcType="VARCHAR" />
+    <result column="login_ip29" property="loginIp29" jdbcType="VARCHAR" />
+    <result column="login_ip30" property="loginIp30" jdbcType="VARCHAR" />
+    <result column="email_address1" property="emailAddress1" jdbcType="VARCHAR" />
+    <result column="user_name1" property="userName1" jdbcType="VARCHAR" />
+    <result column="customers" property="customers" jdbcType="INTEGER" />
+    <result column="emails" property="emails" jdbcType="INTEGER" />
+    <result column="thread" property="thread" jdbcType="INTEGER" />
+    <result column="oricollnum" property="oricollnum" jdbcType="INTEGER" />
+    <result column="succollnum" property="succollnum" jdbcType="INTEGER" />
+    <result column="orihairnum" property="orihairnum" jdbcType="INTEGER" />
+    <result column="numofsucc" property="numofsucc" jdbcType="INTEGER" />
+    <result column="holiday_notice" property="holidayNotice" jdbcType="VARCHAR" />
+    <!--虚拟字段  -->
+    <result column="thisMonth" property="thisMonth" jdbcType="VARCHAR" />
+    <result column="lastMonth" property="lastMonth" jdbcType="VARCHAR" />
+    <result column="lastMonthtwo" property="lastMonthtwo" jdbcType="VARCHAR" />
+    <result column="item" property="item" jdbcType="INTEGER" />
+    <result column="scheduledDate" property="scheduledDate" jdbcType="INTEGER" />
+    <result column="complaintVolume" property="complaintVolume" jdbcType="INTEGER" />
+    <result column="monthlyComplaints" property="monthlyComplaints" jdbcType="INTEGER" />
+    <result column="lastMonthTwoComplaints" property="lastMonthTwoComplaints" jdbcType="INTEGER" />
+    <result column="projectsUnderWay" property="projectsUnderWay" jdbcType="INTEGER" />
+    <result column="completedLastMonth" property="completedLastMonth" jdbcType="INTEGER" />
+    <result column="completedAboveMonth" property="completedAboveMonth" jdbcType="INTEGER" />
+    <result column="allComplaints" property="allComplaints" jdbcType="DOUBLE" />
+    <result column="sampleContracts" property="sampleContracts" jdbcType="INTEGER" />
+    <result column="allContracts" property="allContracts" jdbcType="VARCHAR" />
+    <result column="successRate" property="successRate" jdbcType="DOUBLE" />
+    <result column="allProject" property="allProject" jdbcType="VARCHAR" />
+    <result column="testReport" property="testReport" jdbcType="VARCHAR" />
+    <result column="contractAmount" property="contractAmount" jdbcType="DOUBLE" />
+    <result column="proofingProject" property="proofingProject" jdbcType="INTEGER" />
+    <result column="massProductionProject" property="massProductionProject" jdbcType="INTEGER" />
+    <result column="lastWorkHour" property="lastWorkHour" jdbcType="DOUBLE" />
+    <result column="workingHours" property="workingHours" jdbcType="DOUBLE" />
+    <result column="reportNumber" property="reportNumber" jdbcType="INTEGER" />
+    <result column="monthReportNumber" property="monthReportNumber" jdbcType="INTEGER" />
+ 
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_no, role_name, true_name, job, user_name, pwd, email_address, email_pwd, 
+    flag, regist_date, dimission, login_ip, wrong_number, wrong_time, wrong_ip, birthday, 
+    work_time, englishLVL, phono, live_address, work_month, skape_email, msn, company_phono, 
+    mobile, login_ip1, login_ip2, login_ip3, login_ip4, login_ip5, login_ip6, login_ip7, 
+    login_ip8, login_ip9, login_ip10, login_ip11, login_ip12, login_ip13, login_ip14, 
+    login_ip15, login_ip16, login_ip17, login_ip18, login_ip19, login_ip20, login_ip21, 
+    login_ip22, login_ip23, login_ip24, login_ip25, login_ip26, login_ip27, login_ip28, 
+    login_ip29, login_ip30, email_address1, user_name1, customers, emails, thread, oricollnum, 
+    succollnum, orihairnum, numofsucc, holiday_notice
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from email_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryAll" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" /> 
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc
+  </select>
+  <!-- 项目的平均完成时间 -->
+  <select id="getAverageCompletionTime" resultMap="BaseResultMap" >
+    select * from (select user_name,ifnull(scheduled_days/item,0)scheduledDate,item,a.role_no,a.job
+from (
+select user_name,sum(scheduled_days)scheduled_days,count(1)item,a.role_no,a.job from (
+select a.user_name,b.scheduled_days,a.role_no,a.job from (select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)a left join (
+SELECT scheduled_days ,email_user_id,purchase_id
+	     FROM project
+	      where   scheduled_days!='' and scheduled_days is not null and scheduled_days>0
+	      <if test="startDate!=null ">
+			AND create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null ">
+			AND create_date &lt;= #{endDate}
+		</if>
+   )b  
+on a.id=b.email_user_id or a.id=b.purchase_id
+)a group by 	user_name	,a.role_no,a.job	
+	)a)a	order by role_no desc,job desc ,scheduledDate desc
+  </select>
+  
+  
+  <!--质量投诉问题  -->
+  <select id="getQualityProblem" resultMap="BaseResultMap">
+    select * from (select a.monthlyComplaints,a.user_name,a.role_no,a.job,b.complaintVolume,c.lastMonthTwoComplaints,
+    d.projectsUnderWay,e.completedLastMonth,f.completedAboveMonth,
+    ((a.monthlyComplaints+b.complaintVolume+c.lastMonthTwoComplaints)/(d.projectsUnderWay+e.completedLastMonth+f.completedAboveMonth))allComplaints from(
+select m.user_name,m.role_no,m.job,count(project_no)monthlyComplaints from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join 
+(
+select c.project_no,p.sell_name,p.purchase_name from project_complaint c
+left join   
+    ( 
+    select project_no,project_name,purchase_id,email_user_id,company_name,customer_name,zhijian1,zhijian2,zhijian3,u.user_name as purchase_name,u1.user_name as sell_name from project    
+    left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+    )p 
+on c.project_no = p.project_no  
+where 1=1
+ AND date_format(c.create_time,'%Y-%m')=date_format(#{thisMonth},'%Y-%m')
+
+)a on (a.sell_name=m.user_name or a.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)a left join (
+select m.user_name,m.role_no,m.job,count(project_no)complaintVolume from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join 
+ (
+select c.project_no,p.sell_name,p.purchase_name from project_complaint c
+left join   
+    ( 
+    select project_no,project_name,purchase_id,email_user_id,company_name,customer_name,zhijian1,zhijian2,zhijian3,u.user_name as purchase_name,u1.user_name as sell_name from project    
+    left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+    )p 
+on c.project_no = p.project_no  
+where 1=1
+ AND date_format(c.create_time,'%Y-%m')=date_format(#{lastMonth},'%Y-%m')
+)b on (b.sell_name=m.user_name or b.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)b on a.user_name=b.user_name
+left join 
+(select m.user_name,m.role_no,m.job,count(project_no)lastMonthTwoComplaints from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join 
+ (
+select c.project_no,p.sell_name,p.purchase_name from project_complaint c
+left join   
+    ( 
+    select project_no,project_name,purchase_id,email_user_id,company_name,customer_name,zhijian1,zhijian2,zhijian3,u.user_name as purchase_name,u1.user_name as sell_name from project    
+    left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+    )p 
+on c.project_no = p.project_no  
+where 1=1
+ AND date_format(c.create_time,'%Y-%m')=date_format(#{lastMonthtwo},'%Y-%m')
+)c on (c.sell_name=m.user_name or c.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)c on a.user_name=c.user_name
+left join (
+select m.user_name,m.role_no,m.job,count(project_no)projectsUnderWay from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m
+left join (
+select a.project_no,a.sell_name,a.purchase_name from (
+    select u.user_name as purchase_name,u1.user_name as sell_name,project_no from project p    
+    left join user u on u.id = p.purchase_id  left join user u1 on u1.id = p.email_user_id
+     where project_status=1) a )d
+on (d.sell_name=m.user_name or d.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)d on d.user_name=a.user_name
+left join (
+select m.user_name,m.role_no,m.job,count(project_no)completedLastMonth from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m
+left join (
+select a.project_no,a.sell_name,a.purchase_name from (
+    select u.user_name as purchase_name,u1.user_name as sell_name,project_no from project p    
+    left join user u on u.id = p.purchase_id  left join user u1 on u1.id = p.email_user_id
+     where project_status=2 
+AND date_format(p.finish_time,'%Y-%m')=date_format(#{lastMonth},'%Y-%m')
+) a )d
+on (d.sell_name=m.user_name or d.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)e on e.user_name=a.user_name
+left join (
+select m.user_name,m.role_no,m.job,count(project_no)completedAboveMonth from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理'
+     and flag=1 
+     order by role_no desc,job desc 
+)m
+left join (
+select a.project_no,a.sell_name,a.purchase_name from (
+    select u.user_name as purchase_name,u1.user_name as sell_name,project_no from project p    
+    left join user u on u.id = p.purchase_id  left join user u1 on u1.id = p.email_user_id
+     where project_status=2 
+AND date_format(p.finish_time,'%Y-%m')=date_format(#{lastMonthtwo},'%Y-%m')
+) a )d
+on (d.sell_name=m.user_name or d.purchase_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)f on a.user_name=f.user_name
+)a where job!='销售' order by role_no desc,job desc ,allComplaints desc
+  </select>
+  <!-- 大货单的项目的成功率 -->
+  <select id="getSuccessRateProject" resultMap="BaseResultMap">
+   select * from (
+select a.*,b.allContracts,(a.sampleContracts/b.allContracts)successRate,c.allProject from (
+select m.user_name,m.role_no,m.job,count(project_no)sampleContracts from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理' and job!='销售'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join (SELECT p.project_no,a.sell_name,a.purchase_name FROM project p
+       left join (select project_no,u.user_name as purchase_name,u1.user_name as sell_name from project    
+       left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+       )a on a.project_no=p.project_no
+       where datediff(now(),create_date)&gt;183 and p.project_no not like '%-%' 
+      and original_sample_scheduled_date is not null and original_delivery_date is not null
+     <if test="startDate!=null ">
+			AND create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null ">
+			AND create_date &lt;= #{endDate}
+		</if>
+       
+		)a on (a.purchase_name=m.user_name or a.sell_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)a left join (
+select m.user_name,m.role_no,m.job,count(project_no)allContracts from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理' and job!='销售'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join
+		(SELECT p.project_no,a.purchase_name,a.sell_name FROM project p
+       left join (select project_no,u.user_name as purchase_name,u1.user_name as sell_name from project    
+       left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+       )a on a.project_no=p.project_no
+       where datediff(now(),create_date)&gt;183 and p.project_no not like '%-%' 
+      and original_sample_scheduled_date is not null 
+      <if test="startDate!=null ">
+			AND create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null ">
+			AND create_date &lt;= #{endDate}
+		</if>
+    )b
+on (b.purchase_name=m.user_name or b.sell_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+) b on a.user_name=b.user_name
+left join (
+
+select m.user_name,m.role_no,m.job,GROUP_CONCAT(c.project_no)as allProject from (
+select *
+     from email_user
+     where role_no between 5 and 6 and job != '销售助理' and job!='销售'
+     and flag=1 
+     order by role_no desc,job desc 
+)m left join
+		(SELECT p.project_no,a.purchase_name,a.sell_name FROM project p
+       left join (select project_no,u.user_name as purchase_name,u1.user_name as sell_name from project    
+       left join user u on u.id = project.purchase_id  left join user u1 on u1.id = project.email_user_id
+       )a on a.project_no=p.project_no
+       where datediff(now(),create_date)&gt;183 and p.project_no not like '%-%' 
+      and original_sample_scheduled_date is not null and original_delivery_date is  null
+       <if test="startDate!=null ">
+			AND create_date &gt;= #{startDate}
+		</if>
+		<if test="endDate!=null ">
+			AND create_date &lt;= #{endDate}
+		</if>
+    )c
+on (c.purchase_name=m.user_name or c.sell_name=m.user_name)
+group by m.user_name,m.role_no,m.job
+)c on c.user_name=a.user_name
+)a order by role_no desc,job desc ,successRate desc
+  </select>
+  <!-- 质检报告 -->
+  <select id="getAllReport" resultMap="BaseResultMap">
+   select u.user_name,ifnull(a.num,0)reportNumber,ifnull(b.num,0)monthReportNumber,ifnull(c.spend_time,0)lastWorkHour,ifnull(d.spend_time,0)workingHours from user u left join (
+
+
+SELECT user_name,count(1)num FROM `quality_report_team_member`  
+
+where create_time&gt;#{lastMonthtwo} and create_time&lt;#{lastMonth}
+ group by user_name 
+)a on u.user_name=a.user_name
+
+left join (
+
+
+SELECT user_name,count(1)num FROM `quality_report_team_member`  
+
+where create_time&gt;#{lastMonth} and create_time&lt;#{thisMonth}
+ group by user_name 
+)b on u.user_name=b.user_name
+
+left join (
+select user_name,sum(spend_time)spend_time FROM quality_report_team_member
+
+where create_time&gt;#{lastMonthtwo} and create_time&lt;#{lastMonth} 
+AND spend_time is not null
+ GROUP BY user_name 
+)c on u.user_name=c.user_name
+left join (
+select user_name,sum(spend_time)spend_time FROM quality_report_team_member
+
+where create_time&gt;#{lastMonth} and create_time&lt;#{thisMonth}
+AND spend_time is not null
+ GROUP BY user_name 
+)d on u.user_name=d.user_name
+where role_no in (9,69) and flag=1
+
+
+
+   
+  </select>
+  <select id="queryQualityTesting" resultMap="BaseResultMap">
+     select <include refid="Base_Column_List" /> 
+     from email_user
+     where role_no in(9,69) 
+     and flag=1
+    and job like '%质检%'
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from email_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.EmailUser" >
+    insert into email_user (id, role_no, role_name, 
+      true_name, job, user_name, 
+      pwd, email_address, email_pwd, 
+      flag, regist_date, dimission, 
+      login_ip, wrong_number, wrong_time, 
+      wrong_ip, birthday, work_time, 
+      englishLVL, phono, live_address, 
+      work_month, skape_email, msn, 
+      company_phono, mobile, login_ip1, 
+      login_ip2, login_ip3, login_ip4, 
+      login_ip5, login_ip6, login_ip7, 
+      login_ip8, login_ip9, login_ip10, 
+      login_ip11, login_ip12, login_ip13, 
+      login_ip14, login_ip15, login_ip16, 
+      login_ip17, login_ip18, login_ip19, 
+      login_ip20, login_ip21, login_ip22, 
+      login_ip23, login_ip24, login_ip25, 
+      login_ip26, login_ip27, login_ip28, 
+      login_ip29, login_ip30, email_address1, 
+      user_name1, customers, emails, 
+      thread, oricollnum, succollnum, 
+      orihairnum, numofsucc, holiday_notice
+      )
+    values (#{id,jdbcType=INTEGER}, #{roleNo,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, 
+      #{trueName,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{pwd,jdbcType=VARCHAR}, #{emailAddress,jdbcType=VARCHAR}, #{emailPwd,jdbcType=VARCHAR}, 
+      #{flag,jdbcType=INTEGER}, #{registDate,jdbcType=TIMESTAMP}, #{dimission,jdbcType=INTEGER}, 
+      #{loginIp,jdbcType=VARCHAR}, #{wrongNumber,jdbcType=INTEGER}, #{wrongTime,jdbcType=BIGINT}, 
+      #{wrongIp,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{workTime,jdbcType=VARCHAR}, 
+      #{englishlvl,jdbcType=VARCHAR}, #{phono,jdbcType=VARCHAR}, #{liveAddress,jdbcType=VARCHAR}, 
+      #{workMonth,jdbcType=INTEGER}, #{skapeEmail,jdbcType=VARCHAR}, #{msn,jdbcType=VARCHAR}, 
+      #{companyPhono,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{loginIp1,jdbcType=VARCHAR}, 
+      #{loginIp2,jdbcType=VARCHAR}, #{loginIp3,jdbcType=VARCHAR}, #{loginIp4,jdbcType=VARCHAR}, 
+      #{loginIp5,jdbcType=VARCHAR}, #{loginIp6,jdbcType=VARCHAR}, #{loginIp7,jdbcType=VARCHAR}, 
+      #{loginIp8,jdbcType=VARCHAR}, #{loginIp9,jdbcType=VARCHAR}, #{loginIp10,jdbcType=VARCHAR}, 
+      #{loginIp11,jdbcType=VARCHAR}, #{loginIp12,jdbcType=VARCHAR}, #{loginIp13,jdbcType=VARCHAR}, 
+      #{loginIp14,jdbcType=VARCHAR}, #{loginIp15,jdbcType=VARCHAR}, #{loginIp16,jdbcType=VARCHAR}, 
+      #{loginIp17,jdbcType=VARCHAR}, #{loginIp18,jdbcType=VARCHAR}, #{loginIp19,jdbcType=VARCHAR}, 
+      #{loginIp20,jdbcType=VARCHAR}, #{loginIp21,jdbcType=VARCHAR}, #{loginIp22,jdbcType=VARCHAR}, 
+      #{loginIp23,jdbcType=VARCHAR}, #{loginIp24,jdbcType=VARCHAR}, #{loginIp25,jdbcType=VARCHAR}, 
+      #{loginIp26,jdbcType=VARCHAR}, #{loginIp27,jdbcType=VARCHAR}, #{loginIp28,jdbcType=VARCHAR}, 
+      #{loginIp29,jdbcType=VARCHAR}, #{loginIp30,jdbcType=VARCHAR}, #{emailAddress1,jdbcType=VARCHAR}, 
+      #{userName1,jdbcType=VARCHAR}, #{customers,jdbcType=INTEGER}, #{emails,jdbcType=INTEGER}, 
+      #{thread,jdbcType=INTEGER}, #{oricollnum,jdbcType=INTEGER}, #{succollnum,jdbcType=INTEGER}, 
+      #{orihairnum,jdbcType=INTEGER}, #{numofsucc,jdbcType=INTEGER}, #{holidayNotice,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.EmailUser" >
+    insert into email_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleNo != null" >
+        role_no,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="trueName != null" >
+        true_name,
+      </if>
+      <if test="job != null" >
+        job,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="pwd != null" >
+        pwd,
+      </if>
+      <if test="emailAddress != null" >
+        email_address,
+      </if>
+      <if test="emailPwd != null" >
+        email_pwd,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="registDate != null" >
+        regist_date,
+      </if>
+      <if test="dimission != null" >
+        dimission,
+      </if>
+      <if test="loginIp != null" >
+        login_ip,
+      </if>
+      <if test="wrongNumber != null" >
+        wrong_number,
+      </if>
+      <if test="wrongTime != null" >
+        wrong_time,
+      </if>
+      <if test="wrongIp != null" >
+        wrong_ip,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="workTime != null" >
+        work_time,
+      </if>
+      <if test="englishlvl != null" >
+        englishLVL,
+      </if>
+      <if test="phono != null" >
+        phono,
+      </if>
+      <if test="liveAddress != null" >
+        live_address,
+      </if>
+      <if test="workMonth != null" >
+        work_month,
+      </if>
+      <if test="skapeEmail != null" >
+        skape_email,
+      </if>
+      <if test="msn != null" >
+        msn,
+      </if>
+      <if test="companyPhono != null" >
+        company_phono,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="loginIp1 != null" >
+        login_ip1,
+      </if>
+      <if test="loginIp2 != null" >
+        login_ip2,
+      </if>
+      <if test="loginIp3 != null" >
+        login_ip3,
+      </if>
+      <if test="loginIp4 != null" >
+        login_ip4,
+      </if>
+      <if test="loginIp5 != null" >
+        login_ip5,
+      </if>
+      <if test="loginIp6 != null" >
+        login_ip6,
+      </if>
+      <if test="loginIp7 != null" >
+        login_ip7,
+      </if>
+      <if test="loginIp8 != null" >
+        login_ip8,
+      </if>
+      <if test="loginIp9 != null" >
+        login_ip9,
+      </if>
+      <if test="loginIp10 != null" >
+        login_ip10,
+      </if>
+      <if test="loginIp11 != null" >
+        login_ip11,
+      </if>
+      <if test="loginIp12 != null" >
+        login_ip12,
+      </if>
+      <if test="loginIp13 != null" >
+        login_ip13,
+      </if>
+      <if test="loginIp14 != null" >
+        login_ip14,
+      </if>
+      <if test="loginIp15 != null" >
+        login_ip15,
+      </if>
+      <if test="loginIp16 != null" >
+        login_ip16,
+      </if>
+      <if test="loginIp17 != null" >
+        login_ip17,
+      </if>
+      <if test="loginIp18 != null" >
+        login_ip18,
+      </if>
+      <if test="loginIp19 != null" >
+        login_ip19,
+      </if>
+      <if test="loginIp20 != null" >
+        login_ip20,
+      </if>
+      <if test="loginIp21 != null" >
+        login_ip21,
+      </if>
+      <if test="loginIp22 != null" >
+        login_ip22,
+      </if>
+      <if test="loginIp23 != null" >
+        login_ip23,
+      </if>
+      <if test="loginIp24 != null" >
+        login_ip24,
+      </if>
+      <if test="loginIp25 != null" >
+        login_ip25,
+      </if>
+      <if test="loginIp26 != null" >
+        login_ip26,
+      </if>
+      <if test="loginIp27 != null" >
+        login_ip27,
+      </if>
+      <if test="loginIp28 != null" >
+        login_ip28,
+      </if>
+      <if test="loginIp29 != null" >
+        login_ip29,
+      </if>
+      <if test="loginIp30 != null" >
+        login_ip30,
+      </if>
+      <if test="emailAddress1 != null" >
+        email_address1,
+      </if>
+      <if test="userName1 != null" >
+        user_name1,
+      </if>
+      <if test="customers != null" >
+        customers,
+      </if>
+      <if test="emails != null" >
+        emails,
+      </if>
+      <if test="thread != null" >
+        thread,
+      </if>
+      <if test="oricollnum != null" >
+        oricollnum,
+      </if>
+      <if test="succollnum != null" >
+        succollnum,
+      </if>
+      <if test="orihairnum != null" >
+        orihairnum,
+      </if>
+      <if test="numofsucc != null" >
+        numofsucc,
+      </if>
+      <if test="holidayNotice != null" >
+        holiday_notice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleNo != null" >
+        #{roleNo,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress != null" >
+        #{emailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPwd != null" >
+        #{emailPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="registDate != null" >
+        #{registDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimission != null" >
+        #{dimission,jdbcType=INTEGER},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongNumber != null" >
+        #{wrongNumber,jdbcType=INTEGER},
+      </if>
+      <if test="wrongTime != null" >
+        #{wrongTime,jdbcType=BIGINT},
+      </if>
+      <if test="wrongIp != null" >
+        #{wrongIp,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workTime != null" >
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="englishlvl != null" >
+        #{englishlvl,jdbcType=VARCHAR},
+      </if>
+      <if test="phono != null" >
+        #{phono,jdbcType=VARCHAR},
+      </if>
+      <if test="liveAddress != null" >
+        #{liveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="workMonth != null" >
+        #{workMonth,jdbcType=INTEGER},
+      </if>
+      <if test="skapeEmail != null" >
+        #{skapeEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="msn != null" >
+        #{msn,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhono != null" >
+        #{companyPhono,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp1 != null" >
+        #{loginIp1,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp2 != null" >
+        #{loginIp2,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp3 != null" >
+        #{loginIp3,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp4 != null" >
+        #{loginIp4,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp5 != null" >
+        #{loginIp5,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp6 != null" >
+        #{loginIp6,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp7 != null" >
+        #{loginIp7,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp8 != null" >
+        #{loginIp8,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp9 != null" >
+        #{loginIp9,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp10 != null" >
+        #{loginIp10,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp11 != null" >
+        #{loginIp11,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp12 != null" >
+        #{loginIp12,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp13 != null" >
+        #{loginIp13,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp14 != null" >
+        #{loginIp14,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp15 != null" >
+        #{loginIp15,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp16 != null" >
+        #{loginIp16,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp17 != null" >
+        #{loginIp17,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp18 != null" >
+        #{loginIp18,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp19 != null" >
+        #{loginIp19,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp20 != null" >
+        #{loginIp20,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp21 != null" >
+        #{loginIp21,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp22 != null" >
+        #{loginIp22,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp23 != null" >
+        #{loginIp23,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp24 != null" >
+        #{loginIp24,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp25 != null" >
+        #{loginIp25,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp26 != null" >
+        #{loginIp26,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp27 != null" >
+        #{loginIp27,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp28 != null" >
+        #{loginIp28,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp29 != null" >
+        #{loginIp29,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp30 != null" >
+        #{loginIp30,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress1 != null" >
+        #{emailAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="userName1 != null" >
+        #{userName1,jdbcType=VARCHAR},
+      </if>
+      <if test="customers != null" >
+        #{customers,jdbcType=INTEGER},
+      </if>
+      <if test="emails != null" >
+        #{emails,jdbcType=INTEGER},
+      </if>
+      <if test="thread != null" >
+        #{thread,jdbcType=INTEGER},
+      </if>
+      <if test="oricollnum != null" >
+        #{oricollnum,jdbcType=INTEGER},
+      </if>
+      <if test="succollnum != null" >
+        #{succollnum,jdbcType=INTEGER},
+      </if>
+      <if test="orihairnum != null" >
+        #{orihairnum,jdbcType=INTEGER},
+      </if>
+      <if test="numofsucc != null" >
+        #{numofsucc,jdbcType=INTEGER},
+      </if>
+      <if test="holidayNotice != null" >
+        #{holidayNotice,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.EmailUser" >
+    update email_user
+    <set >
+      <if test="roleNo != null" >
+        role_no = #{roleNo,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="trueName != null" >
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress != null" >
+        email_address = #{emailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailPwd != null" >
+        email_pwd = #{emailPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="registDate != null" >
+        regist_date = #{registDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dimission != null" >
+        dimission = #{dimission,jdbcType=INTEGER},
+      </if>
+      <if test="loginIp != null" >
+        login_ip = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongNumber != null" >
+        wrong_number = #{wrongNumber,jdbcType=INTEGER},
+      </if>
+      <if test="wrongTime != null" >
+        wrong_time = #{wrongTime,jdbcType=BIGINT},
+      </if>
+      <if test="wrongIp != null" >
+        wrong_ip = #{wrongIp,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workTime != null" >
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="englishlvl != null" >
+        englishLVL = #{englishlvl,jdbcType=VARCHAR},
+      </if>
+      <if test="phono != null" >
+        phono = #{phono,jdbcType=VARCHAR},
+      </if>
+      <if test="liveAddress != null" >
+        live_address = #{liveAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="workMonth != null" >
+        work_month = #{workMonth,jdbcType=INTEGER},
+      </if>
+      <if test="skapeEmail != null" >
+        skape_email = #{skapeEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="msn != null" >
+        msn = #{msn,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhono != null" >
+        company_phono = #{companyPhono,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp1 != null" >
+        login_ip1 = #{loginIp1,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp2 != null" >
+        login_ip2 = #{loginIp2,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp3 != null" >
+        login_ip3 = #{loginIp3,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp4 != null" >
+        login_ip4 = #{loginIp4,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp5 != null" >
+        login_ip5 = #{loginIp5,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp6 != null" >
+        login_ip6 = #{loginIp6,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp7 != null" >
+        login_ip7 = #{loginIp7,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp8 != null" >
+        login_ip8 = #{loginIp8,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp9 != null" >
+        login_ip9 = #{loginIp9,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp10 != null" >
+        login_ip10 = #{loginIp10,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp11 != null" >
+        login_ip11 = #{loginIp11,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp12 != null" >
+        login_ip12 = #{loginIp12,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp13 != null" >
+        login_ip13 = #{loginIp13,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp14 != null" >
+        login_ip14 = #{loginIp14,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp15 != null" >
+        login_ip15 = #{loginIp15,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp16 != null" >
+        login_ip16 = #{loginIp16,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp17 != null" >
+        login_ip17 = #{loginIp17,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp18 != null" >
+        login_ip18 = #{loginIp18,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp19 != null" >
+        login_ip19 = #{loginIp19,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp20 != null" >
+        login_ip20 = #{loginIp20,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp21 != null" >
+        login_ip21 = #{loginIp21,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp22 != null" >
+        login_ip22 = #{loginIp22,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp23 != null" >
+        login_ip23 = #{loginIp23,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp24 != null" >
+        login_ip24 = #{loginIp24,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp25 != null" >
+        login_ip25 = #{loginIp25,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp26 != null" >
+        login_ip26 = #{loginIp26,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp27 != null" >
+        login_ip27 = #{loginIp27,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp28 != null" >
+        login_ip28 = #{loginIp28,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp29 != null" >
+        login_ip29 = #{loginIp29,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp30 != null" >
+        login_ip30 = #{loginIp30,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress1 != null" >
+        email_address1 = #{emailAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="userName1 != null" >
+        user_name1 = #{userName1,jdbcType=VARCHAR},
+      </if>
+      <if test="customers != null" >
+        customers = #{customers,jdbcType=INTEGER},
+      </if>
+      <if test="emails != null" >
+        emails = #{emails,jdbcType=INTEGER},
+      </if>
+      <if test="thread != null" >
+        thread = #{thread,jdbcType=INTEGER},
+      </if>
+      <if test="oricollnum != null" >
+        oricollnum = #{oricollnum,jdbcType=INTEGER},
+      </if>
+      <if test="succollnum != null" >
+        succollnum = #{succollnum,jdbcType=INTEGER},
+      </if>
+      <if test="orihairnum != null" >
+        orihairnum = #{orihairnum,jdbcType=INTEGER},
+      </if>
+      <if test="numofsucc != null" >
+        numofsucc = #{numofsucc,jdbcType=INTEGER},
+      </if>
+      <if test="holidayNotice != null" >
+        holiday_notice = #{holidayNotice,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.EmailUser" >
+    update email_user
+    set role_no = #{roleNo,jdbcType=INTEGER},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      true_name = #{trueName,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      email_address = #{emailAddress,jdbcType=VARCHAR},
+      email_pwd = #{emailPwd,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      regist_date = #{registDate,jdbcType=TIMESTAMP},
+      dimission = #{dimission,jdbcType=INTEGER},
+      login_ip = #{loginIp,jdbcType=VARCHAR},
+      wrong_number = #{wrongNumber,jdbcType=INTEGER},
+      wrong_time = #{wrongTime,jdbcType=BIGINT},
+      wrong_ip = #{wrongIp,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      englishLVL = #{englishlvl,jdbcType=VARCHAR},
+      phono = #{phono,jdbcType=VARCHAR},
+      live_address = #{liveAddress,jdbcType=VARCHAR},
+      work_month = #{workMonth,jdbcType=INTEGER},
+      skape_email = #{skapeEmail,jdbcType=VARCHAR},
+      msn = #{msn,jdbcType=VARCHAR},
+      company_phono = #{companyPhono,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      login_ip1 = #{loginIp1,jdbcType=VARCHAR},
+      login_ip2 = #{loginIp2,jdbcType=VARCHAR},
+      login_ip3 = #{loginIp3,jdbcType=VARCHAR},
+      login_ip4 = #{loginIp4,jdbcType=VARCHAR},
+      login_ip5 = #{loginIp5,jdbcType=VARCHAR},
+      login_ip6 = #{loginIp6,jdbcType=VARCHAR},
+      login_ip7 = #{loginIp7,jdbcType=VARCHAR},
+      login_ip8 = #{loginIp8,jdbcType=VARCHAR},
+      login_ip9 = #{loginIp9,jdbcType=VARCHAR},
+      login_ip10 = #{loginIp10,jdbcType=VARCHAR},
+      login_ip11 = #{loginIp11,jdbcType=VARCHAR},
+      login_ip12 = #{loginIp12,jdbcType=VARCHAR},
+      login_ip13 = #{loginIp13,jdbcType=VARCHAR},
+      login_ip14 = #{loginIp14,jdbcType=VARCHAR},
+      login_ip15 = #{loginIp15,jdbcType=VARCHAR},
+      login_ip16 = #{loginIp16,jdbcType=VARCHAR},
+      login_ip17 = #{loginIp17,jdbcType=VARCHAR},
+      login_ip18 = #{loginIp18,jdbcType=VARCHAR},
+      login_ip19 = #{loginIp19,jdbcType=VARCHAR},
+      login_ip20 = #{loginIp20,jdbcType=VARCHAR},
+      login_ip21 = #{loginIp21,jdbcType=VARCHAR},
+      login_ip22 = #{loginIp22,jdbcType=VARCHAR},
+      login_ip23 = #{loginIp23,jdbcType=VARCHAR},
+      login_ip24 = #{loginIp24,jdbcType=VARCHAR},
+      login_ip25 = #{loginIp25,jdbcType=VARCHAR},
+      login_ip26 = #{loginIp26,jdbcType=VARCHAR},
+      login_ip27 = #{loginIp27,jdbcType=VARCHAR},
+      login_ip28 = #{loginIp28,jdbcType=VARCHAR},
+      login_ip29 = #{loginIp29,jdbcType=VARCHAR},
+      login_ip30 = #{loginIp30,jdbcType=VARCHAR},
+      email_address1 = #{emailAddress1,jdbcType=VARCHAR},
+      user_name1 = #{userName1,jdbcType=VARCHAR},
+      customers = #{customers,jdbcType=INTEGER},
+      emails = #{emails,jdbcType=INTEGER},
+      thread = #{thread,jdbcType=INTEGER},
+      oricollnum = #{oricollnum,jdbcType=INTEGER},
+      succollnum = #{succollnum,jdbcType=INTEGER},
+      orihairnum = #{orihairnum,jdbcType=INTEGER},
+      numofsucc = #{numofsucc,jdbcType=INTEGER},
+      holiday_notice = #{holidayNotice,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

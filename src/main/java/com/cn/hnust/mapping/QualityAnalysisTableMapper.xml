@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.QualityAnalysisTableMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityAnalysisTable" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="quantity_drawings" property="quantityDrawings" jdbcType="INTEGER" />
+    <result column="bom_table" property="bomTable" jdbcType="INTEGER" />
+    <result column="max_precision_requiremen" property="maxPrecisionRequiremen" jdbcType="VARCHAR" />
+    <result column="precision_grade" property="precisionGrade" jdbcType="VARCHAR" />
+    <result column="max_roughness_requirement" property="maxRoughnessRequirement" jdbcType="VARCHAR" />
+    <result column="surface_treatment" property="surfaceTreatment" jdbcType="VARCHAR" />
+    <result column="materials_abroad" property="materialsAbroad" jdbcType="VARCHAR" />
+    <result column="corresponding_national_standard" property="correspondingNationalStandard" jdbcType="VARCHAR" />
+    <result column="list_standards" property="listStandards" jdbcType="VARCHAR" />
+    <result column="standard_not_found" property="standardNotFound" jdbcType="VARCHAR" />
+    <result column="annotation" property="annotation" jdbcType="INTEGER" />
+    <result column="assembly_relationship" property="assemblyRelationship" jdbcType="INTEGER" />
+    <result column="heat_treatment_requirements" property="heatTreatmentRequirements" jdbcType="VARCHAR" />
+    <result column="customer_requirements" property="customerRequirements" jdbcType="VARCHAR" />
+    <result column="design_defects" property="designDefects" jdbcType="VARCHAR" />
+    <result column="recommended_process" property="recommendedProcess" jdbcType="VARCHAR" />
+    <result column="suggest_communication_problems" property="suggestCommunicationProblems" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_id, quantity_drawings, bom_table, max_precision_requiremen, precision_grade, 
+    max_roughness_requirement, surface_treatment, materials_abroad, corresponding_national_standard, 
+    list_standards, standard_not_found, annotation, assembly_relationship, heat_treatment_requirements, 
+    customer_requirements, design_defects, recommended_process, suggest_communication_problems, 
+    create_time, user_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quality_analysis_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from quality_analysis_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QualityAnalysisTable" >
+    insert into quality_analysis_table (id, project_id, quantity_drawings, 
+      bom_table, max_precision_requiremen, precision_grade, 
+      max_roughness_requirement, surface_treatment, 
+      materials_abroad, corresponding_national_standard, 
+      list_standards, standard_not_found, annotation, 
+      assembly_relationship, heat_treatment_requirements, 
+      customer_requirements, design_defects, recommended_process, 
+      suggest_communication_problems, create_time, 
+      user_name)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=VARCHAR}, #{quantityDrawings,jdbcType=INTEGER}, 
+      #{bomTable,jdbcType=INTEGER}, #{maxPrecisionRequiremen,jdbcType=VARCHAR}, #{precisionGrade,jdbcType=VARCHAR}, 
+      #{maxRoughnessRequirement,jdbcType=VARCHAR}, #{surfaceTreatment,jdbcType=VARCHAR}, 
+      #{materialsAbroad,jdbcType=VARCHAR}, #{correspondingNationalStandard,jdbcType=VARCHAR}, 
+      #{listStandards,jdbcType=VARCHAR}, #{standardNotFound,jdbcType=VARCHAR}, #{annotation,jdbcType=INTEGER}, 
+      #{assemblyRelationship,jdbcType=INTEGER}, #{heatTreatmentRequirements,jdbcType=VARCHAR}, 
+      #{customerRequirements,jdbcType=VARCHAR}, #{designDefects,jdbcType=VARCHAR}, #{recommendedProcess,jdbcType=VARCHAR}, 
+      #{suggestCommunicationProblems,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="addProjectTask" parameterType="com.cn.hnust.pojo.QualityAnalysisTable" >
+    insert into quality_analysis_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="quantityDrawings != null" >
+        quantity_drawings,
+      </if>
+      <if test="bomTable != null" >
+        bom_table,
+      </if>
+      <if test="maxPrecisionRequiremen != null" >
+        max_precision_requiremen,
+      </if>
+      <if test="precisionGrade != null" >
+        precision_grade,
+      </if>
+      <if test="maxRoughnessRequirement != null" >
+        max_roughness_requirement,
+      </if>
+      <if test="surfaceTreatment != null" >
+        surface_treatment,
+      </if>
+      <if test="materialsAbroad != null" >
+        materials_abroad,
+      </if>
+      <if test="correspondingNationalStandard != null" >
+        corresponding_national_standard,
+      </if>
+      <if test="listStandards != null" >
+        list_standards,
+      </if>
+      <if test="standardNotFound != null" >
+        standard_not_found,
+      </if>
+      <if test="annotation != null" >
+        annotation,
+      </if>
+      <if test="assemblyRelationship != null" >
+        assembly_relationship,
+      </if>
+      <if test="heatTreatmentRequirements != null" >
+        heat_treatment_requirements,
+      </if>
+      <if test="customerRequirements != null" >
+        customer_requirements,
+      </if>
+      <if test="designDefects != null" >
+        design_defects,
+      </if>
+      <if test="recommendedProcess != null" >
+        recommended_process,
+      </if>
+      <if test="suggestCommunicationProblems != null" >
+        suggest_communication_problems,
+      </if>
+     <if test="createTime != null" >
+        create_time,
+      </if>
+     
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityDrawings != null" >
+        #{quantityDrawings,jdbcType=INTEGER},
+      </if>
+      <if test="bomTable != null" >
+        #{bomTable,jdbcType=INTEGER},
+      </if>
+      <if test="maxPrecisionRequiremen != null" >
+        #{maxPrecisionRequiremen,jdbcType=VARCHAR},
+      </if>
+      <if test="precisionGrade != null" >
+        #{precisionGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="maxRoughnessRequirement != null" >
+        #{maxRoughnessRequirement,jdbcType=VARCHAR},
+      </if>
+      <if test="surfaceTreatment != null" >
+        #{surfaceTreatment,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsAbroad != null" >
+        #{materialsAbroad,jdbcType=VARCHAR},
+      </if>
+      <if test="correspondingNationalStandard != null" >
+        #{correspondingNationalStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="listStandards != null" >
+        #{listStandards,jdbcType=VARCHAR},
+      </if>
+      <if test="standardNotFound != null" >
+        #{standardNotFound,jdbcType=VARCHAR},
+      </if>
+      <if test="annotation != null" >
+        #{annotation,jdbcType=INTEGER},
+      </if>
+      <if test="assemblyRelationship != null" >
+        #{assemblyRelationship,jdbcType=INTEGER},
+      </if>
+      <if test="heatTreatmentRequirements != null" >
+        #{heatTreatmentRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRequirements != null" >
+        #{customerRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="designDefects != null" >
+        #{designDefects,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendedProcess != null" >
+        #{recommendedProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestCommunicationProblems != null" >
+        #{suggestCommunicationProblems,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if> 
+     
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QualityAnalysisTable" >
+    insert into quality_analysis_table
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="quantityDrawings != null" >
+        quantity_drawings,
+      </if>
+      <if test="bomTable != null" >
+        bom_table,
+      </if>
+      <if test="maxPrecisionRequiremen != null" >
+        max_precision_requiremen,
+      </if>
+      <if test="precisionGrade != null" >
+        precision_grade,
+      </if>
+      <if test="maxRoughnessRequirement != null" >
+        max_roughness_requirement,
+      </if>
+      <if test="surfaceTreatment != null" >
+        surface_treatment,
+      </if>
+      <if test="materialsAbroad != null" >
+        materials_abroad,
+      </if>
+      <if test="correspondingNationalStandard != null" >
+        corresponding_national_standard,
+      </if>
+      <if test="listStandards != null" >
+        list_standards,
+      </if>
+      <if test="standardNotFound != null" >
+        standard_not_found,
+      </if>
+      <if test="annotation != null" >
+        annotation,
+      </if>
+      <if test="assemblyRelationship != null" >
+        assembly_relationship,
+      </if>
+      <if test="heatTreatmentRequirements != null" >
+        heat_treatment_requirements,
+      </if>
+      <if test="customerRequirements != null" >
+        customer_requirements,
+      </if>
+      <if test="designDefects != null" >
+        design_defects,
+      </if>
+      <if test="recommendedProcess != null" >
+        recommended_process,
+      </if>
+      <if test="suggestCommunicationProblems != null" >
+        suggest_communication_problems,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityDrawings != null" >
+        #{quantityDrawings,jdbcType=INTEGER},
+      </if>
+      <if test="bomTable != null" >
+        #{bomTable,jdbcType=INTEGER},
+      </if>
+      <if test="maxPrecisionRequiremen != null" >
+        #{maxPrecisionRequiremen,jdbcType=VARCHAR},
+      </if>
+      <if test="precisionGrade != null" >
+        #{precisionGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="maxRoughnessRequirement != null" >
+        #{maxRoughnessRequirement,jdbcType=VARCHAR},
+      </if>
+      <if test="surfaceTreatment != null" >
+        #{surfaceTreatment,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsAbroad != null" >
+        #{materialsAbroad,jdbcType=VARCHAR},
+      </if>
+      <if test="correspondingNationalStandard != null" >
+        #{correspondingNationalStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="listStandards != null" >
+        #{listStandards,jdbcType=VARCHAR},
+      </if>
+      <if test="standardNotFound != null" >
+        #{standardNotFound,jdbcType=VARCHAR},
+      </if>
+      <if test="annotation != null" >
+        #{annotation,jdbcType=INTEGER},
+      </if>
+      <if test="assemblyRelationship != null" >
+        #{assemblyRelationship,jdbcType=INTEGER},
+      </if>
+      <if test="heatTreatmentRequirements != null" >
+        #{heatTreatmentRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRequirements != null" >
+        #{customerRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="designDefects != null" >
+        #{designDefects,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendedProcess != null" >
+        #{recommendedProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestCommunicationProblems != null" >
+        #{suggestCommunicationProblems,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QualityAnalysisTable" >
+    update quality_analysis_table
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="quantityDrawings != null" >
+        quantity_drawings = #{quantityDrawings,jdbcType=INTEGER},
+      </if>
+      <if test="bomTable != null" >
+        bom_table = #{bomTable,jdbcType=INTEGER},
+      </if>
+      <if test="maxPrecisionRequiremen != null" >
+        max_precision_requiremen = #{maxPrecisionRequiremen,jdbcType=VARCHAR},
+      </if>
+      <if test="precisionGrade != null" >
+        precision_grade = #{precisionGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="maxRoughnessRequirement != null" >
+        max_roughness_requirement = #{maxRoughnessRequirement,jdbcType=VARCHAR},
+      </if>
+      <if test="surfaceTreatment != null" >
+        surface_treatment = #{surfaceTreatment,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsAbroad != null" >
+        materials_abroad = #{materialsAbroad,jdbcType=VARCHAR},
+      </if>
+      <if test="correspondingNationalStandard != null" >
+        corresponding_national_standard = #{correspondingNationalStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="listStandards != null" >
+        list_standards = #{listStandards,jdbcType=VARCHAR},
+      </if>
+      <if test="standardNotFound != null" >
+        standard_not_found = #{standardNotFound,jdbcType=VARCHAR},
+      </if>
+      <if test="annotation != null" >
+        annotation = #{annotation,jdbcType=INTEGER},
+      </if>
+      <if test="assemblyRelationship != null" >
+        assembly_relationship = #{assemblyRelationship,jdbcType=INTEGER},
+      </if>
+      <if test="heatTreatmentRequirements != null" >
+        heat_treatment_requirements = #{heatTreatmentRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRequirements != null" >
+        customer_requirements = #{customerRequirements,jdbcType=VARCHAR},
+      </if>
+      <if test="designDefects != null" >
+        design_defects = #{designDefects,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendedProcess != null" >
+        recommended_process = #{recommendedProcess,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestCommunicationProblems != null" >
+        suggest_communication_problems = #{suggestCommunicationProblems,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QualityAnalysisTable" >
+    update quality_analysis_table
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      quantity_drawings = #{quantityDrawings,jdbcType=INTEGER},
+      bom_table = #{bomTable,jdbcType=INTEGER},
+      max_precision_requiremen = #{maxPrecisionRequiremen,jdbcType=VARCHAR},
+      precision_grade = #{precisionGrade,jdbcType=VARCHAR},
+      max_roughness_requirement = #{maxRoughnessRequirement,jdbcType=VARCHAR},
+      surface_treatment = #{surfaceTreatment,jdbcType=VARCHAR},
+      materials_abroad = #{materialsAbroad,jdbcType=VARCHAR},
+      corresponding_national_standard = #{correspondingNationalStandard,jdbcType=VARCHAR},
+      list_standards = #{listStandards,jdbcType=VARCHAR},
+      standard_not_found = #{standardNotFound,jdbcType=VARCHAR},
+      annotation = #{annotation,jdbcType=INTEGER},
+      assembly_relationship = #{assemblyRelationship,jdbcType=INTEGER},
+      heat_treatment_requirements = #{heatTreatmentRequirements,jdbcType=VARCHAR},
+      customer_requirements = #{customerRequirements,jdbcType=VARCHAR},
+      design_defects = #{designDefects,jdbcType=VARCHAR},
+      recommended_process = #{recommendedProcess,jdbcType=VARCHAR},
+      suggest_communication_problems = #{suggestCommunicationProblems,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

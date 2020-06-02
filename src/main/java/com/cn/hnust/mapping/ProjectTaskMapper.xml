@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectTaskMapper">
+	<resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectTask">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+		<result column="initiator" property="initiator" jdbcType="VARCHAR" />
+		<result column="accepter" property="accepter" jdbcType="VARCHAR" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="urgent_reason" property="urgentReason" jdbcType="VARCHAR"/>
+		<result column="task_status" property="taskStatus" jdbcType="VARCHAR" />
+		<result column="operator" property="operator" jdbcType="VARCHAR" />
+		<result column="operator_time" property="operatorTime" jdbcType="TIMESTAMP" />
+		<result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+		<result column="finish" property="finish" jdbcType="VARCHAR" />
+		<result column="is_Pause" property="isPause" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="noFinishCount" property="noFinishCount" jdbcType="VARCHAR" />
+		<result column="finishCount" property="finishCount" jdbcType="VARCHAR" />
+		<result column="job" property="job" jdbcType="VARCHAR" />
+		<result column="meeting_no" property="meetingNo" jdbcType="VARCHAR" />
+		<result column="task_type" property="taskType" jdbcType="VARCHAR" />
+		<result column="expect_finish_time" property="expectFinishTime" jdbcType="TIMESTAMP" />
+		<result column="trigger_id" property="triggerId" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="task_id" property="taskId" jdbcType="INTEGER" />
+		<result column="index_num" property="indexNum" jdbcType="INTEGER" />
+		<result column="quality_id" property="qualityId" jdbcType="INTEGER" />
+		<result column="operate_explain" property="operateExplain" jdbcType="VARCHAR"/>
+		<result column="project_no_id" property="projectNoId" jdbcType="VARCHAR"/>
+		<result column="task_url" property="taskUrl" jdbcType="VARCHAR"/>
+		<result column="delay_list" property="delayList" jdbcType="VARCHAR"/>
+		<result column="progress" property="progress" jdbcType="VARCHAR"/>
+		<result column="progress_date" property="progressDate" jdbcType="DATE"/>
+		<result column="progressStatus" property="progressStatus" jdbcType="VARCHAR"/>
+		<result column="purchase_name" property="purchaseName" jdbcType="VARCHAR"/>
+		<result column="sell_name" property="sellName" jdbcType="VARCHAR"/>
+		<result column="is_video" property="isVideo" jdbcType="INTEGER"/>
+		<result column="is_video_upload" property="isVideoUpload" jdbcType="INTEGER"/>
+		<result column="return_url" property="returnUrl" jdbcType="VARCHAR"/>
+		<result column="product_file_name" property="productFileName" jdbcType="VARCHAR"/>
+		<result column="new_date" property="newDate" jdbcType="TIMESTAMP"/>
+		<result column="complaint_id" property="complaintId" jdbcType="INTEGER"/>
+		<result column="verification_time" property="verificationTime" jdbcType="INTEGER"/>
+		<result column="verifier" property="verifier" jdbcType="VARCHAR"/>
+		<result column="verification" property="verification" jdbcType="INTEGER"/>
+		<result column="drawing_id" property="drawingId" jdbcType="VARCHAR"/>
+		
+		
+		<!-- 虚拟字段 -->
+		<result column="sendOrReceive" property="sendOrReceive" jdbcType="INTEGER"/>
+		<result column="sign" property="sign" jdbcType="VARCHAR"/>
+		<result column="project_name" property="projectName" jdbcType="VARCHAR"/>
+		<result column="overCount" property="overCount" jdbcType="INTEGER"/>
+		<result column="test_type" property="checkType" jdbcType="VARCHAR"/>
+		<result column="open_rate" property="openRate" jdbcType="VARCHAR"/>
+		<result column="inspection_address" property="checkPlace" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, project_no,initiator, accepter, start_time,
+		description,operate_explain,
+		urgent_reason, task_status,operator,task_type,
+		operator_time,finish_time,create_time,expect_finish_time,trigger_id,user_id,
+		task_id,index_num,quality_id,delay_list,progress,progress_date,is_video,is_video_upload,
+		return_url,product_file_name,complaint_id 
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select  
+		t.id, t.project_no,t.initiator, t.accepter, t.start_time,
+		t.description,t.operate_explain,t.task_type,
+		t.urgent_reason, t.task_status,t.operator,t.task_url,
+		t.operator_time,t.finish_time,t.create_time,t.expect_finish_time,t.trigger_id,t.user_id,t.project_no_id,
+		t.task_id,t.index_num,t.quality_id,t.delay_list,t.progress,t.progress_date,t.is_video,t.is_video_upload,i.test_type,i.open_rate,
+		task.id as progressStatus,t.return_url,t.product_file_name,
+		(select user_name from email_user where id = b.purchase_id) purchase_name ,
+		(select user_name from email_user where id = b.email_user_id) sell_name    
+	    from project_task t 
+		left join  project b on t.project_no = b.project_no  
+		left join  inspection_reservation i on t.project_no_id = i.project_no_id   
+		left join 
+		(
+		 select p.id,p.progress,p.progress_date from project_task p where DATE_add(p.start_time, INTERVAL 7 DAY) &lt; p.finish_time
+		 )task
+		 on t.id = task.id  
+		where t.id = #{id,jdbcType=INTEGER} limit 1
+	</select>
+
+	<select id="selectMeetingRecordTask" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select * from project_task where meeting_no = 
+		#{meetingNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectAll" resultMap="BaseResultMap">
+	select * from project_task  where start_time  &lt; curdate()
+	</select>
+	<!-- 获取图纸变更信息 -->
+	<select id="getDrawingAlteration" resultMap="BaseResultMap">
+	select * from project_task  where project_no = #{projectNo} and task_type=5 limit 1
+	</select>
+	
+	<select id="selectByQualityId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select * from project_task where quality_id =
+		#{qualityId,jdbcType=INTEGER}
+	</select>
+	<!-- 根据状态。项目及任务类型条件查询数据 -->
+	<select id="getInspectionTaskNotCompleted" resultType="int"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select count(1) from project_task where task_status=#{taskStatus,jdbcType=VARCHAR}
+		and task_type=#{taskType,jdbcType=VARCHAR} and project_no = #{projectNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectByProjectNo" resultMap="BaseResultMap">
+	select 	
+	    p.id, p.project_no,p.initiator, p.accepter, p.start_time,
+		p.description,p.operate_explain,p.project_no_id,
+		p.urgent_reason, p.task_status,p.operator,p.task_type,
+		p.operator_time,p.finish_time,p.create_time,p.expect_finish_time,p.trigger_id,p.user_id,
+		p.task_id,p.index_num,p.quality_id,p.delay_list,p.progress,p.progress_date,p.is_video,p.is_video_upload,
+		p.return_url, i.test_type,i.inspection_address,i.open_rate,p.new_date     
+	from project_task p left join inspection_reservation i 
+	on p.project_no_id = i.project_no_id 
+	where p.project_no = #{projectNo,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<select id="getByProjectNo" resultMap="BaseResultMap">
+	select 	
+	   *     
+	from project_task 
+	where project_no = #{projectNo,jdbcType=VARCHAR}
+	and task_type=5 and complaint_id!=0 order by id desc limit 1
+	</select>
+	
+	
+
+	<!-- 查询列表 -->
+	<select id="selectProjectTask" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select t.id, t.project_no,t.initiator, t.accepter, t.start_time,  
+		t.description,t.operate_explain,t.task_type,  
+		t.urgent_reason, t.task_status,t.operator, t.project_no_id, 
+		t.operator_time,t.finish_time,t.create_time,t.expect_finish_time,t.trigger_id,t.user_id,  
+		t.task_id,t.index_num,t.quality_id,t.delay_list,task.id as progressStatus,task.progress,task.progress_date,
+		(select user_name from email_user where id = b.purchase_id) purchase_name ,
+		(select user_name from email_user where id = b.email_user_id) sell_name     
+		from project_task t  
+		left join 
+		(
+		 select p.id,p.progress,p.progress_date from project_task p where DATE_add(p.start_time, INTERVAL 7 DAY) &lt; p.finish_time
+		 )task
+		 on t.id = task.id  
+		 left join  
+		 user on t.accepter = user.user_name  
+		 left join  project b on t.project_no = b.project_no 
+		where 1=1
+		<if test="projectNo !=null and projectNo!=''">
+			AND t.project_no like CONCAT('%', #{projectNo}, '%')
+		</if>
+		<if test="searchName !=null and searchName!=''">
+			AND (t.initiator like CONCAT('%', #{searchName}, '%') OR
+			t.accepter like CONCAT('%', #{searchName}, '%') OR
+			t.operator like
+			CONCAT('%', #{searchName}, '%')
+			)
+		</if>
+		<if test="userName !=null and userName!=''">
+			AND (t.initiator like CONCAT('%', #{userName}, '%') OR
+			t.accepter like CONCAT('%', #{userName}, '%') OR  
+			t.operator like
+			CONCAT('%', #{userName}, '%')
+			)
+		</if>
+		<if test="sendOrReceive==1">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND t.initiator like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND t.initiator like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		
+		<if test="sendOrReceive==2">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND t.accepter like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND t.accepter like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		
+		
+		<if test="accepter !=null and accepter!=''">
+		    AND t.accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		
+		<if test="taskType !=null and taskType!=''">
+		    AND t.task_type = #{taskType,jdbcType=VARCHAR}
+		</if>
+		
+		<choose>
+			<when test="taskStatus == '-1'.toString()">
+				AND t.task_status in(0,1,2)     <!-- 去除取消任务统计 -->
+			</when>
+			<otherwise>
+				AND t.task_status=#{taskStatus,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+		<if test="isPurchase != null">
+		    AND user.role_no = 6  
+		</if>		
+		
+		order by t.start_time desc limit #{pageNumber},#{pageSize}
+	</select>
+
+	<select id="hasAlreadyTask" resultType="int">
+		select count(id) from project_task where 1=1
+	    and trigger_id = #{triggerId,jdbcType=INTEGER}
+	    and user_id = #{userId,jdbcType=INTEGER}
+	    and project_no = #{projectNo,jdbcType=VARCHAR}
+	</select>
+	
+	
+	
+	
+	
+
+	<!-- 查询列表个数 -->
+	<select id="getProjectTaskCount" resultType="int"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select count(1) from project_task where 1=1
+		<if test="projectNo !=null and projectNo!=''">
+			AND project_no like CONCAT('%', #{projectNo}, '%')
+		</if>
+		<if test="searchName !=null and searchName!=''">
+			AND (initiator like CONCAT('%', #{searchName}, '%') OR
+			accepter like CONCAT('%', #{searchName}, '%') OR
+			operator like
+			CONCAT('%', #{searchName}, '%')
+			)
+		</if>
+		 <if test="userName !=null and userName!=''">
+			AND (initiator like CONCAT('%', #{userName}, '%') OR
+			accepter like CONCAT('%', #{userName}, '%') OR
+			operator like
+			CONCAT('%', #{userName}, '%')
+			)
+		</if> 
+		<if test="sendOrReceive==1">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND initiator like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND initiator like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		
+		<if test="sendOrReceive==2">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND accepter like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND accepter like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		<choose>
+			<when test="taskStatus == '-1'.toString()">
+				
+			</when>
+			<otherwise>
+				AND task_status=#{taskStatus,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 查询列表个数 -->
+	<select id="selectProjectTaskCount" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select * from project_task where 1=1
+		<if test="projectNo !=null and projectNo!=''">
+			AND project_no like CONCAT('%', #{projectNo}, '%')
+		</if>
+		<if test="searchName !=null and searchName!=''">
+			AND (initiator like CONCAT('%', #{searchName}, '%') OR
+			accepter like CONCAT('%', #{searchName}, '%') OR
+			operator like
+			CONCAT('%', #{searchName}, '%')
+			)
+		</if>
+		 <if test="userName !=null and userName!=''">
+			AND (initiator like CONCAT('%', #{userName}, '%') OR
+			accepter like CONCAT('%', #{userName}, '%') OR
+			operator like
+			CONCAT('%', #{userName}, '%')
+			)
+		</if> 
+		<if test="sendOrReceive==1">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND initiator like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND initiator like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		
+		<if test="sendOrReceive==2">
+		<choose>
+			<when test="userName !=null and userName!=''">
+				AND accepter like CONCAT('%', #{userName}, '%')
+			</when>
+			<otherwise>
+				AND accepter like CONCAT('%', #{searchName}, '%')
+			</otherwise>
+		</choose>
+		</if>
+		<choose>
+			<when test="taskStatus == '-1'.toString()">
+				
+			</when>
+			<otherwise>
+				AND task_status=#{taskStatus,jdbcType=VARCHAR}
+			</otherwise>
+		</choose>
+	</select>
+	<!-- 统计每个人的未完成数量 -->
+	<select id="statisticsProjectTaskNoFinish" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>,
+			(select count(1) from project_task p2 where 1=1 and ( 
+				(p2.task_status=0 and CURDATE() &gt; DATE_ADD(p2.finish_time, INTERVAL 5 DAY)) 
+				)
+			 <if test="accepter!=null ">
+			 AND p2.accepter = #{accepter,jdbcType=VARCHAR} 
+			 </if>
+			 )as overCount 		 
+		 from project_task where task_status=0  
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		<if test="sign==2">
+			AND datediff(now(),create_time) &gt; 30
+		</if>
+		
+	</select>
+	<!-- 统计每个人的未完成数量 -->
+	<select id="statisticsProjectTaskNoFinish1" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>,
+			(select count(1) from project_task p2 where 1=1 and ( 
+				(p2.task_status=0 and CURDATE() &gt; DATE_ADD(p2.finish_time, INTERVAL 5 DAY)) 
+				)
+			 <if test="accepter!=null ">
+			 AND p2.accepter = #{accepter,jdbcType=VARCHAR} 
+			 </if>
+			 and id &gt;24439
+			 )as overCount 		 
+		 from project_task where task_status=0  
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		<if test="sign==2">
+			AND datediff(now(),create_time) &gt; 30
+		</if>
+		and id &gt;24439
+	</select>
+	<!-- 统计最近30天的完成数量 -->
+	<select id="statisticsProjectTaskFinish" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		SELECT * FROM project_task WHERE task_status = 1 AND
+		DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(create_time)
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<!-- 统计最近30天的完成数量,2019-08-08开始 -->
+	<select id="statisticsProjectTaskFinish1" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		SELECT * FROM project_task WHERE task_status = 1 AND
+		DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(create_time)
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		and id &gt;24439
+	</select>
+	
+	<!-- 统计按时完成的项目 -->
+	<select id="statisticsProjectTaskOnTime" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select * from project_task where task_status=1 AND
+		create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH)
+		AND
+		DATE_FORMAT(operator_time, '%Y-%m-%d') &lt;=DATE_FORMAT(finish_time,
+		'%Y-%m-%d') AND accepter=#{accepter}
+		<if test="sign==2">
+			AND datediff(now(),create_time) &gt; 30
+		</if>
+		
+	</select>
+	<!-- 统计按时完成的项目 -->
+	<select id="statisticsProjectTaskOnTime1" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select * from project_task where task_status=1 AND
+		create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH)
+		
+		AND
+		DATE_FORMAT(operator_time, '%Y-%m-%d') &lt;=DATE_FORMAT(finish_time,
+		'%Y-%m-%d') AND accepter=#{accepter}
+		<if test="sign==2">
+			AND datediff(now(),create_time) &lt; 30
+		</if>
+		and id &gt;24439
+	</select>
+	<!-- 统计所有的完成项目 -->
+	<select id="statisticsProjectTaskAllFinish" resultMap="BaseResultMap">
+		select *
+		from project_task where task_status=1 AND create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH )
+		AND
+		accepter=#{accepter}
+		<if test="sign==2">
+			AND datediff(now(),create_time) &lt; 30
+		</if>
+		
+	</select>
+	<!-- 统计所有的完成项目 -->
+	<select id="statisticsProjectTaskAllFinish1" resultMap="BaseResultMap">
+		select *
+		from project_task where task_status=1 AND create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH )
+		
+		AND  
+		accepter=#{accepter}
+		<if test="sign==2">
+			AND datediff(now(),create_time) &lt; 30
+		</if>
+		and id &gt;24439
+	</select>
+
+	<!-- 统计会议任务未完成的数量 7天 -->
+	<select id="selectMeetingRecordTaskNoFinish" resultMap="BaseResultMap">
+		SELECT
+		*FROM project_task WHERE task_status = 0 AND task_type=1 AND
+		TO_DAYS(NOW()) - TO_DAYS(create_time) &lt;= 7 AND accepter =
+		#{accepter,jdbcType=VARCHAR}
+	</select>
+	<!-- 统计会议任务未完成的数量 7天 -->
+	<select id="selectMeetingRecordTaskNoFinish1" resultMap="BaseResultMap">
+		SELECT
+		*FROM project_task WHERE task_status = 0 AND task_type=1 AND
+		TO_DAYS(NOW()) - TO_DAYS(create_time) &lt;= 7 AND accepter =
+		#{accepter,jdbcType=VARCHAR}
+		and id &gt;24439
+	</select>
+
+	<!-- selectProjectTaskMaxDate -->
+	<select id="selectProjectTaskMaxDate" resultMap="BaseResultMap">
+		select MIN(finish_time) as finish_time from project_task where 1=1
+		<if test="userName!=null ">
+			AND accepter = #{userName,jdbcType=VARCHAR}
+		</if>
+		AND task_status='0' ORDER BY finish_time
+	</select>
+
+	<select id="selectProjectTaskIfExist" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		SELECT *FROM project_task WHERE 1=1
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		<if test="taskType!=null and taskType!=''">
+			AND task_type = #{taskType,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+
+ <!-- 根据状态查询数量 -->
+	<select id="selectCountByStatus" resultType="map">
+	    select allTask,finishTask,pauseTask,qualityTask,qualityFinishTask from (select count(p1.id) as allTask from project_task p1 where project_no = #{projectNo,jdbcType=VARCHAR})a,
+		(select count(1) as finishTask from project_task where project_no = #{projectNo,jdbcType=VARCHAR} and task_status = 1)b,
+		(select count(1) as pauseTask from project_task where project_no = #{projectNo,jdbcType=VARCHAR} and task_status = 2)c,
+		(select count(1) as qualityTask from project_task where project_no = #{projectNo,jdbcType=VARCHAR} and task_type = 12)d,
+		(select count(1) as qualityFinishTask from project_task where project_no = #{projectNo,jdbcType=VARCHAR} and task_type = 12 and task_status = 1)e  	    
+	</select>
+	
+	
+	
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from 
+		project_task
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByQualityId"  parameterType="java.lang.Integer">
+		delete from project_task where quality_id =
+		#{qualityId,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<delete id="deleteByProjectNo"  parameterType="string">
+		delete from project_task where project_no = #{projectNo,jdbcType=VARCHAR}
+	</delete>
+	
+
+	<insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectTask" useGeneratedKeys="true" keyProperty="id">
+		insert into project_task
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="projectNo != null">
+				project_no,
+			</if>
+			<if test="initiator != null">
+				initiator,
+			</if>
+			<if test="accepter != null">
+				accepter,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="finishTime != null">
+				finish_time,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="urgentReason != null">
+				urgent_reason,
+			</if>
+			<if test="taskStatus != null">
+				task_status,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+			<if test="operatorTime != null">
+				operator_time,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="meetingNo != null">
+				meeting_no,
+			</if>
+			<if test="taskType != null">
+				task_type,
+			</if>
+			<if test="expectFinishTime != null">
+				expect_finish_time,
+			</if>
+
+			<if test="triggerId != null">
+				trigger_id,
+			</if>
+
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="taskId != null">
+				task_id,
+			</if>
+			<if test="indexNum != null">
+				index_num,
+			</if>
+			<if test="projectNoId !=null">
+			    project_no_id,
+			</if>
+			<if test="taskUrl !=null">
+			    task_url,
+			</if>
+			<if test="delayList !=null">
+			    delay_list,
+			</if>
+			<if test="qualityId !=null">
+			    quality_id,
+			</if>
+			<if test="isVideo !=null">
+			    is_video,
+			</if>
+			<if test="returnUrl !=null">
+			    return_url,
+			</if>
+			<if test="complaintId !=null">
+			    complaint_id,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="projectNo != null">
+				#{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="initiator!= null">
+				#{initiator,jdbcType=VARCHAR},
+			</if>
+			<if test="accepter != null">
+				#{accepter,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="finishTime != null">
+				#{finishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="urgentReason != null">
+				#{urgentReason,jdbcType=VARCHAR},
+			</if>
+			<if test="taskStatus != null">
+				#{taskStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorTime != null">
+				#{operatorTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="meetingNo != null">
+				#{meetingNo,jdbcType=VARCHAR},
+			</if>
+			<if test="taskType != null">
+				#{taskType,jdbcType=VARCHAR},
+			</if>
+			<if test="expectFinishTime != null">
+				#{expectFinishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="triggerId != null">
+				#{triggerId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			
+			<if test="taskId != null">
+				#{taskId,jdbcType=INTEGER},
+			</if>
+			<if test="indexNum != null">
+				#{indexNum,jdbcType=INTEGER},
+			</if>
+			<if test="projectNoId != null">
+				#{projectNoId,jdbcType=VARCHAR},
+			</if>
+			<if test="taskUrl != null">
+				#{taskUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="delayList != null">
+				#{delayList,jdbcType=VARCHAR},
+			</if>
+			<if test="qualityId != null">
+				#{qualityId,jdbcType=INTEGER},
+			</if>
+			<if test="isVideo != null">
+				#{isVideo,jdbcType=INTEGER},
+			</if>
+			<if test="returnUrl != null">
+				#{returnUrl,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="complaintId != null">
+				#{complaintId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+
+
+
+
+
+		
+	
+	
+	 <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">  
+      
+       insert into project_task ( 
+        project_no,initiator, accepter, start_time,
+		description,operate_explain,
+		urgent_reason, task_status,operator,task_type,
+		operator_time,finish_time,create_time,expect_finish_time,trigger_id,user_id,
+		task_id,index_num,quality_id,task_url,is_video,return_url) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.projectNo}, 
+              #{item.initiator}, 
+		      #{item.accepter}, 
+		      #{item.startTime}, 
+		      #{item.description}, 
+		      #{item.operateExplain},
+		      #{item.urgentReason}, 
+		      #{item.taskStatus},
+		      #{item.operator},
+		      #{item.taskType},
+		      #{item.operatorTime},
+		      #{item.finishTime},
+		      #{item.createTime},
+		      #{item.expectFinishTime},
+		      #{item.triggerId},
+		      #{item.userId},
+		      #{item.taskId},
+		      #{item.indexNum},
+		      #{item.qualityId},  
+		      #{item.taskUrl},
+		      #{item.isVideo},
+		      #{item.returnUrl}
+		    ) 
+        </foreach>  
+    </insert>  
+	
+	
+	
+
+	<update id="updateStatus" parameterType="com.cn.hnust.pojo.ProjectTask">
+		update project_task
+		<set>
+			<if test="taskStatus != null">
+				task_status = #{taskStatus,jdbcType=VARCHAR},
+			</if>
+		
+		</set>
+		where initiator = #{initiator,jdbcType=VARCHAR} and date_format(start_time,'%Y-%m-%d')=date_format(#{createTime},'%Y-%m-%d')
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectTask">
+		update project_task
+		<set>
+			<if test="projectNo != null">
+				project_no = #{projectNo,jdbcType=VARCHAR},
+			</if>
+			<if test="initiator != null">
+				initiator = #{initiator,jdbcType=VARCHAR},
+			</if>
+			<if test="accepter != null">
+				accepter = #{accepter,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="urgentReason != null">
+				urgent_reason = #{urgentReason,jdbcType=VARCHAR},
+			</if>
+			<if test="taskStatus != null">
+				task_status = #{taskStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				operator = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorTime != null">
+				operator_time = #{operatorTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expectFinishTime != null">
+				expect_finish_time =#{expectFinishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="operateExplain!=null">
+			    operate_explain = #{operateExplain,jdbcType=VARCHAR},
+			</if>
+			<if test="progress!=null">
+			    progress = #{progress,jdbcType=VARCHAR},
+			</if>
+			<if test="progressDate!=null">
+			    progress_date = #{progressDate,jdbcType=DATE},
+			</if>
+			<if test="isVideoUpload!=null">
+			    is_video_upload = #{isVideoUpload,jdbcType=INTEGER},
+			</if>
+			<if test="productFileName!=null">
+			    product_file_name = #{productFileName,jdbcType=VARCHAR},
+			</if>
+			<if test="newDate!=null">
+			    new_date = #{newDate,jdbcType=DATE},
+			</if>
+			
+			
+			<if test="verification!=null">
+			    verification = #{verification,jdbcType=INTEGER},
+			</if>
+			<if test="verifier!=null">
+			    verifier = #{verifier,jdbcType=VARCHAR},
+			</if>
+			<if test="verificationTime!=null">
+			    verification_time = #{verificationTime,jdbcType=VARCHAR},
+			</if>
+			<if test="drawingId!=null">
+			    drawing_id = #{drawingId,jdbcType=VARCHAR},
+			</if>
+			
+			
+			
+		</set>
+		where 1=1
+		      <if test="id!=null">
+		       AND  id = #{id,jdbcType=INTEGER}
+		      </if>
+		      <if test="projectNoId!=null and projectNoId!=''">
+		         AND project_no_id = #{projectNoId,jdbcType=VARCHAR}
+		      </if>
+	</update>
+	
+	<!-- 统计每个人的未完成数量 -->
+	<select id="statisticsProjectTaskNoFinish2" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>,
+			(select count(1) from project_task p2 where 1=1 and ( 
+				(p2.task_status=0 and CURDATE() &gt; DATE_ADD(p2.finish_time, INTERVAL 5 DAY)) 
+				)
+			 <if test="accepter!=null ">
+			 AND p2.accepter = #{accepter,jdbcType=VARCHAR} 
+			 </if>
+			 and id &gt;24439
+			 )as overCount 		 
+		 from project_task where task_status=0  
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		
+		and id &gt;24439
+	</select>
+	
+	<!-- 统计最近30天的完成数量,2019-08-08开始 -->
+	<select id="statisticsProjectTaskFinish2" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		SELECT * FROM project_task WHERE task_status = 1 
+		<if test="accepter!=null ">
+			AND accepter = #{accepter,jdbcType=VARCHAR}
+		</if>
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		and id &gt;24439
+	</select>
+	<!-- 统计按时完成的项目 -->
+	<select id="statisticsProjectTaskOnTime2" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select * from project_task where task_status=1 AND
+		create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH)
+		
+		AND
+		DATE_FORMAT(operator_time, '%Y-%m-%d') &lt;=DATE_FORMAT(finish_time,
+		'%Y-%m-%d') AND accepter=#{accepter}
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		and id &gt;24439
+	</select>
+	<!-- 统计所有的完成项目 -->
+	<select id="statisticsProjectTaskAllFinish2" resultMap="BaseResultMap">
+		select *
+		from project_task where task_status=1 AND create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH )
+		
+		AND  
+		accepter=#{accepter}
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		and id &gt;24439
+	</select>
+	<!-- 统计按时完成的项目 -->
+	<select id="statisticsProjectTaskOnTime3" resultMap="BaseResultMap"
+		parameterType="com.cn.hnust.pojo.ProjectTask">
+		select * from project_task where task_status=1 AND
+		create_time &gt;=
+		DATE_SUB( CURRENT_DATE() , INTERVAL 3 MONTH)
+		
+		AND
+		DATE_FORMAT(operator_time, '%Y-%m-%d') &lt;=DATE_FORMAT(finish_time,
+		'%Y-%m-%d') AND accepter=#{accepter}
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		and id &gt;24439
+	</select>
+	
+	<select id="selectMeetingRecordTaskNoFinish2" resultMap="BaseResultMap">
+		SELECT
+		*FROM project_task WHERE task_status = 0 AND task_type=1 AND
+		TO_DAYS(NOW()) - TO_DAYS(create_time) &lt;= 7 AND accepter =
+		#{accepter,jdbcType=VARCHAR}
+		<if test="startTime!=null ">
+			AND create_time &gt; #{startTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="finishTime!=null ">
+			AND create_time &lt; #{finishTime,jdbcType=TIMESTAMP}
+		</if>
+		and id &gt;24439
+	</select>
+</mapper>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.daoErp.ItemCaseERPMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectERP" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="CaseNo" property="projectNo" jdbcType="VARCHAR" />
+    <result column="ProductDescC" property="projectNameC" jdbcType="VARCHAR" />
+    <result column="ProductDescE" property="projectNameE" jdbcType="VARCHAR" />
+    <result column="zhijian1" property="zhijian1" jdbcType="VARCHAR" />
+    <result column="zhijian2" property="zhijian2" jdbcType="VARCHAR" />
+    <result column="QualityInspector" property="zhijian3" jdbcType="VARCHAR" />
+    <result column="CustomerManager" property="customerManager" jdbcType="VARCHAR" />
+    <result column="MerchandManager1" property="merchandManager1" jdbcType="VARCHAR" />
+    <result column="MerchandManager2" property="merchandManager2" jdbcType="VARCHAR" />
+    <result column="Engineer1" property="engineer1" jdbcType="VARCHAR" />
+    <result column="Engineer2" property="engineer2" jdbcType="VARCHAR" />
+    <result column="Engineer3" property="engineer3" jdbcType="VARCHAR" />
+    <result column="Merchandising" property="merchandising" jdbcType="VARCHAR" />
+    <result column="OriginalPurchase" property="originalPurchase" jdbcType="VARCHAR" />
+    <result column="MaturePurchase" property="maturePurchase" jdbcType="VARCHAR" />
+    <result column="ProjectLevel" property="plantAnalysis" jdbcType="INTEGER"  />
+    <result column="ProjectMaterialProperties" property="projectMaterialProperties" jdbcType="INTEGER" />
+    <result column="PoTime" property="poDate" jdbcType="TIMESTAMP" />
+    <result column="supplementary_contract" property="supplementaryContract" jdbcType="INTEGER" />
+    <result column="BargainNo" property="contractNo" jdbcType="VARCHAR" />
+    <result column="CustomerGrade" property="customerGrade" jdbcType="INTEGER" />
+    <result column="master_quality_inspection" property="masterQualityInspection" jdbcType="VARCHAR" />
+    <result column="QualityInspector1" property="qualityInspector1" jdbcType="VARCHAR" />
+    <result column="QualityInspector2" property="qualityInspector2" jdbcType="VARCHAR" />
+    <result column="QualityInspector3" property="qualityInspector3" jdbcType="VARCHAR" />
+    <result column="QualityInspector4" property="qualityInspector4" jdbcType="VARCHAR" />
+    <result column="QualityInspector5" property="qualityInspector5" jdbcType="VARCHAR" />
+    <result column="QualityInspector6" property="qualityInspector6" jdbcType="VARCHAR" />
+    <result column="QualityInspector7" property="qualityInspector7" jdbcType="VARCHAR" />
+
+    <result column="technical_support1" property="technician" jdbcType="VARCHAR" />
+    <result column="name" property="customerName" jdbcType="VARCHAR" />
+    <result column="FactoryName" property="companyName" jdbcType="VARCHAR" />
+    <result column="FastManufacturingPlantId" property="factoryId" jdbcType="VARCHAR" />
+    <result column="completiontime" property="completionTime" jdbcType="TIMESTAMP" />
+    <result column="DateSample" property="dateSample" jdbcType="TIMESTAMP" />
+    <result column="statetime" property="dateSampleUploading" jdbcType="TIMESTAMP" />
+    <result column="ifdate" property="moneyDate" jdbcType="TIMESTAMP" />
+    <result column="CreateTime" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="place" property="city" jdbcType="VARCHAR" />
+    <result column="ApNumber" property="ApNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="quality_Inspector" >
+    id, CaseNo,zhijian1, zhijian2, QualityInspector,master_quality_inspection,QualityInspector1,QualityInspector2
+    ,QualityInspector3,QualityInspector4,QualityInspector5,QualityInspector6,QualityInspector7
+  </sql>
+  <sql id="Base_Column_List" >
+    id, CaseNo, ProductDescC, ProductDescE, zhijian1, zhijian2, QualityInspector, CustomerManager, 
+    MerchandManager1, MerchandManager2, Engineer1, Engineer2, Engineer3,ProjectLevel,
+    ProjectMaterialProperties,Merchandising, MaturePurchase,PoTime 
+  </sql>
+  <select id="selectByCaseNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     		 
+select it.CaseNo, it.ProductDescC, it.ProductDescE, it.zhijian1, it.zhijian2, it.QualityInspector, it.CustomerManager,it.PoTime, 
+    it.MerchandManager1, it.MerchandManager2, it.Engineer1, it.Engineer2, it.Engineer3,it.ProjectLevel,it.technical_support1,
+    it.ProjectMaterialProperties,it.Merchandising, it.MaturePurchase,it.originalPurchase,FactoryName,FastManufacturingPlantId,place,completiontime,
+    c.DateSample,statetime,c.ifdate,c.supplementary_contract,cu.name, c.BargainNo ,cu.CustomerGrade,it.master_quality_inspection,it.QualityInspector1
+   , it.QualityInspector2,it.QualityInspector3,it.QualityInspector4,it.QualityInspector5,it.QualityInspector6,it.QualityInspector7       
+     from itemCase it      
+     left join Customer cu on cu.id = it.customercode  
+     left join (      
+	         (
+			 select MIN(b.FactoryName) FactoryName,MIN(b.FastManufacturingPlantId) FastManufacturingPlantId,MIN(b.place) place,a.CaseNo from(
+			 select  min(fid)fid,caseno  from FactoryFund where BargainNo=(
+			 select bargainno from (
+			 select caseno,max(bargainno)bargainno from factoryfund where caseno = #{projectNo,jdbcType=VARCHAR} group by caseno
+			 )a)group  by caseno)a 	 	
+		      LEFT JOIN FactoryInfo AS b ON a.fid = b.id group by a.CaseNo)       
+      ) m on m.CaseNo=it.CaseNo 
+      left join (select a.CaseNo,completiontime,DateSample,statetime,supplementary_contract,ii.ifdate,b.BargainNo from 
+				   (select CaseNo,min(inputDate)statetime from  FactoryFund group by CaseNo)a
+				  left join (select top 1 completiontime,CaseNo,BargainNo,supplementary_contract from Bargain  where completiontime>'2000-01-01' and caseno = #{projectNo,jdbcType=VARCHAR} order by id desc)b on a.CaseNo=b.CaseNo
+        		  left join (select top 1 DateSample,CaseNo,BargainNo from Bargain  where DateSample>'2000-01-01' and caseno = #{projectNo,jdbcType=VARCHAR} order by id desc)d on a.caseno=d.caseno     
+        		  left join (select icaseno,min(ifdate)ifdate from invoiceinfo where ifmoney is not null and ifmoney!=0  group by icaseno )ii on ii.icaseno=a.caseno)c         		  
+        		  on c.caseno=it.caseno  where  it.caseno = #{projectNo,jdbcType=VARCHAR}  
+  </select>
+  <select id="getContractAmount1"  resultType="String" >
+    select sum(frimoney)frimoney from factoryfund 
+     where caseno in (${projectNo}) 
+     and BargainNo is not null  and frimoney is not null
+	</select>
+	<!--查看申请人是否在项目中  -->
+  <select id="findName"  resultType="Integer" parameterType="java.lang.String">
+    select count(1) from itemcase 
+     where 1=1
+     <if test="id==1">
+    and caseno in (#{projectNo}) 
+    </if>
+     <if test="id==2">
+     and caseno in (#{projectNo})
+     and (CustomerManager = #{customerManager} or MerchandManager1 = #{customerManager} or MerchandManager2 = #{customerManager}  or zhijian1 = #{customerManager} or zhijian2 = #{customerManager} or Merchandising = #{customerManager} or MaturePurchase = #{customerManager} or OriginalPurchase = #{customerManager} or QualityInspector = #{customerManager})
+	</if>
+	</select>
+	<!--根据项目及成员判断是否存在  -->
+  <select id="search"  resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectERP">
+    select <include refid="quality_Inspector"/> from itemcase where caseno =#{projectNo,jdbcType=VARCHAR}
+	</select>
+  <select id="getApNumber"  resultType="String" >
+  select max(ApNumber) from ApNumber
+    </select>
+    <!--添加apnumber  -->
+	<insert id="insert" parameterType="java.lang.String" >
+    insert into ApNumber(ApNumber) values(#{ApNumber})
+  </insert>
+  
+	
+  <!--违规次数  -->
+   <select id="getProjectViolation" resultType="String" parameterType="java.lang.String" >
+  select num1+num2 from (
+select isnull(a.num1,0)num1,isnull(b.num2,0)num2 from (
+select count(1)num1 from itemcase it left join (select caseno from  bargain group by CaseNo )ba on ba.CaseNo=it.CaseNo  
+left join (select pobiao,caseno from po where  pobiao is not null and caseno not like '%-%')c on it.CaseNo=c.CaseNo
+where CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  and (MerchandManager1=#{CustomerManager,jdbcType=VARCHAR}  or Merchandising=#{CustomerManager,jdbcType=VARCHAR}) and it.CaseNo not like '%-%'
+and ba.CaseNo is not null and c.PObiao is null
+)a,
+(select count(1)num2 from itemcase it left join (select caseno from  bargain group by CaseNo )ba on ba.CaseNo=it.CaseNo  
+left join (select caseno,min(DrawingName1)DrawingName1 from (
+  select isnull(DrawingName,'')DrawingName1,caseno from ProjectDrawings where  remark not like '%生产计划%' and remark not like '%第三方质检报告%' and DrawingName like '%项目需求汇总%'
+  and caseno not like '%-%' ) a group by caseno)c on it.CaseNo=c.CaseNo
+where CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  and (MerchandManager1=#{CustomerManager,jdbcType=VARCHAR}  or Merchandising=#{CustomerManager,jdbcType=VARCHAR}) and it.CaseNo not like '%-%'
+and ba.CaseNo is not null and c.DrawingName1 is null)b )c
+   </select>
+  <!-- 老客户报价成功 -->
+   <select id="getOldCustomerOff" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  select count(1) from itemcase it left join bargain ba on it.caseno=ba.caseno where CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  
+and (CustomerManager = #{CustomerManager,jdbcType=VARCHAR}
+or MerchandManager1=#{CustomerManager,jdbcType=VARCHAR}  or Merchandising=#{CustomerManager,jdbcType=VARCHAR})
+ and it.caseno not like '%-%' and ba.id is not null
+   </select>
+   <!--新客户大项目报价成功  -->
+    <select id="getNewCustomerBigProjectOffer" resultType="java.lang.Integer" parameterType="java.lang.String" >
+  select count(1)  from itemcase it left join bargain ba  on it.caseno=ba.caseno  
+left join (select * from (select icaseno,sum(iimoney)iimoney,min(imoneytype)imoneytype from invoiceinfo group by iCaseNo )a 
+where ((imoneytype=1 and iimoney>20000 ) or(imoneytype=2 and iimoney>136000 ) or (imoneytype=3 and iimoney>17746)
+or (imoneytype=5 and iimoney>15292))) a  on a.iCaseNo=it.CaseNo where CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  
+and CustomerManager = #{CustomerManager,jdbcType=VARCHAR} and it.caseno not like '%-%' and ba.id is not null and a.iCaseNo is not null and ProductState=0
+   </select>
+   <!-- 老客户大项目报价成功 -->
+    <select id="getOldCustomerBigProjectOffer" resultType="java.lang.Integer" parameterType="java.lang.String" >
+select count(1)  from itemcase it left join bargain ba  on it.caseno=ba.caseno  
+left join (select * from (select icaseno,sum(iimoney)iimoney,min(imoneytype)imoneytype from invoiceinfo group by iCaseNo )a 
+where ((imoneytype=1 and iimoney>20000 ) or(imoneytype=2 and iimoney>136000 ) or (imoneytype=3 and iimoney>17746)
+or (imoneytype=5 and iimoney>15292))) a  on a.iCaseNo=it.CaseNo where CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  
+and CustomerManager = #{CustomerManager,jdbcType=VARCHAR} and it.caseno not like '%-%' and ba.id is not null and a.iCaseNo is not null and ProductState=1
+   </select>
+   <!--打样成功  -->
+    <select id="proofingSuccess" resultType="java.lang.Integer" parameterType="java.lang.String" >
+   select count(1) from (
+  select CaseNo from POupload where type='JIANYANBAOGAO' and intro like '%样品检验,没问题%'  and caseno not  like '%-%' group by CaseNo)a  
+  left join 
+  (select CaseNo from POupload where type='JIANYANBAOGAO' and intro like '%样品检验,有问题%' and caseno not  like '%-%' group by caseno)b
+  on a.CaseNo=b.CaseNo
+  left join itemcase it on a.caseno=it.caseno
+  where  CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}   and
+   (MerchandManager1= #{CustomerManager,jdbcType=VARCHAR}  or Merchandising= #{CustomerManager,jdbcType=VARCHAR}) and b.caseno is null
+   </select>
+   <!-- 打样失败 -->
+    <select id="proofingFailure" resultType="java.lang.Integer" parameterType="java.lang.String" >
+select count(1) from (
+  select CaseNo from POupload where type='JIANYANBAOGAO' and intro like '%样品检验,有问题%' and caseno not  like '%-%' group by CaseNo)a  
+  left join 
+  (select CaseNo from POupload where type='JIANYANBAOGAO' and intro like '%样品检验,没问题%' and caseno not  like '%-%' group by caseno)b
+  on a.CaseNo=b.CaseNo
+  left join itemcase it on a.caseno=it.caseno
+  where b.caseno is  null  and CONVERT(varchar(7), it.CreateTime, 23)= #{projectNo,jdbcType=VARCHAR}  
+  and (MerchandManager1= #{CustomerManager,jdbcType=VARCHAR}  or Merchandising= #{CustomerManager,jdbcType=VARCHAR}) and a.caseno is null
+   </select>
+   <!-- 获取项目 -->
+    <select id="getAllCaseNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+select it.caseno from itemcase it left join bargain ba on it.caseno=ba.caseno where CONVERT(varchar(7), it.CreateTime, 23)=  #{projectNo,jdbcType=VARCHAR}
+and (  MerchandManager1= #{CustomerManager,jdbcType=VARCHAR}  or Merchandising= #{CustomerManager,jdbcType=VARCHAR})
+group by it.caseno
+   </select>
+   <!-- 获取项目 -->
+    <select id="getAllCaseNo1" resultMap="BaseResultMap" parameterType="java.lang.String" >
+select it.caseno from itemcase it left join bargain ba on it.caseno=ba.caseno where CONVERT(varchar(7), it.CreateTime, 23)=  #{projectNo,jdbcType=VARCHAR}
+and   CustomerManager= #{CustomerManager,jdbcType=VARCHAR}  and it.caseno not like '%-%' and ba.CaseNo is not null
+group by it.caseno
+   </select>
+   
+   <!--清理全部不允许上传合同逻辑  -->
+   <update id="clean"  >
+    update itemcase
+    set complaint_form = 0
+      where complaint_form=1
+  </update>
+     <!--修改不允许上传合同逻辑  -->
+   <update id="update"  parameterType="java.lang.String">
+    update itemcase
+    set complaint_form = 1
+      where caseno = #{projectNo,jdbcType=VARCHAR}
+  </update>
+  <!--修改质检  -->
+   <update id="updateQuality"  parameterType="com.cn.hnust.pojo.ProjectERP">
+    update itemcase
+    set caseno =#{projectNo,jdbcType=VARCHAR}
+    <if test="masterQualityInspection!=null">
+       ,master_quality_inspection=#{masterQualityInspection,jdbcType=VARCHAR}
+    </if>
+    <if test="zhijian1!=null">
+       ,zhijian1=#{zhijian1,jdbcType=VARCHAR}
+    </if>
+    <if test="zhijian2!=null">
+       ,zhijian2=#{zhijian2,jdbcType=VARCHAR}
+    </if>
+    <if test="zhijian3!=null">
+       ,QualityInspector=#{zhijian3,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector1!=null">
+      , QualityInspector1=#{qualityInspector1,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector2!=null">
+       ,QualityInspector2=#{qualityInspector2,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector3!=null">
+      , QualityInspector3=#{qualityInspector3,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector4!=null">
+     ,  QualityInspector4=#{qualityInspector4,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector5!=null">
+      , QualityInspector5=#{qualityInspector5,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector6!=null">
+       ,QualityInspector6=#{qualityInspector6,jdbcType=VARCHAR}
+    </if>
+    <if test="qualityInspector7!=null">
+       ,QualityInspector7=#{qualityInspector7,jdbcType=VARCHAR}
+    </if>
+    
+    where caseno =#{projectNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

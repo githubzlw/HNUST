@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.SalesAndMerchandisingScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sale_name" property="saleName" jdbcType="VARCHAR" />
+    <result column="total_score" property="totalScore" jdbcType="DOUBLE" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="old_customer_off" property="oldCustomerOff" jdbcType="DOUBLE" />
+    <result column="new_customer_big_project_offer" property="newCustomerBigProjectOffer" jdbcType="DOUBLE" />
+    <result column="old_customer_big_project_offer" property="oldCustomerBigProjectOffer" jdbcType="DOUBLE" />
+    <result column="ranking" property="ranking" jdbcType="DOUBLE" />
+    <result column="increase" property="increase" jdbcType="DOUBLE" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="technological_process" property="technologicalProcess" jdbcType="DOUBLE" />
+    <result column="quality" property="quality" jdbcType="DOUBLE" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="DOUBLE" />
+    <result column="customer_follow_up" property="customerFollowUp" jdbcType="DOUBLE" />
+    <result column="profit" property="profit" jdbcType="DOUBLE" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sale_name, total_score, date, old_customer_off, new_customer_big_project_offer, 
+    old_customer_big_project_offer, ranking, increase, role_name, technological_process, 
+    quality, delivery_time, customer_follow_up, profit
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sales_and_merchandising_score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--查询销售、跟单分数  -->
+  <select id="selectAllScore" resultMap="BaseResultMap"  parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore">
+    select 
+    sa.*,ifnull(df.deduction_frequency,0)number
+    from sales_and_merchandising_score sa left join deduction_form df on sa.sale_name=df.name and sa.date=df.date
+    where sa.date  like CONCAT('%', #{date}, '%') order by sale_name 
+  </select>
+  <insert id="insertAll" useGeneratedKeys="true" keyProperty="id" parameterType="java.util.List">       
+       insert into sales_and_merchandising_score ( 
+        sale_name, date, old_customer_off, new_customer_big_project_offer
+        , old_customer_big_project_offer,role_name,technological_process,quality,delivery_time,customer_follow_up) values   
+        <foreach collection="list" item="item" index="index" separator="," >  
+            ( 
+              #{item.saleName},            
+		      #{item.date},
+		      #{item.oldCustomerOff},  
+		      #{item.newCustomerBigProjectOffer},
+		      #{item.oldCustomerBigProjectOffer},
+		      #{item.roleName},
+		     #{item.technologicalProcess},
+		     #{item.quality},
+		     #{item.deliveryTime},
+		     #{item.customerFollowUp}
+		    ) 
+        </foreach>  
+    </insert>  
+  
+  <update id="updateAll" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+   
+    <foreach collection="list" item="item" index="index" separator=";" >  
+     update sales_and_merchandising_score
+     <set > 
+      old_customer_off = #{item.oldCustomerOff},
+      new_customer_big_project_offer = #{item.newCustomerBigProjectOffer},
+      old_customer_big_project_offer = #{item.oldCustomerBigProjectOffer},
+      quality=#{item.quality},
+      technological_process=#{item.technologicalProcess},
+      delivery_time=#{item.deliveryTime},
+    customer_follow_up=#{item.customerFollowUp}
+      </set>
+     where date = #{item.date} and sale_name = #{item.saleName}
+     </foreach>  
+  </update>
+  <!--修改排名分数  -->
+  <update id="updateOne" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+   update sales_and_merchandising_score
+   set
+     
+      ranking = #{ranking,jdbcType=DOUBLE},increase=#{increase,jdbcType=DOUBLE}
+      
+     where date = #{date,jdbcType=VARCHAR} and sale_name = #{saleName,jdbcType=VARCHAR}
+    
+  </update>
+  <!--修改销售总分  -->
+  <update id="updateAllScoreSale" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+   update sales_and_merchandising_score
+     set
+     total_score = old_customer_big_project_offer+new_customer_big_project_offer
+     +old_customer_off+ ranking+increase
+      
+      
+     where date = #{date,jdbcType=VARCHAR} and role_name='销售'
+    
+  </update>
+  <!--修改跟单总分  -->
+  <update id="updateAllScoreDocumentary" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+   update sales_and_merchandising_score
+     
+     set
+      total_score = technological_process+quality+ ranking+increase+delivery_time+customer_follow_up
+     
+     where date = #{date,jdbcType=VARCHAR} and role_name='跟单'
+    
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sales_and_merchandising_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    insert into sales_and_merchandising_score (id, sale_name, total_score, 
+      date, old_customer_off, new_customer_big_project_offer, 
+      old_customer_big_project_offer, ranking, increase, 
+      role_name, technological_process, quality, 
+      delivery_time, customer_follow_up, profit
+      )
+    values (#{id,jdbcType=INTEGER}, #{saleName,jdbcType=VARCHAR}, #{totalScore,jdbcType=DOUBLE}, 
+      #{date,jdbcType=VARCHAR}, #{oldCustomerOff,jdbcType=DOUBLE}, #{newCustomerBigProjectOffer,jdbcType=DOUBLE}, 
+      #{oldCustomerBigProjectOffer,jdbcType=DOUBLE}, #{ranking,jdbcType=DOUBLE}, #{increase,jdbcType=DOUBLE}, 
+      #{roleName,jdbcType=VARCHAR}, #{technologicalProcess,jdbcType=DOUBLE}, #{quality,jdbcType=DOUBLE}, 
+      #{deliveryTime,jdbcType=DOUBLE}, #{customerFollowUp,jdbcType=DOUBLE}, #{profit,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    insert into sales_and_merchandising_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="saleName != null" >
+        sale_name,
+      </if>
+      <if test="totalScore != null" >
+        total_score,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="oldCustomerOff != null" >
+        old_customer_off,
+      </if>
+      <if test="newCustomerBigProjectOffer != null" >
+        new_customer_big_project_offer,
+      </if>
+      <if test="oldCustomerBigProjectOffer != null" >
+        old_customer_big_project_offer,
+      </if>
+      <if test="ranking != null" >
+        ranking,
+      </if>
+      <if test="increase != null" >
+        increase,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="technologicalProcess != null" >
+        technological_process,
+      </if>
+      <if test="quality != null" >
+        quality,
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time,
+      </if>
+      <if test="customerFollowUp != null" >
+        customer_follow_up,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="saleName != null" >
+        #{saleName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="oldCustomerOff != null" >
+        #{oldCustomerOff,jdbcType=DOUBLE},
+      </if>
+      <if test="newCustomerBigProjectOffer != null" >
+        #{newCustomerBigProjectOffer,jdbcType=DOUBLE},
+      </if>
+      <if test="oldCustomerBigProjectOffer != null" >
+        #{oldCustomerBigProjectOffer,jdbcType=DOUBLE},
+      </if>
+      <if test="ranking != null" >
+        #{ranking,jdbcType=DOUBLE},
+      </if>
+      <if test="increase != null" >
+        #{increase,jdbcType=DOUBLE},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologicalProcess != null" >
+        #{technologicalProcess,jdbcType=DOUBLE},
+      </if>
+      <if test="quality != null" >
+        #{quality,jdbcType=DOUBLE},
+      </if>
+      <if test="deliveryTime != null" >
+        #{deliveryTime,jdbcType=DOUBLE},
+      </if>
+      <if test="customerFollowUp != null" >
+        #{customerFollowUp,jdbcType=DOUBLE},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <!-- 扣款项修改 -->
+  <update id="updateOneProcess" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    update sales_and_merchandising_score
+    <set >
+      
+      <if test="technologicalProcess != null" >
+        technological_process = #{technologicalProcess,jdbcType=DOUBLE},
+      </if>
+     
+    </set>
+    where date = #{date,jdbcType=VARCHAR} and  sale_name = #{saleName,jdbcType=VARCHAR}
+      
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    update sales_and_merchandising_score
+    <set >
+      <if test="saleName != null" >
+        sale_name = #{saleName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalScore != null" >
+        total_score = #{totalScore,jdbcType=DOUBLE},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="oldCustomerOff != null" >
+        old_customer_off = #{oldCustomerOff,jdbcType=DOUBLE},
+      </if>
+      <if test="newCustomerBigProjectOffer != null" >
+        new_customer_big_project_offer = #{newCustomerBigProjectOffer,jdbcType=DOUBLE},
+      </if>
+      <if test="oldCustomerBigProjectOffer != null" >
+        old_customer_big_project_offer = #{oldCustomerBigProjectOffer,jdbcType=DOUBLE},
+      </if>
+      <if test="ranking != null" >
+        ranking = #{ranking,jdbcType=DOUBLE},
+      </if>
+      <if test="increase != null" >
+        increase = #{increase,jdbcType=DOUBLE},
+      </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="technologicalProcess != null" >
+        technological_process = #{technologicalProcess,jdbcType=DOUBLE},
+      </if>
+      <if test="quality != null" >
+        quality = #{quality,jdbcType=DOUBLE},
+      </if>
+      <if test="deliveryTime != null" >
+        delivery_time = #{deliveryTime,jdbcType=DOUBLE},
+      </if>
+      <if test="customerFollowUp != null" >
+        customer_follow_up = #{customerFollowUp,jdbcType=DOUBLE},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.SalesAndMerchandisingScore" >
+    update sales_and_merchandising_score
+    set sale_name = #{saleName,jdbcType=VARCHAR},
+      total_score = #{totalScore,jdbcType=DOUBLE},
+      date = #{date,jdbcType=VARCHAR},
+      old_customer_off = #{oldCustomerOff,jdbcType=DOUBLE},
+      new_customer_big_project_offer = #{newCustomerBigProjectOffer,jdbcType=DOUBLE},
+      old_customer_big_project_offer = #{oldCustomerBigProjectOffer,jdbcType=DOUBLE},
+      ranking = #{ranking,jdbcType=DOUBLE},
+      increase = #{increase,jdbcType=DOUBLE},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      technological_process = #{technologicalProcess,jdbcType=DOUBLE},
+      quality = #{quality,jdbcType=DOUBLE},
+      delivery_time = #{deliveryTime,jdbcType=DOUBLE},
+      customer_follow_up = #{customerFollowUp,jdbcType=DOUBLE},
+      profit = #{profit,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

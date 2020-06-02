@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoReport.ProductsMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Products">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="purno" jdbcType="VARCHAR" property="projectNo" />
+    <result column="saildate" jdbcType="VARCHAR" property="sailingDate" />
+    
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, purno, saildate   
+  </sql>
+
+  
+   <select id="selectSaildate" resultMap="BaseResultMap">
+     select top 3 isnull(estimateDate,'')saildate from products where id in ( select proId from contract where purno like CONCAT('%', #{projectNo}, '%')  group by proId )
+  order by  saildate desc 
+    
+  </select>
+
+
+
+ 
+</mapper>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectReportMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectReport" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="report" property="report" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+    <result column="role_no" property="roleNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+     <result column="project_stage" property="projectStage" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, report,report_name, pic_url, role_no,status,create_date,project_stage
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_report
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 查询该项目最近的周报上传时间 -->
+  <select id="selectProjectReportLatelyDate" resultMap="BaseResultMap" parameterType="java.lang.String">
+     select * from project_report where create_date = (select MAX(create_date) 
+      from project_report 
+      where 
+       1=1  
+      <if test="projectNo != null" >
+       AND project_no=#{projectNo,jdbcType=VARCHAR}
+      </if>
+     )
+     <if test="projectNo != null" >
+      AND project_no=#{projectNo,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
+  <!-- 查询本周是否上传周报 -->
+  <select id="selectProjectReportWeek" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select * from project_report where 1=1
+      <if test="projectNo != null" >
+       AND project_no=#{projectNo,jdbcType=VARCHAR}
+      </if>
+      <choose>  
+           <when test="week ==1">and create_date &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY) </when>  
+           <when test="week !=1">and create_date &gt;= DATE_SUB(CURDATE(), INTERVAL 7 DAY) </when>  
+      </choose> 
+      ORDER BY create_date desc
+  </select>
+  
+  
+  <!-- 查询项目的汇报情况 -->
+  <select id="selectProjectReport" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	  select 
+	    <include refid="Base_Column_List" />
+	  from project_report
+	  where project_no = #{projectNo,jdbcType=VARCHAR}
+	  ORDER BY create_date desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project_report
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectReport" >
+    insert into project_report (id, project_no, report, report_name,
+      pic_url, create_date)
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{report,jdbcType=VARCHAR},  #{reportName,jdbcType=VARCHAR},
+      #{picUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectReport" >
+    insert into project_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="report != null" >
+        report,
+      </if>
+       <if test="reportName != null" >
+        report_name,
+      </if>
+      <if test="roleNo != null" >
+        role_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="projectStage != null" >
+        project_stage,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null" >
+        #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null" >
+        #{reportName,jdbcType=VARCHAR},
+      </if>
+       <if test="roleNo != null" >
+        #{roleNo,jdbcType=VARCHAR},
+      </if>
+       <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+       <if test="projectStage != null" >
+        #{projectStage,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectReport" >
+    update project_report
+    <set >
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null" >
+        report = #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null" >
+        report_name = #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectReport" >
+    update project_report
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      report = #{report,jdbcType=VARCHAR},
+      report_name = #{reportName,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateProjectReportStatus" parameterType="java.lang.String">
+   update project_report set status = 1  where project_no = #{projectNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

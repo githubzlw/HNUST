@@ -1,0 +1,207 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.daoQuotation.QuotationUserMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QuotationUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="quoteNumber" property="quoteNumber" jdbcType="INTEGER" />
+    <result column="role_no" property="roleNo" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="role_name" property="rolename" jdbcType="VARCHAR" />
+    <result column="dimission" property="dimission" jdbcType="INTEGER" />
+    <result column="create_time" property="createtime" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="item_number" property="itemnumber" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="job_number" property="jobNumber" jdbcType="VARCHAR" />
+    <result column="userid" property="userId" jdbcType="INTEGER" />
+    <result column="business_department" property="businessDepartment" jdbcType="INTEGER" />
+    <result column="exchange_rate" property="exchangeRate" jdbcType="INTEGER" />
+    <result column="aLevelProject" property="aLevelProject" jdbcType="INTEGER" />
+    <result column="bLevelProject" property="bLevelProject" jdbcType="INTEGER" />
+    <result column="cLevelProject" property="cLevelProject" jdbcType="INTEGER" />
+    <result column="dLevelProject" property="dLevelProject" jdbcType="INTEGER" />
+    <result column="waitingQuotation" property="waitingQuotation" jdbcType="INTEGER" />
+    <result column="allWaitingQuotation" property="allWaitingQuotation" jdbcType="INTEGER" />
+    <result column="placeOrder" property="placeOrder" jdbcType="INTEGER" />
+    <result column="allPlaceOrder" property="allPlaceOrder" jdbcType="INTEGER" />
+    <result column="complainingExpensive" property="complainingExpensive" jdbcType="INTEGER" />
+    <result column="allComplainingExpensive" property="allComplainingExpensive" jdbcType="INTEGER" />
+    <result column="noFeedback" property="noFeedback" jdbcType="INTEGER" />
+    <result column="allNoFeedback" property="allNoFeedback" jdbcType="INTEGER" />
+    <result column="activeCommunication" property="activeCommunication" jdbcType="INTEGER" />
+    <result column="allActiveCommunication" property="allActiveCommunication" jdbcType="INTEGER" />
+    <result column="giveUp" property="giveUp" jdbcType="INTEGER" />
+    <result column="allGiveUp" property="allGiveUp" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_no, name, pwd, role_name, dimission, create_time, note, telephone, item_number, 
+    email, userid,business_department,exchange_rate
+  </sql>
+  <select id="getQuantityQuoted" resultMap="BaseResultMap" >
+   select a.name,ifnull(b.num,0)quoteNumber,ifnull(c.num,0)aLevelProject,ifnull(d.num,0)bLevelProject,ifnull(e.num,0)cLevelProject
+   ,ifnull(f.num,0)dLevelProject from (
+SELECT name  FROM `user`  where role_no=10 and dimission=0 and role_name='报价员')a
+left join 
+(select nq.quoter,count(*)num from new_quotes
+nq left join 
+multiple_quotation_list
+m on nq.project_id=m.project_id
+where m.project_id is not null and datediff(now(),nq.create_time)&lt;8
+group by nq.quoter
+)b  on a.name=b.quoter
+left join (
+select nq.quoter,count(*)num from new_quotes nq 
+left join customer cus on cus.id=nq.cid
+left join 
+multiple_quotation_list
+m on nq.project_id=m.project_id
+where cus.projectimportance like 'A%'
+AND DATEDIFF(NOW(),nq.create_time)&lt;30
+and nq.project_id is not null and m.project_id is null and nq.quotation_status !='已放弃' GROUP BY nq.quoter )
+c on c.quoter=a.name
+left join (
+select nq.quoter,count(*)num from new_quotes nq 
+left join customer cus on cus.id=nq.cid
+left join 
+multiple_quotation_list
+m on nq.project_id=m.project_id
+where cus.projectimportance like 'B%'
+AND DATEDIFF(NOW(),nq.create_time)&lt;30
+and nq.project_id is not null and m.project_id is null and nq.quotation_status !='已放弃' GROUP BY nq.quoter)
+d on d.quoter=a.name
+left join (
+select nq.quoter,count(*)num from new_quotes nq 
+left join customer cus on cus.id=nq.cid
+left join 
+multiple_quotation_list
+m on nq.project_id=m.project_id
+where cus.projectimportance like 'C%'
+AND DATEDIFF(NOW(),nq.create_time)&lt;30
+and nq.project_id is not null and m.project_id is null and nq.quotation_status !='已放弃' GROUP BY nq.quoter)
+e on e.quoter=a.name
+left join (
+select nq.quoter,count(*)num from new_quotes nq 
+left join customer cus on cus.id=nq.cid
+left join 
+multiple_quotation_list
+m on nq.project_id=m.project_id
+where cus.projectimportance like 'D%'
+AND DATEDIFF(NOW(),nq.create_time)&lt;30
+and nq.project_id is not null and m.project_id is null and nq.quotation_status !='已放弃' GROUP BY nq.quoter)
+f on f.quoter=a.name
+
+  </select>
+  <select id="getSalesWorkload" resultMap="BaseResultMap">
+  select a.name,ifnull(b.num,0)waitingQuotation,ifnull(c.num,0)allWaitingQuotation
+  ,ifnull(d.num,0)activeCommunication,ifnull(e.num,0)allActiveCommunication
+  ,ifnull(f.num,0)placeOrder,ifnull(j.num,0)allPlaceOrder
+  ,ifnull(m.num,0)complainingExpensive,ifnull(n.num,0)allComplainingExpensive
+  ,ifnull(o.num,0)giveUp,ifnull(p.num,0)allGiveUp
+  ,ifnull(x.num,0)noFeedback,ifnull(y.num,0)allNoFeedback
+   from (SELECT name  FROM `user`  where role_no=5 and dimission=0 and role_name='销售')a
+  left join(
+  select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=1
+group by sale_name
+  )b on a.name=b.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=1
+group by sale_name
+  )c on a.name=c.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=2
+group by sale_name
+  )d on a.name=d.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=2
+group by sale_name
+  )e on a.name=e.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=3
+group by sale_name
+  )f on a.name=f.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=3
+group by sale_name
+  )j on a.name=j.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=4
+group by sale_name
+  )m on a.name=m.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=4
+group by sale_name
+  )n on a.name=n.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+   left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=8
+group by sale_name
+  )o on a.name=o.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=8
+group by sale_name
+  )p on a.name=p.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and (cus.projectimportance like 'A%' OR cus.projectimportance like 'B%')
+and quote_follow_status=12
+group by sale_name
+  )x on a.name=x.sale_name
+  left join(
+ select sale_name,count(*)num from new_quotes nq left join email_clientid ecl
+on nq.project_id=ecl.project_id
+  left join customer cus on nq.cid=cus.id
+where datediff(now(),ecl.create_time)&lt;${roleNo}
+and quote_follow_status=12
+group by sale_name
+  )y on a.name=y.sale_name
+  </select>
+  
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.QualityReportTeamMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityReportTeamMember" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="quality_id" property="qualityId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="spend_time" property="spendTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, quality_id, user_name, project_no, create_time, spend_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quality_report_team_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from quality_report_team_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertAll" parameterType="com.cn.hnust.pojo.QualityReportTeamMember" >
+    insert into quality_report_team_member ( quality_id, user_name, 
+      project_no, create_time, spend_time
+      )
+   values ( #{qualityId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{spendTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QualityReportTeamMember" >
+    insert into quality_report_team_member (id, quality_id, user_name, 
+      project_no, create_time, spend_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{qualityId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{projectNo,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{spendTime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QualityReportTeamMember" >
+    insert into quality_report_team_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="qualityId != null" >
+        quality_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="spendTime != null" >
+        spend_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="qualityId != null" >
+        #{qualityId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="spendTime != null" >
+        #{spendTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QualityReportTeamMember" >
+    update quality_report_team_member
+    <set >
+      <if test="qualityId != null" >
+        quality_id = #{qualityId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="spendTime != null" >
+        spend_time = #{spendTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QualityReportTeamMember" >
+    update quality_report_team_member
+    set quality_id = #{qualityId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      spend_time = #{spendTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

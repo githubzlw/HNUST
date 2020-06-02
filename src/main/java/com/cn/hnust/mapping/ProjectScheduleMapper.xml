@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.ProjectScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ProjectSchedule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="predict_date" property="predictDate" jdbcType="DATE" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="actual_date" property="actualDate" jdbcType="DATE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="original_date" property="originalDate" jdbcType="DATE" />
+    <result column="is_finish" property="isFinish" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, project_no, predict_date, num, actual_date, create_time, is_finish,update_time,original_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_schedule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据项目号查询大货交期 -->
+  <select id="selectByProjectNo" parameterType="string" resultMap="BaseResultMap">
+    select  
+    <include refid="Base_Column_List"/>
+    from project_schedule where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByProjectNoAndNum" resultMap="BaseResultMap">
+    select  
+    <include refid="Base_Column_List"/>
+    from project_schedule where project_no = #{projectNo,jdbcType=VARCHAR} and num = #{num,jdbcType=INTEGER} 
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project_schedule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.ProjectSchedule" >
+    insert into project_schedule (id, project_no, predict_date, 
+      num, actual_date, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{predictDate,jdbcType=DATE}, 
+      #{num,jdbcType=INTEGER}, #{actualDate,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  
+  	<!-- 批量插入大货时间-->
+	<insert id="insertBatch" parameterType="java.util.List">
+	    insert into project_schedule 
+		    (
+		   project_no, predict_date, num, create_time,is_finish,original_date
+            )
+	    values
+	    <foreach collection="list" item="item" index="index" separator=",">
+	      (           
+		    #{item.projectNo},#{item.predictDate},#{item.num},#{item.createTime},#{item.isFinish},#{item.originalDate}
+	      )
+	    </foreach>
+	</insert>
+  
+  
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.ProjectSchedule" useGeneratedKeys="true" keyProperty="id">
+    insert into project_schedule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="predictDate != null" >
+        predict_date,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="actualDate != null" >
+        actual_date,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isFinish != null" >
+        is_finish,
+      </if>
+      <if test="originalDate != null" >
+        original_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="predictDate != null" >
+        #{predictDate,jdbcType=DATE},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="actualDate != null" >
+        #{actualDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isFinish != null" >
+        #{isFinish,jdbcType=INTEGER},
+      </if>
+      <if test="originalDate != null" >
+        #{originalDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.ProjectSchedule" >
+    update project_schedule   
+    <set> 
+      <if test="projectNo != null" >  
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if> 
+      <if test="predictDate != null" >
+          predict_date = #{predictDate,jdbcType=DATE}, 
+      </if>     
+      <if test="num != null"> 
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="actualDate != null"> 
+        actual_date = #{actualDate,jdbcType=DATE},
+      </if>
+      <if test="createTime != null" > 
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" > 
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isFinish != null" > 
+        is_finish = #{isFinish,jdbcType=INTEGER},
+      </if>
+      <if test="originalDate != null" >
+       original_date = #{originalDate,jdbcType=DATE}, 
+      </if>
+    </set> 
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.ProjectSchedule" >
+    update project_schedule
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      predict_date = #{predictDate,jdbcType=DATE},
+      num = #{num,jdbcType=INTEGER},
+      actual_date = #{actualDate,jdbcType=DATE},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  	 <!-- 批量更新大货日期 -->	
+	<update id="updateBatch" parameterType="java.util.List">    
+	     <foreach collection="list" item="item" index="index"  open="" close="" separator=";">   
+	     	    update project_schedule    
+	     	    <set>     
+				predict_date = #{item.predictDate} , update_time = #{item.updateTime}   				
+				</set> 
+	            where id = #{item.id}            
+	     </foreach>     
+    </update> 
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoErp.ErpReportMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityReport">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="url" jdbcType="VARCHAR" property="picUrl" />
+    <result column="uploadtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="uploader" jdbcType="VARCHAR" property="user" />
+    <result column="CaseNo" jdbcType="VARCHAR" property="projectNo" />
+    <result column="type" jdbcType="VARCHAR" property="erpType" />
+    <result column="intro" jdbcType="VARCHAR" property="explainCause" />
+    <result column="concrete_content" jdbcType="VARCHAR" property="concreteContent" />
+    
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, url, type, uploadtime, uploader, CaseNo, intro 
+  </sql>
+
+  
+   <select id="selectErpReportByProjectNo" resultMap="BaseResultMap">
+    select  
+    <include refid="Base_Column_List" />
+    from POupload
+    where CaseNo = #{projectNo,jdbcType=VARCHAR} and url is not null and type='JIANYANBAOGAO' order by uploadtime desc
+  </select>
+
+<select id="getAllReport" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.QualityReport">
+    select  
+    <include refid="Base_Column_List" />
+    from POupload
+    where  url is not null and uploader is not null  and id&gt;#{id,jdbcType=INTEGER}
+  </select>
+<select id="getAllReportDingDing" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.QualityReport">
+    select  top 1
+    <include refid="Base_Column_List" />
+    from POupload
+    where   uploader is  null order by uploadtime desc
+  </select>
+ <!-- 批量添加图纸信息 -->
+  <select id="batchAddInspectionReport" parameterType="java.util.List">
+      INSERT INTO POupload(CaseNo,url,type,uploadtime,intro)  VALUES
+      <foreach collection="list"  item="item" separator=",">
+        (#{item.projectNo,jdbcType=VARCHAR},#{item.picUrl,jdbcType=VARCHAR},#{item.erpType,jdbcType=VARCHAR},#{item.createtime,jdbcType=TIMESTAMP}
+       ,#{item.concreteContent,jdbcType=VARCHAR})
+     </foreach>
+  </select>
+ 
+</mapper>

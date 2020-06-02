@@ -1,0 +1,12 @@
+
+body{font-size:16px;}
+.prduct_view{position: relative;}
+.tc{width:100%;height:100%;background-color:#000;position: fixed;top:0;left:0;display:none;z-index: 10;padding-top:50px;}
+.tc_wrap{width:100%;height:100%;background-color:#000;position: absolute;top:0;left:0;z-index: 11;padding-top:50px;}
+.tc img{max-width:100%;margin:0 auto;max-width:100%;width:auto;}
+
+.pinch-zoom-container{z-index:12;}
+@media screen and (max-width:768px){
+    video{width:100%;}    
+    .tc img{margin:0 auto;max-width:100%;width:auto;}
+}

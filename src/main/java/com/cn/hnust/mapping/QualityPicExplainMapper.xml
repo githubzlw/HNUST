@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.dao.QualityPicExplainMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QualityPicExplain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_no" jdbcType="VARCHAR" property="projectNo" />
+    <result column="pic_name" jdbcType="VARCHAR" property="picName" />
+    <result column="quality_report_id" jdbcType="INTEGER" property="qualityReportId" />
+    <result column="pic_explain" jdbcType="VARCHAR" property="picExplain" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="pic_type" jdbcType="INTEGER" property="picType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_no, pic_name, quality_report_id, pic_explain, create_date,pic_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pic_explain
+    where pic_name = #{picName,jdbcType=VARCHAR}
+  </select>
+   
+  <!--查询最后一份质检 报告图片 -->
+  <select id="getLast" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from quality_pic_explain 
+
+where quality_report_id in(
+select * from (
+SELECT quality_report_id FROM `quality_pic_explain` where project_no = #{projectNo,jdbcType=VARCHAR}
+order by quality_report_id desc limit 1)a)
+order by id 
+ limit 2
+   
+  </select>
+  <!-- 根据report表id进行查询 -->
+  <select id="queryByReportId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pic_explain
+    where quality_report_id = #{qualityReportId,jdbcType=INTEGER}
+  </select>
+  <!-- 根据report表id和图片类型进行查询 -->
+  <select id="queryPicByType" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pic_explain
+    where quality_report_id = #{qualityReportId,jdbcType=INTEGER} and pic_type = #{picType,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="delQualityPicExplain" parameterType="java.lang.String">
+    delete from quality_pic_explain
+    where pic_name = #{picName,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from quality_pic_explain
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cn.hnust.pojo.QualityPicExplain">
+    insert into quality_pic_explain (id, project_no, pic_name, 
+      quality_report_id, pic_explain, create_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{projectNo,jdbcType=VARCHAR}, #{picName,jdbcType=VARCHAR}, 
+      #{qualityReportId,jdbcType=INTEGER}, #{picExplain,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cn.hnust.pojo.QualityPicExplain">
+    insert into quality_pic_explain
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectNo != null">
+        project_no,
+      </if>
+      <if test="picName != null">
+        pic_name,
+      </if>
+      <if test="qualityReportId != null">
+        quality_report_id,
+      </if>
+      <if test="picExplain != null">
+        pic_explain,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="picType != null">
+        pic_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectNo != null">
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="picName != null">
+        #{picName,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityReportId != null">
+        #{qualityReportId,jdbcType=INTEGER},
+      </if>
+      <if test="picExplain != null">
+        #{picExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picType != null">
+        #{picType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.hnust.pojo.QualityPicExplain">
+    update quality_pic_explain
+    <set>
+      <if test="projectNo != null">
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="qualityReportId != null">
+        quality_report_id = #{qualityReportId,jdbcType=INTEGER},
+      </if>
+      <if test="picExplain != null">
+        pic_explain = #{picExplain,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.hnust.pojo.QualityPicExplain">
+    update quality_pic_explain
+    set project_no = #{projectNo,jdbcType=VARCHAR},
+      pic_name = #{picName,jdbcType=VARCHAR},
+      quality_report_id = #{qualityReportId,jdbcType=INTEGER},
+      pic_explain = #{picExplain,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

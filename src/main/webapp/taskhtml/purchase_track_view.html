@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta name="keywords" content="" />
+
+<meta name="Description"
+	content="Please contact us,we can help western companies to manufacture plastic injection molding products in China with Chinese factories since year 2003. ">
+
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<title>采购行踪查看</title>
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/add.css">
+</head>
+<body>
+<div class="customer_complaint_entry purchase_track_view">
+		<h1 class="customer_complaint_h1">
+			采购行踪查看
+			<div class="btns">
+				<a class="select_blank btn" target="_blank"
+					href="/user/toIndex?userId=<%=userId%>&roleNo=<%=roleNo%>&userName=<%=userName%>">返回功能选择页
+				</a> <a class="btn" href="">采购每行程录入/修改 </a>
+			</div>
+		</h1>
+		<div class="wrap1 mt10">
+			<p>行踪查看：</p>
+			<div class="dates container">
+				<div class="row">
+					<div class="col-xs-10">
+						<div class="add_date pull-left">
+							<div class="input-group date form_date" data-date=""
+								data-date-format="yyyy-mm-dd">
+								<input id="startDate" name="startDate"
+									class="form-control brt brt_7 add_input" size="16" type="text"
+									value="" place="选择日期" field="报价截止日期" placeholder="选择日期"
+									readonly="" requiredate=""><span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<span class="add_span"></span>
+						</div>
+						<span class="pull-left and">到</span>
+						<div class="add_date pull-left">
+							<div class="input-group date form_date" data-date=""
+								data-date-format="yyyy-mm-dd">
+								<input id="endDate" name="startDate"
+									class="form-control brt brt_7 add_input" size="16" type="text"
+									value="" place="选择日期" field="报价截止日期" placeholder="选择日期"
+									readonly="" requiredate=""><span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-calendar"></span></span>
+							</div>
+							<span class="add_span"></span>
+						</div>
+					</div>
+					<div class="col-xs-2">
+						<button class="btn bgcolor_ff0 " id="seek" onclick="search()">查询</button>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 10px;">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>采购名</th>
+								<th>日期</th>
+								<th>原计划</th>
+								<th>行踪</th>
+								<th>修改</th>
+							</tr>
+						</thead>
+						<tbody id="vier_tbody">
+							<tr>
+								<td>1</td>
+								<td>2019/04/28</td>
+								<td>TB - Monthly</td>
+								<td>Default</td>
+								<td><a href="purchase_track_modify.html" class="modify_btn"  target="_blank">修改</a></td>
+							</tr>
+							<tr class="success">
+								<td>1</td>
+								<td>2019/04/28</td>
+								<td>TB - Monthly</td>
+								<td>Approved</td>
+								<td><a class="modify_btn" href="purchase_track_modify.html" target="_blank">修改</a></td>
+							</tr>
+							<tr class="error">
+								<td>2</td>
+								<td>2019/04/28</td>
+								<td>TB - Monthly</td>
+								<td>Declined</td>
+								<td><a class="modify_btn" href="purchase_track_modify.html" target="_blank">修改</a></td>
+							</tr>
+							<tr class="warning">
+								<td>3</td>
+								<td>2019/04/28</td>
+								<td>TB - Monthly</td>
+								<td>Pending</td>
+								<td><a class="modify_btn" href="purchase_track_modify.html" target="_blank">修改</a></td>
+							</tr>
+							<tr class="info">
+								<td>4</td>
+								<td>2019/04/28</td>
+								<td>TB - Monthly</td>
+								<td>Call in to confirm</td>
+								<td><a class="modify_btn" href="purchase_track_modify.html" target="_blank">修改</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="row mt10" >
+					<nav aria-label="Page navigation" class="text-center">
+					  <ul class="pagination" id="pageUl">
+					    <li>
+					      <a href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li><a href="#">1</a></li>
+					    <li><a href="#">2</a></li>
+					    <li><a href="#">3</a></li>
+					    <li><a href="#">4</a></li>
+					    <li><a href="#">5</a></li>
+					    <li>
+					      <a href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+<script src="../lib/jquery/jquery.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="/js/jquery-form.js"></script> -->
+<script src="/lib/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../lib/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../addjs/purchase_track_view.js"></script>
+<script src="../addjs/bootstrap-paginator.js"></script>
+<script>
+	/* 日历插件*/
+	$('.form_date').datetimepicker({
+		language : 'zh-CN',
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		todayHighlight : 1,
+		startView : 2,
+		minView : 4,
+		forceParse : 0
+	});
+	$('.table-condensed tbody,.table-condensed tfoot').on('click', function() {
+		$('.datetimepicker').hide();
+	});
+	var w = window.screen.width;
+	if (w < 768) {
+		$('.glyphicon-calendar').click(function() {
+			$('.dropdown-menu').css({
+				'left' : 'unset',
+				'right' : '0px'
+			});
+		});
+	};
+</script>
+<script>
+	//退出功能
+	function exitlogin() {
+		// 	$.cookie('name', '', {
+		// 		path : '/'
+		// 	});
+		// 	$.cookie('pass', '', {
+		// 		path : '/'
+		// 	});
+		window.location.href = "${ctx}/index.jsp";
+	}
+
+	//返回主页
+	function goBack() {
+		var roleNo = $("#roleNo").val();
+		var userId = $("#userId").val();
+		var userName = $("#userName").val();
+		var purchaseNameId = "";
+		window.location.href = "${ctx}/user/toIndex?userId=" + userId
+				+ "&roleNo=" + roleNo + "&purchaseNameId=" + purchaseNameId
+				+ "&userName=" + encodeURI(encodeURI(userName));
+	}
+</script>	
+
+
+
+
+
+
+
+
+
+
+
+

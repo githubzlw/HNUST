@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.daoQuickpart.QuoteWeeklyReportMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.QuoteWeeklyReport" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="upload_date" property="uploadDate" jdbcType="TIMESTAMP" />
+    <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
+    <result column="photo_path_compress" property="photoPathCompress" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="document_path" property="documentPath" jdbcType="VARCHAR" />
+    <result column="file_type" property="fileType" jdbcType="INTEGER" />
+    <result column="is_read" property="isRead" jdbcType="INTEGER" />
+    <result column="read_time" property="readTime" jdbcType="TIMESTAMP" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+    <result column="report_type_id" property="reportTypeId" jdbcType="INTEGER" />
+    <result column="csg_order_id" property="csgOrderId" jdbcType="VARCHAR" />
+    <result column="factory_id" property="factoryId" jdbcType="VARCHAR" />
+    
+     <result column="factory_name" property="factoryName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, upload_date, photo_path, photo_path_compress, remark, document_path, 
+    file_type, is_read, read_time, file_name, report_type_id,csg_order_id,factory_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_weekly_report  
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <!--查询所有报告-->
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.QuoteWeeklyReportQuery">
+	select q.order_id, q.upload_date, q.photo_path, q.photo_path_compress, q.remark, q.document_path, 
+           q.file_type, q.file_name, q.report_type_id,q.csg_order_id,q.factory_id,f.factory_name    
+           from (select order_id, upload_date, photo_path, photo_path_compress, remark, document_path, 
+                 file_type, is_read, read_time, file_name, report_type_id,csg_order_id,factory_id  
+                 from quote_weekly_report order by upload_date desc limit 10000000)q
+           left join factory_info f on q.factory_id = f.factory_id     
+	    where 1=1 and q.factory_id is not null and f.factory_name is not null 
+	 	 <if test="inputKey!=null and inputKey!=''">			
+			and q.csg_order_id like CONCAT('%', #{inputKey}, '%')	
+		 </if>		
+	    group by csg_order_id,factory_id order by upload_date desc   
+	    <if test="pageNumber != null and pageNumber >= 0">
+	       limit #{pageNumber},#{pageSize}  
+	    </if>	     
+  </select>
+
+<select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from quote_weekly_report  
+    where id &gt; #{id,jdbcType=INTEGER} and file_type!=1 and csg_order_id is not null
+  </select>
+
+<!--根据reportTypeId查询所有报告-->
+  <select id="queryByReportTypeId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select <include refid="Base_Column_List" />
+    from quote_weekly_report
+    where report_type_id = #{reportTypeId,jdbcType=INTEGER}
+  </select>
+  
+
+  <!--查询最近上传日期-->
+  <select id="queryMaxUploadDate" resultType="string">
+     select  upload_date
+      from quote_weekly_report
+      where csg_order_id = #{csgOrderId,jdbcType=VARCHAR}
+      and factory_id = #{factoryId,jdbcType=VARCHAR}
+      order by upload_date desc limit 1
+  </select>
+
+
+  <!-- 根据项目号和文件类型和阶段查询-->
+  <select id="queryByCsgOrderIdAndType" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+    from quote_weekly_report
+    where csg_order_id = #{csgOrderId,jdbcType=VARCHAR}
+    <if test="fileType != null" >
+    and file_type = #{fileType,jdbcType=INTEGER}
+    </if>
+    and factory_id = #{factoryId,jdbcType=VARCHAR}
+    order by upload_date desc
+  </select>
+  
+  <!-- 查询更新时间倒序排列的项目 -->
+  <select id="queryProjects" resultType="String">
+    select csg_order_id from quote_weekly_report  
+    where csg_order_id is not null GROUP BY csg_order_id order by upload_date desc  
+    limit #{pageNumber},#{pageSize}	
+  </select>
+  
+  
+  <!-- 根据工厂项目号查询各类型报告是否提供 -->
+  <select id="queryGroupByFileType" resultType="map">
+     select picCount,videoCount,materialCount,qualityCount from  
+		(select count(1) as picCount,csg_order_id from quote_weekly_report where csg_order_id = #{csgOrderId,jdbcType=VARCHAR} and factory_id = #{factoryId,jdbcType=VARCHAR} and file_type =0)a1 
+		left join 
+		(select count(1) as videoCount,csg_order_id from quote_weekly_report where csg_order_id = #{csgOrderId,jdbcType=VARCHAR} and factory_id = #{factoryId,jdbcType=VARCHAR} and file_type =1)a2 
+		on 
+		a1.csg_order_id = a2.csg_order_id
+		left join 
+		(select count(1) as materialCount,csg_order_id from quote_weekly_report where csg_order_id = #{csgOrderId,jdbcType=VARCHAR} and factory_id = #{factoryId,jdbcType=VARCHAR} and file_type =2)a3 
+		on 
+		a1.csg_order_id = a3.csg_order_id
+		left join 
+		(select count(1) as qualityCount,csg_order_id from quote_weekly_report where csg_order_id = #{csgOrderId,jdbcType=VARCHAR} and factory_id = #{factoryId,jdbcType=VARCHAR} and file_type =3)a4 
+		on 
+		a1.csg_order_id = a4.csg_order_id
+  </select>
+  
+  
+</mapper>
