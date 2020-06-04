@@ -41,20 +41,20 @@ public class GoodsEntryServiceImpl implements GoodsEntryService {
 	private void unClaim(List<GoodsEntry> listEntry) {
 		listEntry = CollectionUtils.isEmpty(listEntry) ? Lists.newArrayList() : listEntry;
 		listEntry.stream().forEach(l->{
-			if(StringUtils.isBlank(l.getClaimUser())) {
-				l.setClaimUser(UN_CLAIM);
-				l.setTextCount(UN_CLAIM);
-				l.setGoodsCount(UN_CLAIM);
-				l.setBagCount(UN_CLAIM);
-				l.setGoodsUnit(UN_CLAIM);
-				l.setProjectNumber(UN_CLAIM);
-			}else if("refuse".equals(l.getProcessInstanceResult())){
+			if("refuse".equals(l.getProcessInstanceResult())) {
 				l.setGoodsCount(REFUSE);
 				l.setClaimUser(REFUSE);
 				l.setTextCount(REFUSE);
 				l.setBagCount(REFUSE);
 				l.setGoodsUnit(REFUSE);
 				l.setProjectNumber(REFUSE);
+			}else if(StringUtils.isBlank(l.getClaimUser())){
+				l.setClaimUser(UN_CLAIM);
+				l.setTextCount(UN_CLAIM);
+				l.setGoodsCount(UN_CLAIM);
+				l.setBagCount(UN_CLAIM);
+				l.setGoodsUnit(UN_CLAIM);
+				l.setProjectNumber(UN_CLAIM);
 			}
 			String[] goodsImg = l.getGoodsImg().split(",");
 			l.setImgs(Arrays.asList(goodsImg));

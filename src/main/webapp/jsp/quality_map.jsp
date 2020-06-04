@@ -1231,6 +1231,7 @@ $('.tc2_close').click(function(){
 	$('.productionCompletion').hide();
 });
 $('.tc3_close').click(function(){
+    $('.goods_entry_task_list').html('');
 	$('.goodsEntry').hide();
 });
 /* 查询数据 */
