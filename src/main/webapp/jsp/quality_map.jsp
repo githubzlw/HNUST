@@ -94,7 +94,7 @@ h3{position: relative;}
 .productionCompletion .s5{width:30px;}
 .productionCompletion .s13{width:310px;}
 .productionCompletion_tc table{width:750px;}
-
+.checked_more{font-weight: bold;color: green;}
 .goodsEntry_tc table{width:1110px;margin-top: 15px;}
 .goodsEntry  td{position: relative;}
 .tc3_close{position: absolute;right:0;top:0;}
@@ -427,7 +427,7 @@ h3{position: relative;}
 			<span class="f16 mr30">${start }至${end }检验的生产项目</span>
 			<button class="btn btn-default select_blank"  onclick="searchAll(${roleNo},'${userName}',1);">显示按工作日和成员安排的表</button>
 			<button class="btn btn-default select_blank btn_tc2"  onclick="searchProductionCompletion(${roleNo},'${userName}','${start}');">本周下周生产完成，未安排质检的项目(${noInspectionTask }) 第一次大货，但尚未安排中期检验项目(${noInterimInspection })</button>
-			<button class="btn btn-default select_blank btn_tc3"  onclick="searchGoodsEntry();">上周到货表</button>
+			<button class="btn btn-default select_blank btn_tc3"  onclick="searchGoodsEntry();">到货表</button>
 		 </div>
 	</div>
 	<div class="row tc_row">
@@ -597,7 +597,7 @@ h3{position: relative;}
 	<div class="container goodsEntry goodsEntry_tc">
 		<div class="row">
 			<div class="col-xs-12">
-				<h3 class="f16 mr30">上周到货情况表 <button class="btn btn-default tc3_close">关闭</button></h3>
+				<h3 class="f16 mr30">到货情况表 <button class="btn btn-default tc3_close">关闭</button></h3>
 			</div>
 			<div class="col-xs-12">
 				<table class="table table-bordered table1">
@@ -1585,7 +1585,9 @@ function searchAll(roleNo,userName,num){
         	   if(num === 3){
         	       $(".table1_tc").find(".mt10").find(".checked_ad").each(function(){
         	           if($(this).html()=='仓库'){
+        	               $(this).addClass("checked_more");
                            $(this).attr('color','green');
+
 					   }
 				   });
 			   }
