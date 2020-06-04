@@ -5,13 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-
+	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	/**
 	* 字符串转换成日期
 	* @param str
 	* @return date
 	*/
-	public static Date StrToDate(String str) {  
+	public static Date StrToDate(String str) {
 	   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	   Date date = null;
 	   try {
@@ -35,11 +35,21 @@ public class DateUtil {
         String date = format.format(d);
 		return date;
 	}
-	
+	/**
+	 * 根据当前时间得到指定时间间隔的时间字符串
+	 * @return
+	 */
+	public static String getIntervalDate(int day){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, day);
+		return format.format(c.getTime());
+	}
+
 
 	/**
 	 * 获取上个月日期
-	 * @Title getPrevMonthDate 
+	 * @Title getPrevMonthDate
 	 * @Description
 	 * @param date
 	 * @return
@@ -52,5 +62,5 @@ public class DateUtil {
 		date = calendar.getTime();
 		return date;
 	}
-	
+
 }

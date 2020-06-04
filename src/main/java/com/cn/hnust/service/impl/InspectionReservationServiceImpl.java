@@ -28,7 +28,7 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
     private ProjectInspectionReportMapper projectInspectionReportMapper;
     @Autowired
     private InspectionPlanMapper inspectionPlanMapper;
-	
+
 	@Transactional
 	@Override
 	public void addInspectionReservation(InspectionReservation inspectionReservation) {
@@ -55,7 +55,7 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
 						e.printStackTrace();
 					}
 				}
-			}						
+			}
 		}
 	}
 	@Override
@@ -85,19 +85,19 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
 	@Override
 	public List<InspectionReservation> getQualityInspectionMap(
 			InspectionReservation task) {
-		
+
 		return inspectionReservationMapper.getQualityInspectionMap(task);
 	}
 	@Override
 	public List<InspectionReservation> getQualityInspectionTime(
 			InspectionReservation task) {
-		
+
 		return inspectionReservationMapper.getQualityInspectionTime(task);
 	}
 	@Override
 	public InspectionReservation getOne(
 			InspectionReservation inspectionReservation) {
-		
+
 		return inspectionReservationMapper.getOne(inspectionReservation);
 	}
 	@Override
@@ -106,14 +106,14 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
 		if(!"3".equalsIgnoreCase(num)){
 			list=inspectionReservationMapper.getAll(inspection);
 		}else{
-			
+
 			list=inspectionReservationMapper.getAllArrangements(inspection);
 		}
 		return list;
 	}
 	@Override
 	public List<InspectionReservation> getAllInspection(String projectNo) {
-		
+
 		return inspectionReservationMapper.getAllInspection(projectNo);
 	}
 	@Override

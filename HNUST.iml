@@ -130,5 +130,6 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:1.8.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:1.2.4.RELEASE" level="project" />
     <orderEntry type="library" name="jave-1.0.2" level="project" />
+    <orderEntry type="library" name="jave-1.0.21" level="project" />
   </component>
 </module>
