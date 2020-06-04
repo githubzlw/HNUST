@@ -89,7 +89,7 @@ public class InspectionReservationController {
 	private IInspectionReservationService inspectionReservationService;
 	@Autowired
 	private IProjectTaskService projectTaskService;
-	@Autowired 
+	@Autowired
 	private IProjectReportService projectReportService;
 	@Autowired
 	private IProjectDrawingService projectDrawingService;
@@ -147,7 +147,7 @@ public class InspectionReservationController {
 		}
 		inspection.setInspectionAddress(inspectionAddress);
 		//inspection.setQualityDate(new Date());
-		
+
 		ProjectTask projectTask=new ProjectTask();
 		projectTask.setProjectNoId(inspection.getProjectNoId());
 		projectTask.setProjectNo(projectNo);
@@ -163,7 +163,7 @@ public class InspectionReservationController {
 		try {
 			inspectionReservationService.addInspectionReservation(inspection);
 			projectTaskService.addProjectTask(projectTask);
-			
+
 			//批量更新工厂生产状态
 			String factoryList = request.getParameter("factoryList");
 			if(StringUtils.isNotBlank(factoryList)){
@@ -173,9 +173,9 @@ public class InspectionReservationController {
 				factorys = objectMapper.readValue(factoryList,javaType);
 				if(factorys!=null&&factorys.size()>0){
 					projectFactoryService.updateBatch(factorys);
-				}			
+				}
 			}
-			
+
 			jsonResult.setOk(true);
 			jsonResult.setData("录入成功");
 		} catch (Exception e) {
@@ -185,7 +185,7 @@ public class InspectionReservationController {
 		}
 		return jsonResult;
 	}
-	
+
 	@RequestMapping("/selectInspection")
 	@ResponseBody
 	public JsonResult selectInspection(HttpServletRequest request,HttpServletResponse response){
@@ -199,7 +199,7 @@ public class InspectionReservationController {
 		String taskStatus=request.getParameter("taskStatus");
 		String approvalSelect = request.getParameter("approvalSelect");
 		String qualityNames = request.getParameter("qualityNames");
-		
+
 		InspectionReservation inspection=new InspectionReservation();
 		int pageNumber;
 		if(StringUtils.isNotBlank(request.getParameter("pageNumber"))){
@@ -218,15 +218,15 @@ public class InspectionReservationController {
 		}else{
 			inspection.setUserName(userName);
 		}
-		
+
 		//根据质检名进行筛选
 		String[] strs ={};
-		if(StringUtils.isNotBlank(qualityNames)){	
+		if(StringUtils.isNotBlank(qualityNames)){
 			strs = qualityNames.split(",");
 			inspection.setQualityNames(strs);
 		}
-		
-		
+
+
 		inspection.setPageSize(pageSize);
 		inspection.setPageNumber(pageSize*(pageNumber-1));
 		if(projectNo!=null&&!"".equalsIgnoreCase(projectNo)){
@@ -251,7 +251,7 @@ public class InspectionReservationController {
 		}
 		goodsEntry(inspectionList);
 		List<User> users = userService.queryByJob("质检");
-		
+
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put("inspectionList", inspectionList);
 		hashMap.put("userId", userId);
@@ -266,7 +266,7 @@ public class InspectionReservationController {
 		return jsonResult;
 	}
 	/**
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -278,13 +278,13 @@ public class InspectionReservationController {
 		String userName = request.getParameter("userName");
 		String projectNo = request.getParameter("projectNo");
 		request.setAttribute("projectNo", projectNo);
-		
+
 		request.setAttribute("roleNo", roleNo);
 		request.setAttribute("userId", userId);
 		request.setAttribute("userName", userName);
 		return "task_list";
 	}
-	
+
 	//更新检验人和初检时间
 	@RequestMapping("/updateInspectionReservation")
 	@ResponseBody
@@ -303,7 +303,7 @@ public class InspectionReservationController {
 	 	inspectionReservation.setAccepter(accepter);
 	 	if(StringUtils.isNotBlank(finishTime)){
 	 		inspectionReservation.setFinishTime(DateUtil.StrToDate(finishTime));
-	 	}	 	
+	 	}
 	 	inspectionReservation.setOpenRate(openRate);
 	 	User user=userService.findUserByName(userName);
 	 	InspectionReservation inspectionReservation2=inspectionReservationService.selectInspectionReservationById(projectNoId);
@@ -350,26 +350,26 @@ public class InspectionReservationController {
 					}else if(projectERP.getQualityInspector7()==null||"".equalsIgnoreCase(projectERP.getQualityInspector7())){
 						projectERP.setQualityInspector7(accepter);
 					}
-					
+
 					itemCaseERPService.updateQuality(projectERP);//修改质检
-					
+
 					}
-					
-					
-					
+
+
+
 				}
 				jsonResult.setOk(true);
 				if(start!=null&&!"".equalsIgnoreCase(start)){
 				inspectionReservation.setStart(start);
 				inspectionReservation.setEnd(end);
 				inspectionReservation.setAccepter(acceptor1);
-				InspectionReservation inspectionReservation1=inspectionReservationService.getOne(inspectionReservation);	
+				InspectionReservation inspectionReservation1=inspectionReservationService.getOne(inspectionReservation);
 				if(inspectionReservation1!=null){
 				String message="项目:"+inspectionReservation1.getProjectNo()+"有质检重复现象请注意";
-				jsonResult.setMessage(message);	
+				jsonResult.setMessage(message);
 				}else{
-				
-					
+
+
 				jsonResult.setMessage("操作成功");
 				}
 				}else{
@@ -383,8 +383,8 @@ public class InspectionReservationController {
 	 	}
 		return jsonResult;
 	}
-	
-	
+
+
 	   //更新开箱比例
 		@RequestMapping("/updateOpenRate")
 		@ResponseBody
@@ -393,10 +393,10 @@ public class InspectionReservationController {
 			String projectNoId=request.getParameter("projectNoId");
 		 	String openRate = request.getParameter("openRate");
 		 	InspectionReservation inspectionReservation=new InspectionReservation();
-		 	inspectionReservation.setProjectNoId(projectNoId); 	
+		 	inspectionReservation.setProjectNoId(projectNoId);
 		 	inspectionReservation.setOpenRate(openRate);
 		 		try {
-					inspectionReservationService.updateInspectionReservation(inspectionReservation);	
+					inspectionReservationService.updateInspectionReservation(inspectionReservation);
 					jsonResult.setOk(true);
 					jsonResult.setMessage("操作成功");
 				} catch (Exception e) {
@@ -406,11 +406,11 @@ public class InspectionReservationController {
 				}
 			return jsonResult;
 		}
-		
-	
-	
+
+
+
 	/**
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -430,7 +430,7 @@ public class InspectionReservationController {
 				if (project.getFinish() == 0) {//大货没有完结
 					if (project.getIsPause() == null|| "0".equals(project.getIsPause())) {
 						List<ProjectReport> pr = projectReportService.selectProjectReport(project.getProjectNo());
-						if(project.getSampleFinish()==0 && pr.size()==0 && 
+						if(project.getSampleFinish()==0 && pr.size()==0 &&
 								project.getDeliveryDate() == null && project.getSampleScheduledDate()==null){
 							status = "新立项项目";
 						}
@@ -438,7 +438,7 @@ public class InspectionReservationController {
 						if((project.getFinish()==0 && project.getSampleFinish() ==0 &&   pr.size()> 0 && project.getDeliveryDate()==null && project.getSampleScheduledDate()== null)
 							     ||(project.getFinish()==0 && project.getSampleFinish() ==0  && ((project.getDeliveryDate()==null &&  project.getSampleScheduledDate()!=null && project.getSampleScheduledDate().getTime()+7*24*60*60*1000>today.getTime())
 							     ||(project.getSampleScheduledDate()==null && project.getDeliveryDate()!=null && project.getDeliveryDate().getTime()+7*24*60*60*1000>today.getTime())
-							     ||(project.getSampleScheduledDate()!=null && project.getDeliveryDate()!=null && project.getDeliveryDate().getTime()+7*24*60*60*1000>today.getTime()))) 
+							     ||(project.getSampleScheduledDate()!=null && project.getDeliveryDate()!=null && project.getDeliveryDate().getTime()+7*24*60*60*1000>today.getTime())))
 							     ||(project.getSampleFinish()==1 && project.getFinish()==0 && (/*(project.getDeliveryDate()==null)||*/(project.getDeliveryDate()!=null && project.getDeliveryDate().getTime()+7*24*60*60*1000 >today.getTime()))
 							  )){
 							status = "正在进行的项目";
@@ -452,7 +452,7 @@ public class InspectionReservationController {
      					if (project.getDeliveryDate() != null && project.getDeliveryDate().getTime()+7*24*60*60*1000< today.getTime() && project.getFinish() == 0
      							&& (project.getIsPause() == null || "0".equals(project.getIsPause()))) {// 交期小于当前时间,算延期
      						status = "延期项目";
-     					}	
+     					}
      				}
      				//2.大货交期为空,样品交期不为空,样品没完结，没取消暂停
      				else if(project.getSampleScheduledDate() != null && project.getDelayType()==null){
@@ -466,7 +466,7 @@ public class InspectionReservationController {
      					if (project.getDeliveryDate() != null && project.getDeliveryDate().getTime() +7*24*60*60*1000 < today.getTime() && project.getFinish() == 0
      							&& (project.getIsPause() == null || "0".equals(project.getIsPause()))) {// 交期小于当前时间,算延期
      						status = "延期项目";
-     					}	
+     					}
      				}
 					} else if ("1".contains(project.getIsPause())) {
 						status = "暂停项目";
@@ -479,11 +479,11 @@ public class InspectionReservationController {
 					status = "完成项目";
 				}
 				project.setStatus(status);
-        } 
-        
+        }
+
          //查询下单工厂
         List<String> factoryList = projectFactoryService.selectAllFactory(null);
-        
+
         request.setAttribute("project", project);
 		request.setAttribute("roleNo", roleNo);
 		request.setAttribute("userId", userId);
@@ -491,12 +491,12 @@ public class InspectionReservationController {
 		request.setAttribute("factoryNameList", factoryList);
 		return "project_task_entry";
 	}
-	
-	
+
+
 	/**
 	 * 更新允许出货确认单是否收到
-	 * @Title updateApprovalShipping 
-	 * @Description 
+	 * @Title updateApprovalShipping
+	 * @Description
 	 * @param request
 	 * @param response
 	 * @return
@@ -514,7 +514,7 @@ public class InspectionReservationController {
 			InspectionReservation inspectionReservation = inspectionReservationService.selectInspectionReservationById(projectNoId);
 			inspectionReservation.setShippingApproval(Integer.parseInt(type));
 			inspectionReservationService.updateInspectionReservation(inspectionReservation);
-			
+
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			jsonResult.setOk(false);
@@ -522,25 +522,25 @@ public class InspectionReservationController {
 		} finally {
 			return jsonResult;
 		}
-		
+
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
     /**
      * 导出预约检验任务
-     * @Title exportProject 
-     * @Description 
+     * @Title exportProject
+     * @Description
      * @param request
      * @param response
      * @return void
      */
 	@RequestMapping(value="/exportInspection")
 	public void exportInspection(HttpServletRequest request,HttpServletResponse response){
-		
+
         try {
         	String projectNo=request.getParameter("projectNo");
     		String inputKey=request.getParameter("inputKey");
@@ -549,7 +549,7 @@ public class InspectionReservationController {
     		String taskStatus=request.getParameter("taskStatus");
     		String approvalSelect = request.getParameter("approvalSelect");
     		String qualityNames = request.getParameter("qualityNames");
-    		
+
     		InspectionReservation inspection=new InspectionReservation();
     		User user=userService.selectUserByName(userName);
     		if(user.getRoleNo()==100 || user.getRoleNo()==99 || user.getRoleNo()==98 ||user.getRoleNo()==97 || "AndsXue".equals(userName)){
@@ -557,10 +557,10 @@ public class InspectionReservationController {
     		}else{
     			inspection.setUserName(userName);
     		}
-    		
+
     		//根据质检名进行筛选
     		String[] strs ={};
-    		if(StringUtils.isNotBlank(qualityNames)){	
+    		if(StringUtils.isNotBlank(qualityNames)){
     			strs = qualityNames.split(",");
     			inspection.setQualityNames(strs);
     		}
@@ -573,21 +573,21 @@ public class InspectionReservationController {
     		}
     		List<InspectionReservation> inspectionList=inspectionReservationService.selectInspectionReservation(inspection);
 			String excelPath = InspectionPrint.printExcel(request, inspectionList);
-			File outFile = new File(excelPath);  
-			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));  
-			byte[] buffer = new byte[fis.available()];  
-			fis.read(buffer);  
-			fis.close();  
-			// 清空response  
-			response.reset();  
-			// 设置response的Header  
+			File outFile = new File(excelPath);
+			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			// 清空response
+			response.reset();
+			// 设置response的Header
 			String fileName = "检验任务"+DateFormat.currentDate()+".xls";
-			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称  
-			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);  
-			response.addHeader("Content-Length", "" + outFile.length());  
-			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());  
-			response.setContentType("application/octet-stream");  
-			toClient.write(buffer);  
+			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.addHeader("Content-Length", "" + outFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/octet-stream");
+			toClient.write(buffer);
 			toClient.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -598,10 +598,10 @@ public class InspectionReservationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	/**
-	 * 
+	 *
 	 * @Title:InspectionReservationController
 	 * @Description:随机时间检验表
 	   @author wangyang
@@ -631,28 +631,28 @@ public class InspectionReservationController {
 				}
 			List<User>list=userService.getInspectionTask(user1);
 			String excelPath = InspectionPrint.printExcel1(request, list,time,time1);
-			File outFile = new File(excelPath);  
-			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));  
-			byte[] buffer = new byte[fis.available()];  
-			fis.read(buffer);  
-			fis.close();  
-			// 清空response  
-			response.reset();  
+			File outFile = new File(excelPath);
+			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			// 清空response
+			response.reset();
 			// 设置response的Header
 			String fileName ="";
 			if(time==null&&time1==null){
-				fileName ="最近30天检验项目情况延期表"+DateFormat.currentDate()+".xls";	
+				fileName ="最近30天检验项目情况延期表"+DateFormat.currentDate()+".xls";
 			}else{
 		    fileName =time+"至"+time1+ "检验项目情况延期表"+DateFormat.currentDate()+".xls";
 			}
-			
-			
-			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称  
-			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);  
-			response.addHeader("Content-Length", "" + outFile.length());  
-			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());  
-			response.setContentType("application/octet-stream");  
-			toClient.write(buffer);  
+
+
+			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.addHeader("Content-Length", "" + outFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/octet-stream");
+			toClient.write(buffer);
 			toClient.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -663,15 +663,15 @@ public class InspectionReservationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-	}	
-	
+
+	}
+
 	/**
 	 * 质检地图列表
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
     @RequestMapping("/qualityInspectionMap")
     public String qualityInspectionMap(HttpServletRequest request,HttpServletResponse response) throws ParseException{
@@ -693,7 +693,7 @@ public class InspectionReservationController {
         		startTime=getNextSunday(-7);
         		endTime=getNextMonday(14);
         		lastWeekMonday=getNextSunday(-35);
-        		lastWeekSunday=	getNextMonday(0);	
+        		lastWeekSunday=	getNextMonday(0);
         	}else if("星期二".equalsIgnoreCase(currSun)){
         		startTime=getNextSunday(-8);
         		endTime=getNextMonday(13);
@@ -725,8 +725,8 @@ public class InspectionReservationController {
         		lastWeekMonday=getNextSunday(-41);
         		lastWeekSunday=	getNextMonday(-6);
         	}
-          
-		     
+
+
 		  List<InspectionReservation>projectTasks5=new ArrayList<InspectionReservation>();
 		     List<InspectionReservation>projectTasks4=new ArrayList<InspectionReservation>();
 		     List<InspectionReservation>projectTasks1=new ArrayList<InspectionReservation>();
@@ -734,7 +734,7 @@ public class InspectionReservationController {
              List<InspectionReservation>projectTasks3=new ArrayList<InspectionReservation>();
              List<InspectionReservation>projectTasks=new ArrayList<InspectionReservation>();
         	if("9".equalsIgnoreCase(roleNo)){
-        	task.setAccepter(userName);	
+        	task.setAccepter(userName);
         	task.setStart(startTime);
         	task.setEnd(endTime);
         	task.setTaskStatus("-1");
@@ -762,9 +762,9 @@ public class InspectionReservationController {
         	projectTasks1=getMessage(projectTasks,1);
         	//匹配钉钉货物认领
         	goodsEntry(projectTasks1);
-        	
-        	
-        	
+
+
+
         	//projectTasks2=getMessage(projectTasks,2);
         	projectTasks3=getMessage(projectTasks,3);
         	projectTasks4=getMessage(projectTasks5,1);
@@ -782,11 +782,11 @@ public class InspectionReservationController {
      		 request.setAttribute("lastWeekSunday", lastWeekSunday);
              request.setAttribute("start", startTime);
     		 request.setAttribute("end", endTime);
-        return "quality_map";	
+        return "quality_map";
     }
-    
+
     /**匹配钉钉货物认领
-     * @param projectTasks
+     * @param projectTaskslistEntry
      */
     private void goodsEntry(List<InspectionReservation> projectTasks) {
     	if(CollectionUtils.isEmpty(projectTasks)) {
@@ -794,7 +794,7 @@ public class InspectionReservationController {
     	}
     	List<String> checkNumbers = projectTasks.stream().filter(p->StringUtils.isNotEmpty(p.getCheckNumber()) && "仓库".equals(p.getInspectionAddress()))
     											.map(p->p.getCheckNumber()).collect(Collectors.toList());
-    	
+
 		List<GoodsEntry> listEntry = goodsEntryService.listEntryByCheckNumber(checkNumbers);
 		if(CollectionUtils.isEmpty(listEntry)) {
 			return ;
@@ -811,7 +811,7 @@ public class InspectionReservationController {
 				dTalk.put(key, value);
 			}
 		});
-		
+
 		projectTasks.stream().forEach(p->{
 			if(StringUtils.isBlank(p.getCheckNumber())) {
 				p.setCheckNumber("");
@@ -856,13 +856,13 @@ public class InspectionReservationController {
          				projectTask.setInspectionPlan("<a href='"+inspectionPlan+"' target='_blank'>"+time+"</a>");
          				}
          			}
-         					
-         					
+
+
          		}else{
          			projectTask.setInspectionPlan("缺");
          		}
-         		
-         		
+
+
          	}else{
          		projectTask.setIncomingInspection("不需要");
          		projectTask.setInspectionPlan("不需要");
@@ -876,7 +876,7 @@ public class InspectionReservationController {
           }else{
          	 projectTask.setQualityComplaint("无");
           }
-          
+
     	 if("1".equalsIgnoreCase(projectTask.getTaskStatus())){
          if(num==3){
        	  projectTasks1.add(projectTask);
@@ -889,90 +889,90 @@ public class InspectionReservationController {
     	}
     	return projectTasks1;
       }
-	
 
-	public String getNextMonday(int count) {  
-        Calendar strDate = Calendar.getInstance();         
-        strDate.add(strDate.DATE,count);  
-        GregorianCalendar currentDate = new GregorianCalendar();  
-        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-        Date monday = currentDate.getTime();  
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-        String preMonday = df.format(monday);  
-        return preMonday;  
-    } 
-    public String getNextTuesday(int count) {  
-        Calendar strDate = Calendar.getInstance();         
-        strDate.add(strDate.DATE,count);  
-        GregorianCalendar currentDate = new GregorianCalendar();  
-        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-        currentDate.add(GregorianCalendar.DATE, 1);  
-        Date monday = currentDate.getTime();  
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-        String preMonday = df.format(monday);  
-        return preMonday;  
+
+	public String getNextMonday(int count) {
+        Calendar strDate = Calendar.getInstance();
+        strDate.add(strDate.DATE,count);
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+        Date monday = currentDate.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String preMonday = df.format(monday);
+        return preMonday;
     }
-    public String getNextWednesday(int count) {  
-        Calendar strDate = Calendar.getInstance();         
-        strDate.add(strDate.DATE,count);  
-        GregorianCalendar currentDate = new GregorianCalendar();  
-        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-        currentDate.add(GregorianCalendar.DATE, 2);  
-        Date monday = currentDate.getTime();  
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-        String preMonday = df.format(monday);  
-        return preMonday;  
+    public String getNextTuesday(int count) {
+        Calendar strDate = Calendar.getInstance();
+        strDate.add(strDate.DATE,count);
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+        currentDate.add(GregorianCalendar.DATE, 1);
+        Date monday = currentDate.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String preMonday = df.format(monday);
+        return preMonday;
     }
-    public String getNextThursday(int count) {  
-    	Calendar strDate = Calendar.getInstance();         
-    	strDate.add(strDate.DATE,count);  
-    	GregorianCalendar currentDate = new GregorianCalendar();  
-    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-    	currentDate.add(GregorianCalendar.DATE, 3);  
-    	Date monday = currentDate.getTime();  
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-    	String preMonday = df.format(monday);  
-    	return preMonday;  
+    public String getNextWednesday(int count) {
+        Calendar strDate = Calendar.getInstance();
+        strDate.add(strDate.DATE,count);
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+        currentDate.add(GregorianCalendar.DATE, 2);
+        Date monday = currentDate.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String preMonday = df.format(monday);
+        return preMonday;
     }
-    public String getNextFriday(int count) {  
-    	Calendar strDate = Calendar.getInstance();         
-    	strDate.add(strDate.DATE,count);  
-    	GregorianCalendar currentDate = new GregorianCalendar();  
-    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-    	currentDate.add(GregorianCalendar.DATE, 4);  
-    	Date monday = currentDate.getTime();  
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-    	String preMonday = df.format(monday);  
-    	return preMonday;  
+    public String getNextThursday(int count) {
+    	Calendar strDate = Calendar.getInstance();
+    	strDate.add(strDate.DATE,count);
+    	GregorianCalendar currentDate = new GregorianCalendar();
+    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+    	currentDate.add(GregorianCalendar.DATE, 3);
+    	Date monday = currentDate.getTime();
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	String preMonday = df.format(monday);
+    	return preMonday;
     }
-    public String getNextSaturday(int count) {  
-    	Calendar strDate = Calendar.getInstance();         
-    	strDate.add(strDate.DATE,count);  
-    	GregorianCalendar currentDate = new GregorianCalendar();  
-    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-    	currentDate.add(GregorianCalendar.DATE, 5);  
-    	Date monday = currentDate.getTime();  
-    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-    	String preMonday = df.format(monday);  
-    	return preMonday;  
+    public String getNextFriday(int count) {
+    	Calendar strDate = Calendar.getInstance();
+    	strDate.add(strDate.DATE,count);
+    	GregorianCalendar currentDate = new GregorianCalendar();
+    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+    	currentDate.add(GregorianCalendar.DATE, 4);
+    	Date monday = currentDate.getTime();
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	String preMonday = df.format(monday);
+    	return preMonday;
     }
-    
-    public String getNextSunday(int count)   
-    {  
-        
-        GregorianCalendar currentDate = new GregorianCalendar();  
-        Calendar strDate = Calendar.getInstance();         
-        strDate.add(strDate.DATE,count);  
-//        System.out.println("=="+strDate.getTime());  
-        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));  
-        currentDate.add(GregorianCalendar.DATE, 6);  
-        Date monday = currentDate.getTime();  
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");  
-        String preMonday = df.format(monday);  
-        return preMonday;  
-    } 
-    
-    
+    public String getNextSaturday(int count) {
+    	Calendar strDate = Calendar.getInstance();
+    	strDate.add(strDate.DATE,count);
+    	GregorianCalendar currentDate = new GregorianCalendar();
+    	currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+    	currentDate.add(GregorianCalendar.DATE, 5);
+    	Date monday = currentDate.getTime();
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    	String preMonday = df.format(monday);
+    	return preMonday;
+    }
+
+    public String getNextSunday(int count)
+    {
+
+        GregorianCalendar currentDate = new GregorianCalendar();
+        Calendar strDate = Calendar.getInstance();
+        strDate.add(strDate.DATE,count);
+//        System.out.println("=="+strDate.getTime());
+        currentDate.set(strDate.get(Calendar.YEAR), strDate.get(Calendar.MONTH),strDate.get(Calendar.DATE));
+        currentDate.add(GregorianCalendar.DATE, 6);
+        Date monday = currentDate.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String preMonday = df.format(monday);
+        return preMonday;
+    }
+
+
     @RequestMapping("/searchAll")
 	@ResponseBody
 	public JsonResult customerStatistics(HttpServletRequest request,
@@ -1012,7 +1012,7 @@ public class InspectionReservationController {
 			String lastSaturday="";
 			String lastSunday="";
 			InspectionReservation task=new InspectionReservation();
-			
+
 	        	if("星期一".equalsIgnoreCase(currSun)){
 	        		Monday=getNextMonday(0);
 	        		Tuesday=getNextTuesday(0);
@@ -1146,7 +1146,7 @@ public class InspectionReservationController {
 	    			lastSaturday=getNextSaturday(-12);
 	    			lastSunday=getNextSunday(-12);
 	        	}else if("星期日".equalsIgnoreCase(currSun)){
-	        		
+
 	        		Monday=getNextMonday(-6);
 	        		Tuesday=getNextTuesday(-6);
 	        		Wednesday=getNextWednesday(-6);
@@ -1169,7 +1169,7 @@ public class InspectionReservationController {
 	    			lastSaturday=getNextSaturday(-13);
 	    			lastSunday=getNextSunday(-13);
 	        	}
-	          
+
 			List<String>dayList=new ArrayList<String>();
 			if("1".equalsIgnoreCase(num)){
 			dayList.add(Monday);
@@ -1194,13 +1194,13 @@ public class InspectionReservationController {
 				dayList.add(lastThursday);
 				dayList.add(lastFriday);
 				dayList.add(lastSaturday);
-				dayList.add(lastSunday);	
+				dayList.add(lastSunday);
 			}
 	        Map<String,String> map = new HashMap<String, String>();
 	        for(int i=0;i<dayList.size();i++){
 	        	InspectionReservation inspection=new InspectionReservation();
 	        	inspection.setStart(dayList.get(i));
-	        	
+
 	        List<InspectionReservation>projectTasks=inspectionReservationService.getAll(inspection,num);
 		    String json= JSONArray.fromObject(projectTasks).toString();
             map.put("projectTasks"+i,json);
@@ -1228,10 +1228,10 @@ public class InspectionReservationController {
 		        map.put("Thursday",lastThursday);
 		        map.put("Friday",lastFriday);
 		        map.put("Saturday",lastSaturday);
-		        map.put("Sunday",lastSunday);	
+		        map.put("Sunday",lastSunday);
 	        }
-	       
-	        
+
+
     	    jsonResult.setOk(true);
 			jsonResult.setMessage("留言成功");
 			jsonResult.setData(map);
@@ -1243,7 +1243,7 @@ public class InspectionReservationController {
 		return jsonResult;
 	}
     /**
-     * 
+     *
      * @Title:InspectionReservationController
      * @Description:查询两表数据
        @author wangyang
@@ -1252,7 +1252,7 @@ public class InspectionReservationController {
      * @return JsonResult
      * @throws
      */
-    
+
     @RequestMapping("/searchProductionCompletion")
    	@ResponseBody
    	public JsonResult searchProductionCompletion(HttpServletRequest request,
@@ -1276,38 +1276,38 @@ public class InspectionReservationController {
    			  if("星期一".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-7);
    	        		endTime=getNextMonday(14);
-   	        			
+
    	        	}else if("星期二".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-8);
    	        		endTime=getNextMonday(13);
-   	        		
+
    	        	}else if("星期三".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-9);
    	        		endTime=getNextMonday(12);
-   	        		
+
    	        	}else if("星期四".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-10);
    	        		endTime=getNextMonday(11);
-   	        		
+
    	        	}else if("星期五".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-11);
    	        		endTime=getNextMonday(10);
-   	        		
+
    	        	}else if("星期六".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-12);
    	        		endTime=getNextMonday(9);
-   	        		
+
    	        	}else if("星期日".equalsIgnoreCase(currSun)){
    	        		startTime=getNextSunday(-13);
    	        		endTime=getNextMonday(8);
-   	        		
+
    	        	}
    			Project project=new Project();
         	project.setStartTime(startTime);
         	project.setEndTime(endTime);
         	List<Project> noInspectionTaskList=projectService.getNoInspectionTaskList(project);//查询无质检任务项目数
         	List<Project> noInterimInspectionList=projectService.getNoInterimInspectionList(project);//查询第一次大货，尚未安排中期检验项目
-        	Map<String,String> map = new HashMap<String, String>();	
+        	Map<String,String> map = new HashMap<String, String>();
    		    String noInspectionTask= JSONArray.fromObject(noInspectionTaskList).toString();
             map.put("noInspectionTaskList",noInspectionTask);
             String noInterimInspection= JSONArray.fromObject(noInterimInspectionList).toString();
@@ -1328,10 +1328,8 @@ public class InspectionReservationController {
     		HttpServletResponse response) {
     	JsonResult jsonResult = new JsonResult();
     	try {
-    		Map<String, String> lastDay = getLastDay();
-    		String startTime = lastDay.get("startTime");
-    		String endTime = lastDay.get("endTime");
-    		List<GoodsEntry> listEntry = goodsEntryService.listEntry(startTime, endTime);
+    		String startTime = DateUtil.getIntervalDate(-28);
+    		List<GoodsEntry> listEntry = goodsEntryService.listEntry(startTime, null);
     		Map<String,Object> map = Maps.newHashMap();
     		String noInterimInspection= JSONArray.fromObject(listEntry).toString();
     		map.put("listEntry",noInterimInspection);
@@ -1345,13 +1343,13 @@ public class InspectionReservationController {
     	}
     	return jsonResult;
     }
-    
+
     private Map<String,String> getLastDay(){
     	Map<String,String> result = Maps.newHashMap();
     	String startTime="";
 		String endTime="";
 		String currSun = new SimpleDateFormat("EEEE").format(new Date());
-		
+
 		switch (currSun) {
 		case "星期一":
 			startTime=getNextMonday(-8);
@@ -1388,7 +1386,7 @@ public class InspectionReservationController {
     	result.put("endTime", endTime);
     	return result;
     }
-     
+
     public static void main(String[] args) {
     	InspectionReservationController t = new InspectionReservationController();
     	System.out.println(t.getNextSunday(-6));

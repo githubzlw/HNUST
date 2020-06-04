@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.google.common.collect.Lists;
 @Service
 public class GoodsEntryServiceImpl implements GoodsEntryService {
 	private static String UN_CLAIM = "尚未认领";
+	private static String REFUSE = "审批拒绝";
 	@Autowired
 	private GoodsEntryMapper goodsEntryMapper;
 
@@ -35,11 +37,18 @@ public class GoodsEntryServiceImpl implements GoodsEntryService {
 		unClaim(listEntry);
 		return listEntry;
 	}
-	
+
 	private void unClaim(List<GoodsEntry> listEntry) {
 		listEntry = CollectionUtils.isEmpty(listEntry) ? Lists.newArrayList() : listEntry;
 		listEntry.stream().forEach(l->{
-			if(!"COMPLETED".equals(l.getStatus())) {
+			if("refuse".equals(l.getProcessInstanceResult())) {
+				l.setGoodsCount(REFUSE);
+				l.setClaimUser(REFUSE);
+				l.setTextCount(REFUSE);
+				l.setBagCount(REFUSE);
+				l.setGoodsUnit(REFUSE);
+				l.setProjectNumber(REFUSE);
+			}else if(StringUtils.isBlank(l.getClaimUser())){
 				l.setClaimUser(UN_CLAIM);
 				l.setTextCount(UN_CLAIM);
 				l.setGoodsCount(UN_CLAIM);
@@ -50,7 +59,7 @@ public class GoodsEntryServiceImpl implements GoodsEntryService {
 			String[] goodsImg = l.getGoodsImg().split(",");
 			l.setImgs(Arrays.asList(goodsImg));
 			l.setGoodsImg(goodsImg[0]);
-			
+
 		});
 	}
 }
