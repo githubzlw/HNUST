@@ -1800,7 +1800,7 @@ public class ProjectComplaintController {
 						//获取项目金额
 						Double amount = 0.00;
 						String projectAmount = shippingConfirmation.getProjectAmount();
-						if(projectAmount!=null){
+						if(projectAmount!=null&&!"".equalsIgnoreCase(projectAmount)){
 							//String regEx="[^0-9]";  
 							//Pattern p = Pattern.compile(regEx);  
 							//Matcher m = p.matcher(projectAmount);
