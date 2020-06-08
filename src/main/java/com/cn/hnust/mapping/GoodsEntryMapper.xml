@@ -17,22 +17,23 @@
     <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR" />
     <result column="finish_time" property="finishTime" jdbcType="VARCHAR" />
     <result column="check_number" property="checkNumber" jdbcType="VARCHAR" />
+    <result column="recipient" property="recipient" jdbcType="VARCHAR" />
   </resultMap>
 
 
   <select id="listEntry" resultMap="BaseResultMap">
   select
-  text_count,goods_weight,goods_img,send_user,project_number,claim_user,create_time,
-  business_id,process_instance_result,goods_count,status,bag_count,goods_unit,finish_time,
-  check_number
-  from goods_entry where 1=1 and is_valid=1
+      goods_weight,goods_img,send_user,project_number,claim_user,create_time,recipient,
+  business_id,process_instance_result,goods_count,status,bag_count,goods_unit,goods_entry.finish_time,
+  check_number,project_name as text_count
+  from goods_entry inner join project on project_no=project_number  where 1=1 and is_valid=1
   <if test="sTime!=null"> and create_time > #{sTime}</if>
   <if test="eTime!=null"> and create_time &lt;#{eTime}</if>
 
 </select>
 
   <select id="listEntryByCheckNumber" resultMap="BaseResultMap">
-  select  project_number,business_id,check_number,status,goods_img
+  select  project_number,business_id,check_number,status,goods_img,recipient
   from goods_entry where  is_valid=1 and (
   <foreach collection="checkNumbers" item="item">
   check_number=#{item} OR

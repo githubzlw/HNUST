@@ -612,6 +612,7 @@ h3{position: relative;}
 							<th class="th13">箱数/托板数</th>
 							<th class="th13">包装单位</th>
 							<th class="th13">项目负责人</th>
+							<th class="th13">收件方</th>
 						</tr>
 					</thead>
 
@@ -1256,6 +1257,7 @@ function searchGoodsEntry(){
 					 '<td width="100px">'+val.bagCount+'</td>'+
 					 '<td width="100px">'+val.goodsUnit+'</td>'+
 					 '<td width="200px">'+val.claimUser+'</td>';
+					 '<td width="200px">'+val.recipient+'</td>';
 				 })
 				 $('.goods_entry_task_list').html(text);
 
