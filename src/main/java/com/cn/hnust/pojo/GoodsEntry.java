@@ -31,7 +31,8 @@ public class GoodsEntry {
 	private String goodsUnit;
 	private String cpprovalUserid;
 	private String checkNumber;
-	
+	private String recipient;
+
 	private List<String> imgs;
 
 	public String getGoodsImg() {
