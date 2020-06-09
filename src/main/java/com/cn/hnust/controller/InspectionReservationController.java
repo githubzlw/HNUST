@@ -160,6 +160,40 @@ public class InspectionReservationController {
     	projectTask.setTaskType("2");
     	projectTask.setStartTime(new Date());
     	projectTask.setCreateTime(new Date());
+		ProjectERP project=new ProjectERP();
+		project.setZhijian1(accepter);
+		project.setProjectNo(projectNo);
+		int num1= itemCaseERPService.findName(projectNo,accepter,2);//查看成员是否在ERP成员列表中
+		if(num1==0) {
+			ProjectERP projectERP = itemCaseERPService.search(project);//查询质检是否存在
+			if (projectERP.getMasterQualityInspection() == null || "".equalsIgnoreCase(projectERP.getMasterQualityInspection())) {
+				projectERP.setMasterQualityInspection(accepter);
+			} else if (projectERP.getZhijian1() == null || "".equalsIgnoreCase(projectERP.getZhijian1())) {
+				projectERP.setZhijian1(accepter);
+			} else if (projectERP.getZhijian2() == null || "".equalsIgnoreCase(projectERP.getZhijian2())) {
+				projectERP.setZhijian2(accepter);
+			} else if (projectERP.getZhijian3() == null || "".equalsIgnoreCase(projectERP.getZhijian3())) {
+				projectERP.setZhijian3(accepter);
+			} else if (projectERP.getQualityInspector1() == null || "".equalsIgnoreCase(projectERP.getQualityInspector1())) {
+				projectERP.setQualityInspector1(accepter);
+			} else if (projectERP.getQualityInspector2() == null || "".equalsIgnoreCase(projectERP.getQualityInspector2())) {
+				projectERP.setQualityInspector2(accepter);
+			} else if (projectERP.getQualityInspector3() == null || "".equalsIgnoreCase(projectERP.getQualityInspector3())) {
+				projectERP.setQualityInspector3(accepter);
+			} else if (projectERP.getQualityInspector4() == null || "".equalsIgnoreCase(projectERP.getQualityInspector4())) {
+				projectERP.setQualityInspector4(accepter);
+			} else if (projectERP.getQualityInspector5() == null || "".equalsIgnoreCase(projectERP.getQualityInspector5())) {
+				projectERP.setQualityInspector5(accepter);
+			} else if (projectERP.getQualityInspector6() == null || "".equalsIgnoreCase(projectERP.getQualityInspector6())) {
+				projectERP.setQualityInspector6(accepter);
+			} else if (projectERP.getQualityInspector7() == null || "".equalsIgnoreCase(projectERP.getQualityInspector7())) {
+				projectERP.setQualityInspector7(accepter);
+			}
+
+			itemCaseERPService.updateQuality(projectERP);//修改质检
+		}
+
+
 		try {
 			inspectionReservationService.addInspectionReservation(inspection);
 			projectTaskService.addProjectTask(projectTask);

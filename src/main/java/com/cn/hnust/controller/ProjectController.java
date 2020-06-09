@@ -5247,32 +5247,37 @@ public class ProjectController {
 					  List<PayOthers>payOtherList=payOtherService.getAllPending();
 					  for(int i=0;i<payOtherList.size();i++){
 						 int num= itemCaseERPService.findName(payOtherList.get(i).getCaseno(),payOtherList.get(i).getApplicant(),1);//查看成员是否在ERP成员列表中
-						 int num1= itemCaseERPService.findName(payOtherList.get(i).getCaseno(),payOtherList.get(i).getApplicant(),2);//查看成员是否在ERP成员列表中
+						 int num1=0;
+						 if("差旅费".equalsIgnoreCase(payOtherList.get(i).getPaymentType())){
+						 	num1=1;
+						 }else {
+							 num1 = itemCaseERPService.findName(payOtherList.get(i).getCaseno(), payOtherList.get(i).getApplicant(), 2);//查看成员是否在ERP成员列表中
+						 }
 						 if(num==0){
 							 payOtherService.updatePassERP(payOtherList.get(i).getId(),3);
 						 }else if(num1==0){
 							 payOtherService.updatePassERP(payOtherList.get(i).getId(),2);
 						 }else{
-							
-								  FactoryFund fac=new FactoryFund();
-								  fac.setCaseno(payOtherList.get(i).getCaseno());
-								  fac.setName(payOtherList.get(i).getApplicant());
-								  fac.setMoney(payOtherList.get(i).getApplicationAmount());
-								  fac.setMoneydate(payOtherList.get(i).getMailingDate());
-								  fac.setMoneytype(payOtherList.get(i).getImoneytype());
-								  fac.setPayDepartment(payOtherList.get(i).getPaymentDepartment());
-								  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-								  String dateString = formatter.format(payOtherList.get(i).getMailingDate());
-								  String content="该笔款项为：" +payOtherList.get(i).getPaymentType();
-								  content=" "+content+" "+payOtherList.get(i).getApplicant()+" "+payOtherList.get(i).getPaymentInstructions()+" "+dateString;
-								  fac.setContent(content);	
-								  fac.setState("<font color=green>已完成款项</font>");
-								  String apNumber=itemCaseERPService.getApNumber();//获取apnumber
-								  fac.setApNumber(apNumber);
-								  factoryFundService.insertAll(fac);
-								  itemCaseERPService.insert(apNumber);
-							      payOtherService.updatePassERP(payOtherList.get(i).getId(),1);
-							 
+							if("agree".equalsIgnoreCase(payOtherList.get(i).getProcessInstanceResult())) {
+                                FactoryFund fac = new FactoryFund();
+                                fac.setCaseno(payOtherList.get(i).getCaseno());
+                                fac.setName(payOtherList.get(i).getApplicant());
+                                fac.setMoney(payOtherList.get(i).getApplicationAmount());
+                                fac.setMoneydate(payOtherList.get(i).getMailingDate());
+                                fac.setMoneytype(payOtherList.get(i).getImoneytype());
+                                fac.setPayDepartment(payOtherList.get(i).getPaymentDepartment());
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                String dateString = formatter.format(payOtherList.get(i).getMailingDate());
+                                String content = "该笔款项为：" + payOtherList.get(i).getPaymentType();
+                                content = " " + content + " " + payOtherList.get(i).getApplicant() + " " + payOtherList.get(i).getPaymentInstructions() + " " + dateString;
+                                fac.setContent(content);
+                                fac.setState("<font color=green>已完成款项</font>");
+                                String apNumber = itemCaseERPService.getApNumber();//获取apnumber
+                                fac.setApNumber(apNumber);
+                                factoryFundService.insertAll(fac);
+                                itemCaseERPService.insert(apNumber);
+                                payOtherService.updatePassERP(payOtherList.get(i).getId(), 1);
+                            }
 							
 						 }
 						  

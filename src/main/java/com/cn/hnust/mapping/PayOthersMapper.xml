@@ -35,7 +35,7 @@
     select 
     <include refid="Base_Column_List" />
     from pay_others
-    where pass_ERP=0 
+    where pass_ERP=0 and process_instance_result='agree'
   </select>
   
   <!-- 修改状态 -->
