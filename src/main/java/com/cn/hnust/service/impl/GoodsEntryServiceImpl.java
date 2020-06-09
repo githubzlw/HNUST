@@ -46,6 +46,7 @@ public class GoodsEntryServiceImpl implements GoodsEntryService {
 				l.setClaimUser(REFUSE);
 				l.setTextCount(REFUSE);
 				l.setBagCount(REFUSE);
+				l.setRecipient(REFUSE);
 				l.setGoodsUnit(REFUSE);
 				l.setProjectNumber(REFUSE);
 			}else if(StringUtils.isBlank(l.getClaimUser())){
@@ -55,6 +56,7 @@ public class GoodsEntryServiceImpl implements GoodsEntryService {
 				l.setBagCount(UN_CLAIM);
 				l.setGoodsUnit(UN_CLAIM);
 				l.setProjectNumber(UN_CLAIM);
+				l.setRecipient(UN_CLAIM);
 			}
 			String[] goodsImg = l.getGoodsImg().split(",");
 			l.setImgs(Arrays.asList(goodsImg));
