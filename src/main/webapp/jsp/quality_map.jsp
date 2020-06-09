@@ -74,7 +74,7 @@ table{font-size:14px;}
 th{position: relative;}
 .toggle{position: absolute;top:-25px;right:30px;padding:6px 12px;background-color:#027cff;color:#fff;
 border-radius: 4px;width:70px;}
-span.add_span{display:block;width:130px;}
+span.add_span{display:block;width:115px;}
 span.aad_date_span{display:none;}
 span.aad_date_span.display_table{display:table;}
 .productionCompletion{max-height: 750px;overflow-y: scroll;width:1000px;}
@@ -450,6 +450,8 @@ h3{position: relative;}
 				<th class="" style="background:#4eddff">zhoubin</th>
 				<th class="" style="background:#4eddff">zhuxiaojing</th>
 				<th class="" style="background:#4eddff">zoumin</th>
+				<th class="" style="background:#4eddff">质检部</th>
+
 			</tr>
 		</thead>
 		<tbody class="dp_tabel_body">

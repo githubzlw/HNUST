@@ -587,6 +587,16 @@ function goBack() {
 	   
 	    //获取项目阶段
 	    var projectStage = $('input[name="projectStage"]:checked').val();
+
+	   if(!projectStage){
+		   easyDialog.open({
+			   container : {
+				   content : '项目阶段不能为空'
+			   },
+			   autoClose : 2000
+		   });
+		   return false;
+	   }
 	    //严重等级
 	    var seriousLevel = $('input[name="seriousLevel"]:checked').val();
 	    if(!seriousLevel){
