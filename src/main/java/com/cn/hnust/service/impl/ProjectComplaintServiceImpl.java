@@ -65,21 +65,7 @@ public class ProjectComplaintServiceImpl implements ProjectComplaintService {
 	@Override
 	public int updateByPrimaryKeySelective(ProjectComplaint record) {
 		
-		//自动生成电子出货单功能移除   2018.12.18  by polo
-/*		if(record!=null && record.getCompleteTime()!=null){
-			//当已完成时，自动保存电子出货单
-			int count = shippingConfirmationMapper.selectByComplaintId(record.getId());
-			if(count == 0){
-				ShippingConfirmation shippingConfirmation = new ShippingConfirmation();
-				shippingConfirmation.setProjectNo(record.getProjectNo());
-				int sCount = shippingConfirmationMapper.selectCountByProjectNo(record.getProjectNo(),TYPE);
-				count++;
-				String serialNumber = record.getProjectNo() + "TSQR" + sCount;
-				shippingConfirmation.setSerialNumber(serialNumber);
-				shippingConfirmation.setCreateTime(new Date());
-				shippingConfirmationMapper.insertSelective(shippingConfirmation);
-			}
-		}*/
+
 		
 		return projectComplaintMapper.updateByPrimaryKeySelective(record);
 	}

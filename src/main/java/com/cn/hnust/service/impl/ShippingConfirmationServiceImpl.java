@@ -70,7 +70,8 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 	@Override
 	public int insertSelective(ShippingConfirmation record) {
 		if(record!=null){
-			int count = shippingConfirmationMapper.selectCountByProjectNo(record.getProjectNo(),TYPE);
+			String serialNumber1=shippingConfirmationMapper.getSerialNumber(record.getProjectNo());
+			int count =Integer.parseInt(serialNumber1.split("QR")[1]);
 			count++;
 			String serialNumber = record.getProjectNo() + "QR" + count;
 			record.setSerialNumber(serialNumber);
@@ -264,7 +265,9 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 
 	@Override
 	public int selectCountByProjectNo(String projectNo,int type) {
-		return shippingConfirmationMapper.selectCountByProjectNo(projectNo,type);
+		String serialNumber=shippingConfirmationMapper.getSerialNumber(projectNo);
+		int count =Integer.parseInt(serialNumber.split("QR")[1]);
+		return count;
 	}
 
 	@Override

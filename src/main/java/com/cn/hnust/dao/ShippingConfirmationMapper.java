@@ -67,4 +67,11 @@ public interface ShippingConfirmationMapper {
      * 
      */
     ShippingConfirmation selectBySerialNumber(@Param("serialNumber")String serialNumber);
+
+    /**
+     *查询编号
+     * @param
+     * @return
+     */
+    String getSerialNumber(String projectNo);
 }

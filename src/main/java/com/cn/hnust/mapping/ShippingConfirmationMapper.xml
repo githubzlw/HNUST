@@ -121,7 +121,7 @@
     where q.id = #{id,jdbcType=INTEGER}  
   </select>
   <select id="selectCountByProjectNo" resultType="java.lang.Integer" >
-    select IFNULL(max(SUBSTRING_INDEX(serial_number,'QR',-1)),0) as num from shipping_confirmation 
+    select IFNULL(max(SUBSTRING_INDEX(serial_number,'QR',-1)),0) as num from shipping_confirmation
     where project_no = #{projectNo,jdbcType=VARCHAR} 
     <!-- type:0  普通出货  1：投诉出货 -->
     <if test="type == 0">
@@ -131,7 +131,12 @@
        and complaint_id is not null
     </if>
   </select>
-  
+  <!--查询编号-->
+  <select id="getSerialNumber" resultType="java.lang.String" >
+    select serial_number from shipping_confirmation
+    where project_no = #{projectNo,jdbcType=VARCHAR} order by id desc limit 1
+
+  </select>
   
   <select id="selectByComplaintId" resultType="int" >
     select  count(1) from shipping_confirmation   
