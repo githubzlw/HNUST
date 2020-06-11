@@ -33,6 +33,16 @@
     <result column="QualityInspector6" property="qualityInspector6" jdbcType="VARCHAR" />
     <result column="QualityInspector7" property="qualityInspector7" jdbcType="VARCHAR" />
 
+
+      <result column="quantity1" property="quantity1" jdbcType="VARCHAR" />
+      <result column="BargainNo" property="bargainNo" jdbcType="VARCHAR" />
+      <result column="ProductionPrice" property="productionPrice" jdbcType="VARCHAR" />
+      <result column="samplePrice" property="samplePrice" jdbcType="VARCHAR" />
+      <result column="MoldPrice" property="moldPrice" jdbcType="VARCHAR" />
+      <result column="inputDate" property="inputDate" jdbcType="VARCHAR" />
+    <result column="GeldObject" property="geldObject" jdbcType="VARCHAR" />
+      <result column="friMoney" property="friMoney" jdbcType="VARCHAR" />
+
     <result column="technical_support1" property="technician" jdbcType="VARCHAR" />
     <result column="name" property="customerName" jdbcType="VARCHAR" />
     <result column="FactoryName" property="companyName" jdbcType="VARCHAR" />
@@ -44,6 +54,8 @@
     <result column="CreateTime" property="createDate" jdbcType="TIMESTAMP" />
     <result column="place" property="city" jdbcType="VARCHAR" />
     <result column="ApNumber" property="ApNumber" jdbcType="VARCHAR" />
+    <result column="startTime" property="startTime" jdbcType="VARCHAR" />
+    <result column="endTime" property="endTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="quality_Inspector" >
     id, CaseNo,zhijian1, zhijian2, QualityInspector,master_quality_inspection,QualityInspector1,QualityInspector2
@@ -100,6 +112,27 @@ select it.CaseNo, it.ProductDescC, it.ProductDescE, it.zhijian1, it.zhijian2, it
   <select id="search"  resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectERP">
     select <include refid="quality_Inspector"/> from itemcase where caseno =#{projectNo,jdbcType=VARCHAR}
 	</select>
+
+
+    <select id="getProjectExportProgress"  resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectERP">
+
+        select ba.quantity1,a.BargainNo,a.caseno,it.ProjectLevel,it.ProductDescC,b.inputDate,a.GeldObject,it.MerchandManager2,
+        it.MerchandManager1,it.Merchandising,it.MaturePurchase,ba.DateSample,ba.completiontime,fi.place,a.friMoney
+        ,ba.MoldPrice,ba.samplePrice,ba.ProductionPrice,it.master_quality_inspection,it.zhijian1,it.zhijian2,it.OriginalPurchase from (
+        select ff.caseno,ff.BargainNo,mc.GeldObject,sum(ff.friMoney)friMoney,min(fid)fid from factoryfund
+        ff left join moneycheckup mc on mc.ApNumber=ff.ApNumber
+        where ff.BargainNo is not null and ff.State like '%已完成款项%'
+        and mc.StateDate&gt;#{startTime} and mc.StateDate&lt;=#{endTime}
+        group by ff.caseno,ff.BargainNo,mc.GeldObject
+        )a left join itemcase it on a.CaseNo=it.caseno
+        left join (select  bargainno,min(inputDate)inputDate from factoryfund
+        group by bargainno )b on a.bargainno=b.BargainNo
+        left join bargain ba on ba.BargainNo=a.BargainNo
+        left join factoryinfo fi on a.fid=fi.id
+
+
+    </select>
+
   <select id="getApNumber"  resultType="String" >
   select max(ApNumber) from ApNumber
     </select>

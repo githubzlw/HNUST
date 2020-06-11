@@ -180,4 +180,11 @@ public interface ItemCaseERPMapper {
 	 * @throws
 	 */
 	void updateQuality(ProjectERP projectERP);
+
+	/**
+	 * 查看付工厂款列表信息
+	 * @param projectERP
+	 * @return
+	 */
+	List<ProjectERP> getProjectExportProgress(ProjectERP projectERP);
 }

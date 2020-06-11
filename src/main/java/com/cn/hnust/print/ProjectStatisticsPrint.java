@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cn.hnust.pojo.*;
 import org.apache.bcel.generic.I2F;
 import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -48,10 +49,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.cn.hnust.enums.OrderStatusEnum;
 import com.cn.hnust.enums.QualityStatusEnum;
 import com.cn.hnust.enums.QualityTypeEnum;
-import com.cn.hnust.pojo.Project;
-import com.cn.hnust.pojo.QualityPicExplain;
-import com.cn.hnust.pojo.QualityReport;
-import com.cn.hnust.pojo.User;
 import com.cn.hnust.util.DateFormat;
 import com.cn.hnust.util.DateUtil;
 import com.cn.hnust.util.UploadAndDownloadPathUtil;
@@ -2235,7 +2232,7 @@ public class ProjectStatisticsPrint {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String printProjectExportProgress(HttpServletRequest request, List<Project> sampleFinishes)throws Exception {
+	public static String printProjectExportProgress(HttpServletRequest request, List<ProjectERP> sampleFinishes)throws Exception {
 		//样品完结数量
 		int sample_tl = 0;
 		if(sampleFinishes != null && sampleFinishes.size() >0){
@@ -2324,30 +2321,50 @@ public class ProjectStatisticsPrint {
 				cell.setCellValue("项目号");
 				cell.setCellStyle(boderStyle);
 				cell = row.createCell(2); //获取单元格
+				cell.setCellValue("合同号");
+				cell.setCellStyle(boderStyle);
+
+
+
+				cell = row.createCell(3); //获取单元格
 				cell.setCellValue("项目等级");
 				cell.setCellStyle(boderStyle);
-				cell = row.createCell(3); //获取单元格
-				cell.setCellStyle(boderStyle);
-				cell.setCellValue("项目名称");
+
 				cell = row.createCell(4); //获取单元格
 				cell.setCellStyle(boderStyle);
-				cell.setCellValue("创建日期（第一次合同）");
+				cell.setCellValue("项目名称");
+
 				cell = row.createCell(5); //获取单元格
 				cell.setCellStyle(boderStyle);
-				cell.setCellValue("工厂名称");
+				cell.setCellValue("创建日期（第一次合同）");
+
 				cell = row.createCell(6); //获取单元格
 				cell.setCellStyle(boderStyle);
-				cell.setCellValue("采购");
+				cell.setCellValue("工厂名称");
 				cell = row.createCell(7); //获取单元格
+				cell.setCellValue("付工厂款金额");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(8); //获取单元格
+				cell.setCellValue("工厂区域");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(9); //获取单元格
+				cell.setCellValue("种类");
+				cell.setCellStyle(boderStyle);
+
+				cell = row.createCell(10); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("采购");
+
+				cell = row.createCell(11); //获取单元格
 				cell.setCellStyle(boderStyle);
 				cell.setCellValue("跟单");
-				cell = row.createCell(8); //获取单元格
+				cell = row.createCell(12); //获取单元格
 				cell.setCellStyle(boderStyle);
 				cell.setCellValue("大货交期");
-				cell = row.createCell(9); //获取单元格
+				cell = row.createCell(13); //获取单元格
 				cell.setCellStyle(boderStyle);
 				cell.setCellValue("样品交期");
-				cell = row.createCell(10); //获取单元格
+				cell = row.createCell(14); //获取单元格
 				cell.setCellStyle(boderStyle);
 				cell.setCellValue("项目状态");
 			}
@@ -2361,11 +2378,16 @@ public class ProjectStatisticsPrint {
 			cell = row.createCell(0); //获取单元格
 			cell.setCellValue(num1);
 			cell.setCellStyle(boderStyle);
+
 			cell = row.createCell(1); //获取单元格
 			cell.setCellValue(sampleFinishes.get(i).getProjectNo());
+            cell.setCellStyle(boderStyle);
 
-			cell.setCellStyle(boderStyle);
 			cell = row.createCell(2); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getBargainNo());
+            cell.setCellStyle(boderStyle);
+
+            cell = row.createCell(3); //获取单元格
 			int num=sampleFinishes.get(i).getPlantAnalysis();
 			String PlantAnalysis="";
 			if(num==1){
@@ -2379,64 +2401,114 @@ public class ProjectStatisticsPrint {
 			}
 			cell.setCellValue(PlantAnalysis);
 			cell.setCellStyle(boderStyle);
-			cell = row.createCell(3); //获取单元格
-			cell.setCellValue(sampleFinishes.get(i).getProjectName());
 
-			cell.setCellStyle(boderStyle);
 			cell = row.createCell(4); //获取单元格
-			if(sampleFinishes.get(i).getDateSampleUploading()!=null) {
-				cell.setCellValue(sampleFinishes.get(i).getDateSampleUploading());
-			}else{
-				cell.setCellValue("");
-			}
-			cell.setCellStyle(cellStyle);
-			cell = row.createCell(5); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getProjectNameC());
+            cell.setCellStyle(boderStyle);
 
-			cell.setCellValue(sampleFinishes.get(i).getCompanyName());
+			cell = row.createCell(5); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getInputDate());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(6); //获取单元格
+            cell.setCellValue(sampleFinishes.get(i).getGeldObject());
 			cell.setCellStyle(cellStyle);
-			cell = row.createCell(6); //获取单元格
-			cell.setCellStyle(cellStyle);
-			cell.setCellValue(sampleFinishes.get(i).getSellName());
-			//第一次修改交期
+
+
 			cell = row.createCell(7); //获取单元格
 			cell.setCellStyle(cellStyle);
-			cell.setCellValue(sampleFinishes.get(i).getPurchaseName());
+			cell.setCellValue(sampleFinishes.get(i).getFriMoney());
+			//第一次修改交期
 			cell = row.createCell(8); //获取单元格
 			cell.setCellStyle(cellStyle);
-			if(sampleFinishes.get(i).getOriginalDeliveryDate()!=null) {
-				cell.setCellValue(sampleFinishes.get(i).getOriginalDeliveryDate());
-			}else{
-				cell.setCellValue("");
-			}
+			cell.setCellValue(sampleFinishes.get(i).getCity());
+
+
 			cell = row.createCell(9); //获取单元格
 			cell.setCellStyle(cellStyle);
-			if(sampleFinishes.get(i).getOriginalSampleScheduledDate()!=null) {
-				cell.setCellValue(sampleFinishes.get(i).getOriginalSampleScheduledDate());
-			}else{
-				cell.setCellValue("");
+			if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getProductionPrice())) {
+				cell.setCellValue("大货合同");
+			}else if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getSamplePrice())) {
+				cell.setCellValue("样品合同");
+			}else if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getMoldPrice())){
+				cell.setCellValue("模具"+sampleFinishes.get(i).getQuantity1()+"个");
 			}
+
+
+
 			cell = row.createCell(10); //获取单元格
-			cell.setCellStyle(boderStyle);
+			cell.setCellStyle(cellStyle);
+			if(sampleFinishes.get(i).getMaturePurchase()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMaturePurchase())) {
+				cell.setCellValue(sampleFinishes.get(i).getMaturePurchase());
+			}else if(sampleFinishes.get(i).getOriginalPurchase()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getOriginalPurchase())){
+				cell.setCellValue(sampleFinishes.get(i).getOriginalPurchase());
+			}else if(sampleFinishes.get(i).getMerchandManager2()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandManager2())){
+				cell.setCellValue(sampleFinishes.get(i).getMerchandManager2());
+			}else{
+				cell.setCellValue("暂无采购");
+            }
+			cell = row.createCell(11); //获取单元格
+			cell.setCellStyle(cellStyle);
+			if(sampleFinishes.get(i).getMerchandising()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandising())) {
+				cell.setCellValue(sampleFinishes.get(i).getMerchandising());
+			}else if(sampleFinishes.get(i).getMerchandManager1()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandManager1())){
+				cell.setCellValue(sampleFinishes.get(i).getMerchandManager1());
+			}else{
+				cell.setCellValue("暂无跟单");
+			}
+			cell = row.createCell(12); //获取单元格
+			cell.setCellStyle(cellStyle);
 			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			if(sampleFinishes.get(i).getCompletionTime()!=null) {
+				boolean flag = sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					cell.setCellValue(sampleFinishes.get(i).getCompletionTime());
+				}else{
+					cell.setCellValue("");
+				}
+			}
+			cell = row.createCell(13); //获取单元格
+			cell.setCellStyle(cellStyle);
+
+			if(sampleFinishes.get(i).getDateSample()!=null) {
+				boolean flag = sampleFinishes.get(i).getDateSample().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					cell.setCellValue(sampleFinishes.get(i).getDateSample());
+				}else{
+					cell.setCellValue("");
+				}
+			}
+
 			Calendar c = Calendar.getInstance();
 			c.setTime(new Date());
 			c.add(Calendar.DATE, -7);
 			Date m = c.getTime();
-			Date today = new Date();    //今天 实际日期是  2018-11-12    Debug：Wed Nov 12 12:08:12 CST 2018
-			if(sampleFinishes.get(i).getOriginalDeliveryDate()!=null) {
-				boolean flag = sampleFinishes.get(i).getOriginalDeliveryDate().getTime() >= m.getTime();
-				if(flag==true) {
-					cell.setCellValue("大货进行中");
-				}else{
-					cell.setCellValue("大货延期");
-				}
+			cell = row.createCell(14); //获取单元格
+			cell.setCellStyle(boderStyle);
 
-			}else if(sampleFinishes.get(i).getOriginalSampleScheduledDate()!=null){
-				boolean flag = sampleFinishes.get(i).getOriginalSampleScheduledDate().getTime() >= m.getTime();
-				if(flag==true) {
-					cell.setCellValue("样品进行中");
-				}else{
-					cell.setCellValue("样品延期");
+
+			Date today = new Date();    //今天 实际日期是  2018-11-12    Debug：Wed Nov 12 12:08:12 CST 2018
+			if(sampleFinishes.get(i).getCompletionTime()!=null) {
+				boolean  flag= sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					boolean flag1 = sampleFinishes.get(i).getCompletionTime().getTime() >= m.getTime();
+					if (flag == true) {
+						cell.setCellValue("大货进行中");
+					} else {
+						cell.setCellValue("大货延期");
+					}
+				}else if(sampleFinishes.get(i).getDateSample()!=null) {
+					boolean flag3 = sampleFinishes.get(i).getDateSample().getTime() == format1.parse("1900-01-01").getTime();
+					if (flag3 != true) {
+						boolean flag2 = sampleFinishes.get(i).getDateSample().getTime() >= m.getTime();
+						if (flag2 == true) {
+							cell.setCellValue("样品进行中");
+						} else {
+							cell.setCellValue("样品延期");
+						}
+					}else{
+						cell.setCellValue("");
+					}
 				}
 			}
 

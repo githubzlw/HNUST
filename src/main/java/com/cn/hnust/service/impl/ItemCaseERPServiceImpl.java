@@ -125,5 +125,11 @@ public class ItemCaseERPServiceImpl implements ItemCaseERPService {
 		
 	}
 
-	
+    @Override
+    public List<ProjectERP> getProjectExportProgress(ProjectERP projectERP) {
+
+		return itemCaseERPMapper.getProjectExportProgress(projectERP);
+    }
+
+
 }

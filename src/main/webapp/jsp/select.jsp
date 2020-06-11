@@ -67,22 +67,23 @@
 				<div class="btn-list">
 					<a href="${ctx}/project/showListNew?pageNumber=1"><button>PC项目列表</button></a>
 					<a href="${ctx}/jsp/project_list_m.jsp?userId=${userId}&roleNo=${roleNo}&purchaseNameId=${purchaseNameId}&userName=${userName}"><button>手机项目列表</button></a>
-					<a target="blank" href="${ctx}/project/exportMonthProject"><button>最近一个月完成的项目导出</button></a><br>
+
+					<%--a target="blank" href="${ctx}/project/exportMonthProject"><button>最近一个月完成的项目导出</button></a>--%><br>
 					<c:if test="${userName=='ninazhao'}">
 					 <a target="blank" href="http://117.144.21.74:43900/NBEmail/helpServlet?action=Base64login&className=EmailUserServlet&userInfo=${userInfo}"><button>不开心客户邮件列表</button></a> 
 					</c:if>
 					<a href="${ctx}/statistics/selectAllByDate?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>统计列表</button></a>
 					<a href="${ctx}/jsp/project-summary.jsp?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>项目汇总</button></a>
-					<c:if test="${roleNo=='100'}">					
+					<%--<c:if test="${roleNo=='100'}">
 						<a href="${ctx}/project/exportDelayProject"><button>延期项目导出</button></a><br>
-					</c:if>
+					</c:if>--%>
 					<a href="${ctx}/project/queryFactoryList"><button>工厂库</button></a>
 					<c:if test="${userName=='ninazhao'||userName=='emily'}">					
 						<a target="blank" href="${ctx}/project/queryFactoryProject"><button>工厂状态管理</button></a>
 					</c:if>	
 					<a href="${ctx}/project/productingProjectDetail"><button>在生产工厂及项目列表</button></a> 
 					<br>
-						<a target="blank" href="${ctx}/project/proofingPhaseProject"><button>A/B级打样阶段项目导出</button></a><br>
+						<%--<a target="blank" href="${ctx}/project/proofingPhaseProject"><button>A/B级打样阶段项目导出</button></a><br>--%>
 							
 					<c:if test="${roleNo=='100'}">					
 						<a target="blank" href="${ctx}/projectTask/searchAll"><button>任务统计列表</button></a>
@@ -95,14 +96,15 @@
 					<a target="blank" href="http://117.144.21.74:43900/NBEmail/CustomerLossStatistics/customerLoss?userInfo=${userInfo}"><button>电话联系表</button></a>
 					</c:if>
 					<a href="${ctx}/project/selectProjectView"><button>项目时间管理</button></a><br>
-					<c:if test="${roleNo=='100'}">					
+					<%--<c:if test="${roleNo=='100'}">
 						<a href="${ctx}/project/completeTasks"><button>按时完成项目导出</button></a>
 						<a href="${ctx}/user/qualityInspectionComplaints"><button>质检项目投诉表导出</button></a>
 						<br>
-					</c:if>
-					<c:if test="${roleNo=='100'}">					
-				<a target="_blank" href="${ctx}/quotation/baojStatistics"><button>内部报价及NBEmail数据统计</button></a>
-						<a target="_blank" href="${ctx}/project/projectExportProgress"><button>进行中项目导出</button></a>
+					</c:if>--%>
+					<c:if test="${roleNo=='100'}">
+						<a target="_blank" href="${ctx}/quotation/baojStatistics"><button>内部报价及NBEmail数据统计</button></a>
+						<%--<a target="_blank" href="${ctx}/project/projectExportProgress"><button>进行中项目导出</button></a>--%>
+						<a target="_blank" href="${ctx}/jsp/export_data_table.jsp"><button>导出数据列表页</button></a>
 						</c:if>
 					
 					<div class="line mb10"></div>

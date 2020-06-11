@@ -172,5 +172,11 @@ public interface ItemCaseERPService {
 	 * @throws
 	 */
 	void updateQuality(ProjectERP projectERP);
-	
+
+	/**
+	 * 查询指定时间段付工厂款信息
+	 * @param projectERP
+	 * @return
+	 */
+    List<ProjectERP> getProjectExportProgress(ProjectERP projectERP);
 }

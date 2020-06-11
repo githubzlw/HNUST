@@ -911,6 +911,7 @@ public class ProjectERPController {
 		try {
 			String projectNo = request.getParameter("projectNo");
 			if(StringUtils.isNotBlank(projectNo)){
+
 				projectService.updateProjectByErp(projectNo);
 				jsonResult.setMessage("同步成功");
 				jsonResult.setOk(true);

@@ -3706,7 +3706,7 @@ where pd.project_no is null
 
 		where 1=1
 
-			and date_format(create_date,'%Y-%m')&lt;date_format(#{dateSample},'%Y-%m')
+		and date_format(create_date,'%Y-%m-%d')&lt;date_format('2020-06-11','%Y-%m-%d')
 
 			and  ( project_status=1)
 

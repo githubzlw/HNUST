@@ -83,8 +83,98 @@ public class ProjectERP implements Serializable {
     private String qualityInspector5;    //待质检
     private String qualityInspector6;    //待质检
     private String qualityInspector7;    //待质检
-    
-    public String getMasterQualityInspection() {
+	private String startTime;    //起始时间
+	private String endTime;    //截止时间
+	private String productionPrice;    //大货价格
+	private String samplePrice;    //样品价格
+	private String moldPrice;    //模具金额
+	private String inputDate;    //起始时间
+	private String geldObject;    //工厂名
+	private String friMoney;    //指定时间付给工厂款金额
+	private String bargainNo;    //合同号
+	private String quantity1;    //模具数量
+
+	public String getBargainNo() {
+		return bargainNo;
+	}
+
+	public void setBargainNo(String bargainNo) {
+		this.bargainNo = bargainNo;
+	}
+
+	public String getQuantity1() {
+		return quantity1;
+	}
+
+	public void setQuantity1(String quantity1) {
+		this.quantity1 = quantity1;
+	}
+
+	public String getProductionPrice() {
+		return productionPrice;
+	}
+
+	public void setProductionPrice(String productionPrice) {
+		this.productionPrice = productionPrice;
+	}
+
+	public String getSamplePrice() {
+		return samplePrice;
+	}
+
+	public void setSamplePrice(String samplePrice) {
+		this.samplePrice = samplePrice;
+	}
+
+	public String getMoldPrice() {
+		return moldPrice;
+	}
+
+	public void setMoldPrice(String moldPrice) {
+		this.moldPrice = moldPrice;
+	}
+
+	public String getInputDate() {
+		return inputDate;
+	}
+
+	public void setInputDate(String inputDate) {
+		this.inputDate = inputDate;
+	}
+
+	public String getGeldObject() {
+		return geldObject;
+	}
+
+	public void setGeldObject(String geldObject) {
+		this.geldObject = geldObject;
+	}
+
+	public String getFriMoney() {
+		return friMoney;
+	}
+
+	public void setFriMoney(String friMoney) {
+		this.friMoney = friMoney;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getMasterQualityInspection() {
 		return masterQualityInspection;
 	}
 
@@ -150,37 +240,63 @@ public class ProjectERP implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProjectERP [id=" + id + ", projectNo=" + projectNo
-				+ ", projectNameC=" + projectNameC + ", projectNameE="
-				+ projectNameE + ", zhijian1=" + zhijian1 + ", zhijian2="
-				+ zhijian2 + ", zhijian3=" + zhijian3 + ", customerManager="
-				+ customerManager + ", merchandManager1=" + merchandManager1
-				+ ", merchandManager2=" + merchandManager2 + ", engineer1="
-				+ engineer1 + ", engineer2=" + engineer2 + ", engineer3="
-				+ engineer3 + ", customerManager1=" + customerManager1
-				+ ", customerManager2=" + customerManager2 + ", companyName="
-				+ companyName + ", merchandising=" + merchandising
-				+ ", maturePurchase=" + maturePurchase + ", originalPurchase="
-				+ originalPurchase + ", supplementaryContract="
-				+ supplementaryContract + ", contractNo=" + contractNo
-				+ ", taskTitle=" + taskTitle + ", roleType=" + roleType
-				+ ", taskId=" + taskId + ", plantAnalysis=" + plantAnalysis
-				+ ", projectMaterialProperties=" + projectMaterialProperties
-				+ ", dateSample=" + dateSample + ", completionTime="
-				+ completionTime + ", dateSampleUploading="
-				+ dateSampleUploading + ", createDate=" + createDate
-				+ ", moneyDate=" + moneyDate + ", factoryId=" + factoryId
-				+ ", technician=" + technician + ", customerName="
-				+ customerName + ", poDate=" + poDate + ", city=" + city
-				+ ", customerGrade=" + customerGrade
-				+ ", masterQualityInspection=" + masterQualityInspection
-				+ ", qualityInspector1=" + qualityInspector1
-				+ ", qualityInspector2=" + qualityInspector2
-				+ ", qualityInspector3=" + qualityInspector3
-				+ ", qualityInspector4=" + qualityInspector4
-				+ ", qualityInspector5=" + qualityInspector5
-				+ ", qualityInspector6=" + qualityInspector6
-				+ ", qualityInspector7=" + qualityInspector7 + "]";
+		return "ProjectERP{" +
+				"id='" + id + '\'' +
+				", projectNo='" + projectNo + '\'' +
+				", projectNameC='" + projectNameC + '\'' +
+				", projectNameE='" + projectNameE + '\'' +
+				", zhijian1='" + zhijian1 + '\'' +
+				", zhijian2='" + zhijian2 + '\'' +
+				", zhijian3='" + zhijian3 + '\'' +
+				", customerManager='" + customerManager + '\'' +
+				", merchandManager1='" + merchandManager1 + '\'' +
+				", merchandManager2='" + merchandManager2 + '\'' +
+				", engineer1='" + engineer1 + '\'' +
+				", engineer2='" + engineer2 + '\'' +
+				", engineer3='" + engineer3 + '\'' +
+				", customerManager1='" + customerManager1 + '\'' +
+				", customerManager2='" + customerManager2 + '\'' +
+				", companyName='" + companyName + '\'' +
+				", merchandising='" + merchandising + '\'' +
+				", maturePurchase='" + maturePurchase + '\'' +
+				", originalPurchase='" + originalPurchase + '\'' +
+				", supplementaryContract=" + supplementaryContract +
+				", contractNo='" + contractNo + '\'' +
+				", taskTitle='" + taskTitle + '\'' +
+				", roleType=" + roleType +
+				", taskId=" + taskId +
+				", plantAnalysis=" + plantAnalysis +
+				", projectMaterialProperties=" + projectMaterialProperties +
+				", dateSample=" + dateSample +
+				", completionTime=" + completionTime +
+				", dateSampleUploading=" + dateSampleUploading +
+				", createDate=" + createDate +
+				", moneyDate=" + moneyDate +
+				", factoryId='" + factoryId + '\'' +
+				", technician='" + technician + '\'' +
+				", customerName='" + customerName + '\'' +
+				", poDate=" + poDate +
+				", city='" + city + '\'' +
+				", customerGrade=" + customerGrade +
+				", masterQualityInspection='" + masterQualityInspection + '\'' +
+				", qualityInspector1='" + qualityInspector1 + '\'' +
+				", qualityInspector2='" + qualityInspector2 + '\'' +
+				", qualityInspector3='" + qualityInspector3 + '\'' +
+				", qualityInspector4='" + qualityInspector4 + '\'' +
+				", qualityInspector5='" + qualityInspector5 + '\'' +
+				", qualityInspector6='" + qualityInspector6 + '\'' +
+				", qualityInspector7='" + qualityInspector7 + '\'' +
+				", startTime='" + startTime + '\'' +
+				", endTime='" + endTime + '\'' +
+				", productionPrice='" + productionPrice + '\'' +
+				", samplePrice='" + samplePrice + '\'' +
+				", moldPrice='" + moldPrice + '\'' +
+				", inputDate='" + inputDate + '\'' +
+				", geldObject='" + geldObject + '\'' +
+				", friMoney='" + friMoney + '\'' +
+				", bargainNo='" + bargainNo + '\'' +
+				", quantity1='" + quantity1 + '\'' +
+				'}';
 	}
 
 	public String getOriginalPurchase() {

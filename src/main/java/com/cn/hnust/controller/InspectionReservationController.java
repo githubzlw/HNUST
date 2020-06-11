@@ -189,7 +189,7 @@ public class InspectionReservationController {
 			} else if (projectERP.getQualityInspector7() == null || "".equalsIgnoreCase(projectERP.getQualityInspector7())) {
 				projectERP.setQualityInspector7(accepter);
 			}
-
+			projectService.updateProjectByErp(projectNo);
 			itemCaseERPService.updateQuality(projectERP);//修改质检
 		}
 
@@ -384,7 +384,7 @@ public class InspectionReservationController {
 					}else if(projectERP.getQualityInspector7()==null||"".equalsIgnoreCase(projectERP.getQualityInspector7())){
 						projectERP.setQualityInspector7(accepter);
 					}
-
+					projectService.updateProjectByErp(projectERP.getProjectNo());
 					itemCaseERPService.updateQuality(projectERP);//修改质检
 
 					}
