@@ -2308,7 +2308,7 @@ public class ProjectStatisticsPrint {
 		cell.setCellStyle(style);
 		style.setFont(font2);
 
-
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		DecimalFormat df=new DecimalFormat("##.##");
          int num1=0;
 		for (int i=0;i<sample_tl;i++){
@@ -2458,7 +2458,7 @@ public class ProjectStatisticsPrint {
 			}
 			cell = row.createCell(12); //获取单元格
 			cell.setCellStyle(cellStyle);
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
 			if(sampleFinishes.get(i).getCompletionTime()!=null) {
 				boolean flag = sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
 				if(flag!=true) {
