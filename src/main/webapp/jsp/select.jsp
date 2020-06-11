@@ -102,6 +102,7 @@
 					</c:if>
 					<c:if test="${roleNo=='100'}">					
 				<a target="_blank" href="${ctx}/quotation/baojStatistics"><button>内部报价及NBEmail数据统计</button></a>
+						<a target="_blank" href="${ctx}/project/projectExportProgress"><button>进行中项目导出</button></a>
 						</c:if>
 					
 					<div class="line mb10"></div>

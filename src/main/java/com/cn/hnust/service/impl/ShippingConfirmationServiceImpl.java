@@ -71,12 +71,15 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 	public int insertSelective(ShippingConfirmation record) {
 		if(record!=null){
 			String serialNumber1=shippingConfirmationMapper.getSerialNumber(record.getProjectNo());
-			int count =Integer.parseInt(serialNumber1.split("QR")[1]);
-			count++;
-			String serialNumber = record.getProjectNo() + "QR" + count;
-			record.setSerialNumber(serialNumber);
-			record.setCreateTime(new Date());
-			
+            int count=0;
+			if(serialNumber1!=null&&!"".equalsIgnoreCase(serialNumber1)) {
+                count = Integer.parseInt(serialNumber1.split("QR")[1]);
+             }
+
+            count++;
+            String serialNumber = record.getProjectNo() + "QR" + count;
+            record.setSerialNumber(serialNumber);
+            record.setCreateTime(new Date());
 			//查询项目是否是A\B级项目返单，判断是否需要姜工审批
 			Integer isQualityLeaderConfirm = 0;
 			String projectNo = record.getProjectNo();
@@ -265,8 +268,12 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 
 	@Override
 	public int selectCountByProjectNo(String projectNo,int type) {
-		String serialNumber=shippingConfirmationMapper.getSerialNumber(projectNo);
-		int count =Integer.parseInt(serialNumber.split("QR")[1]);
+        String serialNumber1=shippingConfirmationMapper.getSerialNumber(projectNo);
+        int count=0;
+        if(serialNumber1!=null&&!"".equalsIgnoreCase(serialNumber1)) {
+            count = Integer.parseInt(serialNumber1.split("QR")[1]);
+        }
+
 		return count;
 	}
 
