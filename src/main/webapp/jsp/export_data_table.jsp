@@ -32,15 +32,18 @@
 
 					<a target="blank" href="${ctx}/project/exportMonthProject"><button>最近一个月完成的项目导出</button></a>
 					<a href="${ctx}/project/exportDelayProject"><button>延期项目导出</button></a>
+
                   <br>
 						<a target="blank" href="${ctx}/project/proofingPhaseProject"><button>A/B级打样阶段项目导出</button></a>
 						<a href="${ctx}/project/completeTasks"><button>按时完成项目导出</button></a>
 						<a href="${ctx}/user/qualityInspectionComplaints"><button>质检项目投诉表导出</button></a>
+                        <a href="${ctx}/project/ongoingProjects"><button>进行中项目导出</button></a>
 						<br>
 					<div class="userselediv_nor btn-list">
+
 						<input type="text" id="startTime" name="endTime" class="userselein form-control pull-left" style="border:1px solid #ddd;font-size: 0.1rem !important;">
 						<input type="text" id="endTime" name="endTime" class="userselein form-control pull-left" style="border:1px solid #ddd;font-size: 0.1rem !important;">
-						<a ><button onclick="searchProjectExportProgress();">查询工厂付款导出</button></a>
+                        <a ><button onclick="searchProjectExportProgress();">查询工厂付款导出</button></a>
 					</div>
 					
 

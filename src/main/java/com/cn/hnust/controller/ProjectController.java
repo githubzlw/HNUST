@@ -5412,4 +5412,46 @@ public class ProjectController {
 			e.printStackTrace();
 		}
 	}
+
+	//导出正在进行中项目任务项目
+	@RequestMapping(value="/ongoingProjects")
+	public void ongoingProjects(HttpServletRequest request,HttpServletResponse response){
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			//c.add(Calendar.DATE, -1);
+			Date m = c.getTime();
+
+			//获取进行中项目列表
+			List<Project> allProjectExport = projectService.selectProjectExport(m);
+
+			String excelPath = ProjectStatisticsPrint.printOngoingProjects(request, allProjectExport);
+			File outFile = new File(excelPath);
+			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			// 清空response
+			response.reset();
+			// 设置response的Header
+
+			String fileName = "截止到"+DateFormat.date2String(m)+"之前,在进行中项目.xls";
+			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.addHeader("Content-Length", "" + outFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/octet-stream");
+			toClient.write(buffer);
+			toClient.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

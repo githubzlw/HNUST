@@ -117,7 +117,7 @@ select it.CaseNo, it.ProductDescC, it.ProductDescE, it.zhijian1, it.zhijian2, it
     <select id="getProjectExportProgress"  resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.ProjectERP">
 
         select ba.quantity1,a.BargainNo,a.caseno,it.ProjectLevel,it.ProductDescC,CONVERT(varchar(100), b.inputDate, 23)inputDate,a.GeldObject,it.MerchandManager2,
-        it.MerchandManager1,it.Merchandising,it.MaturePurchase,CONVERT(varchar(100), ba.DateSample, 23)DateSample,CONVERT(varchar(100), ba.completiontime, 23)completiontime,fi.place,a.friMoney
+        it.MerchandManager1,it.Merchandising,it.MaturePurchase,ba.DateSample,ba.completiontime,fi.place,a.friMoney
         ,ba.MoldPrice,ba.samplePrice,ba.ProductionPrice,it.master_quality_inspection,it.zhijian1,it.zhijian2,it.OriginalPurchase from (
         select ff.caseno,ff.BargainNo,mc.GeldObject,sum(ff.friMoney-isnull(cd.amount_deduction,0))friMoney,min(fid)fid from factoryfund
         ff left join moneycheckup mc on mc.ApNumber=ff.ApNumber

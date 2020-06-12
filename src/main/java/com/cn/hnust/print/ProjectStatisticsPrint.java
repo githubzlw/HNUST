@@ -2485,14 +2485,12 @@ public class ProjectStatisticsPrint {
 			Date m = c.getTime();
 			cell = row.createCell(14); //获取单元格
 			cell.setCellStyle(boderStyle);
-
-
-			Date today = new Date();    //今天 实际日期是  2018-11-12    Debug：Wed Nov 12 12:08:12 CST 2018
+            Date today = new Date();    //今天 实际日期是  2018-11-12    Debug：Wed Nov 12 12:08:12 CST 2018
 			if(sampleFinishes.get(i).getCompletionTime()!=null) {
 				boolean  flag= sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
 				if(flag!=true) {
 					boolean flag1 = sampleFinishes.get(i).getCompletionTime().getTime() >= m.getTime();
-					if (flag == true) {
+					if (flag1 == true) {
 						cell.setCellValue("大货进行中");
 					} else {
 						cell.setCellValue("大货延期");
@@ -2532,6 +2530,233 @@ public class ProjectStatisticsPrint {
 		// deleteFile(tempPath);
 		if (!tempPath.exists() || !tempPath.isDirectory()) {
 			tempPath.mkdir(); // 如果不存在，则创建该文件夹
+		}
+		FileOutputStream fs = new FileOutputStream(paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls", false);
+		wb.write(fs);
+		fs.close();
+
+		return paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls";
+	}
+
+
+
+	public static String printOngoingProjects (HttpServletRequest request, List<Project> sampleFinishes)
+			throws Exception
+	{
+		int sample_tl = 0;
+		if ((sampleFinishes != null) && (sampleFinishes.size() > 0)) {
+			sample_tl = sampleFinishes.size();
+		}
+		HSSFWorkbook wb = new HSSFWorkbook();
+
+
+		HSSFSheet sheet = wb.createSheet("在进行中项目列表统计");
+
+		HSSFFont font = wb.createFont();
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)16);
+
+
+		HSSFFont font2 = wb.createFont();
+		font2.setFontName("黑体");
+		font2.setFontHeightInPoints((short)16);
+		font2.setColor((short)10);
+
+
+
+		HSSFRow row = sheet.createRow(0);
+		HSSFCellStyle style = wb.createCellStyle();
+		style.setFont(font);
+
+		HSSFCellStyle cellStyle = wb.createCellStyle();
+		HSSFDataFormat format = wb.createDataFormat();
+		cellStyle.setDataFormat(format.getFormat("yyyy/m/d"));
+		cellStyle.setAlignment(HorizontalAlignment.CENTER);
+		cellStyle.setBorderBottom(BorderStyle.THIN);
+		cellStyle.setBottomBorderColor((short)8);
+		cellStyle.setBorderLeft(BorderStyle.THIN);
+		cellStyle.setLeftBorderColor((short)8);
+		cellStyle.setBorderRight(BorderStyle.THIN);
+		cellStyle.setRightBorderColor((short)8);
+		cellStyle.setBorderTop(BorderStyle.THIN);
+		cellStyle.setTopBorderColor((short)8);
+
+
+		HSSFCellStyle boderStyle = wb.createCellStyle();
+		boderStyle.setAlignment(HorizontalAlignment.CENTER);
+		boderStyle.setBorderBottom(BorderStyle.THIN);
+		boderStyle.setBottomBorderColor((short)8);
+		boderStyle.setBorderLeft(BorderStyle.THIN);
+		boderStyle.setLeftBorderColor((short)8);
+		boderStyle.setBorderRight(BorderStyle.THIN);
+		boderStyle.setRightBorderColor((short)8);
+		boderStyle.setBorderTop(BorderStyle.THIN);
+		boderStyle.setTopBorderColor((short)8);
+
+
+
+		HSSFCellStyle lastStyle = wb.createCellStyle();
+		lastStyle.setAlignment(HorizontalAlignment.CENTER);
+		lastStyle.setBorderBottom(BorderStyle.THIN);
+		lastStyle.setBottomBorderColor((short)8);
+		lastStyle.setBorderLeft(BorderStyle.THIN);
+		lastStyle.setLeftBorderColor((short)8);
+		lastStyle.setBorderRight(BorderStyle.THIN);
+		lastStyle.setRightBorderColor((short)8);
+		lastStyle.setBorderTop(BorderStyle.THIN);
+		lastStyle.setTopBorderColor((short)8);
+		lastStyle.setFillForegroundColor((short)42);
+		lastStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+
+		HSSFCell cell = row.createCell(0);
+		cell.setCellValue("在进行中项目列表统计");
+		cell.setCellStyle(style);
+		style.setFont(font2);
+
+
+		DecimalFormat df = new DecimalFormat("##.##");
+		int num1 = 0;
+		for (int i = 0; i < sample_tl; i++)
+		{
+			if (i == 0)
+			{
+				row = sheet.createRow(1);
+				cell = row.createCell(0);
+				cell.setCellValue("序号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(1);
+				cell.setCellValue("项目号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(2);
+				cell.setCellValue("项目等级");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(3);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目名称");
+				cell = row.createCell(4);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("创建日期（第一次合同）");
+				cell = row.createCell(5);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("工厂名称");
+				cell = row.createCell(6);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("采购");
+				cell = row.createCell(7);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("跟单");
+				cell = row.createCell(8);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("大货交期");
+				cell = row.createCell(9);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("样品交期");
+				cell = row.createCell(10);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目状态");
+			}
+			int spendDays = 0;
+			int delayDays = 0;
+
+
+			num1++;
+			row = sheet.createRow(i + 2);
+			cell = row.createCell(0);
+			cell.setCellValue(num1);
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(1);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getProjectNo());
+
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(2);
+			int num = ((Project)sampleFinishes.get(i)).getPlantAnalysis().intValue();
+			String PlantAnalysis = "";
+			if (num == 1) {
+				PlantAnalysis = "A";
+			} else if (num == 2) {
+				PlantAnalysis = "B";
+			} else if (num == 3) {
+				PlantAnalysis = "C";
+			} else {
+				PlantAnalysis = "";
+			}
+			cell.setCellValue(PlantAnalysis);
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(3);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getProjectName());
+
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(4);
+			if (((Project)sampleFinishes.get(i)).getDateSampleUploading() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getDateSampleUploading());
+			} else {
+				cell.setCellValue("");
+			}
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(5);
+
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getCompanyName());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(6);
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getSellName());
+
+			cell = row.createCell(7);
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getPurchaseName());
+			cell = row.createCell(8);
+			cell.setCellStyle(cellStyle);
+			if (((Project)sampleFinishes.get(i)).getOriginalDeliveryDate() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getOriginalDeliveryDate());
+			} else {
+				cell.setCellValue("");
+			}
+			cell = row.createCell(9);
+			cell.setCellStyle(cellStyle);
+			if (((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate());
+			} else {
+				cell.setCellValue("");
+			}
+			cell = row.createCell(10);
+			cell.setCellStyle(boderStyle);
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(5, -7);
+			Date m = c.getTime();
+			Date today = new Date();
+			if (((Project)sampleFinishes.get(i)).getOriginalDeliveryDate() != null)
+			{
+				boolean flag = ((Project)sampleFinishes.get(i)).getOriginalDeliveryDate().getTime() >= m.getTime();
+				if (flag == true) {
+					cell.setCellValue("大货进行中");
+				} else {
+					cell.setCellValue("大货延期");
+				}
+			}
+			else if (((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate() != null)
+			{
+				boolean flag = ((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate().getTime() >= m.getTime();
+				if (flag == true) {
+					cell.setCellValue("样品进行中");
+				} else {
+					cell.setCellValue("样品延期");
+				}
+			}
+		}
+		int i = 0;
+		while (i < 16)
+		{
+			sheet.autoSizeColumn((short)i);
+			i++;
+		}
+		String paths = UploadAndDownloadPathUtil.getFilePath();
+
+		tempPath = new File(paths);
+		if ((!tempPath.exists()) || (!tempPath.isDirectory())) {
+			tempPath.mkdir();
 		}
 		FileOutputStream fs = new FileOutputStream(paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls", false);
 		wb.write(fs);
