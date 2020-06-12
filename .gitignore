@@ -1,0 +1,70 @@
+/target/
+/.idea/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/target/
+/logs/
+
+# Log file
+*.log
+
+# Eclipse Project Files
+/.metadata/
+/.recommenders/
+/RemoteSystemsTempFiles/
+/Servers/
+.project
+.classpath
+.settings/
+
+# Compiled class file
+*.class
+
+# Build Artifacts
+out/
+target/
+.gradle/
+build/
+bin/
+*.war
+
+# Other
+.get/
+.svn/
+Thumbs.db
+*.DS_Store
+/src/main/resources/dev/properties/jdbc.properties
+/src/main/resources/devhome/properties/jdbc.properties
+/src/main/resources/devkids/properties/jdbc.properties
+/src/main/resources/devkids/properties/mongodb.properties
+/src/main/resources/devkids/properties/mq.properties
+/src/main/resources/devkids/properties/resource.properties
+/src/main/resources/devpets/properties/jdbc.properties
+/src/main/resources/prod/properties/jdbc.properties
+/src/main/resources/prodkids/properties/jdbc.properties
+/src/main/resources/prodpets/properties/jdbc.properties
+/src/main/resources/properties/jdbc.properties
+/src/main/resources/mybatis-generator-config.xml
