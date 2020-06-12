@@ -131,7 +131,7 @@
 					<a href="${ctx}/project/queryNewProject?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>项目启动录入</button></a>
 					<div class="line mb10"></div>
 					
-					<c:if test="${userName =='system' || userName=='ninazhao'}">
+					<%--<c:if test="${userName =='system' || userName=='ninazhao'}">
 						<div class="task add_task">
 							<div class="title">任务流系统</div>
 							<div class="pic"><img src="../img/kh.png"></div>
@@ -141,7 +141,7 @@
 								<a href="${ctx}/taskflow/queryList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button class="btn-last">任务流</button></a>
 							</div>
 						</div>
-					</c:if>
+					</c:if>--%>
 					<div class="mt10">					
 						<a href="http://117.144.21.74:43888/New-Quotation/quotation/login.jsp"><button>内部报价系统</button></a>
 						<c:if test="${userName=='ninazhao' ||userName=='rsLynn'}"><a href="${ctx}/syncUser/showAllUser"><button>新员工录入</button></a></c:if>

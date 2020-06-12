@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cn.hnust.pojo.*;
+import com.cn.hnust.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,42 +63,6 @@ import com.cn.hnust.enums.QualityTypeEnum;
 import com.cn.hnust.enums.TaskStatusEnum;
 import com.cn.hnust.print.ProjectPrint;
 import com.cn.hnust.print.ProjectStatisticsPrint;
-import com.cn.hnust.service.AnalysisIssueService;
-import com.cn.hnust.service.ComplaintListService;
-import com.cn.hnust.service.DeliveryDateLogService;
-import com.cn.hnust.service.ErpReportService;
-import com.cn.hnust.service.FactoryFundService;
-import com.cn.hnust.service.FactoryQualityInspectionVideoService;
-import com.cn.hnust.service.FactoryScoreService;
-import com.cn.hnust.service.IDelayService;
-import com.cn.hnust.service.IFeedbackService;
-import com.cn.hnust.service.IInspectionReservationService;
-import com.cn.hnust.service.IMeetingRecordService;
-import com.cn.hnust.service.IProductionPlanService;
-import com.cn.hnust.service.IProjectCommentService;
-import com.cn.hnust.service.IProjectDrawingService;
-import com.cn.hnust.service.IProjectInspectionReportService;
-import com.cn.hnust.service.IProjectReportService;
-import com.cn.hnust.service.IProjectScheduleService;
-import com.cn.hnust.service.IProjectService;
-import com.cn.hnust.service.IProjectTaskService;
-import com.cn.hnust.service.IQualityAndEfficiencyReportService;
-import com.cn.hnust.service.IQualityReportService;
-import com.cn.hnust.service.IStatusEnterService;
-import com.cn.hnust.service.ITaskReportService;
-import com.cn.hnust.service.ITaskService;
-import com.cn.hnust.service.InspectionPlanService;
-import com.cn.hnust.service.ItemCaseERPService;
-import com.cn.hnust.service.MQProducerService;
-import com.cn.hnust.service.PayOtherService;
-import com.cn.hnust.service.ProjectComplaintService;
-import com.cn.hnust.service.ProjectFactoryService;
-import com.cn.hnust.service.ProjectPauseService;
-import com.cn.hnust.service.QualityAnalysisService;
-import com.cn.hnust.service.QuotePriceService;
-import com.cn.hnust.service.QuoteWeeklyReportService;
-import com.cn.hnust.service.TQuotePriceService;
-import com.cn.hnust.service.TrackService;
 import com.cn.hnust.service.impl.UserServiceImpl;
 import com.cn.hnust.service.impl.task.ProjectDateTask;
 import com.cn.hnust.util.Base64Encode;
@@ -125,16 +90,20 @@ import com.github.pagehelper.PageHelper;
 public class ProjectController {
 
 	private static final String String = null;
-
+	private static final int UNSOLVE = 0;  //未完成投诉
 	private static final Log LOG = LogFactory.getLog(ProjectController.class);
 	private static final String QUALITY_ANALYSIS = "1";
 	private static final String TECHNOLOGY_ANALYSIS = "2";
 	@Autowired
 	private IQualityAndEfficiencyReportService qualityAndEfficiencyReportService;
 	@Autowired
+	private IQualityReportService qualityReportService;
+	@Autowired
 	private IProjectService projectService;
 	@Autowired
 	private IProjectReportService projectReportService;
+	@Autowired
+	private ShippingConfirmationService shippingConfirmationService;
 	@Autowired
 	private ITaskService taskService;
 	@Autowired
@@ -5454,4 +5423,73 @@ public class ProjectController {
 			e.printStackTrace();
 		}
 	}
+
+	@RequestMapping("/selectAll")
+	@ResponseBody
+	public JsonResult selectAll(HttpServletRequest request,
+							   HttpServletResponse response) {
+		JsonResult jsonResult = new JsonResult();
+		try{
+
+			//登录保存cookie
+			String name = WebCookie.getUserName(request);
+			if(org.apache.commons.lang.StringUtils.isNotBlank(name)) {
+				User user = userService.findUserByName(name);
+                int roleNo=user.getRoleNo();
+				String userId=user.getId()+"";
+
+				Map<String, Object> hashMap = new HashMap<String, Object>();
+				Integer noFinishCount = 0;
+				ProjectTask projectTask = new ProjectTask();
+				projectTask.setUserName(name);
+				projectTask.setTaskStatus("0");
+				projectTask.setSendOrReceive(2);
+				List<ProjectTask> projectTaskNoFinish = projectTaskService.selectProjectTaskCount(projectTask);
+				if (projectTaskNoFinish != null) {
+					noFinishCount = projectTaskNoFinish.size();
+				}
+				//查询未完成投诉数量
+				ProjectComplaintQuery projectComplaintQuery = new ProjectComplaintQuery();
+				projectComplaintQuery.setIsSolve(UNSOLVE);
+				projectComplaintQuery.setRoleNo(roleNo);
+				projectComplaintQuery.setUserId(userId);
+				projectComplaintQuery.setZhijian1(name);
+				projectComplaintQuery.setZhijian2(name);
+				projectComplaintQuery.setZhijian3(name);
+
+				int unFinishComplaintCount = projectComplaintService.queryCount(projectComplaintQuery);
+				//查询出货单未填写数量
+				ShippingConfirmationQuery shippingConfirmationQuery = new ShippingConfirmationQuery();
+				shippingConfirmationQuery.setRoleNo(roleNo);
+				shippingConfirmationQuery.setIsComplete(0);
+				shippingConfirmationQuery.setUserName(name);
+				int unFinishShippingCount = shippingConfirmationService.count(shippingConfirmationQuery);
+				//查询质检报告数量
+				QualityReportQuery qualityReportQuery = new QualityReportQuery();
+				qualityReportQuery.setRoleNo(roleNo);
+				qualityReportQuery.setUserName(name);
+				qualityReportQuery.setIsComment(1); //查询未评论数量
+				int qualityCount = qualityReportService.totalReports(qualityReportQuery);
+
+
+				hashMap.put("noFinishCount", noFinishCount);
+				hashMap.put("unFinishComplaintCount", unFinishComplaintCount);
+				hashMap.put("unFinishShippingCount", unFinishShippingCount);
+				hashMap.put("qualityCount", qualityCount);
+				jsonResult.setData(hashMap);
+				jsonResult.setOk(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResult.setMessage(e.getMessage());
+			jsonResult.setOk(false);
+			LOG.error("error", e);
+		} finally {
+			return jsonResult;
+		}
+
+	}
+
+
+
 }

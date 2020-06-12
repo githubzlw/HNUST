@@ -103,7 +103,7 @@ public class UserController {
 	/**
 	 * 查询以后是否存在
 	 * @param request
-	 * @param model
+	 * @param
 	 * @return 
 	 * @return
 	 */
@@ -283,45 +283,43 @@ public class UserController {
 		request.setAttribute("numberOfDeferredItems", numberOfDeferredItems);
 		request.setAttribute("numberOfDocumentaryItemsOver3Months", numberOfDocumentaryItemsOver3Months);
 		}
-		
-		//查询未完成任务数量
-		Integer noFinishCount = 0;
-		ProjectTask projectTask = new ProjectTask();
-		projectTask.setUserName(name);
-		projectTask.setTaskStatus("0");
-		projectTask.setSendOrReceive(2);
-		List<ProjectTask> projectTaskNoFinish = projectTaskService.selectProjectTaskCount(projectTask);
-		if(projectTaskNoFinish != null){
-			noFinishCount = projectTaskNoFinish.size();
-		}
+		/*if(roleNo<8) {
+			//查询未完成任务数量
+			Integer noFinishCount = 0;
+			ProjectTask projectTask = new ProjectTask();
+			projectTask.setUserName(name);
+			projectTask.setTaskStatus("0");
+			projectTask.setSendOrReceive(2);
+			noFinishCount = projectTaskService.selectProjectTaskCountTotal();
+		}*/
 		new ShippingConfirmationThread(user,shippingConfirmationService,projectComplaintService,qualityReportService,factoryQualityInspectionVideoService).start();
 		//查询未完成投诉数量
-		ProjectComplaintQuery projectComplaintQuery = new ProjectComplaintQuery();
+		/*ProjectComplaintQuery projectComplaintQuery = new ProjectComplaintQuery();
 		projectComplaintQuery.setIsSolve(UNSOLVE);
 		projectComplaintQuery.setRoleNo(roleNo);
 		projectComplaintQuery.setUserId(userId);
 		projectComplaintQuery.setZhijian1(name);
 		projectComplaintQuery.setZhijian2(name);
-		projectComplaintQuery.setZhijian3(name);
+		projectComplaintQuery.setZhijian3(name);*/
 		
-		int unFinishComplaintCount = projectComplaintService.queryCount(projectComplaintQuery);
+		//int unFinishComplaintCount = projectComplaintService.queryCount(projectComplaintQuery);
 		//查询出货单未填写数量
-		ShippingConfirmationQuery shippingConfirmationQuery = new ShippingConfirmationQuery();
+		/*ShippingConfirmationQuery shippingConfirmationQuery = new ShippingConfirmationQuery();
 		shippingConfirmationQuery.setRoleNo(roleNo);
 		shippingConfirmationQuery.setIsComplete(0);
-		shippingConfirmationQuery.setUserName(name);
-		int unFinishShippingCount = shippingConfirmationService.count(shippingConfirmationQuery);
+		shippingConfirmationQuery.setUserName(name);*/
+		//int unFinishShippingCount = shippingConfirmationService.count(shippingConfirmationQuery);
 		//查询质检报告数量
-		QualityReportQuery qualityReportQuery = new QualityReportQuery();
+		/*QualityReportQuery qualityReportQuery = new QualityReportQuery();
 		qualityReportQuery.setRoleNo(roleNo);
 		qualityReportQuery.setUserName(name);
-		qualityReportQuery.setIsComment(1); //查询未评论数量
-		int qualityCount = qualityReportService.totalReports(qualityReportQuery);
+		qualityReportQuery.setIsComment(1); //查询未评论数量*/
+		//int qualityCount = qualityReportService.totalReports(qualityReportQuery);
 		request.setAttribute("userInfo", userInfo);
-		request.setAttribute("noFinishCount", noFinishCount);
-		request.setAttribute("unFinishComplaintCount", unFinishComplaintCount);
-		request.setAttribute("unFinishShippingCount", unFinishShippingCount);
-		request.setAttribute("qualityCount", qualityCount);
+		//request.setAttribute("noFinishCount", noFinishCount);
+		//request.setAttribute("unFinishComplaintCount", unFinishComplaintCount);
+		//request.setAttribute("unFinishShippingCount", unFinishShippingCount);
+		//request.setAttribute("qualityCount", qualityCount);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
