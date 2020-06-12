@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cn.hnust.pojo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,40 +60,6 @@ import com.cn.hnust.enums.ProjectStatusEnum;
 import com.cn.hnust.enums.QualityStatusEnum;
 import com.cn.hnust.enums.QualityTypeEnum;
 import com.cn.hnust.enums.TaskStatusEnum;
-import com.cn.hnust.pojo.AnalysisIssue;
-import com.cn.hnust.pojo.Comment;
-import com.cn.hnust.pojo.ComplaintList;
-import com.cn.hnust.pojo.Delay;
-import com.cn.hnust.pojo.DeliveryDateLog;
-import com.cn.hnust.pojo.FactoryFund;
-import com.cn.hnust.pojo.FactoryQualityInspectionVideo;
-import com.cn.hnust.pojo.Feedback;
-import com.cn.hnust.pojo.InspectionPlan;
-import com.cn.hnust.pojo.InspectionReservation;
-import com.cn.hnust.pojo.MeetingRecord;
-import com.cn.hnust.pojo.PayOthers;
-import com.cn.hnust.pojo.ProductionPlan;
-import com.cn.hnust.pojo.Project;
-import com.cn.hnust.pojo.ProjectComplaint;
-import com.cn.hnust.pojo.ProjectDrawing;
-import com.cn.hnust.pojo.ProjectFactory;
-import com.cn.hnust.pojo.ProjectFactoryQuery;
-import com.cn.hnust.pojo.ProjectInspectionReport;
-import com.cn.hnust.pojo.ProjectPause;
-import com.cn.hnust.pojo.ProjectReport;
-import com.cn.hnust.pojo.ProjectSchedule;
-import com.cn.hnust.pojo.ProjectStatusLog;
-import com.cn.hnust.pojo.ProjectTask;
-import com.cn.hnust.pojo.QualityAnalysis;
-import com.cn.hnust.pojo.QualityAndEfficiencyReport;
-import com.cn.hnust.pojo.QualityReport;
-import com.cn.hnust.pojo.QuotePrice;
-import com.cn.hnust.pojo.QuotePrice1;
-import com.cn.hnust.pojo.QuoteWeeklyReport;
-import com.cn.hnust.pojo.StatusEnter;
-import com.cn.hnust.pojo.Task;
-import com.cn.hnust.pojo.TrackQuery;
-import com.cn.hnust.pojo.User;
 import com.cn.hnust.print.ProjectPrint;
 import com.cn.hnust.print.ProjectStatisticsPrint;
 import com.cn.hnust.service.AnalysisIssueService;
@@ -4857,7 +4824,7 @@ public class ProjectController {
 		 * 获取投诉上传内容
 		 * @Title upload 
 		 * @Description
-		 * @param file
+		 * @param
 		 * @param request
 		 * @param model
 		 * @return
@@ -5399,5 +5366,92 @@ public class ProjectController {
 			            return res;
 			        }	
 				}
-			
+
+
+	//导出正在进行中项目任务项目
+	@RequestMapping(value="/projectExportProgress")
+	public void projectExportProgress(HttpServletRequest request,HttpServletResponse response){
+		try {
+			String startTime = request.getParameter("startTime");
+			String endTime = request.getParameter("endTime");
+			ProjectERP projectERP=new ProjectERP();
+			projectERP.setStartTime(startTime);
+			projectERP.setEndTime(endTime);
+			List<ProjectERP>projectErpList=itemCaseERPService.getProjectExportProgress(projectERP);//获取起始时间到截止时间付款工厂信息
+
+
+
+            //获取进行中项目列表
+			//List<Project> allProjectExport = projectService.selectProjectExport(m);
+
+			String excelPath = ProjectStatisticsPrint.printProjectExportProgress(request, projectErpList);
+			File outFile = new File(excelPath);
+			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			// 清空response
+			response.reset();
+			// 设置response的Header
+
+			String fileName = "起始时间:"+startTime+"至"+endTime+"项目付款信息.xls";
+			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.addHeader("Content-Length", "" + outFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/octet-stream");
+			toClient.write(buffer);
+			toClient.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	//导出正在进行中项目任务项目
+	@RequestMapping(value="/ongoingProjects")
+	public void ongoingProjects(HttpServletRequest request,HttpServletResponse response){
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			//c.add(Calendar.DATE, -1);
+			Date m = c.getTime();
+
+			//获取进行中项目列表
+			List<Project> allProjectExport = projectService.selectProjectExport(m);
+
+			String excelPath = ProjectStatisticsPrint.printOngoingProjects(request, allProjectExport);
+			File outFile = new File(excelPath);
+			InputStream  fis = new BufferedInputStream(new FileInputStream(outFile));
+			byte[] buffer = new byte[fis.available()];
+			fis.read(buffer);
+			fis.close();
+			// 清空response
+			response.reset();
+			// 设置response的Header
+
+			String fileName = "截止到"+DateFormat.date2String(m)+"之前,在进行中项目.xls";
+			fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+			response.addHeader("Content-Length", "" + outFile.length());
+			OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+			response.setContentType("application/octet-stream");
+			toClient.write(buffer);
+			toClient.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

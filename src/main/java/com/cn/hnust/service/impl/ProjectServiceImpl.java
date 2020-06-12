@@ -814,10 +814,11 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 		
 		return projectMapper.getNoInterimInspectionList(project);
 	}
-	
-	
 
-	
-	
-	
+    @Override
+    public List<Project> selectProjectExport(Date m) {
+        return projectMapper.selectProjectExport(m);
+    }
+
+
 }

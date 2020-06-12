@@ -688,8 +688,13 @@ List<Project> getNoInspectionTaskList(Project project);
  * @throws
  */
 List<Project> getNoInterimInspectionList(Project project);
-	
-    
-	
-    
+	/**
+	 *
+	 * 根据时间查看在进行中项目列表
+	 * @param m
+	 * @return
+	 */
+
+
+    List<Project> selectProjectExport(Date m);
 }

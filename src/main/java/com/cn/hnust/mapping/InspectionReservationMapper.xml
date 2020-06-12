@@ -474,7 +474,11 @@ group by a.user_name,b.finish_time,b.inspection_address
 
   </select>
     <select id="getAll" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
-select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (SELECT user_name FROM `user` where role_no=9 and job='质检')a
+select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (
+select '质检部' as user_name FROM `user` where id=15
+union all
+SELECT user_name FROM `user` where role_no=9 and job='质检'
+ )a
 left join (
 
 select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
@@ -491,7 +495,12 @@ group by a.user_name,b.finish_time
 
   </select>
   <select id="getAllArrangements" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
-select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (SELECT user_name FROM `user` where role_no=9 and job='质检')a
+select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (
+select '质检部' as user_name FROM `user` where id=15
+
+union all
+SELECT user_name FROM `user` where role_no=9 and job='质检'
+)a
 left join (
 
 select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount

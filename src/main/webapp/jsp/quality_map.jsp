@@ -74,7 +74,7 @@ table{font-size:14px;}
 th{position: relative;}
 .toggle{position: absolute;top:-25px;right:30px;padding:6px 12px;background-color:#027cff;color:#fff;
 border-radius: 4px;width:70px;}
-span.add_span{display:block;width:130px;}
+span.add_span{display:block;width:115px;}
 span.aad_date_span{display:none;}
 span.aad_date_span.display_table{display:table;}
 .productionCompletion{max-height: 750px;overflow-y: scroll;width:1000px;}
@@ -450,6 +450,8 @@ h3{position: relative;}
 				<th class="" style="background:#4eddff">zhoubin</th>
 				<th class="" style="background:#4eddff">zhuxiaojing</th>
 				<th class="" style="background:#4eddff">zoumin</th>
+				<th class="" style="background:#4eddff">质检部</th>
+
 			</tr>
 		</thead>
 		<tbody class="dp_tabel_body">
@@ -612,6 +614,7 @@ h3{position: relative;}
 							<th class="th13">箱数/托板数</th>
 							<th class="th13">包装单位</th>
 							<th class="th13">项目负责人</th>
+							<th class="th13">发件方</th>
 						</tr>
 					</thead>
 
@@ -1255,7 +1258,8 @@ function searchGoodsEntry(){
 					 '<td width="100px">'+val.goodsCount+'</td>'+
 					 '<td width="100px">'+val.bagCount+'</td>'+
 					 '<td width="100px">'+val.goodsUnit+'</td>'+
-					 '<td width="200px">'+val.claimUser+'</td>';
+					 '<td width="200px">'+val.claimUser+'</td>'+
+					 '<td width="200px">'+val.recipient+'</td>';
 				 })
 				 $('.goods_entry_task_list').html(text);
 

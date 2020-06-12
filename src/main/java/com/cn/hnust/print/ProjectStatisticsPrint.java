@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.cn.hnust.pojo.*;
 import org.apache.bcel.generic.I2F;
 import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -47,10 +49,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.cn.hnust.enums.OrderStatusEnum;
 import com.cn.hnust.enums.QualityStatusEnum;
 import com.cn.hnust.enums.QualityTypeEnum;
-import com.cn.hnust.pojo.Project;
-import com.cn.hnust.pojo.QualityPicExplain;
-import com.cn.hnust.pojo.QualityReport;
-import com.cn.hnust.pojo.User;
 import com.cn.hnust.util.DateFormat;
 import com.cn.hnust.util.DateUtil;
 import com.cn.hnust.util.UploadAndDownloadPathUtil;
@@ -70,7 +68,7 @@ public class ProjectStatisticsPrint {
 	/**
 	 * pdf打印,使用excel编辑，生成pdf
 	 * 
-	 * @param path
+	 * @param
 	 * @throws Exception
 	 */
 	public static String printExcel(HttpServletRequest request, List<Project> sampleFinishes
@@ -1182,7 +1180,7 @@ public class ProjectStatisticsPrint {
 	/**
 	 * 导出最近一个月工厂项目
 	 * 
-	 * @param path
+	 * @param
 	 * @throws Exception
 	 */
 	public static String exportMonthProject(HttpServletRequest request,List<Project> productFinishs)throws Exception {
@@ -2223,6 +2221,546 @@ public class ProjectStatisticsPrint {
 		FileOutputStream fs = new FileOutputStream(paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls", false);
 		wb.write(fs);
 		fs.close();		
+
+		return paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls";
+	}
+
+	/**
+	 * 在进行中项目列表
+	 * @param request
+	 * @param sampleFinishes
+	 * @return
+	 * @throws Exception
+	 */
+	public static String printProjectExportProgress(HttpServletRequest request, List<ProjectERP> sampleFinishes)throws Exception {
+		//样品完结数量
+		int sample_tl = 0;
+		if(sampleFinishes != null && sampleFinishes.size() >0){
+			sample_tl = sampleFinishes.size();
+		}
+
+
+		//创建workbook
+		HSSFWorkbook wb = new HSSFWorkbook();
+
+		//创建sheet
+		HSSFSheet sheet = wb.createSheet("在进行中项目列表统计");
+
+		HSSFFont font = wb.createFont();
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short) 16);//设置字体大小
+
+
+		HSSFFont font2 = wb.createFont();
+		font2.setFontName("黑体");
+		font2.setFontHeightInPoints((short) 16);//设置字体大小
+		font2.setColor(HSSFColor.RED.index);
+
+
+		//创建行row:添加表头0行
+		HSSFRow row = sheet.createRow(0);
+		HSSFCellStyle  style = wb.createCellStyle();
+		style.setFont(font);
+
+		HSSFCellStyle cellStyle = wb.createCellStyle();
+		HSSFDataFormat format= wb.createDataFormat();
+		cellStyle.setDataFormat(format.getFormat("yyyy/m/d"));
+		cellStyle.setAlignment(HorizontalAlignment.CENTER);
+		cellStyle.setBorderBottom(BorderStyle.THIN);
+		cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderLeft(BorderStyle.THIN);
+		cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderRight(BorderStyle.THIN);
+		cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		cellStyle.setBorderTop(BorderStyle.THIN);
+		cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+
+		//创建边框样式
+		HSSFCellStyle boderStyle = wb.createCellStyle();
+		boderStyle.setAlignment(HorizontalAlignment.CENTER);
+		boderStyle.setBorderBottom(BorderStyle.THIN);
+		boderStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		boderStyle.setBorderLeft(BorderStyle.THIN);
+		boderStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		boderStyle.setBorderRight(BorderStyle.THIN);
+		boderStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		boderStyle.setBorderTop(BorderStyle.THIN);
+		boderStyle.setTopBorderColor(HSSFColor.BLACK.index);
+
+
+		//退税金额使用样式
+		HSSFCellStyle lastStyle = wb.createCellStyle();
+		lastStyle.setAlignment(HorizontalAlignment.CENTER);
+		lastStyle.setBorderBottom(BorderStyle.THIN);
+		lastStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		lastStyle.setBorderLeft(BorderStyle.THIN);
+		lastStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		lastStyle.setBorderRight(BorderStyle.THIN);
+		lastStyle.setRightBorderColor(HSSFColor.BLACK.index);
+		lastStyle.setBorderTop(BorderStyle.THIN);
+		lastStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		lastStyle.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);// 设置背景色
+		lastStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+		//创建单元格
+		HSSFCell cell = row.createCell(0); //第一个单元格
+		cell.setCellValue("在进行中项目列表统计");
+		cell.setCellStyle(style);
+		style.setFont(font2);
+
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		DecimalFormat df=new DecimalFormat("##.##");
+         int num1=0;
+		for (int i=0;i<sample_tl;i++){
+			if(i == 0){
+				row = sheet.createRow(1);
+				cell = row.createCell(0); //获取单元格
+				cell.setCellValue("序号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(1); //获取单元格
+				cell.setCellValue("项目号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(2); //获取单元格
+				cell.setCellValue("合同号");
+				cell.setCellStyle(boderStyle);
+
+
+
+				cell = row.createCell(3); //获取单元格
+				cell.setCellValue("项目等级");
+				cell.setCellStyle(boderStyle);
+
+				cell = row.createCell(4); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目名称");
+
+				cell = row.createCell(5); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("创建日期（第一次合同）");
+
+				cell = row.createCell(6); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("工厂名称");
+				cell = row.createCell(7); //获取单元格
+				cell.setCellValue("付工厂款金额");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(8); //获取单元格
+				cell.setCellValue("工厂区域");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(9); //获取单元格
+				cell.setCellValue("种类");
+				cell.setCellStyle(boderStyle);
+
+				cell = row.createCell(10); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("采购");
+
+				cell = row.createCell(11); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("跟单");
+				cell = row.createCell(12); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("大货交期");
+				cell = row.createCell(13); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("样品交期");
+				cell = row.createCell(14); //获取单元格
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目状态");
+			}
+
+			int spendDays = 0; //总耗时
+			int delayDays = 0; //延期时间
+
+
+            num1++;
+			row = sheet.createRow(i+2);
+			cell = row.createCell(0); //获取单元格
+			cell.setCellValue(num1);
+			cell.setCellStyle(boderStyle);
+
+			cell = row.createCell(1); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getProjectNo());
+            cell.setCellStyle(boderStyle);
+
+			cell = row.createCell(2); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getBargainNo());
+            cell.setCellStyle(boderStyle);
+
+            cell = row.createCell(3); //获取单元格
+			int num=sampleFinishes.get(i).getPlantAnalysis();
+			String PlantAnalysis="";
+			if(num==1){
+				PlantAnalysis="A";
+			}else if(num==2){
+				PlantAnalysis="B";
+			}else if(num==3){
+				PlantAnalysis="C";
+			}else {
+				PlantAnalysis="";
+			}
+			cell.setCellValue(PlantAnalysis);
+			cell.setCellStyle(boderStyle);
+
+			cell = row.createCell(4); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getProjectNameC());
+            cell.setCellStyle(boderStyle);
+
+			cell = row.createCell(5); //获取单元格
+			cell.setCellValue(sampleFinishes.get(i).getInputDate());
+            cell.setCellStyle(cellStyle);
+
+            cell = row.createCell(6); //获取单元格
+            cell.setCellValue(sampleFinishes.get(i).getGeldObject());
+			cell.setCellStyle(cellStyle);
+
+
+			cell = row.createCell(7); //获取单元格
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(sampleFinishes.get(i).getFriMoney());
+			//第一次修改交期
+			cell = row.createCell(8); //获取单元格
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(sampleFinishes.get(i).getCity());
+
+
+			cell = row.createCell(9); //获取单元格
+			cell.setCellStyle(cellStyle);
+			if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getProductionPrice())) {
+				cell.setCellValue("大货合同");
+			}else if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getSamplePrice())) {
+				cell.setCellValue("样品合同");
+			}else if(!"0".equalsIgnoreCase(sampleFinishes.get(i).getMoldPrice())){
+				cell.setCellValue("模具"+sampleFinishes.get(i).getQuantity1()+"个");
+			}
+
+
+
+			cell = row.createCell(10); //获取单元格
+			cell.setCellStyle(cellStyle);
+			if(sampleFinishes.get(i).getMaturePurchase()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMaturePurchase())) {
+				cell.setCellValue(sampleFinishes.get(i).getMaturePurchase());
+			}else if(sampleFinishes.get(i).getOriginalPurchase()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getOriginalPurchase())){
+				cell.setCellValue(sampleFinishes.get(i).getOriginalPurchase());
+			}else if(sampleFinishes.get(i).getMerchandManager2()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandManager2())){
+				cell.setCellValue(sampleFinishes.get(i).getMerchandManager2());
+			}else{
+				cell.setCellValue("暂无采购");
+            }
+			cell = row.createCell(11); //获取单元格
+			cell.setCellStyle(cellStyle);
+			if(sampleFinishes.get(i).getMerchandising()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandising())) {
+				cell.setCellValue(sampleFinishes.get(i).getMerchandising());
+			}else if(sampleFinishes.get(i).getMerchandManager1()!=null&&!"".equalsIgnoreCase(sampleFinishes.get(i).getMerchandManager1())){
+				cell.setCellValue(sampleFinishes.get(i).getMerchandManager1());
+			}else{
+				cell.setCellValue("暂无跟单");
+			}
+			cell = row.createCell(12); //获取单元格
+			cell.setCellStyle(cellStyle);
+
+			if(sampleFinishes.get(i).getCompletionTime()!=null) {
+				boolean flag = sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					cell.setCellValue(sampleFinishes.get(i).getCompletionTime());
+				}else{
+					cell.setCellValue("");
+				}
+			}
+			cell = row.createCell(13); //获取单元格
+			cell.setCellStyle(cellStyle);
+
+			if(sampleFinishes.get(i).getDateSample()!=null) {
+				boolean flag = sampleFinishes.get(i).getDateSample().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					cell.setCellValue(sampleFinishes.get(i).getDateSample());
+				}else{
+					cell.setCellValue("");
+				}
+			}
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(Calendar.DATE, -7);
+			Date m = c.getTime();
+			cell = row.createCell(14); //获取单元格
+			cell.setCellStyle(boderStyle);
+            Date today = new Date();    //今天 实际日期是  2018-11-12    Debug：Wed Nov 12 12:08:12 CST 2018
+			if(sampleFinishes.get(i).getCompletionTime()!=null) {
+				boolean  flag= sampleFinishes.get(i).getCompletionTime().getTime() == format1.parse("1900-01-01").getTime();
+				if(flag!=true) {
+					boolean flag1 = sampleFinishes.get(i).getCompletionTime().getTime() >= m.getTime();
+					if (flag1 == true) {
+						cell.setCellValue("大货进行中");
+					} else {
+						cell.setCellValue("大货延期");
+					}
+				}else if(sampleFinishes.get(i).getDateSample()!=null) {
+					boolean flag3 = sampleFinishes.get(i).getDateSample().getTime() == format1.parse("1900-01-01").getTime();
+					if (flag3 != true) {
+						boolean flag2 = sampleFinishes.get(i).getDateSample().getTime() >= m.getTime();
+						if (flag2 == true) {
+							cell.setCellValue("样品进行中");
+						} else {
+							cell.setCellValue("样品延期");
+						}
+					}else{
+						cell.setCellValue("");
+					}
+				}
+			}
+
+
+
+
+		}
+
+
+
+		//自动调整列宽
+		int i=0;
+		while (i<16) {
+			sheet.autoSizeColumn((short)i);
+			i++;
+		}
+
+		String paths = UploadAndDownloadPathUtil.getFilePath();
+
+		tempPath = new File(paths);
+		// deleteFile(tempPath);
+		if (!tempPath.exists() || !tempPath.isDirectory()) {
+			tempPath.mkdir(); // 如果不存在，则创建该文件夹
+		}
+		FileOutputStream fs = new FileOutputStream(paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls", false);
+		wb.write(fs);
+		fs.close();
+
+		return paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls";
+	}
+
+
+
+	public static String printOngoingProjects (HttpServletRequest request, List<Project> sampleFinishes)
+			throws Exception
+	{
+		int sample_tl = 0;
+		if ((sampleFinishes != null) && (sampleFinishes.size() > 0)) {
+			sample_tl = sampleFinishes.size();
+		}
+		HSSFWorkbook wb = new HSSFWorkbook();
+
+
+		HSSFSheet sheet = wb.createSheet("在进行中项目列表统计");
+
+		HSSFFont font = wb.createFont();
+		font.setFontName("黑体");
+		font.setFontHeightInPoints((short)16);
+
+
+		HSSFFont font2 = wb.createFont();
+		font2.setFontName("黑体");
+		font2.setFontHeightInPoints((short)16);
+		font2.setColor((short)10);
+
+
+
+		HSSFRow row = sheet.createRow(0);
+		HSSFCellStyle style = wb.createCellStyle();
+		style.setFont(font);
+
+		HSSFCellStyle cellStyle = wb.createCellStyle();
+		HSSFDataFormat format = wb.createDataFormat();
+		cellStyle.setDataFormat(format.getFormat("yyyy/m/d"));
+		cellStyle.setAlignment(HorizontalAlignment.CENTER);
+		cellStyle.setBorderBottom(BorderStyle.THIN);
+		cellStyle.setBottomBorderColor((short)8);
+		cellStyle.setBorderLeft(BorderStyle.THIN);
+		cellStyle.setLeftBorderColor((short)8);
+		cellStyle.setBorderRight(BorderStyle.THIN);
+		cellStyle.setRightBorderColor((short)8);
+		cellStyle.setBorderTop(BorderStyle.THIN);
+		cellStyle.setTopBorderColor((short)8);
+
+
+		HSSFCellStyle boderStyle = wb.createCellStyle();
+		boderStyle.setAlignment(HorizontalAlignment.CENTER);
+		boderStyle.setBorderBottom(BorderStyle.THIN);
+		boderStyle.setBottomBorderColor((short)8);
+		boderStyle.setBorderLeft(BorderStyle.THIN);
+		boderStyle.setLeftBorderColor((short)8);
+		boderStyle.setBorderRight(BorderStyle.THIN);
+		boderStyle.setRightBorderColor((short)8);
+		boderStyle.setBorderTop(BorderStyle.THIN);
+		boderStyle.setTopBorderColor((short)8);
+
+
+
+		HSSFCellStyle lastStyle = wb.createCellStyle();
+		lastStyle.setAlignment(HorizontalAlignment.CENTER);
+		lastStyle.setBorderBottom(BorderStyle.THIN);
+		lastStyle.setBottomBorderColor((short)8);
+		lastStyle.setBorderLeft(BorderStyle.THIN);
+		lastStyle.setLeftBorderColor((short)8);
+		lastStyle.setBorderRight(BorderStyle.THIN);
+		lastStyle.setRightBorderColor((short)8);
+		lastStyle.setBorderTop(BorderStyle.THIN);
+		lastStyle.setTopBorderColor((short)8);
+		lastStyle.setFillForegroundColor((short)42);
+		lastStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+
+		HSSFCell cell = row.createCell(0);
+		cell.setCellValue("在进行中项目列表统计");
+		cell.setCellStyle(style);
+		style.setFont(font2);
+
+
+		DecimalFormat df = new DecimalFormat("##.##");
+		int num1 = 0;
+		for (int i = 0; i < sample_tl; i++)
+		{
+			if (i == 0)
+			{
+				row = sheet.createRow(1);
+				cell = row.createCell(0);
+				cell.setCellValue("序号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(1);
+				cell.setCellValue("项目号");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(2);
+				cell.setCellValue("项目等级");
+				cell.setCellStyle(boderStyle);
+				cell = row.createCell(3);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目名称");
+				cell = row.createCell(4);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("创建日期（第一次合同）");
+				cell = row.createCell(5);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("工厂名称");
+				cell = row.createCell(6);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("采购");
+				cell = row.createCell(7);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("跟单");
+				cell = row.createCell(8);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("大货交期");
+				cell = row.createCell(9);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("样品交期");
+				cell = row.createCell(10);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目状态");
+			}
+			int spendDays = 0;
+			int delayDays = 0;
+
+
+			num1++;
+			row = sheet.createRow(i + 2);
+			cell = row.createCell(0);
+			cell.setCellValue(num1);
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(1);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getProjectNo());
+
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(2);
+			int num = ((Project)sampleFinishes.get(i)).getPlantAnalysis().intValue();
+			String PlantAnalysis = "";
+			if (num == 1) {
+				PlantAnalysis = "A";
+			} else if (num == 2) {
+				PlantAnalysis = "B";
+			} else if (num == 3) {
+				PlantAnalysis = "C";
+			} else {
+				PlantAnalysis = "";
+			}
+			cell.setCellValue(PlantAnalysis);
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(3);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getProjectName());
+
+			cell.setCellStyle(boderStyle);
+			cell = row.createCell(4);
+			if (((Project)sampleFinishes.get(i)).getDateSampleUploading() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getDateSampleUploading());
+			} else {
+				cell.setCellValue("");
+			}
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(5);
+
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getCompanyName());
+			cell.setCellStyle(cellStyle);
+			cell = row.createCell(6);
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getSellName());
+
+			cell = row.createCell(7);
+			cell.setCellStyle(cellStyle);
+			cell.setCellValue(((Project)sampleFinishes.get(i)).getPurchaseName());
+			cell = row.createCell(8);
+			cell.setCellStyle(cellStyle);
+			if (((Project)sampleFinishes.get(i)).getOriginalDeliveryDate() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getOriginalDeliveryDate());
+			} else {
+				cell.setCellValue("");
+			}
+			cell = row.createCell(9);
+			cell.setCellStyle(cellStyle);
+			if (((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate() != null) {
+				cell.setCellValue(((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate());
+			} else {
+				cell.setCellValue("");
+			}
+			cell = row.createCell(10);
+			cell.setCellStyle(boderStyle);
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar c = Calendar.getInstance();
+			c.setTime(new Date());
+			c.add(5, -7);
+			Date m = c.getTime();
+			Date today = new Date();
+			if (((Project)sampleFinishes.get(i)).getOriginalDeliveryDate() != null)
+			{
+				boolean flag = ((Project)sampleFinishes.get(i)).getOriginalDeliveryDate().getTime() >= m.getTime();
+				if (flag == true) {
+					cell.setCellValue("大货进行中");
+				} else {
+					cell.setCellValue("大货延期");
+				}
+			}
+			else if (((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate() != null)
+			{
+				boolean flag = ((Project)sampleFinishes.get(i)).getOriginalSampleScheduledDate().getTime() >= m.getTime();
+				if (flag == true) {
+					cell.setCellValue("样品进行中");
+				} else {
+					cell.setCellValue("样品延期");
+				}
+			}
+		}
+		int i = 0;
+		while (i < 16)
+		{
+			sheet.autoSizeColumn((short)i);
+			i++;
+		}
+		String paths = UploadAndDownloadPathUtil.getFilePath();
+
+		tempPath = new File(paths);
+		if ((!tempPath.exists()) || (!tempPath.isDirectory())) {
+			tempPath.mkdir();
+		}
+		FileOutputStream fs = new FileOutputStream(paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls", false);
+		wb.write(fs);
+		fs.close();
 
 		return paths + File.separator + DateFormat.currentDate().replace("-", ".") + ".xls";
 	}

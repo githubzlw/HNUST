@@ -31,7 +31,8 @@ public class GoodsEntry {
 	private String goodsUnit;
 	private String cpprovalUserid;
 	private String checkNumber;
-	
+	private String recipient;
+
 	private List<String> imgs;
 
 	public String getGoodsImg() {
@@ -192,5 +193,13 @@ public class GoodsEntry {
 
 	public void setImgs(List<String> imgs) {
 		this.imgs = imgs;
+	}
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
 	}
 }
