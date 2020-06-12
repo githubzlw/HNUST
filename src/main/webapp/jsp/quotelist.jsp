@@ -31,12 +31,14 @@
 .emanagergettable{
 width:1400px;}
 
-.usechange1{margin:20px;}
-.userselediv_nor,.userselein{width:135px;}
+.usechange1{padding: 20px;}
+
 .td1{width:150px;}
 .td2{width:280px;}
 .td4,.td5{width:100px;}
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{border:0 none;}
+.usechange_statistics .btn{padding:6px 12px;}
+.usechange_statistics .userselediv_nor{width: auto;height:auto;border-color: #fff;}
 </style>
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
@@ -76,7 +78,7 @@ function updateOutLookCustomers(cid,num){
 	<div class="cusalldiv">
 
 		
-		<div class="usechange1">
+		<div class="usechange1 usechange_statistics">
 			<div style="font-size:20px;font-weight:700;">
 				<h2>${title }</h2>
 			</div>

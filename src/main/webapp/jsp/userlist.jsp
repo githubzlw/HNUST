@@ -8,7 +8,7 @@
 <head lang="en">
 <meta charset="UTF-8">
 <title>统计页</title>
-</head><link type="text/css" rel="stylesheet" href="/css/emana.css" />
+</head><link type="text/css" rel="stylesheet" href="${ctx}/css/emana.css" />
 
 <style type="text/css">
 .right_out {
@@ -37,7 +37,7 @@
 
 </style>
 
-<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
 <script>
 //查询指定月份数据
 function querySalesStatistics(timeCreening,num) {
