@@ -61,8 +61,8 @@ table .s18,table .s19,table .s20,table .s21
 table .form-control{padding:3px;width:83px;}
 .add_date{width:125px;}
 .container-fluid{padding-left:0;padding-right:0;}
-.table1_tc{width:1640px;margin:0 auto;}
-.table1_tc table{width:1600px;margin:0 auto;}
+.table1_tc{width:100%;margin:0 auto;}
+.table1_tc table{width:100%;margin:0 auto;}
 table{font-size:14px;}
 
 .mr30{font-size:22px;font-weight: 700}
@@ -102,6 +102,8 @@ h3{position: relative;}
 .goodsEntry{max-height: 750px;overflow-y: scroll;width:1187px;}
 .goodsEntry .date_d{width:136px;}
 .goodsEntry{position:fixed;top:20px;left:50%;transform:translate(-50%,0);box-shadow: 0 3px 9px rgba(0,0,0,.45);background-color: #fff;z-index: 100;display:none;padding:20px;height:750px;overflow-y: auto;overflow-x:hidden;}
+.table1_tc .table > thead > tr > th,.table1_tc .table > tbody > tr > td{font-size:16px;}
+
 </style>
 </head>
 <body>

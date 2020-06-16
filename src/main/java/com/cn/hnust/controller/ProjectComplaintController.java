@@ -1870,7 +1870,7 @@ public class ProjectComplaintController {
 							//如果是终期检验
 							 if(qualityReport.getProcessInstanceId()!=null&&"COMPLETED".toLowerCase().equalsIgnoreCase(qualityReport.getDingdingStatus())&&"agree".equalsIgnoreCase(qualityReport.getDingdingResult())){
 								 isProductNoDingDing = true;
-							 }else if(qualityReport.getProcessInstanceId()!=null){
+							 }else if(qualityReport.getProcessInstanceId()!=null && shippingConfirmation.getSampleOrProduct() == PRODUCT ){
 								 isProductNoDingDing = false;
 							 }else{
 								 isProductNoDingDing = true;
