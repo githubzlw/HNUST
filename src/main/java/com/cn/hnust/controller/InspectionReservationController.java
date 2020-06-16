@@ -189,8 +189,9 @@ public class InspectionReservationController {
 			} else if (projectERP.getQualityInspector7() == null || "".equalsIgnoreCase(projectERP.getQualityInspector7())) {
 				projectERP.setQualityInspector7(accepter);
 			}
-			projectService.updateProjectByErp(projectNo);
 			itemCaseERPService.updateQuality(projectERP);//修改质检
+			projectService.updateProjectByErp(projectNo);
+
 		}
 
 
@@ -384,8 +385,9 @@ public class InspectionReservationController {
 					}else if(projectERP.getQualityInspector7()==null||"".equalsIgnoreCase(projectERP.getQualityInspector7())){
 						projectERP.setQualityInspector7(accepter);
 					}
-					projectService.updateProjectByErp(projectERP.getProjectNo());
 					itemCaseERPService.updateQuality(projectERP);//修改质检
+					projectService.updateProjectByErp(projectERP.getProjectNo());
+
 
 					}
 
@@ -1046,8 +1048,7 @@ public class InspectionReservationController {
 			String lastSaturday="";
 			String lastSunday="";
 			InspectionReservation task=new InspectionReservation();
-
-	        	if("星期一".equalsIgnoreCase(currSun)){
+                if("星期一".equalsIgnoreCase(currSun)){
 	        		Monday=getNextMonday(0);
 	        		Tuesday=getNextTuesday(0);
 	        		Wednesday=getNextWednesday(0);
@@ -1180,8 +1181,7 @@ public class InspectionReservationController {
 	    			lastSaturday=getNextSaturday(-12);
 	    			lastSunday=getNextSunday(-12);
 	        	}else if("星期日".equalsIgnoreCase(currSun)){
-
-	        		Monday=getNextMonday(-6);
+                    Monday=getNextMonday(-6);
 	        		Tuesday=getNextTuesday(-6);
 	        		Wednesday=getNextWednesday(-6);
 	        		Thursday=getNextThursday(-6);
@@ -1234,11 +1234,35 @@ public class InspectionReservationController {
 	        for(int i=0;i<dayList.size();i++){
 	        	InspectionReservation inspection=new InspectionReservation();
 	        	inspection.setStart(dayList.get(i));
-
-	        List<InspectionReservation>projectTasks=inspectionReservationService.getAll(inspection,num);
+            List<InspectionReservation>projectTasks=inspectionReservationService.getAll(inspection,num);
 		    String json= JSONArray.fromObject(projectTasks).toString();
             map.put("projectTasks"+i,json);
             }
+		  InspectionReservation inspection=new InspectionReservation();
+		  if("1".equalsIgnoreCase(num)){
+
+			  inspection.setStart(Monday);
+			  inspection.setEnd(Sunday);
+
+		  }else if("2".equalsIgnoreCase(num)){
+
+			  inspection.setStart(NextMonday);
+			  inspection.setEnd(NextSunday);
+
+		  }else if("3".equalsIgnoreCase(num)) {
+
+			  inspection.setStart(lastMonday);
+			  inspection.setEnd(lastSunday);
+		  }
+		    List<InspectionReservation>projectTasks1=getAllProjectTasks(inspection,1,num);
+		  List<InspectionReservation>projectTasks2=getAllProjectTasks(inspection,2,num);
+
+
+		  String json= JSONArray.fromObject(projectTasks1).toString();
+		  map.put("queryStatistic",json);
+		  String json1= JSONArray.fromObject(projectTasks2).toString();
+		  map.put("queryStatistic1",json1);
+
 	        if("1".equalsIgnoreCase(num)){
 	        map.put("Monday",Monday);
 	        map.put("Tuesday",Tuesday);
@@ -1276,7 +1300,17 @@ public class InspectionReservationController {
 		}
 		return jsonResult;
 	}
-    /**
+
+	private List<InspectionReservation> getAllProjectTasks(InspectionReservation inspection, int i,String num) {
+
+		//仓库
+		List<InspectionReservation>projectTasks=inspectionReservationService.getAllQueryStatistics(inspection,i,num);
+
+
+		return  projectTasks;
+	}
+
+	/**
      *
      * @Title:InspectionReservationController
      * @Description:查询两表数据

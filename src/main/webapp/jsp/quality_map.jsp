@@ -61,13 +61,13 @@ table .s18,table .s19,table .s20,table .s21
 table .form-control{padding:3px;width:83px;}
 .add_date{width:125px;}
 .container-fluid{padding-left:0;padding-right:0;}
-.table1_tc{width:1240px;margin:0 auto;}
-.table1_tc table{width:1200px;margin:0 auto;}
+.table1_tc{width:1640px;margin:0 auto;}
+.table1_tc table{width:1600px;margin:0 auto;}
 table{font-size:14px;}
 
 .mr30{font-size:22px;font-weight: 700}
 .h3_title{font-size:25px;font-weight: 700}
-
+.mt10{font-size:18px;}
 .table1_tc th:first-child{width:90px;}
 /* 2020.4.29.新增 */
 .person_in{width:125px;height:34px;}
@@ -1476,6 +1476,7 @@ function searchAll(roleNo,userName,num){
 		},
 		 success : function(json) {
            if (json.ok) {
+
         	   var obj=eval(json.data.projectTasks0);
         	   var obj1=eval(json.data.projectTasks1);
         	   var obj2=eval(json.data.projectTasks2);
@@ -1483,7 +1484,8 @@ function searchAll(roleNo,userName,num){
         	   var obj4=eval(json.data.projectTasks4);
         	   var obj5=eval(json.data.projectTasks5);
         	   var obj6=eval(json.data.projectTasks6);
-
+			   var obj7=eval(json.data.queryStatistic);
+			   var obj8=eval(json.data.queryStatistic1);
         	   var Monday=json.data.Monday;
         	   var Tuesday=json.data.Tuesday;
         	   var Wednesday=json.data.Wednesday;
@@ -1500,6 +1502,29 @@ function searchAll(roleNo,userName,num){
         	  name="上周";
         	   }
         	   var text="";
+			   text+="<tr><td style='background:#4eddff'>"+name+"到仓库"+"</td>";
+			   $(obj7).each(function (index){
+				   var val=obj7[index];
+
+					   var value=val.warehouse;
+					   text+="<td><span class='add_span'>"+value+"</span></td>";
+
+			   });
+			   text+="</tr>";
+
+			   text+="<tr><td style='background:#4eddff'>"+name+"到工厂"+"</td>";
+			   $(obj8).each(function (index){
+				   var val=obj8[index];
+
+					   var value=val.toFactory;
+					   text+="<td><span class='add_span'>"+value+"</span></td>";
+
+			   });
+			   text+="</tr>";
+
+
+
+
         	   text+="<tr><td style='background:#4eddff'>"+name+"星期一"+Monday+"</td>";
         	   $(obj).each(function (index){
         		var val=obj[index];

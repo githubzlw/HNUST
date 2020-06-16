@@ -535,4 +535,64 @@ and datediff(finish_time,now())&lt;8
     from inspection_reservation
     where project_no = #{projectNo,jdbcType=VARCHAR}
   </select>
+
+    <select id="getAllQueryStatistics" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+
+
+        select a.user_name,ifnull(b.warehouse,0)warehouse from (
+        select '质检部' as user_name FROM `user` where id=15
+        union all
+        SELECT user_name FROM `user` where role_no=9 and job='质检'
+        )a
+        left join(
+        select ir.accepter,count(*)warehouse from inspection_reservation ir left join project p
+        on ir.project_no=p.project_no
+        LEFT JOIN project_task pt on
+        ir.project_no_id=pt.project_no_id where
+        ir.finish_time&gt;=#{start} and ir.finish_time&lt;=#{end}
+        <if test="taskStatus==null">
+            and task_status=0
+        </if>
+
+        <if test="taskStatus!=null">
+            and (task_status=0  or task_status=1)
+        </if>
+        and inspection_address='仓库'
+        group by ir.accepter
+        )b on a.user_name=b.accepter
+
+        group by a.user_name
+
+
+  </select>
+    <select id="getAllQueryStatistics1" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
+
+
+        select a.user_name,ifnull(c.toFactory,0)toFactory from (
+        select '质检部' as user_name FROM `user` where id=15
+        union all
+        SELECT user_name FROM `user` where role_no=9 and job='质检'
+        )a
+
+        left join (
+        select ir.accepter,count(*)toFactory from inspection_reservation ir left join project p
+        on ir.project_no=p.project_no
+        LEFT JOIN project_task pt on
+        ir.project_no_id=pt.project_no_id where
+        ir.finish_time&gt;=#{start} and ir.finish_time&lt;=#{end}
+        <if test="taskStatus==null">
+            and task_status=0
+        </if>
+
+        <if test="taskStatus!=null">
+            and (task_status=0  or task_status=1)
+        </if>
+        and inspection_address!='仓库' and inspection_address!='公司' and inspection_address!=''
+        group by ir.accepter
+        )c on a.user_name=c.accepter
+        group by a.user_name
+
+
+  </select>
+
 </mapper>

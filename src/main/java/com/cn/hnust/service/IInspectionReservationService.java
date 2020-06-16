@@ -85,6 +85,11 @@ public List<InspectionReservation> getAll(InspectionReservation inspection,
  */
 public List<InspectionReservation> getAllInspection(String projectNo);
 
+	/**
+	 * 查询数据统计
+	 * @param inspection
+	 * @return
+	 */
 
-
+    List<InspectionReservation> getAllQueryStatistics(InspectionReservation inspection,int i,String num);
 }

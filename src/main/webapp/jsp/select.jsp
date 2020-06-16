@@ -48,6 +48,7 @@
 			<span>任务系统</span>
 			<button class="ext" onclick="exitlogin()">登出</button>
 			</h2>
+
 			<div class="btns">
 				<c:if test="${roleNo==5 && user.job=='跟单'}"><div class="docmentary">
 					<h3>跟单功能模块</h3>
@@ -133,22 +134,22 @@
 						</c:if>
 					
 					<div class="line mb10"></div>
-					<a href="${ctx}/projectTask/projectTaskList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>PC任务列表 <span class="show_red">(<i class="omit_mark">...</i><span id="noFinishCount"></span>)</span></button></a>
+					<a href="${ctx}/projectTask/projectTaskList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>PC任务列表 <span class="show_red"><span id="noFinishCount"></span></span></button></a>
 					<a href="/jsp/project_list_task.jsp?userId=180&roleNo=100&purchaseNameId=&userName=ninazhao"><button>手机任务列表 </button></a>
 					<a href="${ctx}/projectTask/addTask?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button class="btn1">普通任务录入</button></a>
 					<a href="${ctx}/inspection/toInputInspection?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>验货预约任务录入</button></a>
 					<a href="${ctx}/inspection/toSelectInspection?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>检验任务列表</button></a>
 					<a href="${ctx}/plan/toSelectPlan?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>检验计划</button></a>
-					<a href="${ctx}/quality/qualityList"><button>检验报告列表  <span class="show_red">(<i class="omit_mark">...</i><span id="qualityCount"></span>)</span>  </button></a>
+					<a href="${ctx}/quality/qualityList"><button>检验报告列表  <span class="show_red"><span id="qualityCount"></span></span>  </button></a>
 					<a href="${ctx}/project/selectIssueList"><button>质量问题检索</button></a>
 					<c:if test="${roleNo=='100'||roleNo=='9' ||roleNo=='5'||roleNo=='6'||roleNo=='10' }">					
 					<a target="_blank" href="${ctx}/inspection/qualityInspectionMap?roleNo=${roleNo}&userId=${userId}&userName=${userName}" ><button>本周质检地图</button></a><br>
 						</c:if>
 					<div class="line mb10"></div>
-					<a href="${ctx}/complaint/queryList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>客户投诉列表<span class="show_red">(<i class="omit_mark">...</i><span id="unFinishComplaintCount"></span>)</span></button></a>
+					<a href="${ctx}/complaint/queryList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>客户投诉列表<span class="show_red"><span id="unFinishComplaintCount"></span></span></button></a>
 					<a href="${ctx}/jsp/customer_complaint_entry.jsp?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>客户投诉录入</button></a>
 					<a href="${ctx}/qualityAnalysisTable/listItems?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button>60天质量分析表列表</button></a>
-                    <a href="${ctx}/complaint/queryShippingList"><button>电子准予出货确认单<span class="show_red">(<i class="omit_mark">...</i><span id="unFinishShippingCount"></span>)</span></button></a>
+                    <a href="${ctx}/complaint/queryShippingList"><button>电子准予出货确认单<span class="show_red"><span id="unFinishShippingCount"></span></span></button></a>
 					<a href="http://117.144.21.74:33169/shipping/Login" target="_blank"><button>出运联系单系统</button></a>				
 					<div class="line mb10"></div>
 					<a href="${ctx}/meetingRecord/selectMeetingRecordList?roleNo=${roleNo}&userId=${userId}&userName=${userName}"><button class="btn1">会议列表</button></a>
@@ -229,6 +230,7 @@ function exitlogin() {
 
 $(function(){
 	/*页面加载完开始获取所有的列表数据*/
+
 	selectAllCount();
 
 	//同步cookie到快制造
@@ -258,11 +260,11 @@ function selectAllCount() {
 			if (data.ok === true){
 				var Data = data.data;
 				if (Data){
-					$('.omit_mark').hide();  //隐藏等待动画
-					$('#noFinishCount').text(Data.noFinishCount);
-					$('#qualityCount').text(Data.qualityCount);
-					$('#unFinishShippingCount').text(Data.unFinishShippingCount);
-					$('#unFinishComplaintCount').text(Data.unFinishComplaintCount);
+
+					$('#noFinishCount').text("("+Data.noFinishCount+")");
+					$('#qualityCount').text("("+Data.qualityCount+")");
+					$('#unFinishShippingCount').text("("+Data.unFinishShippingCount+")");
+					$('#unFinishComplaintCount').text("("+Data.unFinishComplaintCount+")");
 				}else{ //无数据,隐藏
 					$('.show_red').hide();
 				}

@@ -77,12 +77,28 @@ public class InspectionReservation extends PageHelper implements Serializable {
     private String incomingInspection;//进料检验
     private String inspectionPlan;//检验计划
     private String qualityComplaint;//质量投诉
+	private String toFactory;//到工厂
+	private String warehouse;//到仓库
     
     private static final long serialVersionUID = 1L;
 
-    
-    
-    
+
+	public String getToFactory() {
+		return toFactory;
+	}
+
+	public void setToFactory(String toFactory) {
+		this.toFactory = toFactory;
+	}
+
+	public String getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(String warehouse) {
+		this.warehouse = warehouse;
+	}
+
 	public String getIncomingInspection() {
 		return incomingInspection;
 	}
@@ -165,28 +181,50 @@ public class InspectionReservation extends PageHelper implements Serializable {
 
 	@Override
 	public String toString() {
-		return "InspectionReservation [id=" + id + ", projectNoId="
-				+ projectNoId + ", projectNo=" + projectNo + ", initiator="
-				+ initiator + ", accepter=" + accepter + ", description="
-				+ description + ", urgentReason=" + urgentReason
-				+ ", createDate=" + createDate + ", produceStatus="
-				+ produceStatus + ", finishTime=" + finishTime
-				+ ", expectedDelivery=" + expectedDelivery + ", shippingDate="
-				+ shippingDate + ", inputKey=" + inputKey
-				+ ", projectDrawingList=" + projectDrawingList
-				+ ", inspectionPlanList=" + inspectionPlanList
-				+ ", qualityDate=" + qualityDate + ", zhijian1=" + zhijian1
-				+ ", zhijian2=" + zhijian2 + ", projectTaskId=" + projectTaskId
-				+ ", operator=" + operator + ", taskStatus=" + taskStatus
-				+ ", operatorTime=" + operatorTime + ", qualityName="
-				+ qualityName + ", userName=" + userName
-				+ ", inspectionAddress=" + inspectionAddress + ", testType="
-				+ testType + ", openRate=" + openRate + ", shippingApproval="
-				+ shippingApproval + ", qualityNames="
-				+ Arrays.toString(qualityNames) + ", projectName="
-				+ projectName + ", newDate=" + newDate + ", start=" + start
-				+ ", end=" + end + ", projectAmount=" + projectAmount
-				+ ", plantAnalysis=" + plantAnalysis + "]";
+		return "InspectionReservation{" +
+				"dTalkIds=" + dTalkIds +
+				", checkNumber='" + checkNumber + '\'' +
+				", id=" + id +
+				", projectNoId='" + projectNoId + '\'' +
+				", projectNo='" + projectNo + '\'' +
+				", initiator='" + initiator + '\'' +
+				", accepter='" + accepter + '\'' +
+				", description='" + description + '\'' +
+				", urgentReason='" + urgentReason + '\'' +
+				", createDate=" + createDate +
+				", produceStatus='" + produceStatus + '\'' +
+				", finishTime=" + finishTime +
+				", expectedDelivery=" + expectedDelivery +
+				", shippingDate=" + shippingDate +
+				", inputKey='" + inputKey + '\'' +
+				", projectDrawingList=" + projectDrawingList +
+				", inspectionPlanList=" + inspectionPlanList +
+				", qualityDate=" + qualityDate +
+				", zhijian1='" + zhijian1 + '\'' +
+				", zhijian2='" + zhijian2 + '\'' +
+				", projectTaskId=" + projectTaskId +
+				", operator='" + operator + '\'' +
+				", taskStatus='" + taskStatus + '\'' +
+				", operatorTime=" + operatorTime +
+				", qualityName='" + qualityName + '\'' +
+				", userName='" + userName + '\'' +
+				", inspectionAddress='" + inspectionAddress + '\'' +
+				", testType='" + testType + '\'' +
+				", openRate='" + openRate + '\'' +
+				", shippingApproval=" + shippingApproval +
+				", qualityNames=" + Arrays.toString(qualityNames) +
+				", projectName='" + projectName + '\'' +
+				", newDate=" + newDate +
+				", start='" + start + '\'' +
+				", end='" + end + '\'' +
+				", projectAmount='" + projectAmount + '\'' +
+				", plantAnalysis='" + plantAnalysis + '\'' +
+				", incomingInspection='" + incomingInspection + '\'' +
+				", inspectionPlan='" + inspectionPlan + '\'' +
+				", qualityComplaint='" + qualityComplaint + '\'' +
+				", toFactory='" + toFactory + '\'' +
+				", warehouse='" + warehouse + '\'' +
+				'}';
 	}
 
 	public String[] getQualityNames() {

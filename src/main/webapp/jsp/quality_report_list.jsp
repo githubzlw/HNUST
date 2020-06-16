@@ -36,10 +36,10 @@
 				<td>
 					<ul>
 						<li class="display_inline_block mr20" >
-							<a href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}"><span><b>${obj.projectNo}</b></span></a>
+							<a href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}" target="_blank"><span><b>${obj.projectNo}</b></span></a>
 						</li>
 						<li class="display_inline_block mr20">
-							<a href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}"><span><b>${obj.projectName}</b></span></a>
+							<a href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}" target="_blank"><span><b>${obj.projectName}</b></span></a>
 						</li>
 						<li class="display_inline_block mr20">
 							<span><b><fmt:formatDate value="${obj.createtime}" pattern="yyyy-MM-dd"/></b></span>

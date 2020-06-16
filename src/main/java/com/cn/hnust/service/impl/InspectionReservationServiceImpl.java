@@ -116,7 +116,25 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
 
 		return inspectionReservationMapper.getAllInspection(projectNo);
 	}
+
+
 	@Override
+    public List<InspectionReservation> getAllQueryStatistics(InspectionReservation inspection,int i,String num) {
+		if("3".equalsIgnoreCase(num)){
+			inspection.setTaskStatus(num);
+		}
+		List<InspectionReservation> list=null;
+		if(i==1){
+			list=inspectionReservationMapper.getAllQueryStatistics(inspection);
+		}else if(i==2){
+			list=inspectionReservationMapper.getAllQueryStatistics1(inspection);
+		}
+
+
+		return list;
+    }
+
+    @Override
 	public int selectInspectionReservationCountByProjectNo(String projectNo) {
 		return inspectionReservationMapper.selectInspectionReservationCountByProjectNo(projectNo);
 	}

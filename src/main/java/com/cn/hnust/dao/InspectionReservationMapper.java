@@ -101,4 +101,16 @@ public interface InspectionReservationMapper {
 	 */
 	List<InspectionReservation> getAllArrangements(
 			InspectionReservation inspection);
+	/**
+	 * 查询数据统计
+	 * @param inspection
+	 * @return
+	 */
+    List<InspectionReservation> getAllQueryStatistics(InspectionReservation inspection);
+	/**
+	 * 查询数据统计
+	 * @param inspection
+	 * @return
+	 */
+	List<InspectionReservation> getAllQueryStatistics1(InspectionReservation inspection);
 }

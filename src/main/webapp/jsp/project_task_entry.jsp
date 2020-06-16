@@ -378,8 +378,12 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 							style="margin-left: 20px;" />出货</span>
 						<span class="f16"><input
 							type="radio" name="testType" value="帮忙看"
-							style="margin-left: 20px;" />帮忙看</span>	
-							</li>
+							style="margin-left: 20px;" />帮忙看</span>
+						<span class="f16"><input
+								type="radio" name="testType" value="验厂"
+								style="margin-left: 20px;" />验厂</span>
+
+					</li>
 							
 					<!--  -->		
 					<li>
@@ -407,7 +411,8 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 					<div class="w622 pull-left address_div">
 						<span class="f16"><input type="radio" name="place" value="公司" />公司</span><br/>							
 						<span class="f16 "> <input type="radio" name="place"   value="仓库" />仓库	</span><br/> 															
-						<span class="f16 "> <input type="radio" name="place" checked  value="工厂" />工厂	</span><br/> 															
+						<span class="f16 "> <input type="radio" name="place" checked  value="工厂" />工厂	</span><br/>
+						<span class="f16 "> <input type="radio" name="place" checked  value="新工厂" />新工厂	</span><br/>
 					</div>
 						
 						
@@ -986,8 +991,8 @@ $('.add_span').click(function(){
 							}
 							//查询到的合同工厂数据
 							if(factoryList){
-								$('.address_div').find('.f16:gt(1)').remove();
-								$('.address_div').find('br:gt(1)').remove();
+								$('.address_div').find('.f16:gt(3)').remove();
+								$('.address_div').find('br:gt(3)').remove();
 								$('#factory_constract').empty();
 								for(var i=0;i<factoryList.length;i++){
 									
