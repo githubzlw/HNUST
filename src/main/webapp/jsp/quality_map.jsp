@@ -1534,12 +1534,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-					if(val.checkNumber !=''){
-						text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-					}else{
-						text+="<td><span class='add_span'>"+value+"</span></td>";
-					}
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
         	   text+="</tr>";
         	   text+="<tr><td style='background:#4eddff'>"+name+"星期二 "+Tuesday+"</td>";
@@ -1549,12 +1545,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
         	   text+="</tr>";
         	   text+="<tr><td style='background:#4eddff'>"+name+"星期三 "+Wednesday+"</td>";
@@ -1564,12 +1556,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
 
         	   text+="</tr>";
@@ -1580,12 +1568,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
 
         	   text+="</tr>";
@@ -1596,12 +1580,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
         	   text+="</tr>";
         	   text+="<tr><td style='background:#4eddff'>"+name+"星期六 "+Saturday+"</td>";
@@ -1611,12 +1591,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 				});
         	   text+="</tr>";
         	   text+="<tr><td style='background:#4eddff'>"+name+"星期日 "+Sunday+"</td>";
@@ -1626,12 +1602,8 @@ function searchAll(roleNo,userName,num){
         			text+="<td><span class='add_span'>无安排</span></td>";
         		}else{
         			var value=val.inspectionAddress;
-                    if(val.checkNumber !=''){
-                        text+="<td class='check-over'><span class='add_span'>"+value+"</span></td>";
-                    }else{
-                        text+="<td><span class='add_span'>"+value+"</span></td>";
-                    }
-        		}
+                    text+="<td><span class='add_span'>"+value+"</span></td>";
+                }
 
 				});
         	   text+="</tr>";
@@ -1641,15 +1613,13 @@ function searchAll(roleNo,userName,num){
         	   $('.dp_tabel_body').html(text);
         	   $('.table1_tc').show();
 
-        	   if(num === 3){
-        	       $(".table1_tc").find(".mt10").find(".check-over").find(".checked_ad").each(function(){
-        	           if($(this).html()=='仓库'){
-        	               $(this).addClass("checked_more");
-                           $(this).attr('color','green');
+               $(".table1_tc").find(".mt10").find(".check-d").each(function(){
+                   if($(this).html()=='仓库'){
+                       $(this).addClass("checked_more");
+                       $(this).attr('color','green');
 
-					   }
-				   });
-			   }
+                   }
+               });
 
 			} else {
 				layer.msg(json.message, {

@@ -483,11 +483,13 @@ SELECT user_name FROM `user` where role_no=9 and job='质检'
  )a
 left join (
 
-select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+select CONCAT(ir.project_no,',','&lt;font color=blue class="uncheck-ad ',if(g.check_number is null,'un-check-t','check-d'),'"&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
    ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
    on ir.project_no=p.project_no
    LEFT JOIN project_task pt on
-    ir.project_no_id=pt.project_no_id where
+    ir.project_no_id=pt.project_no_id
+    left join goods_entry g on g.check_number=ir.check_number and g.check_number!=''
+    where
     ir.finish_time=#{start}  and task_status=0
 
 )b on a.user_name=b.accepter
@@ -497,7 +499,7 @@ group by a.user_name,b.finish_time
 
   </select>
   <select id="getAllArrangements" resultMap="BaseResultMap" parameterType="com.cn.hnust.pojo.InspectionReservation">
-select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address,check_number  from (
+select ifnull(a.user_name,'')accepter,b.finish_time,GROUP_CONCAT(inspection_address SEPARATOR ',')inspection_address  from (
 select '质检部' as user_name FROM `user` where id=15
 
 union all
@@ -505,18 +507,22 @@ SELECT user_name FROM `user` where role_no=9 and job='质检'
 )a
 left join (
 
-select CONCAT(ir.project_no,',','&lt;font color=blue&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
-   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status,(select check_number from goods_entry where check_number=ir.check_number limit 1) as check_number from inspection_reservation ir left join project p
+select CONCAT(ir.project_no,',','&lt;font color=blue class="uncheck-ad ',if(g.check_number is null,'un-check-t','check-d'),'"&gt;',ir.inspection_address,'&lt;/font&gt;',',','未完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
    on ir.project_no=p.project_no
    LEFT JOIN project_task pt on
-    ir.project_no_id=pt.project_no_id where
+    ir.project_no_id=pt.project_no_id
+    left join goods_entry g on g.check_number=ir.check_number and g.check_number!=''
+    where
     ir.finish_time=#{start}  and task_status=0
     union
-   select CONCAT(ir.project_no,',','&lt;font color=blue class=checked_ad&gt;',ir.inspection_address,'&lt;/font&gt;',',','已完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
-   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status,(select check_number from goods_entry where check_number=ir.check_number limit 1) as check_number from inspection_reservation ir left join project p
+   select CONCAT(ir.project_no,',','&lt;font color=blue class="checked_ad ',if(g.check_number is null,'un-check-t','check-d'),'"&gt;',ir.inspection_address,'&lt;/font&gt;',',','已完成检验') as inspection_address,ifnull(p.project_name,'')projectName,ir.description,ifnull(p.project_amount,'')projectAmount
+   ,p.plant_analysis,ir.initiator,ir.accepter,ir.finish_time,pt.task_status,pt.operator_time,pt.new_date,ir.produce_status from inspection_reservation ir left join project p
    on ir.project_no=p.project_no
    LEFT JOIN project_task pt on
-    ir.project_no_id=pt.project_no_id where
+    ir.project_no_id=pt.project_no_id
+    left join goods_entry g on g.check_number=ir.check_number and g.check_number!=''
+    where
     ir.finish_time=#{start}  and task_status=1
 )b on a.user_name=b.accepter
 
