@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cn.hnust.daoErp.BargainMapper">
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.Bargain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="caseNo" jdbcType="VARCHAR" property="caseNo" />
+    <result column="bargainNo" jdbcType="VARCHAR" property="bargainNo" />
+
+    
+    
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, caseno, bargainNo
+  </sql>
+
+
+  <select id="getAll" resultMap="BaseResultMap" >
+
+  select top 200 BargainNo ,caseno from (
+  select  BargainNo,min(inputDate)inputDate,caseno from factoryfund where OtherMoney is null and inputDate is not null  group  by BargainNo,caseno
+
+  )a order by inputDate desc
+  </select>
+
+
+
+ 
+ 
+</mapper>

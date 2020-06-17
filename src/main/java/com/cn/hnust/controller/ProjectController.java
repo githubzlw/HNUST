@@ -175,6 +175,9 @@ public class ProjectController {
 	private PayOtherService payOtherService;
 	@Autowired
 	private FactoryFundService factoryFundService;
+	@Autowired
+	private BargainService bargainService;
+
 	
 	private static final Integer SAMPLE = 0;  //样品查询
 	private static final Integer PRODUCT = 1; //大货查询
@@ -5180,7 +5183,12 @@ public class ProjectController {
 				public CommonResult SaveDataToERP(HttpServletRequest request,HttpServletResponse response) {
 				   CommonResult res = new CommonResult(request.getRequestURI());
 				  try{
-					  List<PayOthers>payOtherList=payOtherService.getAllPending();
+					  Calendar calendar =  Calendar.getInstance();
+					  int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                      if(hour==1){
+                          getAllBargain();
+                      }
+                      List<PayOthers>payOtherList=payOtherService.getAllPending();
 					  for(int i=0;i<payOtherList.size();i++){
 						 int num= itemCaseERPService.findName(payOtherList.get(i).getCaseno(),payOtherList.get(i).getApplicant(),1);//查看成员是否在ERP成员列表中
 						 int num1=0;
@@ -5336,8 +5344,28 @@ public class ProjectController {
 			        }	
 				}
 
+    @ResponseBody
+    @RequestMapping("/getAllBargain")
+    private void getAllBargain() {
+			    try {
+                    List<Bargain> bargainList = bargainService.getAll();//获取最近50条上传合同记录
+                    for (int i = 0; i < bargainList.size(); i++) {
+                        ProjectFactory factory1 = new ProjectFactory();
+                        factory1.setContractNo(bargainList.get(i).getBargainNo());
+                        factory1.setProjectNo(bargainList.get(i).getCaseNo());
+                        ProjectFactory factory = projectFactoryService.getAllBargain(factory1);
+                        if (factory != null) {
+                        } else {
+                            sysnByProjectErp(bargainList.get(i).getCaseNo());
+                        }
+                    }
+                }catch(Exception e){
 
-	//导出正在进行中项目任务项目
+                }
+    }
+
+
+    //导出正在进行中项目任务项目
 	@RequestMapping(value="/projectExportProgress")
 	public void projectExportProgress(HttpServletRequest request,HttpServletResponse response){
 		try {
@@ -5490,6 +5518,247 @@ public class ProjectController {
 
 	}
 
+	/**
+	 * 同步ERP项目
+	 * @param
+	 * @param
+	 * @return
+	 * @throws Exception
+	 */
 
+	public JsonResult sysnByProjectErp(String projectNo) throws Exception{
+		JsonResult jsonResult = new JsonResult();
+		ProjectFactory projectFactory = new ProjectFactory();
+		ProjectERP projectErp=itemCaseERPService.selectByCaseNo(projectNo);
+		Project project = projectService.selectProjctDetails(projectNo);
+		if(projectErp != null && project != null){
+			//项目不为空时，更新项目
+			if(project != null){
+				project.setProjectName(projectErp.getProjectNameC());
+				project.setActualStartDate(projectErp.getDateSampleUploading());  //开工日期
+				project.setSampleScheduledDate(projectErp.getDateSample());
+				project.setOriginalSampleScheduledDate(projectErp.getDateSample());
+				project.setCompanyName(projectErp.getCompanyName());
+				project.setZhijian1(projectErp.getZhijian1());
+				project.setZhijian2(projectErp.getZhijian2());
+				project.setZhijian3(projectErp.getZhijian3());
+				project.setPlantAnalysis(projectErp.getPlantAnalysis());
+				project.setProjectMaterialProperties(projectErp.getProjectMaterialProperties());
+				project.setMoneyDate(projectErp.getMoneyDate());
+				project.setCustomerName(projectErp.getCustomerName());
+				project.setProjectNameEn(projectErp.getProjectNameE());
+				project.setCustomerGrade(projectErp.getCustomerGrade());
+
+				//默认给样品交期，如果存在大货，保存大货交期
+				//录入合同日期
+				projectFactory.setSampleDate(projectErp.getDateSample());
+				projectFactory.setContractDate(projectErp.getDateSampleUploading());
+
+				//当开工时间为空时不进行插入
+				if(projectErp.getDateSampleUploading() != null){
+					project.setProjectStatus(OrderStatusEnum.NORMAL_ORDER.getCode());  //初始导入正常进行项目
+				}
+				//大货交期
+				if(projectErp.getCompletionTime() != null){
+
+					//如果新合同交期小于原交期，则不更新，反之则更新交期
+					if(project.getDeliveryDate() != null && projectErp.getCompletionTime().getTime() < project.getDeliveryDate().getTime()){
+
+					}else{
+						project.setDeliveryDate(projectErp.getCompletionTime());
+						project.setOriginalDeliveryDate(projectErp.getCompletionTime());
+					}
+
+					//工厂项目表保存交期和合同日期
+					projectFactory.setDeliveryDate(projectErp.getCompletionTime());
+				}
+				User user=new User();
+				User purchaseUser =new User();
+				//1.MerchandManager1 跟单销售,MerchandManager2 采购
+				//如果存在成熟跟单，保存成熟跟单，不存在，保存原始跟单
+				//Merchandising 成熟跟单
+				if(StringUtils.isNotBlank(projectErp.getMerchandising())){
+					user=userService.selectUserByName(projectErp.getMerchandising());
+					if(user!=null){
+						project.setEmailUserId(user.getId());
+					}
+				}else{
+					if(StringUtils.isNotBlank(projectErp.getMerchandManager1())){
+						user=userService.selectUserByName(projectErp.getMerchandManager1());
+						if(user!=null){
+							project.setEmailUserId(user.getId());
+						}
+					}
+				}
+
+				if(StringUtils.isNotBlank(projectErp.getCustomerManager())){
+					user=userService.selectUserByName(projectErp.getCustomerManager());
+					if(user!=null){
+						project.setSaleId(user.getId());
+					}
+				}
+
+
+
+				//如果存在成熟采购，保存成熟采购，不存在，保存原始采购
+				if(StringUtils.isNotBlank(projectErp.getMaturePurchase())){
+					purchaseUser=userService.selectUserByName(projectErp.getMaturePurchase());
+					if(purchaseUser!=null){
+						project.setPurchaseId(purchaseUser.getId());
+					}
+				}else{
+					if(StringUtils.isNotBlank(projectErp.getMerchandManager2())){
+						purchaseUser=userService.selectUserByName(projectErp.getMerchandManager2());
+						if(purchaseUser!=null){
+							project.setPurchaseId(purchaseUser.getId());
+						}
+					}
+				}
+
+
+				//保存下单工厂
+				projectFactory.setFactoryId(projectErp.getFactoryId());
+				projectFactory.setFactoryName(projectErp.getCompanyName());
+				projectFactory.setProjectNo(projectNo);
+				projectFactory.setCity(projectErp.getCity());
+				projectFactory.setContractNo(projectErp.getContractNo());
+				if(projectErp.getSupplementaryContract() != null){
+					projectFactory.setOrderNature(projectErp.getSupplementaryContract() == 1 ? 2 : 1); //补货或者正常
+				}else{
+					projectFactory.setOrderNature(1);
+				}
+
+				projectFactoryService.insertSelective(projectFactory);
+
+				projectService.updateProjectInfo(project);
+			}
+
+			return jsonResult;
+		}else{
+			project = new Project();
+			User user=new User();
+			User purchaseUser =new User();
+			//1.MerchandManager1 跟单销售,MerchandManager2 采购
+			if(StringUtils.isNotBlank(projectErp.getMerchandManager1())){
+				user=userService.selectUserByName(projectErp.getMerchandManager1());
+				if(user!=null){
+					project.setEmailUserId(user.getId());
+				}
+			}
+			if(StringUtils.isNotBlank(projectErp.getMerchandManager2())){
+				purchaseUser=userService.selectUserByName(projectErp.getMerchandManager2());
+				if(purchaseUser!=null){
+					project.setPurchaseId(purchaseUser.getId());
+				}
+			}
+			project.setId(IdGen.uuid());
+			project.setProjectNo(projectNo);
+			project.setProjectName(projectErp.getProjectNameC());
+			project.setProjectNameEn(projectErp.getProjectNameE());
+			project.setDeliveryDate(projectErp.getCompletionTime()); //交期
+			project.setOriginalDeliveryDate(projectErp.getCompletionTime());   //交期
+			project.setDeliveryStatus(0);
+			project.setWarningStatus(0);
+			project.setImportance(0);
+			project.setFinish(0);
+			project.setSampleFinish(0);
+			project.setStage(0);
+			project.setPoDate(projectErp.getPoDate());  //PO日期
+			project.setActualStartDate(projectErp.getDateSampleUploading());  //开工日期
+			project.setScheduledDate(null);
+			project.setSampleScheduledDate(projectErp.getDateSample());
+			project.setOriginalSampleScheduledDate(projectErp.getDateSample());
+			project.setCompanyName(projectErp.getCompanyName());
+			project.setCreateDate(new Date());
+			project.setPlantAnalysis(projectErp.getPlantAnalysis());
+			project.setDetailStatus(0);
+			project.setSampleFinishTime(null);
+			project.setZhijian1(projectErp.getZhijian1());
+			project.setZhijian2(projectErp.getZhijian2());
+			project.setZhijian3(projectErp.getZhijian3());
+			project.setCustomerName(projectErp.getCustomerName());
+			project.setDateSampleUploading(projectErp.getDateSampleUploading());
+			project.setCustomerGrade(projectErp.getCustomerGrade());
+
+			//默认给样品交期，如果存在大货，保存大货交期
+			//录入合同日期
+			projectFactory.setSampleDate(projectErp.getDateSample());
+			projectFactory.setContractDate(projectErp.getDateSampleUploading());
+
+
+			project.setProjectMaterialProperties(projectErp.getProjectMaterialProperties());
+			if(projectErp.getDateSample() != null){
+				project.setDateSample(projectErp.getDateSample());
+			}
+			if(projectErp.getCompletionTime()!= null){
+				project.setCompletionTime(projectErp.getCompletionTime());
+			}
+			if(projectErp.getMoneyDate()!=null){
+				project.setMoneyDate(projectErp.getMoneyDate());
+			}
+			//项目启动日期
+			Date poDate = projectErp.getPoDate();
+
+			//Edit by polo   2018.7.10
+			//当开工时间为空时不进行插入
+			if(projectErp.getDateSampleUploading() != null){
+				project.setProjectStatus(OrderStatusEnum.NORMAL_ORDER.getCode());  //初始导入正常进行项目
+				//如果存在大货交期，生产周期根据大货交期去计算，如果不存在大货，生产周期根据样品交期计算
+				//如果交期时间不为空
+				//录入首次大货日期，如果存在第一次大货时间，则更新
+				if(projectErp.getCompletionTime() != null){
+					//如果存在大货交期，计算生成周期时间
+					int scheduledDays = 0;
+					//如果存在po日期，生产天数为 交期-po日期
+					//如果不存在po日期，生产天数为交期-合同日期+7天
+					if(poDate != null){
+						scheduledDays = DateFormat.calDays(projectErp.getCompletionTime(), poDate);
+					}else{
+						scheduledDays = DateFormat.calDays(projectErp.getCompletionTime(), projectErp.getDateSampleUploading());
+						scheduledDays = scheduledDays + 7;
+					}
+					project.setScheduledDays(scheduledDays);
+					//工厂项目表保存交期
+					projectFactory.setDeliveryDate(projectErp.getCompletionTime());
+				}else{
+					if(projectErp.getDateSample() != null){
+						//紧急交货期
+						int scheduledDays = 0;
+						//如果存在po日期，生产天数为 交期-po日期
+						//如果不存在po日期，生产天数为交期-合同日期+7天
+						if(poDate != null){
+							scheduledDays = DateFormat.calDays(projectErp.getDateSample(), poDate);
+						}else{
+							scheduledDays = DateFormat.calDays(projectErp.getDateSample(), projectErp.getDateSampleUploading());
+							scheduledDays = scheduledDays + 7;
+						}
+						project.setScheduledDays(scheduledDays);
+					}
+
+				}
+
+				//保存下单工厂
+				projectFactory.setFactoryId(projectErp.getFactoryId());
+				projectFactory.setFactoryName(projectErp.getCompanyName());
+				projectFactory.setProjectNo(projectNo);
+				projectFactory.setCity(projectErp.getCity());
+				projectFactory.setContractNo(projectErp.getContractNo());
+				if(projectErp.getSupplementaryContract()!=null){
+					projectFactory.setOrderNature(projectErp.getSupplementaryContract() == 1 ? 2 : 1); //补货或者正常
+				}else{
+					projectFactory.setOrderNature(1);
+				}
+				projectFactoryService.insertSelective(projectFactory);
+
+				projectService.addProject(project);
+				List<Project> projectList=new ArrayList<Project>();
+				projectList.add(project);
+				projectDateTask.syncProjectDate(projectList);
+			}
+		}
+
+
+		return jsonResult;
+	}
 
 }

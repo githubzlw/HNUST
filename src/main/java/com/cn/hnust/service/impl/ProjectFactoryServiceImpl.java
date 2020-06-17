@@ -175,4 +175,10 @@ public  class ProjectFactoryServiceImpl implements ProjectFactoryService {
 		return projectFactoryMapper.getFactory(factory);
 	}
 
+	@Override
+	public ProjectFactory getAllBargain(ProjectFactory factory1) {
+		return projectFactoryMapper.getAllBargain(factory1);
+	}
+
+
 }

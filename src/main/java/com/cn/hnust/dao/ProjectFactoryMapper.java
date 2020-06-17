@@ -218,4 +218,11 @@ void insertSelective1(ProjectFactory projectFactory);
  * @throws
  */
 int getFactory(ProjectFactory factory);
+
+    /**
+     * 查找合同
+     * @param factory1
+     * @return
+     */
+    ProjectFactory getAllBargain(ProjectFactory factory1);
 }

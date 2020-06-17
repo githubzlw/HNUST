@@ -217,5 +217,13 @@ public interface ProjectFactoryService {
  * @throws
  */
 
-	int getFactory(ProjectFactory factory);   
+	int getFactory(ProjectFactory factory);
+
+    /**
+     * 获取合同数据
+     * @param factory1
+     * @return
+     */
+
+    ProjectFactory getAllBargain(ProjectFactory factory1);
 }

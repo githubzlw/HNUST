@@ -66,6 +66,10 @@
      from project_factory f left join project p on f.project_no = p.project_no    
      where f.project_no = #{projectNo,jdbcType=VARCHAR} and f.factory_id = #{factoryId,jdbcType=VARCHAR}
   </select>
+
+
+
+
   
   <!-- 根据项目号和工厂名查询 -->
   <select id="selectByProjectNoAndFactoryName" resultMap="BaseResultMap">
@@ -88,6 +92,17 @@
      from project_factory     
      where project_no = #{projectNo,jdbcType=VARCHAR} and contract_no = #{contractNo,jdbcType=VARCHAR}
   </select>
+
+
+	<select id="getAllBargain" resultMap="BaseResultMap">
+		select project_no
+		from project_factory
+		where project_no = #{projectNo,jdbcType=VARCHAR} and contract_no = #{contractNo,jdbcType=VARCHAR}
+		group by project_no
+	</select>
+
+
+
   <!--  -->
   <select id="getCompletedCount" resultType="int" parameterType="com.cn.hnust.pojo.Project">
      select count(1)num  
