@@ -1698,5 +1698,33 @@ public class ProjectERPController {
 		}
 		
 	}
-	
+
+	/**
+	 * 项目转状态时，添加制图任务
+	 */
+	@RequestMapping(value = "/switchProjectStatus")
+	@ResponseBody
+	public JsonResult switchProjectStatus(HttpServletRequest request){
+		JsonResult jsonResult=new JsonResult();
+		try {
+			String projectNo = request.getParameter("projectNo");
+			if(StringUtils.isNotBlank(projectNo)){
+                if(!projectNo.contains("-")) {
+					projectService.switchProjectStatus(projectNo);//切换状态，添加任务
+					jsonResult.setMessage("同步成功");
+					jsonResult.setOk(true);
+					return jsonResult;
+				}
+			}
+			jsonResult.setMessage("同步成功");
+			jsonResult.setOk(true);
+			return jsonResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResult.setMessage("同步失败");
+			jsonResult.setOk(false);
+			return jsonResult;
+		}
+
+	}
 }

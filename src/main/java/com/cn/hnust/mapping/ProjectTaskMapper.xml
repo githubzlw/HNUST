@@ -97,6 +97,10 @@
 	<select id="selectAll" resultMap="BaseResultMap">
 	select * from project_task  where start_time  &lt; curdate()
 	</select>
+
+	<select id="getByDescription" resultMap="BaseResultMap">
+	select * from project_task  where description=#{description}
+	</select>
 	<!-- 获取图纸变更信息 -->
 	<select id="getDrawingAlteration" resultMap="BaseResultMap">
 	select * from project_task  where project_no = #{projectNo} and task_type=5 limit 1

@@ -262,6 +262,11 @@ public JSONArray selectMeetingRecordTaskNoFinish2(ProjectTask existTask);
  */
 ProjectTask getByProjectNo(@Param("projectNo")String projectNo);
 
-	
-	
+	/**
+	 *查询是否已有制图任务
+	 * @param s
+	 * @return
+	 */
+
+    ProjectTask getByDescription(@Param("description")String s);
 }

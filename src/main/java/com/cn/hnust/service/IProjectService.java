@@ -712,4 +712,10 @@ List<Project> getNoInterimInspectionList(Project project);
 	 */
 
     List<Project> selectProjectExport(Date m);
+
+	/**
+	 * 切换状态发任务
+	 * @param projectNo
+	 */
+    void switchProjectStatus(String projectNo);
 }

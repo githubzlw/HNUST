@@ -820,5 +820,32 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
         return projectMapper.selectProjectExport(m);
     }
 
+	@Override
+	public void switchProjectStatus(String projectNo) {
+   try {
+	   ProjectTask projectTask1=projectTaskMapper.getByDescription(projectNo + "启动了，需要制作受控图");
+	   if(projectTask1==null) {
+		   ProjectTask projectTask = new ProjectTask();
+		   projectTask.setProjectNo(projectNo);
+		   projectTask.setInitiator("system");
+		   projectTask.setAccepter("zhanglei");
+		   projectTask.setDescription(projectNo + "启动了，需要制作受控图");
+		   projectTask.setUrgentReason("");
+		   projectTask.setFinishTime(DateUtil.StrToDate(DateFormat.addDays(DateFormat.currentDate(), 7)));
+		   projectTask.setTaskStatus("0");
+		   projectTask.setTaskType("0");
+		   projectTask.setTaskUrl("");
+		   projectTask.setStartTime(new Date());
+		   projectTask.setCreateTime(new Date());
+		   projectTaskMapper.insertSelective(projectTask);
+		   User user = userDao.findUserByName(projectTask.getAccepter());
+		   projectTask.setDingTalkId(user.getDingTalkId());
+		   RpcSendNoticeToKuai.sendRequest(projectTask);
+	   }
+   }catch(Exception e){
+
+   }
+	}
+
 
 }
