@@ -261,7 +261,7 @@
 					<ul class="imgs clearfix" id="inspectionPic">
 						<li class="i-upload"><span class="glyphicon glyphicon-plus"></span><input
 							type="file" id="uploadFile" name="files"
-							onchange="fileChange(this)" multiple></li>
+							onchange="fileChange(this,0)" multiple></li>
 					</ul>
 				</div>
 			</form>
@@ -390,7 +390,7 @@
 					<span>细节</span>
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
-							name="files" onchange="fileChange(this)" type="file" multiple /></li>
+							name="files" onchange="fileChange(this,0)" type="file" multiple /></li>
 					</ul>
 				</div>
 			</form>
@@ -400,7 +400,7 @@
 					<span>不良品</span>
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
-							name="files" onchange="fileChange(this)" type="file" multiple /></li>
+							name="files" onchange="fileChange(this,0)" type="file" multiple /></li>
 					</ul>
 				</div>
 			</form>
@@ -410,7 +410,7 @@
 					<span>材质证明</span>
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
-							name="files" onchange="fileChange(this)" type="file" multiple /></li>
+							name="files" onchange="fileChange(this,0)" type="file" multiple /></li>
 					</ul>
 				</div>
 			</form>
@@ -421,7 +421,7 @@
 					<span>实际开箱比例系统会自动计算</span>
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
-							name="files" onchange="fileChange(this)" type="file" multiple /></li>
+							name="files" onchange="fileChange(this,0)" type="file" multiple /></li>
 					</ul>
 				</div>
 			</form>
@@ -603,7 +603,7 @@
 					<span>检验表格</span>
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
-							name="files" onchange="fileChange(this)" type="file" multiple /></li>
+							name="files" onchange="fileChange(this,1)" type="file" multiple /></li>
 					</ul>
 				</div>
 			</form>
@@ -1655,7 +1655,7 @@ $('.row1 label').click(function(){
 
 	}
 
-	function fileChange(that) {
+	function fileChange(that,num) {
 		var filepath = $(that).val();
 		var projectNo = $('#projectNo').val();
 		if (filepath == "") {
@@ -1677,16 +1677,22 @@ $('.row1 label').click(function(){
 			var fileForm = that.files[i];
 			var width = fileForm.width;
 			var height = fileForm.height;
-			synPic(that, fileForm, projectNo, fileName);
+			synPic(that, fileForm, projectNo, fileName,num);
 		}
 	}
 
-	function synPic(obj, fileForm, projectNo, fileName) {
+	function synPic(obj, fileForm, projectNo, fileName,num) {
 
-		var width = 1600;//800
+		var width = 800;//800
+		if(num==1){
+			width=1600;
+		}
 		var formId = $(obj).parents('form').attr('id');
 		if (formId == 'check_form') {
-			width = 2048;//1024
+			width = 1024;//1024
+			if(num==1){
+				width=2048;
+			}
 		}
 
 		lrz(fileForm, {

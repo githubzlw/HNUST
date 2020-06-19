@@ -816,7 +816,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 
     @Override
-    public List<Project> selectProjectExport(Date m) {
+    public List<Project> selectProjectExport(String m) {
         return projectMapper.selectProjectExport(m);
     }
 

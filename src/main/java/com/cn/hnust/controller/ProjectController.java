@@ -5419,9 +5419,9 @@ public class ProjectController {
 			c.setTime(new Date());
 			//c.add(Calendar.DATE, -1);
 			Date m = c.getTime();
-
+            String time=format.format(m);
 			//获取进行中项目列表
-			List<Project> allProjectExport = projectService.selectProjectExport(m);
+			List<Project> allProjectExport = projectService.selectProjectExport(time);
 
 			String excelPath = ProjectStatisticsPrint.printOngoingProjects(request, allProjectExport);
 			File outFile = new File(excelPath);
