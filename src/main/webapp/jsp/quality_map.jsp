@@ -673,7 +673,9 @@ h3{position: relative;}
 						<td><span class="s3 th3" title="${obj.description }">${obj.description }</span></td>
 						<td><span class="s4 th4" title="${obj.projectAmount }">${obj.projectAmount }</span></td>
 						<td><span class="s5 th5" title="">${obj.plantAnalysis == 0 ? '暂无' :(obj.plantAnalysis == 1 ? 'A' : (obj.plantAnalysis == 2 ? 'B' : obj.plantAnalysis == 3 ? 'C' : '暂无'))}</span></td>
-						<td><span class="s6 th6" title="${obj.inspectionAddress }">${obj.inspectionAddress } <c:if test="${obj.dTalkIds>0 }"><span style="color:red;margin-left:10px;">已入库</span></c:if></span></td>
+						<td><span class="s6 th6" title="${obj.inspectionAddress }"><c:if test="${obj.dTalkIds>0 }"><span style="color:red;margin-left:10px;">${obj.inspectionAddress },已入库</span></c:if>
+						<c:if test="${obj.dTalkIds==0 }">${obj.inspectionAddress }</c:if>
+						</span></td>
 						<td><span class="s7 th7" title="${obj.initiator }">${obj.initiator }</span></td>
 						<td style="border-right: 5px solid rgb(255, 128, 0);">
 							<span class="s8 th8" title="${obj.urgentReason }">${obj.urgentReason }</span>
@@ -1615,6 +1617,7 @@ function searchAll(roleNo,userName,num){
 
                $(".table1_tc").find(".mt10").find(".check-d").each(function(){
                    if($(this).html()=='仓库'){
+                       $(this).html("仓库,已入库");
                        $(this).addClass("checked_more");
                        $(this).attr('color','green');
 
