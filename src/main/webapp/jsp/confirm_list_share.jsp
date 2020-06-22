@@ -482,7 +482,7 @@
 					href="http://117.144.21.74:10010/project_img/${shippingConfirmation.projectNo}/shipment/${shippingConfirmation.shipmentAgreement}">
 					点击下载 <em>${shippingConfirmation.shipmentAgreement}</em>
 				</a>
-				<p class="red">b、大货终检报告未传钉钉审批通过</p><button onclick="downloadData();" target="_blank">实时查询审批结果</button>
+				<p class="red">b、大货终检报告已自动传钉钉审批，但没有全部走完审批，需要催下 <button onclick="downloadData();" >实时查询审批结果</button></p>
 				<c:forEach var="obj" items="${qualityReports2}"><a
 					href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}" target="_blank">
 					查看质检报告 
@@ -493,7 +493,7 @@
 			test="${shippingConfirmation.sampleOrProduct == 1 && isProductNoProblem == true && isProductNoDingDing==false}">
 			<div class="mt10">
 				<p class="blue">a、有终检合格的报告</p>
-				<p class="red">b、大货终检报告未传钉钉审批通过</p><button onclick="downloadData();" target="_blank">实时查询审批结果</button>
+				<p class="red">b、大货终检报告已自动传钉钉审批，但没有全部走完审批，需要催下 <button onclick="downloadData();">实时查询审批结果</button></p>
 				<c:forEach var="obj" items="${qualityReports2}"><a
 					href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}" target="_blank">
 					查看质检报告 
@@ -507,7 +507,7 @@
 				
 				<p>整改结论：${operateExplain}</p>
 				<a href="/static_img/project_img/${shippingConfirmation.projectNo}/product/${productFileName}" download="/static_img/project_img/${shippingConfirmation.projectNo}/product/${productFileName}">下载链接</a>
-			<p class="red">b、大货终检报告未传钉钉审批通过 </p>  <button onclick="downloadData();" target="_blank">实时查询审批结果</button>
+			<p class="red">b、大货终检报告已自动传钉钉审批，但没有全部走完审批，需要催下  <button onclick="downloadData();" >实时查询审批结果</button></p>
 			<c:forEach var="obj" items="${qualityReports2}"><a
 					href="https://www.kuaizhizao.cn/quality/shareQuality?id=${obj.id}" target="_blank">
 					查看质检报告 

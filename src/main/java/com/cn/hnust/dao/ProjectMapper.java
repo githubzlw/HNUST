@@ -697,4 +697,10 @@ List<Project> getNoInterimInspectionList(Project project);
 
 
     List<Project> selectProjectExport( @Param("startTime")  String m);
+
+	/**
+	 * 获取项目无属性
+	 * @return
+	 */
+    List<Project> getAllMaterial();
 }

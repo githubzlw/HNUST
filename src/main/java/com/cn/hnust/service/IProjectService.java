@@ -718,4 +718,10 @@ List<Project> getNoInterimInspectionList(Project project);
 	 * @param projectNo
 	 */
     void switchProjectStatus(String projectNo);
+
+	/**
+	 * 获取项目无属性
+	 * @return
+	 */
+	List<Project> getAllMaterial();
 }

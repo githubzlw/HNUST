@@ -847,5 +847,10 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
    }
 	}
 
+    @Override
+    public List<Project> getAllMaterial() {
+        return projectMapper.getAllMaterial();
+    }
+
 
 }

@@ -5359,9 +5359,18 @@ public class ProjectController {
                             sysnByProjectErp(bargainList.get(i).getCaseNo());
                         }
                     }
+
+					List<Project>projectList=projectService.getAllMaterial();
+					for(int i = 0; i < projectList.size(); i++){
+						sysnByProjectErp(projectList.get(i).getProjectNo());
+					}
+
                 }catch(Exception e){
 
                 }
+
+
+
     }
 
 

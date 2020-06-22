@@ -3713,4 +3713,11 @@ where pd.project_no is null
 
 		ORDER BY pro.company_name desc
 	</select>
+
+
+    <select id="getAllMaterial" resultMap="BaseResultMap">
+		select project_no from project pt where project_material_properties=0
+
+
+	</select>
 </mapper>
