@@ -4,8 +4,8 @@ input, textarea, th, td {
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial,sans-serif闂佹寧鍐婚幏锟�
-font-size:12px;
+    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Noto Sans CJK SC,WenQuanYi Micro Hei,Arial;
+	font-size:12px;
 }
 h1, h2, h3, h4, h5, h6{ font-size:100%; }
  em,i{ font-style:normal; }
@@ -229,7 +229,7 @@ line-height: 40px;margin-left: -384px;}
 	color:#ccc;
 }
 .quality .wrap2 li:last-child{
-	position:relaitve;
+	position:relative;
 }
 .quality .wrap2 li input{
 	position:absolute;
@@ -453,7 +453,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .project_quality .qs{
 	margin-left:-16px;
 }
-}
+
 .project_quality .wrap1 .group2 .ml0{
 	margin-left:0;
 }
@@ -912,7 +912,6 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 {
 	padding:5px 0;
 	position:relative;
-	padding
 }
 .project_list_pc .table1>tbody>tr>td{padding-left:4px;}
 .project_list_pc .table1 .imgs{
@@ -1490,7 +1489,7 @@ padding:8px 0;padding-left: 6px;margin:10px;
 #projectTaskList>li{position:relative;margin-bottom:10px;margin-top: 10px;}
 #projectTaskList li ul{position:absolute;top:40px;left:120px;z-index:10;
 background-color:#ddd;display: none;padding-left:15px;}
-#projectTaskList span{border:1px solid #red;text-align:left;width:300px;height:50px;position: relative;top: 3px;}
+#projectTaskList span{border:1px solid red;text-align:left;width:300px;height:50px;position: relative;top: 3px;}
 .uls .person_sel{position:absolute;top: 120px;;left: 166px;;z-index:100;background-color:#fff;
 border:1px solid #ddd;display:none;}
 .contact ul li{position:relative;}
@@ -1505,7 +1504,7 @@ border:1px solid #ddd;display:none;}
 .share_report .del{position:absolute;top:0;right:0;}
 table td{position:relative;border:1px solid #ddd;}
 .share_report .dp{border:1px solid #ddd;margin-bottom:15px;margin-bottom:15px;padding: 8px ;font-size:18px;}    
-.share_report button{padding:3px 10px;line-height:auto;} 
+.share_report button{padding:3px 10px;line-height:normal;}
 .share_report .dp button{margin-top:10px;}
 .share_report td{padding:8px;}
 .share_report .dp_panel{box-shadow: unset;-webkit-box-shadow:unset;margin-top: 5px;}
@@ -1637,7 +1636,7 @@ width:100%;white-space: normal;}
 .customer_complaint_B_detail .question em{width:55px;}
 .customer_complaint_B_detail .depart_reply .btn{margin-top:10px;}
 .customer_complaint_B_detail .depart_reply .btns_2 .btn{background-color:#e5e5e5;color:#fff;}
-.customer_complaint_B_detail .depart_reply .btns_3 .btn:hover,
+.customer_complaint_B_detail .depart_reply .btns_3 .btn:hover
 {background-color:#101010;color:#fff;}
 .customer_complaint_B_detail h4{font-size:16px;}
 .customer_complaint_B_detail .replys .reply{display:none;}
