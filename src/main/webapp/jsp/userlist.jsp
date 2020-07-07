@@ -11,24 +11,10 @@
 </head><link type="text/css" rel="stylesheet" href="${ctx}/css/emana.css" />
 
 <style type="text/css">
-.right_out {
-	position: absolute;
-	top: 12px;
-	left: 60%;
-	z-index: 2;
-}
-
-.right_out img {
-	vertical-align: middle;
-}
-
-.right_out a {
-	color: #fff;
-}
-.emanagergettable{
-	width:800px;
-}
-
+.right_out {position: absolute;top: 12px;left: 60%;z-index: 2;}
+.right_out img {vertical-align: middle;}
+.right_out a {color: #fff;}
+.emanagergettable{width:800px;}
 .usechange1{margin:20px;}
 .td1{width:150px;}
 .td2{width:280px;}
@@ -68,8 +54,6 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
                       <input type="button" onclick="querySalesStatistics(4,9);" value="最近2季度数据">
                       <br/>
                      </c:if>
-						
-
 						<td class="usermatd3" style="padding-left:0;">统计数据:</td>
                              <c:if test="${transtime!=null }">翻译平均时间:${transtime }</c:if>
 						<td style="padding-right:15px;">
