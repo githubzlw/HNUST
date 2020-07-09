@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.cn.hnust.controller.DingTalkThread;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -293,6 +294,11 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 		  }
 	  }		
 	  projectMapper.insertSelective(project);
+		if(project!=null) {
+			if (!project.getProjectNo().contains("-")) {
+				DingTalkThread.ProjectLaunch(project.getProjectNo());
+			}
+		}
 	  //图纸更新需求（新项目启动录入时）	
 	  if(project.getUpdateDrawing() != null && project.getUpdateDrawing() == 1){
 		    ProjectTask projectTask=new ProjectTask();

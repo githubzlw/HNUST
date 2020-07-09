@@ -73,4 +73,12 @@ public static void ComplaintOut(Integer id, String dingTalkId) {
 	ProjectComplaintController.updateQualityComplaint(id,process_instance_id);
 	
 }
+
+    public static void ProjectLaunch(String projectNo) {
+        String dingTalk="?projectNo="+projectNo;
+        String url = "https://www.kuaizhizao.cn/Ding-Talk/projectLaunch"+dingTalk;
+        String process_instance_id=sendPost(url);
+
+
+    }
 }
