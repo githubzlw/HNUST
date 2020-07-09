@@ -7,7 +7,7 @@
 <html>
 <head>
 <title>验货预约，任务录入</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="keywords" content="HTML,CSS,XML,JavaScript">
 <link rel="stylesheet" type="text/css"
@@ -27,29 +27,15 @@ body>h2 {
 	font-weight: 100;
 }
 
-.contact *:focus {
-	outline: none;
-}
-
+.contact *:focus {outline: none;}
 .contact {
-	width: 1200px;
-	/* height: 800px; */
-	background: #fff;
-	margin: 10px auto 40px;
-	padding: 10px;
+	background: #fff;margin: 10px auto 40px;padding: 10px;
 	-webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 	-moz-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 	-ms-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 	-o-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 }
-
-.contact ul {
-	/* width: 650px;
-            margin: 0 auto; */
-	
-}
-
 .contact ul li {
 	/* border-bottom: 1px solid #dfdfdf; */
 	list-style: none;
@@ -74,12 +60,6 @@ body>h2 {
 	padding: 3px 8px;
 	padding-top: 0;
 }
-
-.contact ul li input:focus {
-	/* border-color: #c00; */
-	
-}
-
 .contact ul li input[type=text] {
 	transition: padding .25s;
 	-o-transition: padding .25s;
@@ -279,73 +259,75 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 	overflow-x: hidden;
 	border:1px solid #ccc;
 }
-
-.select_blank {
-	background-color: #027CFF;
-	padding: 7px 12px;
-	text-decoration: none;
-	color: #fff
-}
-
-.select_blank:hover, .select_blank:hover {
-	text-decoration: none;
-	background-color: #4362C5;
-	color: #fff;
-}
-
-.f16 {
-	font-size: 16px;
-}
+.select_blank {background-color: #027CFF;padding: 7px 12px;text-decoration: none;color: #fff}
+.select_blank:hover, .select_blank:hover {text-decoration: none;background-color: #4362C5;color: #fff;}
+.f16 {font-size: 16px;}
 .ml20{margin-left:20px;}
 .position_relative ul {
-	width: 100%;
-	box-shadow: -2px 2px 6px rgba(0, 0, 0, .5), 2px -2px 6px
-		rgba(0, 0, 0, .5);
-	max-height: 300px;
-	overflow-y: scroll;
-	padding: 5px;
-	width: 400px;
-	margin-left: 133px;
+	width: 100%;box-shadow: -2px 2px 6px rgba(0, 0, 0, .5), 2px -2px 6px rgba(0, 0, 0, .5);max-height: 300px;
+	overflow-y: scroll;padding: 5px;width: 400px;margin-left: 133px;
 }
-
-.position_relative ul li {
-	float: unset;
-	width: 100%;
-	height: 25px;
-	line-height: 25px;
-	text-align: left;
-}
+.position_relative ul li {float: unset;width: 100%;height: 25px;line-height: 25px;text-align: left;}
 .red{color:red;}
 .w622{width:622px;}
 .w1000{width:1000px;position: relative;left: 90px;}
 .stages td{padding-right:25px;}
 .stages td input{width:16px;height:16px;position:relative;top:2px;}
+.add_btn_submit{background-color:transparent;border:0 none;}
+.add_btn_submit:active{box-shadow: none;}
+.add_btn_submit.active.focus, .add_btn_submit.active:focus, .add_btn_submit.focus,
+.add_btn_submit:active.focus, .add_btn_submit:active:focus, .add_btn_submit:focus{
+	outline:none;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{background-color:#fff;}
+.rele_project_no{width:370px;}
+.task_entry ul li input[type=text].w200{width:auto;}
+
+@media screen and (max-width:768px){
+	.contact{padding:20px 0 0 0;}
+	h2,h3{font-size:20px;}
+	.contact ul li label{width:100px;text-align: left;}
+	.contact ul li input[type=text], .contact ul li input[type=password]{width:60%;}
+	.rele_project_no,.task-tell{width:60%;}
+	.box-executive ul{width:130px;}
+	.list>li ol{left:140px;width:155px;}
+	.box-executive .list>li:before{left:100px;}
+	.li_sort span{float:left;}
+	.contact ul li .li_sort_label{margin-bottom: 0;line-height: 28px;}
+	.contact ul li{position: relative;}
+	.sure_tips{position: absolute;left:125px;top:30px;}
+
+}
+
 </style>
 </head>
 <body>
-	<div class="task_entry">
-		<a class="select_blank" target="_blank"
-			href="/user/toIndex?userId=${userId}&roleNo=${roleNo}&purchaseNameId=${purchaseNameId}&userName=${userName}">返回功能选择页</a>
-
-		<h2 style="text-align: center;">
-			验货预约 <small>任务录入</small>
-		</h2>
+	<div class="task_entry container">
+		<div class="row">
+			<div class="col-xs-12">
+				<a class="select_blank" target="_blank"
+				   href="/user/toIndex?userId=${userId}&roleNo=${roleNo}&purchaseNameId=${purchaseNameId}&userName=${userName}">返回功能选择页</a>
+				<h2 style="text-align: center;">
+					验货预约 <small>任务录入</small>
+				</h2>
+			</div>
+		</div>
 		<input type="hidden" name="userName" id="userName" value="${userName}">
 		<input type="hidden" name="roleNo" id="roleNo" value="${roleNo}">
 		<input type="hidden" name="userId" id="userId" value="${userId}">
 		<div class="contact">
-			<div>
+			<div col-xs-12>
 				<ul>
-					<li><label>任务发起人</label> <input type="text" name="initiator"
+					<li class="clearfix"><label>任务发起人</label> <input type="text" name="initiator"
 						id="initiator" value="${userName}" readonly="readonly" /></li>
 					
-					<li><label>相关项目号</label> <span class="add-on">SHS</span> <input
-						type="text" name="projectNo" id="projectNo" placeholder="请输入项目号"
-						value="${project.projectNo}" style="width: 370px;" onblur="selectByProjectNo(this)"/> <span
-						class="tips" id="projectNoHtml"></span></li>
-						<li class="row"><label>检验任务编号</label><span id="check-number"></span>
+					<li class="clearfix"><label>相关项目号</label> <span class="add-on">SHS</span>
+						<input type="text" name="projectNo" class="rele_project_no" id="projectNo" placeholder="请输入项目号"
+						value="${project.projectNo}"  onblur="selectByProjectNo(this)"/>
+						<span class="tips" id="projectNoHtml"></span></li>
+						<li class="row clearfix"><label>检验任务编号</label><span id="check-number"></span>
 						</li>
-						<li class="row"><label>任务接受人</label>
+						<li class="row clearfix"><label>任务接受人</label>
 						<div class="col-sm-3 box-executive pl0">
 							<input type="text" class="form-control" name="accepter"
 								id="accepter" placeholder="请选择公司职员"><span
@@ -365,11 +347,11 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 
 						</div></li>
 						
-					<li><label>任务简述</label> <textarea class="task-tell"
+					<li class="clearfix"><label>任务简述</label> <textarea class="task-tell"
 							name="description" id="description" placeholder="请输入任务简述" /></textarea> <span
 						class="tips" id="descriptionHtml"></span></li>
 
-					<li><label>检验类别</label> <span class="f16"> <input
+					<li class="li_sort clearfix"><label class="li_sort_label">检验类别</label> <span class="f16"> <input
 							type="radio" name="testType" checked style="margin-left: 0;"
 							value="样品" />样品
 					</span> <span class="f16"><input type="radio" name="testType"
@@ -384,14 +366,12 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 								style="margin-left: 20px;" />验厂</span>
 
 					</li>
-							
-					<!--  -->		
-					<li>
-					<label>检验范围</label>
-						<p class="f16 red"><b>请选择本次检验，如果质检OK 可以归结为结束的合同生产阶段:(影响到项目完成情况,请认真选择)</b></p>
+					<li class="clearfix">
+						<label>检验范围</label>
+						<p class="f16 red pull-left display_inline_block"><b>请选择本次检验，如果质检OK 可以归结为结束的合同生产阶段:(影响到项目完成情况,请认真选择)</b></p>
 						<table class="stages f16">
 							<tbody id="factory_constract">
-					
+
 							</tbody>
 						</table>
 				    </li>		
@@ -401,10 +381,10 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 							id="stage">样品</span>阶段的货品就全部检完
 					</span></li> -->
 
-					<li class="row"><label>当前生产状态</label> <input type="text"
+					<li class="row clearfix"><label>当前生产状态</label> <input type="text"
 						class="form-control col-xs-4 w200" id="produceStatus"
 						value="${project.status}"> <span class="tips"
-						id="produceStatusHtml"></span> <span>至少2字,必填</span></li>
+						id="produceStatusHtml"></span> <span class="sure_tips">至少2字,必填</span></li>
 
 					<li class="address clearfix">
 					<label>检验地址</label> 
@@ -447,24 +427,24 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 						class="input-text form-control date-time col-xs-4 w200"
 						placeholder="请输入预计交期" /> <span class="tips"
 						id="expectedDeliveryHtml"></span><span>必填</span></li> --%>
-					<li class="row">
+					<li class="row clearfix">
 						<label>预计交期</label> <span class="f16" id="delivery_date"></span>
 
 					</li>
 
 
-					<li class="row"><label>船期</label> <input type="text"
+					<li class="row clearfix"><label>船期</label> <input type="text"
 						name="shippingDate" id="shippingDate" value=""
 						class="input-text form-control date-time col-xs-4 w200"
 						placeholder="请输入船期" /> <span class="tips" id="shippingDateHtml"></span>
 						<!-- <span>必填</span> --></li>
 
-					<li><label>要求任务完成时间</label> <input type="text"
+					<li class="clearfix"><label>要求任务完成时间</label> <input type="text"
 						name="finishTime" id="finishTime" value=""
 						class="input-text form-control date-time w200"
 						placeholder="请输入完成时间" /><span >如果检验时间超过1天，请注意再给检验发布任务</span> <span class="tips" id="finishTimeHtml"></span></li>
 
-					<li style="margin-top: -16px;"><label>如果紧急,请给出理由</label> <textarea
+					<li class="clearfix" style="margin-top: -16px;"><label>如果紧急,请给出理由</label> <textarea
 							class="task-tell" name="urgentReason" id="urgentReason"
 							placeholder="请输入紧急理由" /></textarea> <span class="tips"
 						id="urgentReasonHtml"></span></li>
@@ -472,9 +452,10 @@ input::-o-input-placeholder, textarea::-o-input-placeholder {
 
 			</div>
 		</div>
-		<b class="btn"><input type="submit" class="subm-but"
-			onclick="addProjectTask()" value="提交" /><span class="tips"
-			id="subHtml"></span>
+		<button class="btn add_btn_submit">
+			<input type="submit" class="subm-but" onclick="addProjectTask()" value="提交" />
+			<span class="tips" id="subHtml"></span>
+		</button>
 	</div>
 </body>
 <script src="../lib/jquery/jquery.min.js"></script>
