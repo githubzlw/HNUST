@@ -113,35 +113,47 @@ ul{position:relative;}
 	<table class="table table-bordered complaint_list">
 		<tbody>
 		<c:forEach var="obj" items="${complaintList}" varStatus="i">
-			<tr onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
+			<tr >
 				<td>
 					<ul>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b>#<fmt:formatNumber value="${obj.id}" pattern="0000"/></b></span>
 						</li>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b>${obj.customerName}</b></span>
 						</li>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b>${obj.projectNo}</b></span>
 						</li>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b>${obj.projectName}</b></span>
-						</li>								
-						<li>
+						</li >
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b><fmt:formatDate value="${obj.createTime}" pattern="yyyy-MM-dd"/></b></span>
 						</li>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<span><b>${obj.process==null?'':obj.process}</b></span>
 						</li>
-						<li class="spe_li">
+
+						<li class="spe_li" onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							<b><c:if test="${obj.picUp!=0 }">
 							<c:if test="${obj.verification!=0 }"><span class="blue">图纸要更新,已验证</span></c:if>
 							<c:if test="${obj.verification==0 }"><span class="red">图纸要更新,未验证</span></c:if>
 							</c:if></b>
 						</li>
-						<li class="br"><br/></li>													
-						<li>
+
+                        <li>
+                            <span>
+
+								<c:if test="${obj.verifyComplaint!=1}">
+								<c:if test="${obj.dingdingStatus=='COMPLETED'}">
+                               <input type="button" target="_blank" onclick="SendMessage(${obj.id},'${user.dingTalkId}');" value="质量跟踪收尾">
+
+                            </c:if></c:if>
+							</span>
+                        </li>
+						<li class="br" onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'"><br/></li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 						  <c:choose>
 								<c:when test="${obj.purchaseConfirmDate != null && obj.purchaseConfirmDate != ''}">
 									采购回复完成日期：<span class="blue"><fmt:formatDate value="${obj.purchaseConfirmDate}" pattern="yyyy-MM-dd"/></span>
@@ -151,7 +163,7 @@ ul{position:relative;}
 							    </c:otherwise>
 						  </c:choose>	
 						</li>
-						<c:if test="${obj.seriousLevel!=5 }"><li>
+						<c:if test="${obj.seriousLevel!=5 }"><li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 						   <c:choose>
 								<c:when test="${obj.zhijianReplyTime != null && obj.zhijianReplyTime != ''}">
 							                  质检回复完成日期：<span class="blue"><fmt:formatDate value="${obj.zhijianReplyTime}" pattern="yyyy-MM-dd"/></span>
@@ -166,7 +178,7 @@ ul{position:relative;}
 							    </c:otherwise>
 							</c:choose>	
 						</li></c:if>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 						   <c:choose>
 								<c:when test="${obj.technicianReplyTime != null && obj.technicianReplyTime != ''}">
 							         技术回复完成日期：<span class="blue"><fmt:formatDate value="${obj.technicianReplyTime}" pattern="yyyy-MM-dd"/></span>
@@ -176,7 +188,7 @@ ul{position:relative;}
 							     </c:otherwise>
 							</c:choose>
 						</li>
-						<li>
+						<li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							 <c:choose>
 								 <c:when test="${obj.completeTime != null && obj.completeTime != ''}">
 							             最终整改完成日期：<span class="blue"><fmt:formatDate value="${obj.completeTime}" pattern="yyyy-MM-dd"/></span>
@@ -186,7 +198,7 @@ ul{position:relative;}
 							     </c:otherwise>
 							</c:choose>
 						</li>
-						<c:if test="${obj.seriousLevel!=5 }"><li>
+						<c:if test="${obj.seriousLevel!=5 }"><li onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'">
 							 <c:if test="${obj.inspectionLeaderConfirmDate != null && obj.inspectionLeaderConfirmDate != ''&&obj.inspectionLeaderConfirm == 1}">
 								  质检总监确认：<span class="blue">确认签名,已验证<fmt:formatDate value="${obj.inspectionLeaderConfirmDate}" pattern="yyyy-MM-dd"/></span>
 							     </c:if>
@@ -269,8 +281,47 @@ function exitlogin() {
 	window.location.href = "${ctx}/index.jsp";
 }
 
+function SendMessage(id,dingTalkId){
+    $.ajax({
+        url : "https://www.kuaizhizao.cn/Ding-Talk/qualityComplaint1",
+        type: "POST",
+        data : {
+            complaintId:id,
+			dingTalkId:dingTalkId
+        },
+        dataType:"json",
+        success : function(json) {
+            if(json.ok)
+            {
+                layer.msg("确认成功",{time:2000});
+                window.location.reload();
+            }
+        }
+    })
+	updateVerification(id);
+}
+function updateVerification(id){
 
 
+		$.ajax({
+			url : "/complaint/updateVerifyComplaint",
+			type : "POST",
+			data : {
+
+				"id":id,
+				"verifyComplaint":1
+			},
+			dataType : "json",
+			success : function(json) {
+				if(json.ok){
+					window.location.reload();
+				}else{
+					alert(json.message);
+				}
+			}
+		})
+
+}
 //查询
 function searchProjectData(obj){
 	var pageNumber = $("#pageStr").val();

@@ -1696,7 +1696,10 @@ $('.row1 label').click(function(){
 		}
 
 		lrz(fileForm, {
-			width : width
+			width : width,
+			quality:0.8
+
+
 		})
 				.then(
 						function(rst) {

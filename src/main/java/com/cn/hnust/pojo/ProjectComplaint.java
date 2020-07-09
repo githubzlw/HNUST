@@ -113,6 +113,16 @@ public class ProjectComplaint implements Serializable {
     private String qualityInspector5;    //待质检
     private String qualityInspector6;    //待质检
     private String qualityInspector7;    //待质检
+
+	public int getVerifyComplaint() {
+		return verifyComplaint;
+	}
+
+	public void setVerifyComplaint(int verifyComplaint) {
+		this.verifyComplaint = verifyComplaint;
+	}
+
+	private int verifyComplaint;//验证投诉
     
 	
 	public String getMasterQualityInspection() {
@@ -622,53 +632,71 @@ public class ProjectComplaint implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProjectComplaint [id=" + id + ", projectNo=" + projectNo
-				+ ", complaintDate=" + complaintDate + ", costAnalysis="
-				+ costAnalysis + ", purchaseId=" + purchaseId + ", sellId="
-				+ sellId + ", isPurchase=" + isPurchase + ", isSell=" + isSell
-				+ ", createTime=" + createTime + ", createPerson="
-				+ createPerson + ", complaintContent=" + complaintContent
-				+ ", purchaseContent=" + purchaseContent + ", sellContent="
-				+ sellContent + ", purchaseConfirmDate=" + purchaseConfirmDate
-				+ ", sellConfirmDate=" + sellConfirmDate + ", fileName="
-				+ fileName + ", filePath=" + filePath + ", meetingNo="
-				+ meetingNo + ", seriousLevel=" + seriousLevel
-				+ ", purchaseReplyTime=" + purchaseReplyTime
-				+ ", zhijianReplyTime=" + zhijianReplyTime
-				+ ", technicianReplyTime=" + technicianReplyTime
-				+ ", completeTime=" + completeTime + ", inspectionContent="
-				+ inspectionContent + ", predictCompleteTime="
-				+ predictCompleteTime + ", projectStage=" + projectStage
-				+ ", inspectionLeaderConfirm=" + inspectionLeaderConfirm
-				+ ", purchaseLeaderConfirm=" + purchaseLeaderConfirm
-				+ ", inspectionLeaderConfirmDate="
-				+ inspectionLeaderConfirmDate + ", purchaseLeaderConfirmDate="
-				+ purchaseLeaderConfirmDate + ", rectificationZhijianReply="
-				+ rectificationZhijianReply
-				+ ", rectificationSellPurchaseReply="
-				+ rectificationSellPurchaseReply
-				+ ", rectificationZhijianTime=" + rectificationZhijianTime
-				+ ", rectificationSellPurchaseTime="
-				+ rectificationSellPurchaseTime + ", purchaseName="
-				+ purchaseName + ", sellName=" + sellName + ", tasks=" + tasks
-				+ ", projectName=" + projectName + ", customerName="
-				+ customerName + ", zhijian1=" + zhijian1 + ", zhijian2="
-				+ zhijian2 + ", zhijian3=" + zhijian3 + ", process=" + process
-				+ ", startingTime=" + startingTime + ", endTime=" + endTime
-				+ ", inspectionTimelinessNumber=" + inspectionTimelinessNumber
-				+ ", complaintsNumber=" + complaintsNumber + ", projectAmount="
-				+ projectAmount + ", processInstanceId=" + processInstanceId
-				+ ", dingdingStatus=" + dingdingStatus + ", dingdingResult="
-				+ dingdingResult + ", picUp=" + picUp + ", taskBrief="
-				+ taskBrief + ", taskAttachment=" + taskAttachment
-				+ ", verification=" + verification
-				+ ", masterQualityInspection=" + masterQualityInspection
-				+ ", qualityInspector1=" + qualityInspector1
-				+ ", qualityInspector2=" + qualityInspector2
-				+ ", qualityInspector3=" + qualityInspector3
-				+ ", qualityInspector4=" + qualityInspector4
-				+ ", qualityInspector5=" + qualityInspector5
-				+ ", qualityInspector6=" + qualityInspector6
-				+ ", qualityInspector7=" + qualityInspector7 + "]";
+		return "ProjectComplaint{" +
+				"id=" + id +
+				", projectNo='" + projectNo + '\'' +
+				", complaintDate=" + complaintDate +
+				", costAnalysis='" + costAnalysis + '\'' +
+				", purchaseId=" + purchaseId +
+				", sellId=" + sellId +
+				", isPurchase=" + isPurchase +
+				", isSell=" + isSell +
+				", createTime=" + createTime +
+				", createPerson='" + createPerson + '\'' +
+				", complaintContent='" + complaintContent + '\'' +
+				", purchaseContent='" + purchaseContent + '\'' +
+				", sellContent='" + sellContent + '\'' +
+				", purchaseConfirmDate=" + purchaseConfirmDate +
+				", sellConfirmDate=" + sellConfirmDate +
+				", fileName='" + fileName + '\'' +
+				", filePath='" + filePath + '\'' +
+				", meetingNo='" + meetingNo + '\'' +
+				", seriousLevel=" + seriousLevel +
+				", purchaseReplyTime=" + purchaseReplyTime +
+				", zhijianReplyTime=" + zhijianReplyTime +
+				", technicianReplyTime=" + technicianReplyTime +
+				", completeTime=" + completeTime +
+				", inspectionContent='" + inspectionContent + '\'' +
+				", predictCompleteTime=" + predictCompleteTime +
+				", projectStage=" + projectStage +
+				", inspectionLeaderConfirm=" + inspectionLeaderConfirm +
+				", purchaseLeaderConfirm=" + purchaseLeaderConfirm +
+				", inspectionLeaderConfirmDate=" + inspectionLeaderConfirmDate +
+				", purchaseLeaderConfirmDate=" + purchaseLeaderConfirmDate +
+				", rectificationZhijianReply='" + rectificationZhijianReply + '\'' +
+				", rectificationSellPurchaseReply='" + rectificationSellPurchaseReply + '\'' +
+				", rectificationZhijianTime=" + rectificationZhijianTime +
+				", rectificationSellPurchaseTime=" + rectificationSellPurchaseTime +
+				", purchaseName='" + purchaseName + '\'' +
+				", sellName='" + sellName + '\'' +
+				", tasks=" + tasks +
+				", projectName='" + projectName + '\'' +
+				", customerName='" + customerName + '\'' +
+				", zhijian1='" + zhijian1 + '\'' +
+				", zhijian2='" + zhijian2 + '\'' +
+				", zhijian3='" + zhijian3 + '\'' +
+				", process='" + process + '\'' +
+				", startingTime=" + startingTime +
+				", endTime=" + endTime +
+				", inspectionTimelinessNumber=" + inspectionTimelinessNumber +
+				", complaintsNumber=" + complaintsNumber +
+				", projectAmount=" + projectAmount +
+				", processInstanceId='" + processInstanceId + '\'' +
+				", dingdingStatus='" + dingdingStatus + '\'' +
+				", dingdingResult='" + dingdingResult + '\'' +
+				", picUp=" + picUp +
+				", taskBrief='" + taskBrief + '\'' +
+				", taskAttachment='" + taskAttachment + '\'' +
+				", verification=" + verification +
+				", masterQualityInspection='" + masterQualityInspection + '\'' +
+				", qualityInspector1='" + qualityInspector1 + '\'' +
+				", qualityInspector2='" + qualityInspector2 + '\'' +
+				", qualityInspector3='" + qualityInspector3 + '\'' +
+				", qualityInspector4='" + qualityInspector4 + '\'' +
+				", qualityInspector5='" + qualityInspector5 + '\'' +
+				", qualityInspector6='" + qualityInspector6 + '\'' +
+				", qualityInspector7='" + qualityInspector7 + '\'' +
+				", verifyComplaint=" + verifyComplaint +
+				'}';
 	}
 }

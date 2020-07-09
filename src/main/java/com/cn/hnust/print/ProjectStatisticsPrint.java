@@ -544,10 +544,14 @@ public class ProjectStatisticsPrint {
         	 if(chargeDays > delayDays){
         		 chargeDays = delayDays;
         	 }
-        	 //当交期大于上个月15号时，扣款日期即为延期时间
-        	 if(productFinishs.get(i).getDeliveryDate().getTime() >=  DateUtil.getPrevMonthDate(endDate).getTime()){
-        		 chargeDays = delayDays;
-        	 }
+        	 try {
+				 //当交期大于上个月15号时，扣款日期即为延期时间
+				 if (productFinishs.get(i).getDeliveryDate().getTime() >= DateUtil.getPrevMonthDate(endDate).getTime()) {
+					 chargeDays = delayDays;
+				 }
+			 }catch(Exception e){
+                 e.printStackTrace();
+			 }
         	 cell = row.createCell(10); //获取单元格 
         	 cell.setCellValue(spendDays);  
         	 cell.setCellStyle(boderStyle);

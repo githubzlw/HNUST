@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.javassist.bytecode.stackmap.BasicBlock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -200,7 +202,7 @@ public class ProjectComplaintController {
             }else{
             	return "redirect:/index.jsp";
             }
-            
+            User user=userService.findUserByName(userName);
             
 			//页数
 			Integer page = null;
@@ -265,7 +267,8 @@ public class ProjectComplaintController {
 			List<User>saleUser=userService.queryByJob("采购");
 			List<User>documentaryUser=userService.queryByJob("跟单");
 			int totalCount = projectComplaintService.queryCount(projectComplaintQuery);
-			
+
+			request.setAttribute("user", user);
 			request.setAttribute("saleUser", saleUser);
 			request.setAttribute("documentaryUser", documentaryUser);
 			request.setAttribute("complaintList", complaintList);
@@ -1856,6 +1859,7 @@ public class ProjectComplaintController {
 						 //终检有问题，是否上传图纸、视频
 						 String productFileName = null;
 						 String operateExplain = null;
+						 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						 List<QualityReport> reports = qualityReportService.selectByProjectNo(shippingConfirmation.getProjectNo());
 						 List<QualityReport> reports1=new ArrayList<QualityReport>();
 						 List<QualityReport> reports2=new ArrayList<QualityReport>();
@@ -1867,11 +1871,15 @@ public class ProjectComplaintController {
 									 isSampleNoProblem = true;
 								 }
 							 }
+
 							//如果是终期检验
 							 if(qualityReport.getProcessInstanceId()!=null&&"COMPLETED".toLowerCase().equalsIgnoreCase(qualityReport.getDingdingStatus())&&"agree".equalsIgnoreCase(qualityReport.getDingdingResult())){
 								 isProductNoDingDing = true;
-							 }else if(qualityReport.getProcessInstanceId()!=null && shippingConfirmation.getSampleOrProduct() == PRODUCT ){
-								 isProductNoDingDing = false;
+							 }else if(qualityReport.getProcessInstanceId()!=null   && shippingConfirmation.getSampleOrProduct() == PRODUCT ){
+								 Date date1 = format.parse("2020-05-01 00:00:01");
+							 	if(date1.before(qualityReport.getCreatetime())) {
+									isProductNoDingDing = false;
+								}
 							 }else{
 								 isProductNoDingDing = true;
 							 }
@@ -2354,8 +2362,26 @@ public class ProjectComplaintController {
 
 
 
+	@ResponseBody
+	@RequestMapping(value = "/updateVerifyComplaint")
+	public JsonResult updateVerifyComplaint(HttpServletRequest request) {
+		JsonResult jsonResult = new JsonResult();
+		try {
+			String id = request.getParameter("id");
+			String verifyComplaint = request.getParameter("verifyComplaint");
+			ProjectComplaint projectComplaint = new ProjectComplaint();
+			projectComplaint.setId(Integer.parseInt(id));
+			projectComplaint.setVerifyComplaint(Integer.parseInt(verifyComplaint));
+			projectComplaintService1.updateByPrimaryKeySelective(projectComplaint);
 
-
+			jsonResult.setOk(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResult.setMessage("上传失败");
+			jsonResult.setOk(false);
+		}
+		return jsonResult;
+	}
 
 
 				public static void updateQualityComplaint(Integer id,

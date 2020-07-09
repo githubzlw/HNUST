@@ -581,8 +581,8 @@ left join (
 select cid,content1 from email_receive_clean where id in(
 select id from (select max(id)id from email_receive_clean  group by cid)a)) a on a.cid=ec.cid
 left join email_user eu on eu.id=ec.translater_id
-where ec.blacklist=0 and ybcontent !='' and ec.translater_id in (235,236,237) 
-order by project_id desc limit 100
+where ec.blacklist=0 and ybcontent !='' and ec.translater_id in (235,236,258,259)
+order by ec.cid desc limit 100
 
 
 	</select>
