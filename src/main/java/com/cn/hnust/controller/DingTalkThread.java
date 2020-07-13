@@ -75,10 +75,15 @@ public static void ComplaintOut(Integer id, String dingTalkId) {
 }
 
     public static void ProjectLaunch(String projectNo) {
-        String dingTalk="?projectNo="+projectNo;
-        String url = "https://www.kuaizhizao.cn/Ding-Talk/projectLaunch"+dingTalk;
+        String url ="https://www.kuaizhizao.cn/Ding-Talk/projectLaunch?projectNo="+projectNo.trim();
         String process_instance_id=sendPost(url);
 
+
+    }
+
+    public static void sendMessage(String projectNo) {
+        String url ="https://www.kuaizhizao.cn/Ding-Talk/firstInspection?projectNo="+projectNo.trim();
+        String process_instance_id=sendPost(url);
 
     }
 }

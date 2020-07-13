@@ -84,8 +84,8 @@
         <result column="quality_inspector5" property="qualityInspector5" jdbcType="VARCHAR" />
         <result column="quality_inspector6" property="qualityInspector6" jdbcType="VARCHAR" />
         <result column="quality_inspector7" property="qualityInspector7" jdbcType="VARCHAR" />
-        
-        
+
+		<result column="first_inspection_report" property="firstInspectionReport" jdbcType="VARCHAR" />
         <!-- 虚拟字段 -->
         <result column="startTime" property="startTime" jdbcType="VARCHAR" />
         <result column="endTime" property="endTime" jdbcType="VARCHAR" />
@@ -1930,7 +1930,11 @@ order by project_no desc limit 1
 			</if>  
 			<if test="qualityInspector7 !=null">
 			  quality_inspector7=#{qualityInspector7,jdbcType=VARCHAR},
-			</if>  
+			</if>
+			<if test="firstInspectionReport !=null">
+				first_inspection_report=#{firstInspectionReport,jdbcType=INTEGER},
+			</if>
+
 		</set>
 		where project_no = #{projectNo,jdbcType=VARCHAR}
 	</update>
@@ -3718,6 +3722,14 @@ where pd.project_no is null
     <select id="getAllMaterial" resultMap="BaseResultMap">
 		select project_no from project pt where project_material_properties=0
 
+
+	</select>
+
+	<select id="selectProjectNo" resultMap="BaseResultMap">
+		SELECT project_no,max(contract_no)contract_no FROM `project_factory` pf   where delivery_date is not null
+and  pf.project_no not in (select project_no from quality_report where status !=0)
+and contract_no !=''
+group by project_no
 
 	</select>
 </mapper>

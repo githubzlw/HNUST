@@ -226,4 +226,11 @@ public interface ProjectFactoryService {
      */
 
     ProjectFactory getAllBargain(ProjectFactory factory1);
+
+    /**
+     * 查询是否是量产阶段首检报告
+     * @param projectNo
+     * @return
+     */
+    ProjectFactory selectProjectNo(String projectNo);
 }

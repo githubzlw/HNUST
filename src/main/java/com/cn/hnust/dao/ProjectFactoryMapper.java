@@ -225,4 +225,11 @@ int getFactory(ProjectFactory factory);
      * @return
      */
     ProjectFactory getAllBargain(ProjectFactory factory1);
+
+    /**
+     * 查询是否是量产阶段首检报告
+     * @param projectNo
+     * @return
+     */
+    ProjectFactory selectProjectNo(@Param("projectNo")String projectNo);
 }

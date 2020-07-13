@@ -283,7 +283,6 @@ public class QualityController {
 		
 		try {
 			QualityReport qr = mapper.readValue(jsonString, QualityReport.class);
-			
 			if (StringUtils.isNotBlank(typeStr)) {
 				type = Integer.parseInt(typeStr);
 			}
@@ -353,10 +352,21 @@ public class QualityController {
 					projectFactoryService.updateBatch(factorys);
 				}	
 			}
-			
-			qualityReportService.insertSelective(qr);
-			SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			 String time=dft.format(qr.getCreatetime());
+            qualityReportService.insertSelective(qr);
+            if(project.getPlantAnalysis()==1 ||project.getPlantAnalysis()==2){
+                if("2".equalsIgnoreCase(stateStr)||"3".equalsIgnoreCase(stateStr)){
+                 ProjectFactory factory=projectFactoryService.selectProjectNo(projectNo);
+                if(factory!=null){
+                    DingTalkThread.sendMessage(projectNo);
+                    Project project1=new Project();
+                    project1.setProjectNo(projectNo);
+                    project1.setFirstInspectionReport(1);
+                    projectService.updateByPrimaryKeySelective(project1);
+                }
+              }
+            }
+            SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time=dft.format(qr.getCreatetime());
 			if(quality_testing1!=null&&!"".equalsIgnoreCase(quality_testing1)){
 				quality_testing1=quality_testing1.replaceFirst(",", "");
 				String []qualityName=quality_testing1.split(",");
@@ -1529,9 +1539,9 @@ public class QualityController {
 			}			
 			return jsonResult;
 		}
-		
-		
-		
+
+
+
 		/**
 		 * 针对对象去去重
 		 * @Title distinctByKey 

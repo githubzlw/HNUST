@@ -113,11 +113,8 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 			for(ProjectReport pr :reportList){
 				if(pr.getProjectStage()!=null){
 					pr.setProjectStageView(ProjectStageEnum.getEnum(pr.getProjectStage()).getValue());
-					
 				}
-				
-				
-			}		
+			}
 		}
 		
 		//查询项目合同交期
@@ -294,11 +291,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 		  }
 	  }		
 	  projectMapper.insertSelective(project);
-		if(project!=null) {
-			if (!project.getProjectNo().contains("-")) {
-				DingTalkThread.ProjectLaunch(project.getProjectNo());
-			}
-		}
+
 	  //图纸更新需求（新项目启动录入时）	
 	  if(project.getUpdateDrawing() != null && project.getUpdateDrawing() == 1){
 		    ProjectTask projectTask=new ProjectTask();
@@ -359,7 +352,8 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 				  User user = userDao.findUserByName(projectTask.getAccepter());
 				  projectTask.setDingTalkId(user.getDingTalkId());
 				  RpcSendNoticeToKuai.sendRequest(projectTask);
-		 }	  
+		 }
+
   
 	}
 	/**

@@ -180,5 +180,11 @@ public  class ProjectFactoryServiceImpl implements ProjectFactoryService {
 		return projectFactoryMapper.getAllBargain(factory1);
 	}
 
+    @Override
+    public ProjectFactory selectProjectNo(String projectNo) {
+
+		return projectFactoryMapper.selectProjectNo(projectNo);
+    }
+
 
 }

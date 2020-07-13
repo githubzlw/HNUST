@@ -1616,6 +1616,11 @@ public class ProjectERPController {
 				//projectFactoryService.insertSelective(projectFactory);
 
 				projectService.addProject(project);
+			 if(project!=null) {
+				if (!project.getProjectNo().contains("-")) {
+					DingTalkThread.ProjectLaunch(project.getProjectNo());
+				}
+			}
 				List<Project> projectList=new ArrayList<Project>();
 				projectList.add(project);
 				projectDateTask.syncProjectDate(projectList);

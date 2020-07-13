@@ -450,9 +450,18 @@ public class Project extends PageHelper implements Serializable {
  
     
     private Integer contractNumber;       //最近报告数
-    
-    
-    public Integer getContractNumber() {
+
+	private Integer firstInspectionReport;//处理
+
+	public Integer getFirstInspectionReport() {
+		return firstInspectionReport;
+	}
+
+	public void setFirstInspectionReport(Integer firstInspectionReport) {
+		this.firstInspectionReport = firstInspectionReport;
+	}
+
+	public Integer getContractNumber() {
 		return contractNumber;
 	}
 
@@ -1852,130 +1861,201 @@ public class Project extends PageHelper implements Serializable {
 	public void setInspectionReservationNum(int inspectionReservationNum) {
 		InspectionReservationNum = inspectionReservationNum;
 	}
-    
+
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", projectNo=" + projectNo
-				+ ", projectName=" + projectName + ", projectNameEn="
-				+ projectNameEn + ", deliveryDate=" + deliveryDate
-				+ ", roleName=" + roleName + ", trueName=" + trueName
-				+ ", deliveryStatus=" + deliveryStatus + ", warningStatus="
-				+ warningStatus + ", importance=" + importance + ", stage="
-				+ stage + ", emailUserId=" + emailUserId + ", purchaseId="
-				+ purchaseId + ", saleId=" + saleId + ", poDate=" + poDate
-				+ ", scheduledDate=" + scheduledDate + ", actualStartDate="
-				+ actualStartDate + ", createDate=" + createDate + ", finish="
-				+ finish + ", isPause=" + isPause + ", pauseReason="
-				+ pauseReason + ", inputKey=" + inputKey + ", delayList="
-				+ delayList + ", planList=" + planList + ", reportList="
-				+ reportList + ", projectDrawingList=" + projectDrawingList
-				+ ", inspectionReportList=" + inspectionReportList
-				+ ", inspectionList=" + inspectionList + ", scheduleList="
-				+ scheduleList + ", complaintList=" + complaintList
-				+ ", erpReports=" + erpReports + ", projectPauses="
-				+ projectPauses + ", factoryList=" + factoryList
-				+ ", deliveryList=" + deliveryList + ", milestones="
-				+ milestones + ", analysisIssueList=" + analysisIssueList
-				+ ", qualityAnalysis=" + qualityAnalysis + ", require="
-				+ require + ", updateInspect=" + updateInspect
-				+ ", updateDrawing=" + updateDrawing + ", difficultProject="
-				+ difficultProject + ", dateBefore=" + dateBefore
-				+ ", importantTaskTotal=" + importantTaskTotal
-				+ ", importantTaskFinish=" + importantTaskFinish
-				+ ", metalDeliveryTime=" + metalDeliveryTime
-				+ ", metalDeliveryTime1=" + metalDeliveryTime1
-				+ ", plasticDeliveryPeriod=" + plasticDeliveryPeriod
-				+ ", plasticDeliveryPeriod1=" + plasticDeliveryPeriod1
-				+ ", dateDelivery=" + dateDelivery + ", delayDay=" + delayDay
-				+ ", explain=" + explain + ", interpretationDocument="
-				+ interpretationDocument + ", factoryName=" + factoryName
-				+ ", incompleteInspectionTasks=" + incompleteInspectionTasks
-				+ ", lateDeliveryDate=" + lateDeliveryDate
-				+ ", historyInspection=" + historyInspection + ", startTime="
-				+ startTime + ", endTime=" + endTime + ", sampleDeliveryDate="
-				+ sampleDeliveryDate + ", deliveryTime=" + deliveryTime
-				+ ", qrList=" + qrList + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", taskList=" + taskList
-				+ ", reportName=" + reportName + ", report=" + report
-				+ ", picUrl=" + picUrl + ", projectReportDate="
-				+ projectReportDate + ", commentList=" + commentList
-				+ ", statusEnterList=" + statusEnterList
-				+ ", sampleScheduledDate=" + sampleScheduledDate + ", flag="
-				+ flag + ", companyName=" + companyName + ", purchaseNameId="
-				+ purchaseNameId + ", delayType=" + delayType
-				+ ", projectReportList=" + projectReportList
-				+ ", roleBindList=" + roleBindList + ", createTime="
-				+ createTime + ", projectType=" + projectType
-				+ ", projectStage=" + projectStage + ", purchaseName="
-				+ purchaseName + ", sellName=" + sellName + ", saleName="
-				+ saleName + ", qualityName=" + qualityName + ", userName="
-				+ userName + ", roleNo=" + roleNo + ", status=" + status
-				+ ", zhijian1=" + zhijian1 + ", zhijian2=" + zhijian2
-				+ ", zhijian3=" + zhijian3 + ", projectAmount=" + projectAmount
-				+ ", weekPicture=" + weekPicture + ", weekInfo=" + weekInfo
-				+ ", sortField=" + sortField + ", finishTime=" + finishTime
-				+ ", sampleFinishTime=" + sampleFinishTime + ", dateSample="
-				+ dateSample + ", completionTime=" + completionTime
-				+ ", dateSampleUploading=" + dateSampleUploading
-				+ ", productImg=" + productImg + ", sampleFinish="
-				+ sampleFinish + ", delay=" + delay + ", qualityReportList="
-				+ qualityReportList + ", qualityReport=" + qualityReport
-				+ ", operatorType=" + operatorType + ", screenType="
-				+ screenType + ", plantAnalysisS=" + plantAnalysisS
-				+ ", projectStageS=" + projectStageS + ", projectStatusS="
-				+ projectStatusS + ", detailStatusS=" + detailStatusS
-				+ ", delayStatusS=" + delayStatusS + ", feedback=" + feedback
-				+ ", projectStatus=" + projectStatus + ", finishTask="
-				+ finishTask + ", allTask=" + allTask + ", puaseTask="
-				+ puaseTask + ", qualityTask=" + qualityTask
-				+ ", qualityFinishTask=" + qualityFinishTask + ", moneyDate="
-				+ moneyDate + ", qualityReportSelect=" + qualityReportSelect
-				+ ", expectedShipmentSelect=" + expectedShipmentSelect
-				+ ", projectReport=" + projectReport + ", delayTriggerFlag="
-				+ delayTriggerFlag + ", technician=" + technician
-				+ ", customerName=" + customerName + ", customerGrade="
-				+ customerGrade + ", exportDate=" + exportDate
-				+ ", detailStatus=" + detailStatus + ", createPersonId="
-				+ createPersonId + ", scheduledDays=" + scheduledDays
-				+ ", newPredictDate=" + newPredictDate
-				+ ", urgentDeliveryDate=" + urgentDeliveryDate
-				+ ", prevSampleDate=" + prevSampleDate + ", customerAttitude="
-				+ customerAttitude + ", isProcess=" + isProcess + ", isSample="
-				+ isSample + ", isProduct=" + isProduct + ", isNoteProcess="
-				+ isNoteProcess + ", isPurchaseWeekReport="
-				+ isPurchaseWeekReport + ", isContract=" + isContract
-				+ ", factoryId=" + factoryId + ", isNewProject=" + isNewProject
-				+ ", importantSelect=" + importantSelect
-				+ ", shippingApproval=" + shippingApproval + ", isStart="
-				+ isStart + ", detailStr=" + detailStr + ", detailUnUpdate="
-				+ detailUnUpdate + ", stageUnUpdate=" + stageUnUpdate
-				+ ", createName=" + createName + ", dateType=" + dateType
-				+ ", moneyDateType=" + moneyDateType + ", contractDays="
-				+ contractDays + ", delayDays=" + delayDays
-				+ ", unFinshedTask=" + unFinshedTask + ", technicianStr="
-				+ technicianStr + ", originalDeliveryDate="
-				+ originalDeliveryDate + ", originalSampleScheduledDate="
-				+ originalSampleScheduledDate + ", sellDingTalkId="
-				+ sellDingTalkId + ", purchaseDingTalkId=" + purchaseDingTalkId
-				+ ", complaintVolume=" + complaintVolume
-				+ ", monthlyComplaints=" + monthlyComplaints
-				+ ", projectsUnderWay=" + projectsUnderWay
-				+ ", sampleContracts=" + sampleContracts + ", allContracts="
-				+ allContracts + ", delayedDeliveryDate=" + delayedDeliveryDate
-				+ ", cargoDelayedDeliveryDate=" + cargoDelayedDeliveryDate
-				+ ", deliveryReminder=" + deliveryReminder + ", plantAnalysis="
-				+ plantAnalysis + ", plantAnalysisView=" + plantAnalysisView
-				+ ", projectMaterialProperties=" + projectMaterialProperties
-				+ ", technology=" + technology + ", inspectionPlanList="
-				+ inspectionPlanList + ", projectTaskList=" + projectTaskList
-				+ ", projectDemandReportList=" + projectDemandReportList
-				+ ", feedbackList=" + feedbackList
-				+ ", InspectionReservationNum=" + InspectionReservationNum
-				+ ", projectMembers=" + projectMembers
-				+ ", recentInspectionReport=" + recentInspectionReport
-				+ ", sailingDate=" + sailingDate + ", contractNumber="
-				+ contractNumber + "]";
+		return "Project{" +
+				"id='" + id + '\'' +
+				", projectNo='" + projectNo + '\'' +
+				", projectName='" + projectName + '\'' +
+				", projectNameEn='" + projectNameEn + '\'' +
+				", deliveryDate=" + deliveryDate +
+				", roleName='" + roleName + '\'' +
+				", trueName='" + trueName + '\'' +
+				", deliveryStatus=" + deliveryStatus +
+				", warningStatus=" + warningStatus +
+				", importance=" + importance +
+				", stage=" + stage +
+				", emailUserId=" + emailUserId +
+				", purchaseId=" + purchaseId +
+				", saleId=" + saleId +
+				", poDate=" + poDate +
+				", scheduledDate=" + scheduledDate +
+				", actualStartDate=" + actualStartDate +
+				", createDate=" + createDate +
+				", finish=" + finish +
+				", isPause='" + isPause + '\'' +
+				", pauseReason='" + pauseReason + '\'' +
+				", inputKey='" + inputKey + '\'' +
+				", delayList=" + delayList +
+				", planList=" + planList +
+				", reportList=" + reportList +
+				", projectDrawingList=" + projectDrawingList +
+				", inspectionReportList=" + inspectionReportList +
+				", inspectionList=" + inspectionList +
+				", scheduleList=" + scheduleList +
+				", complaintList=" + complaintList +
+				", erpReports=" + erpReports +
+				", projectPauses=" + projectPauses +
+				", factoryList=" + factoryList +
+				", deliveryList=" + deliveryList +
+				", milestones=" + milestones +
+				", analysisIssueList=" + analysisIssueList +
+				", qualityAnalysis=" + qualityAnalysis +
+				", require=" + require +
+				", updateInspect=" + updateInspect +
+				", updateDrawing=" + updateDrawing +
+				", difficultProject=" + difficultProject +
+				", dateBefore=" + dateBefore +
+				", importantTaskTotal=" + importantTaskTotal +
+				", importantTaskFinish=" + importantTaskFinish +
+				", metalDeliveryTime=" + metalDeliveryTime +
+				", metalDeliveryTime1=" + metalDeliveryTime1 +
+				", plasticDeliveryPeriod=" + plasticDeliveryPeriod +
+				", plasticDeliveryPeriod1=" + plasticDeliveryPeriod1 +
+				", dateDelivery=" + dateDelivery +
+				", delayDay=" + delayDay +
+				", explain='" + explain + '\'' +
+				", interpretationDocument='" + interpretationDocument + '\'' +
+				", factoryName='" + factoryName + '\'' +
+				", incompleteInspectionTasks=" + incompleteInspectionTasks +
+				", lateDeliveryDate=" + lateDeliveryDate +
+				", historyInspection='" + historyInspection + '\'' +
+				", startTime='" + startTime + '\'' +
+				", endTime='" + endTime + '\'' +
+				", sampleDeliveryDate='" + sampleDeliveryDate + '\'' +
+				", deliveryTime='" + deliveryTime + '\'' +
+				", masterQualityInspection='" + masterQualityInspection + '\'' +
+				", qualityInspector1='" + qualityInspector1 + '\'' +
+				", qualityInspector2='" + qualityInspector2 + '\'' +
+				", qualityInspector3='" + qualityInspector3 + '\'' +
+				", qualityInspector4='" + qualityInspector4 + '\'' +
+				", qualityInspector5='" + qualityInspector5 + '\'' +
+				", qualityInspector6='" + qualityInspector6 + '\'' +
+				", qualityInspector7='" + qualityInspector7 + '\'' +
+				", qrList=" + qrList +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", taskList=" + taskList +
+				", reportName='" + reportName + '\'' +
+				", report='" + report + '\'' +
+				", picUrl='" + picUrl + '\'' +
+				", projectReportDate=" + projectReportDate +
+				", commentList=" + commentList +
+				", statusEnterList=" + statusEnterList +
+				", sampleScheduledDate=" + sampleScheduledDate +
+				", flag=" + flag +
+				", companyName='" + companyName + '\'' +
+				", purchaseNameId='" + purchaseNameId + '\'' +
+				", delayType='" + delayType + '\'' +
+				", projectReportList=" + projectReportList +
+				", roleBindList=" + roleBindList +
+				", createTime='" + createTime + '\'' +
+				", projectType=" + projectType +
+				", projectStage=" + projectStage +
+				", purchaseName='" + purchaseName + '\'' +
+				", sellName='" + sellName + '\'' +
+				", saleName='" + saleName + '\'' +
+				", qualityName='" + qualityName + '\'' +
+				", userName='" + userName + '\'' +
+				", roleNo=" + roleNo +
+				", status='" + status + '\'' +
+				", zhijian1='" + zhijian1 + '\'' +
+				", zhijian2='" + zhijian2 + '\'' +
+				", zhijian3='" + zhijian3 + '\'' +
+				", projectAmount='" + projectAmount + '\'' +
+				", weekPicture='" + weekPicture + '\'' +
+				", weekInfo='" + weekInfo + '\'' +
+				", sortField=" + sortField +
+				", finishTime=" + finishTime +
+				", sampleFinishTime=" + sampleFinishTime +
+				", dateSample=" + dateSample +
+				", completionTime=" + completionTime +
+				", dateSampleUploading=" + dateSampleUploading +
+				", productImg='" + productImg + '\'' +
+				", sampleFinish=" + sampleFinish +
+				", delay=" + delay +
+				", qualityReportList=" + qualityReportList +
+				", qualityReport=" + qualityReport +
+				", operatorType='" + operatorType + '\'' +
+				", screenType='" + screenType + '\'' +
+				", plantAnalysisS=" + plantAnalysisS +
+				", projectStageS=" + projectStageS +
+				", projectStatusS=" + projectStatusS +
+				", detailStatusS=" + detailStatusS +
+				", delayStatusS=" + delayStatusS +
+				", feedback=" + feedback +
+				", projectStatus=" + projectStatus +
+				", finishTask=" + finishTask +
+				", allTask=" + allTask +
+				", puaseTask=" + puaseTask +
+				", qualityTask=" + qualityTask +
+				", qualityFinishTask=" + qualityFinishTask +
+				", moneyDate=" + moneyDate +
+				", qualityReportSelect='" + qualityReportSelect + '\'' +
+				", expectedShipmentSelect='" + expectedShipmentSelect + '\'' +
+				", projectReport=" + projectReport +
+				", delayTriggerFlag=" + delayTriggerFlag +
+				", technician='" + technician + '\'' +
+				", customerName='" + customerName + '\'' +
+				", customerGrade=" + customerGrade +
+				", exportDate='" + exportDate + '\'' +
+				", detailStatus=" + detailStatus +
+				", createPersonId=" + createPersonId +
+				", scheduledDays=" + scheduledDays +
+				", newPredictDate=" + newPredictDate +
+				", urgentDeliveryDate=" + urgentDeliveryDate +
+				", prevSampleDate=" + prevSampleDate +
+				", customerAttitude='" + customerAttitude + '\'' +
+				", isProcess=" + isProcess +
+				", isSample=" + isSample +
+				", isProduct=" + isProduct +
+				", isNoteProcess=" + isNoteProcess +
+				", isPurchaseWeekReport=" + isPurchaseWeekReport +
+				", isContract=" + isContract +
+				", factoryId='" + factoryId + '\'' +
+				", isNewProject=" + isNewProject +
+				", importantSelect='" + importantSelect + '\'' +
+				", shippingApproval=" + shippingApproval +
+				", isStart=" + isStart +
+				", detailStr='" + detailStr + '\'' +
+				", detailUnUpdate=" + detailUnUpdate +
+				", stageUnUpdate=" + stageUnUpdate +
+				", createName='" + createName + '\'' +
+				", dateType=" + dateType +
+				", moneyDateType=" + moneyDateType +
+				", contractDays=" + contractDays +
+				", delayDays=" + delayDays +
+				", unFinshedTask=" + unFinshedTask +
+				", technicianStr='" + technicianStr + '\'' +
+				", originalDeliveryDate=" + originalDeliveryDate +
+				", originalSampleScheduledDate=" + originalSampleScheduledDate +
+				", sellDingTalkId='" + sellDingTalkId + '\'' +
+				", purchaseDingTalkId='" + purchaseDingTalkId + '\'' +
+				", complaintVolume=" + complaintVolume +
+				", monthlyComplaints=" + monthlyComplaints +
+				", projectsUnderWay=" + projectsUnderWay +
+				", sampleContracts=" + sampleContracts +
+				", allContracts=" + allContracts +
+				", delayedDeliveryDate=" + delayedDeliveryDate +
+				", cargoDelayedDeliveryDate=" + cargoDelayedDeliveryDate +
+				", deliveryReminder=" + deliveryReminder +
+				", plantAnalysis=" + plantAnalysis +
+				", plantAnalysisView='" + plantAnalysisView + '\'' +
+				", projectMaterialProperties=" + projectMaterialProperties +
+				", technology='" + technology + '\'' +
+				", inspectionPlanList=" + inspectionPlanList +
+				", projectTaskList=" + projectTaskList +
+				", projectDemandReportList=" + projectDemandReportList +
+				", feedbackList=" + feedbackList +
+				", InspectionReservationNum=" + InspectionReservationNum +
+				", projectMembers='" + projectMembers + '\'' +
+				", recentInspectionReport=" + recentInspectionReport +
+				", sailingDate='" + sailingDate + '\'' +
+				", contractNumber=" + contractNumber +
+				", firstInspectionReport=" + firstInspectionReport +
+				'}';
 	}
 
-	
+
 }
