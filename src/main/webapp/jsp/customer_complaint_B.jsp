@@ -147,9 +147,15 @@ ul{position:relative;}
 
 								<c:if test="${obj.verifyComplaint!=1}">
 								<c:if test="${obj.dingdingStatus=='COMPLETED'}">
-                               <input type="button" target="_blank" onclick="SendMessage(${obj.id},'${user.dingTalkId}');" value="质量跟踪收尾">
+									<input type="button" style="background-color: #4c9bd4;color:#ffffff;" target="_blank" onclick="SendMessage(${obj.id},'${user.dingTalkId}');" value="质量跟踪收尾">
 
-                            </c:if></c:if>
+								</c:if></c:if>
+
+								<c:if test="${obj.verifyComplaint==1}">
+									<c:if test="${obj.dingdingStatus=='COMPLETED'}">
+										<input type="button" style="background-color: #858585 ;color:#ffffff;" value="质量跟踪收尾">
+
+									</c:if></c:if>
 							</span>
                         </li>
 						<li class="br" onclick="window.location='https://www.kuaizhizao.cn/complaint/queryComplaint?id=${obj.id}'"><br/></li>

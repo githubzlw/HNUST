@@ -558,7 +558,19 @@
 			<b>签名流程</b>
 		</h3>
 		<ul class="sign_ul">
-			<li class="no-print"><em>跟单签名：</em>
+
+
+			<c:if test="${shippingConfirmation.isComplete == 0 && isSign == true}">
+				<c:if test="${shippingConfirmation.deliveryConfirmation==0}"><button  class="btn btn-default bgcolor_ff0 no-print"
+						 style="background-color: #027CFF; color: #fff;"  onclick="deliveryConfirmation(shippingConfirmation.id)" >点我开始签名</button></c:if>
+				<c:if test="${shippingConfirmation.deliveryConfirmation==1}"><button  class="btn btn-default bgcolor_ff0 no-print" style="background-color: #027CFF; color: #fff;" >
+					已生成钉钉签名流程</button></c:if>
+			</c:if>
+			<c:if test="${shippingConfirmation.isComplete == 1}">
+				<button  class="btn btn-default bgcolor_ff0 no-print"
+						 style="background-color: #027CFF; color: #fff;" >签名已完成</button>
+			</c:if>
+		<%--<li class="no-print"><em>跟单签名：</em>
 				<div class="sure">
 					<c:choose>
 						<c:when test="${shippingConfirmation.salesConfirm != null}">
@@ -750,7 +762,7 @@
 							</c:if>
 						
 					</div></li>
-			</c:if>
+			</c:if>--%>
 		</ul>
 		<div class="no-print">
 			<span>当前状态：</span>
@@ -1089,6 +1101,33 @@
 		})
 
     }
+	//控制跳转回复逻辑
+	function deliveryConfirmation() {
+		$.ajax({
+			type : "post",
+			url : "https://www.kuaizhizao.cn/Ding-Talk/deliveryConfirmation",
+			data : {
+                 id:id
+			},
+			success : function(json) {
+				$.ajax({
+					type : "post",
+					url : "/complaint/updateDeliveryConfirmation",
+					data : {
+						id:id
+					},
+					success : function(json) {
+						window.location.reload();
+
+
+					}
+				})
+
+
+			}
+		})
+
+	}
 
 	//上传文件
 	function upload(obj) {

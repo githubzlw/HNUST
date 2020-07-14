@@ -145,15 +145,20 @@ public class ShippingConfirmation implements Serializable {
     private String weight;//重量
     
     private String shippingInformation;//小批量是否发送信息
+	private int deliveryConfirmation;//是否转钉钉审批
     
     private static final long serialVersionUID = 1L;
 
-    
-    
-    
-    
-    
-    public String getMasterQualityInspection() {
+
+	public int getDeliveryConfirmation() {
+		return deliveryConfirmation;
+	}
+
+	public void setDeliveryConfirmation(int deliveryConfirmation) {
+		this.deliveryConfirmation = deliveryConfirmation;
+	}
+
+	public String getMasterQualityInspection() {
 		return masterQualityInspection;
 	}
 
@@ -819,66 +824,93 @@ public class ShippingConfirmation implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ShippingConfirmation [id=" + id + ", projectNo=" + projectNo
-				+ ", serialNumber=" + serialNumber + ", customerName="
-				+ customerName + ", productName=" + productName
-				+ ", shippingWay=" + shippingWay + ", isBossConfirm="
-				+ isBossConfirm + ", checkQty=" + checkQty + ", orders="
-				+ orders + ", boxNumber=" + boxNumber + ", openQty=" + openQty
-				+ ", spendTime=" + spendTime + ", checkConclusion="
-				+ checkConclusion + ", noExecuted=" + noExecuted
-				+ ", concessiveAccept=" + concessiveAccept
-				+ ", meetingConclusion=" + meetingConclusion + ", notPaid="
-				+ notPaid + ", scale=" + scale + ", customerConfirmWay="
-				+ customerConfirmWay + ", isQualityReportEn="
-				+ isQualityReportEn + ", drawbackProduct=" + drawbackProduct
-				+ ", drawbackRate=" + drawbackRate + ", shippingFee="
-				+ shippingFee + ", salesWorry=" + salesWorry + ", createTime="
-				+ createTime + ", createPerson=" + createPerson
-				+ ", salesConfirm=" + salesConfirm + ", salesConfirmTime="
-				+ salesConfirmTime + ", purchaseConfirm=" + purchaseConfirm
-				+ ", purchaseConfirmTime=" + purchaseConfirmTime
-				+ ", qualityLeaderConfirm=" + qualityLeaderConfirm
-				+ ", qualityLeaderConfirmTime=" + qualityLeaderConfirmTime
-				+ ", purchaseLeaderConfirm=" + purchaseLeaderConfirm
-				+ ", purchaseLeaderConfirmTime=" + purchaseLeaderConfirmTime
-				+ ", bossConfirm=" + bossConfirm + ", bossConfirmTime="
-				+ bossConfirmTime + ", isComplete=" + isComplete
-				+ ", isPlastic=" + isPlastic + ", sampleOrProduct="
-				+ sampleOrProduct + ", firstPerson=" + firstPerson
-				+ ", firstTime=" + firstTime + ", secondPerson=" + secondPerson
-				+ ", secondTime=" + secondTime + ", thirdPerson=" + thirdPerson
-				+ ", thirdTime=" + thirdTime + ", fourthPerson=" + fourthPerson
-				+ ", fourthTime=" + fourthTime + ", complaintId=" + complaintId
-				+ ", sampleFileName=" + sampleFileName
-				+ ", sampleFileOriginalName=" + sampleFileOriginalName
-				+ ", isSendConfirmTask=" + isSendConfirmTask
-				+ ", isQualityLeaderConfirm=" + isQualityLeaderConfirm
-				+ ", shipmentAgreement=" + shipmentAgreement
-				+ ", projectAmount=" + projectAmount + ", purchaseName="
-				+ purchaseName + ", sellName=" + sellName + ", zhijian1="
-				+ zhijian1 + ", zhijian2=" + zhijian2 + ", zhijian3="
-				+ zhijian3 + ", masterQualityInspection="
-				+ masterQualityInspection + ", qualityInspector1="
-				+ qualityInspector1 + ", qualityInspector2="
-				+ qualityInspector2 + ", qualityInspector3="
-				+ qualityInspector3 + ", qualityInspector4="
-				+ qualityInspector4 + ", qualityInspector5="
-				+ qualityInspector5 + ", qualityInspector6="
-				+ qualityInspector6 + ", qualityInspector7="
-				+ qualityInspector7 + ", customerNameProject="
-				+ customerNameProject + ", comments=" + comments + ", isSign="
-				+ isSign + ", amountMoney=" + amountMoney + ", firstShipment="
-				+ firstShipment + ", complaint=" + complaint
-				+ ", productChanges=" + productChanges + ", nonPlastic="
-				+ nonPlastic + ", grade=" + grade + ", qualityLeaderConfirmId="
-				+ qualityLeaderConfirmId + ", purchaseLeaderConfirmId="
-				+ purchaseLeaderConfirmId + ", bossConfirmId=" + bossConfirmId
-				+ ", sailingDate=" + sailingDate + ", productNumber="
-				+ productNumber + ", weight=" + weight
-				+ ", shippingInformation=" + shippingInformation + "]";
+		return "ShippingConfirmation{" +
+				"id=" + id +
+				", projectNo='" + projectNo + '\'' +
+				", serialNumber='" + serialNumber + '\'' +
+				", customerName='" + customerName + '\'' +
+				", productName='" + productName + '\'' +
+				", shippingWay='" + shippingWay + '\'' +
+				", isBossConfirm=" + isBossConfirm +
+				", checkQty='" + checkQty + '\'' +
+				", orders='" + orders + '\'' +
+				", boxNumber='" + boxNumber + '\'' +
+				", openQty='" + openQty + '\'' +
+				", spendTime='" + spendTime + '\'' +
+				", checkConclusion='" + checkConclusion + '\'' +
+				", noExecuted='" + noExecuted + '\'' +
+				", concessiveAccept='" + concessiveAccept + '\'' +
+				", meetingConclusion='" + meetingConclusion + '\'' +
+				", notPaid='" + notPaid + '\'' +
+				", scale='" + scale + '\'' +
+				", customerConfirmWay='" + customerConfirmWay + '\'' +
+				", isQualityReportEn=" + isQualityReportEn +
+				", drawbackProduct='" + drawbackProduct + '\'' +
+				", drawbackRate='" + drawbackRate + '\'' +
+				", shippingFee='" + shippingFee + '\'' +
+				", salesWorry='" + salesWorry + '\'' +
+				", createTime=" + createTime +
+				", createPerson='" + createPerson + '\'' +
+				", salesConfirm='" + salesConfirm + '\'' +
+				", salesConfirmTime=" + salesConfirmTime +
+				", purchaseConfirm='" + purchaseConfirm + '\'' +
+				", purchaseConfirmTime=" + purchaseConfirmTime +
+				", qualityLeaderConfirm='" + qualityLeaderConfirm + '\'' +
+				", qualityLeaderConfirmTime=" + qualityLeaderConfirmTime +
+				", purchaseLeaderConfirm='" + purchaseLeaderConfirm + '\'' +
+				", purchaseLeaderConfirmTime=" + purchaseLeaderConfirmTime +
+				", bossConfirm='" + bossConfirm + '\'' +
+				", bossConfirmTime=" + bossConfirmTime +
+				", isComplete=" + isComplete +
+				", isPlastic=" + isPlastic +
+				", sampleOrProduct=" + sampleOrProduct +
+				", firstPerson='" + firstPerson + '\'' +
+				", firstTime=" + firstTime +
+				", secondPerson='" + secondPerson + '\'' +
+				", secondTime=" + secondTime +
+				", thirdPerson='" + thirdPerson + '\'' +
+				", thirdTime=" + thirdTime +
+				", fourthPerson='" + fourthPerson + '\'' +
+				", fourthTime=" + fourthTime +
+				", complaintId=" + complaintId +
+				", sampleFileName='" + sampleFileName + '\'' +
+				", sampleFileOriginalName='" + sampleFileOriginalName + '\'' +
+				", isSendConfirmTask=" + isSendConfirmTask +
+				", isQualityLeaderConfirm=" + isQualityLeaderConfirm +
+				", shipmentAgreement='" + shipmentAgreement + '\'' +
+				", projectAmount='" + projectAmount + '\'' +
+				", purchaseName='" + purchaseName + '\'' +
+				", sellName='" + sellName + '\'' +
+				", zhijian1='" + zhijian1 + '\'' +
+				", zhijian2='" + zhijian2 + '\'' +
+				", zhijian3='" + zhijian3 + '\'' +
+				", masterQualityInspection='" + masterQualityInspection + '\'' +
+				", qualityInspector1='" + qualityInspector1 + '\'' +
+				", qualityInspector2='" + qualityInspector2 + '\'' +
+				", qualityInspector3='" + qualityInspector3 + '\'' +
+				", qualityInspector4='" + qualityInspector4 + '\'' +
+				", qualityInspector5='" + qualityInspector5 + '\'' +
+				", qualityInspector6='" + qualityInspector6 + '\'' +
+				", qualityInspector7='" + qualityInspector7 + '\'' +
+				", customerNameProject='" + customerNameProject + '\'' +
+				", comments=" + comments +
+				", isSign=" + isSign +
+				", amountMoney=" + amountMoney +
+				", firstShipment=" + firstShipment +
+				", complaint=" + complaint +
+				", productChanges=" + productChanges +
+				", nonPlastic=" + nonPlastic +
+				", grade=" + grade +
+				", qualityLeaderConfirmId=" + qualityLeaderConfirmId +
+				", purchaseLeaderConfirmId=" + purchaseLeaderConfirmId +
+				", bossConfirmId=" + bossConfirmId +
+				", sailingDate='" + sailingDate + '\'' +
+				", productNumber=" + productNumber +
+				", weight='" + weight + '\'' +
+				", shippingInformation='" + shippingInformation + '\'' +
+				", deliveryConfirmation='" + deliveryConfirmation + '\'' +
+				'}';
 	}
-    
-    
-    
+
+
 }

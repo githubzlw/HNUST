@@ -59,7 +59,8 @@
     <result column="product_number" property="productNumber" jdbcType="INTEGER" />
       <result column="weight" property="weight" jdbcType="VARCHAR" />
       <result column="shipping_information" property="shippingInformation" jdbcType="VARCHAR" />
-      
+    <result column="delivery_confirmation" property="deliveryConfirmation" jdbcType="INTEGER" />
+
       
     <!-- 项目金额 -->
     <result column="project_amount" property="projectAmount" jdbcType="VARCHAR" />
@@ -105,7 +106,7 @@
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
-    q.weight,q.shipping_information,q.product_number,q.sailing_date,q.grade,q.quality_leader_confirm_id,q.purchase_leader_confirm_id,q.boss_confirm_id,q.non_plastic,q.complaint,q.first_shipment,q.amount_money,q.product_changes,q.id, q.project_no, q.serial_number, q.customer_name, q.product_name, q.shipping_way, q.is_boss_confirm, 
+    q.delivery_confirmation,q.weight,q.shipping_information,q.product_number,q.sailing_date,q.grade,q.quality_leader_confirm_id,q.purchase_leader_confirm_id,q.boss_confirm_id,q.non_plastic,q.complaint,q.first_shipment,q.amount_money,q.product_changes,q.id, q.project_no, q.serial_number, q.customer_name, q.product_name, q.shipping_way, q.is_boss_confirm,
     q.check_qty, q.orders, q.open_qty, q.spend_time, q.check_conclusion, q.no_executed, q.concessive_accept, q.meeting_conclusion, 
     q.not_paid, q.scale, q.customer_confirm_way, q.is_quality_report_en, q.drawback_product, q.drawback_rate, 
     q.shipping_fee, q.sales_worry, q.create_time, q.sales_confirm, q.sales_confirm_time, q.purchase_confirm, q.is_send_confirm_task,
@@ -715,6 +716,10 @@
       <if test="weight != null" >   
         weight = #{weight,jdbcType=INTEGER}, 
       </if>
+      <if test="deliveryConfirmation != null" >
+        delivery_confirmation = #{deliveryConfirmation,jdbcType=INTEGER},
+      </if>
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

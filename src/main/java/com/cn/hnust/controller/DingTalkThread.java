@@ -86,4 +86,9 @@ public static void ComplaintOut(Integer id, String dingTalkId) {
         String process_instance_id=sendPost(url);
 
     }
+
+    public static void setShippingConfirmation(Integer id) {
+        String url ="https://www.kuaizhizao.cn/Ding-Talk/shippingConfirmation?id="+id;
+        String process_instance_id=sendPost(url);
+    }
 }

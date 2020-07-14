@@ -1438,6 +1438,8 @@ public class ProjectComplaintController {
 						 }
 						 int num=projectService.updateByPrimaryKeySelective(project1);
 						 shippingConfirmationService.insertSelective(shippingConfirmation);
+
+						 DingTalkThread.setShippingConfirmation(shippingConfirmation.getId());
 						 json.setOk(true);
 						 json.setData(shippingConfirmation.getId());
 						 return json;
@@ -1447,7 +1449,7 @@ public class ProjectComplaintController {
 					 json.setMessage("项目号不能为空");
 					 return json;
 				 }
-	         	
+
 			} catch (Exception e) {
 				json.setOk(false);
 				json.setMessage("出货单添加错误");
@@ -2282,7 +2284,7 @@ public class ProjectComplaintController {
 				 * 获取投诉上传内容
 				 * @Title upload 
 				 * @Description
-				 * @param file
+				 * @param
 				 * @param request
 				 * @param model
 				 * @return
@@ -2360,7 +2362,25 @@ public class ProjectComplaintController {
 
 
 
+	@ResponseBody
+	@RequestMapping(value = "/updateDeliveryConfirmation")
+	public JsonResult updateDeliveryConfirmation(HttpServletRequest request) {
+		JsonResult jsonResult = new JsonResult();
+		try {
+			String id = request.getParameter("id");
+			ShippingConfirmation projectComplaint = new ShippingConfirmation();
+			projectComplaint.setId(Integer.parseInt(id));
+			projectComplaint.setDeliveryConfirmation(1);
+			shippingConfirmationService.updateByPrimaryKeySelective(projectComplaint);
 
+			jsonResult.setOk(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResult.setMessage("上传失败");
+			jsonResult.setOk(false);
+		}
+		return jsonResult;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/updateVerifyComplaint")
