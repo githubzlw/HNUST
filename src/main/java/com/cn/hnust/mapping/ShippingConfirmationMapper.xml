@@ -60,7 +60,7 @@
       <result column="weight" property="weight" jdbcType="VARCHAR" />
       <result column="shipping_information" property="shippingInformation" jdbcType="VARCHAR" />
     <result column="delivery_confirmation" property="deliveryConfirmation" jdbcType="INTEGER" />
-
+    <result column="process_instance_id" property="processInstanceId" jdbcType="VARCHAR" />
       
     <!-- 项目金额 -->
     <result column="project_amount" property="projectAmount" jdbcType="VARCHAR" />
@@ -718,6 +718,9 @@
       </if>
       <if test="deliveryConfirmation != null" >
         delivery_confirmation = #{deliveryConfirmation,jdbcType=INTEGER},
+      </if>
+      <if test="processInstanceId != null" >
+        process_instance_id = #{processInstanceId,jdbcType=INTEGER},
       </if>
 
     </set>

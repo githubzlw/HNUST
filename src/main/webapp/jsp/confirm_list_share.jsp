@@ -1110,19 +1110,7 @@
                  id:id
 			},
 			success : function(json) {
-				$.ajax({
-					type : "post",
-					url : "/complaint/updateDeliveryConfirmation",
-					data : {
-						id:id
-					},
-					success : function(json) {
-						window.location.reload();
-
-
-					}
-				})
-
+				window.location.reload();
 
 			}
 		})

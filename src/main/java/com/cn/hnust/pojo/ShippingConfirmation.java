@@ -146,9 +146,16 @@ public class ShippingConfirmation implements Serializable {
     
     private String shippingInformation;//小批量是否发送信息
 	private int deliveryConfirmation;//是否转钉钉审批
-    
+	private String processInstanceId;     //钉钉审批id
     private static final long serialVersionUID = 1L;
 
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
 
 	public int getDeliveryConfirmation() {
 		return deliveryConfirmation;
@@ -908,7 +915,8 @@ public class ShippingConfirmation implements Serializable {
 				", productNumber=" + productNumber +
 				", weight='" + weight + '\'' +
 				", shippingInformation='" + shippingInformation + '\'' +
-				", deliveryConfirmation='" + deliveryConfirmation + '\'' +
+				", deliveryConfirmation=" + deliveryConfirmation +
+				", processInstanceId='" + processInstanceId + '\'' +
 				'}';
 	}
 
