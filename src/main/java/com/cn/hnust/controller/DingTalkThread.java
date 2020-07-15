@@ -90,6 +90,12 @@ public static void ComplaintOut(Integer id, String dingTalkId) {
     public static void setShippingConfirmation(Integer id) {
         String url ="https://www.kuaizhizao.cn/Ding-Talk/shippingConfirmation?id="+id;
         String process_instance_id=sendPost(url);
-        ProjectComplaintController.updateDeliveryConfirmation(id,process_instance_id);
+
+    }
+
+    public static String sendDeliveryConfirmation(String id) {
+        String url ="https://www.kuaizhizao.cn/Ding-Talk/deliveryConfirmation?id="+id;
+        String process_instance_id=sendPost(url);
+        return process_instance_id;
     }
 }

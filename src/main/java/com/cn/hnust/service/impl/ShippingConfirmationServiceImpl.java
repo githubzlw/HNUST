@@ -297,4 +297,9 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 		return shippingConfirmationMapper.selectBySerialNumber(serialNumber);
 	}
 
+	@Override
+	public void updateByPrimaryKeySelective1(ShippingConfirmation projectComplaint) {
+		shippingConfirmationMapper.updateByPrimaryKeySelective(projectComplaint);
+	}
+
 }

@@ -157,8 +157,7 @@ public class ProjectComplaintController {
 	ComplaintInspectionReportService complaintInspectionReportService;
 	@Autowired
 	private static ProjectComplaintService projectComplaintService1;
-	@Autowired
-	private static ShippingConfirmationService shippingConfirmationService1;
+
 	private static final Log LOG = LogFactory.getLog(ProjectComplaintController.class);
 	private static PropertiesUtils reader = new PropertiesUtils("config.properties");
     private static final int SAMPLE = 0;           //样品
@@ -176,7 +175,7 @@ public class ProjectComplaintController {
 	@PostConstruct
     public void beforeInit() {
     	projectComplaintService1 = projectComplaintService;
-		shippingConfirmationService1=shippingConfirmationService;
+
 	}
 	/**
 	 * 查询投诉列表
@@ -2367,22 +2366,25 @@ public class ProjectComplaintController {
 					}
 
 
-	public static void updateDeliveryConfirmation(Integer id, String process_instance_id) {
+	@ResponseBody
+	@RequestMapping(value = "/updateDeliveryConfirmation")
+	public  JsonResult updateDeliveryConfirmation(HttpServletRequest request) {
 		JsonResult jsonResult = new JsonResult();
 		try {
-
+			String id = request.getParameter("id");
+			String  process_instance_id= DingTalkThread.sendDeliveryConfirmation(id);
 			ShippingConfirmation projectComplaint = new ShippingConfirmation();
-			projectComplaint.setId(id);
+			projectComplaint.setId(Integer.parseInt(id));
 			projectComplaint.setDeliveryConfirmation(1);
 			projectComplaint.setProcessInstanceId(process_instance_id);
-			shippingConfirmationService1.updateByPrimaryKeySelective(projectComplaint);
+			shippingConfirmationService.updateByPrimaryKeySelective1(projectComplaint);
             jsonResult.setOk(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			jsonResult.setMessage("上传失败");
 			jsonResult.setOk(false);
 		}
-
+		return jsonResult;
 	}
 
 

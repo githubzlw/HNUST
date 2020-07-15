@@ -562,7 +562,7 @@
 
 			<c:if test="${shippingConfirmation.isComplete == 0 && isSign == true}">
 				<c:if test="${shippingConfirmation.deliveryConfirmation==0}"><button  class="btn btn-default bgcolor_ff0 no-print"
-						 style="background-color: #027CFF; color: #fff;"  onclick="deliveryConfirmation(shippingConfirmation.id)" >点我开始签名</button></c:if>
+						 style="background-color: #027CFF; color: #fff;"  onclick="deliveryConfirmation(${shippingConfirmation.id})" >点我开始签名</button></c:if>
 				<c:if test="${shippingConfirmation.deliveryConfirmation==1}"><button  class="btn btn-default bgcolor_ff0 no-print" style="background-color: #027CFF; color: #fff;" >
 					已生成钉钉签名流程</button></c:if>
 			</c:if>
@@ -1102,18 +1102,22 @@
 
     }
 	//控制跳转回复逻辑
-	function deliveryConfirmation() {
+	function deliveryConfirmation(id) {
 		$.ajax({
-			type : "post",
-			url : "https://www.kuaizhizao.cn/Ding-Talk/deliveryConfirmation",
-			data : {
-                 id:id
-			},
-			success : function(json) {
-				window.location.reload();
+					type : "post",
+					url : "/complaint/updateDeliveryConfirmation",
+					data : {
+						id:id
 
-			}
-		})
+					},
+					success : function(json) {
+
+						window.location.reload();
+
+					}
+				})
+
+
 
 	}
 

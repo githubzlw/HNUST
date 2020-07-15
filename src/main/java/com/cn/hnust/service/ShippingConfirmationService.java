@@ -61,5 +61,6 @@ public interface ShippingConfirmationService {
      * 
      */
     ShippingConfirmation selectBySerialNumber(String serialNumber);
-   
+
+    void updateByPrimaryKeySelective1(ShippingConfirmation projectComplaint);
 }
