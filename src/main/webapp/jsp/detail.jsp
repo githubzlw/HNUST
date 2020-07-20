@@ -231,11 +231,22 @@
 	margin-left: 50px;
 	padding: 0 10px;
 }
+.add_packing i{font-size:20px;top:6px;margin-right:5px;color:#0db1ff;}
+.add_pack_detail em{margin-right:5px;color:#666;}
+.add_pack_detail{margin-bottom:10px;}
+.blue{color:#0db1ff;cursor: pointer;}
+.packing_tc{position: fixed;top:50%;left:50%;transform: translate(-50%,-50%);width:90%;padding:20px 15px;
+background-color:#fff;box-shadow: 0 0 9px 0 rgba(0,0,0,.2);z-index: 10;font-size:20px;text-align: center;
+	max-width:768px;display: none;}
+@media screen and (max-width:768px){
+	.packing_tc{font-size:16px;}
+}
+
 </style>
 </head>
 <body>
-
 	<div class="quality add_detail">
+		<%--<div class="packing_tc"> 包装开箱内容不全 </div>--%>
 		<input type="hidden" id="projectNoId" value="${projectNoId}">
 		<input type="hidden" id="roleNo" value="${roleNo}"> <input
 			type="hidden" id="userId" value="${userId}"> <input
@@ -289,9 +300,8 @@
 			<p>检验报告</p>
 			<div class="sele_">
 				<label>这次上传的是：</label> <select id="type" name="type"
-					onchange="change_stage(this)">
+											   onchange="change_stage(this)">
 					<option value="0" <c:if test="${checkType eq '样品'}">selected</c:if>>样品检验</option>
-					<!-- <option value="1">大货样品</option> -->
 					<option value="2" <c:if test="${checkType eq '过程'}">selected</c:if>>中期检验</option>
 					<option value="3" <c:if test="${checkType eq '出货'}">selected</c:if>>终期检验</option>
 				</select> <span>报告</span>
@@ -417,8 +427,21 @@
 			<form id="package_form" onsubmit="return false;">
 				<input type="hidden" name="projectNo" value="${projectNo}" />
 				<div class="imgs">
-					<span>包装图(开箱比例${openRate==null?'暂无':openRate}${openRate!=null?'%':''}，质检检验要标好箱号和生产日期并拍照)</span><br>
-					<span>实际开箱比例系统会自动计算</span>
+					<%--<div class="old">
+						<span>包装图(开箱比例${openRate==null?'暂无':openRate}${openRate!=null?'%':''}，质检检验要标好箱号和生产日期并拍照)</span><br>
+						<span>实际开箱比例系统会自动计算</span>
+					</div>--%>
+					<div class="add_packing">
+						<p >包装图，实际开箱比例系统会自动计算 ,<span class="blue"><i class="glyphicon glyphicon-menu-up">  </i>点击收起详细要求</span></p>
+						<div class="add_pack_detail">
+							<p><em class="glyphicon glyphicon-star"></em>多个开箱的情况下，质检必须提供开箱照片，并在箱子上 写上  序号 </p>
+							<p><em class="glyphicon glyphicon-star"></em>所有抽检的产品，聚在一起，拍一张全家福。照片里面需要 摆一张纸，写上抽样数量。 如果不得不分批拍，请注明 每一批的出处和数量。</p>
+							<p><em class="glyphicon glyphicon-star"></em>质检总监需要对 抽样数量 是否合理 进行 负责 </p>
+						</div>
+					</div>
+
+
+
 					<ul class="clearfix">
 						<li><em class="glyphicon glyphicon-plus"></em><input
 							name="files" onchange="fileChange(this,0)" type="file" multiple /></li>
@@ -430,24 +453,24 @@
 					<tr>
 						<td>总箱数</td>
 
-						<td><input class="form-control" field="boxNumber"
+						<td><input class="form-control" field="boxNumber" id="boxNumber"
 							placeholder="数字"></td>
 					</tr>
 					<tr>
 						<td>每箱数量</td>
 
-						<td><input class="form-control" field="perQty" placeholder=""></td>
+						<td><input class="form-control" field="perQty" placeholder="" id="perQty"></td>
 					</tr>
 					<tr>
 						<td>数量清点</td>
 
-						<td><input class="form-control" field="inventoryQty"
+						<td><input class="form-control" field="inventoryQty" id="inventoryQty"
 							placeholder=""></td>
 					</tr>
 					<tr>
 						<td>开箱数量</td>
 
-						<td><input class="form-control" field="openQty"
+						<td><input class="form-control" field="openQty" id="openQty"
 							placeholder=""></td>
 					</tr>
 				</tbody>
@@ -1040,7 +1063,14 @@ $('.row1 label').click(function(){
 		$(this).parent().parent().siblings('.row4').hide();
 	}
 })
-
+$('.add_packing .blue').click(function(){
+    $('.add_pack_detail').toggle();
+    if($('.add_pack_detail').css('display') == 'none'){
+        $('.add_packing i').css('transform','rotate(180deg)');
+	}else{
+        $('.add_packing i').css('transform','rotate(0deg)');
+	};
+});
 
 </script>
 <script>
@@ -1415,11 +1445,26 @@ $('.row1 label').click(function(){
 			return false;
 		}
 		 
-		if(!boxnumber||!perQty||!inventoryQty||!openQty){
+		/*if(!boxnumber||!perQty||!inventoryQty||!openQty){
 			alert("请填写总箱数、每箱数量、数量清点、开箱数量");
-			return false;
-		}
-		
+		}*/
+		// 大货类的检验，保存时如果这里内容没填全，弹窗提醒”包装开箱内容不全”，并不允许保存
+        var select_option = $('#type').val();
+        if(select_option == '3'){
+            var boxNumber  = $('#boxNumber').val();
+            var perQty  = $('#perQty').val();
+            var inventoryQty = $('#inventoryQty').val();
+            var openQty = $('#openQty').val();
+            if(boxNumber == '' || inventoryQty =='' || inventoryQty == '' || openQty == ''){
+                // $('#add_tc').show();
+                alert('包装开箱内容不全')
+                return false;
+			}
+			// else{
+             //    $('#add_tc').hide();
+			// }
+        }
+
 		param["place"] = checkPlace;
 		var factoryInspection = '';
 		/* //获取工厂检验
