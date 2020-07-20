@@ -7,6 +7,8 @@ import com.cn.hnust.pojo.ProjectERP;
 import com.cn.hnust.pojo.User;
 
 public interface ItemCaseERPService {
+
+	List<String> getProjects(int startRow,int limit);
 	/**
 	 * 根据项目号查询
 	 * @Title selectByCaseNo 

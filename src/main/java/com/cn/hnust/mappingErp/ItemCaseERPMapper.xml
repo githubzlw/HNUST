@@ -66,6 +66,9 @@
     MerchandManager1, MerchandManager2, Engineer1, Engineer2, Engineer3,ProjectLevel,
     ProjectMaterialProperties,Merchandising, MaturePurchase,PoTime 
   </sql>
+    <select id="getProjects" resultType="java.lang.String">
+        select DISTINCT CaseNo from Bargain where id > #{start,jdbcType=INTEGER} and id &lt; #{end,jdbcType=INTEGER}
+    </select>
   <select id="selectByCaseNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
      		 
 select it.CaseNo, it.ProductDescC, it.ProductDescE, it.zhijian1, it.zhijian2, it.QualityInspector, it.CustomerManager,it.PoTime, 

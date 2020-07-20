@@ -15,7 +15,13 @@ public class ItemCaseERPServiceImpl implements ItemCaseERPService {
 
 	@Autowired
 	private ItemCaseERPMapper itemCaseERPMapper;
-	
+
+
+	@Override
+	public List<String> getProjects(int startRow, int limit) {
+		return itemCaseERPMapper.getProjects(startRow,startRow+limit);
+	}
+
 	@Override
 	public ProjectERP selectByCaseNo(String projectNo) {
 		return itemCaseERPMapper.selectByCaseNo(projectNo);

@@ -8,7 +8,8 @@ import com.cn.hnust.pojo.FactoryFund;
 import com.cn.hnust.pojo.ProjectERP;
 
 public interface ItemCaseERPMapper {
-	
+
+	List<String> getProjects(@Param("start")int startRow,@Param("end")int endRow);
 	/**
 	 * 根据项目号查询
 	 * @Title selectByCaseNo 
