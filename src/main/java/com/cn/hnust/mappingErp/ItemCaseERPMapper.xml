@@ -85,7 +85,9 @@ select it.CaseNo, it.ProductDescC, it.ProductDescE, it.zhijian1, it.zhijian2, it
 		      LEFT JOIN FactoryInfo AS b ON a.fid = b.id group by a.CaseNo)       
       ) m on m.CaseNo=it.CaseNo 
       left join (select a.CaseNo,completiontime,DateSample,statetime,supplementary_contract,ii.ifdate,isnull(b.BargainNo,d.BargainNo)BargainNo from
-				   (select CaseNo,min(inputDate)statetime from  FactoryFund group by CaseNo)a
+				   (select CaseNo,max(statetime) statetime from (
+                select BargainNo,min(inputDate)statetime,CaseNo from  FactoryFund where CaseNo = #{projectNo,jdbcType=VARCHAR}  group by BargainNo,CaseNo
+                ) ff group by CaseNo)a
 				  left join (select top 1 completiontime,CaseNo,BargainNo,supplementary_contract from Bargain  where completiontime>'2000-01-01' and caseno = #{projectNo,jdbcType=VARCHAR} order by id desc)b on a.CaseNo=b.CaseNo
         		  left join (select top 1 DateSample,CaseNo,BargainNo from Bargain  where DateSample>'2000-01-01' and caseno = #{projectNo,jdbcType=VARCHAR} order by id desc)d on a.caseno=d.caseno     
         		  left join (select icaseno,min(ifdate)ifdate from invoiceinfo where ifmoney is not null and ifmoney!=0  group by icaseno )ii on ii.icaseno=a.caseno)c         		  
