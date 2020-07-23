@@ -97,12 +97,16 @@ h3{position: relative;}
 .checked_more{font-weight: bold;color: green;}
 .goodsEntry_tc table{width:1110px;margin-top: 15px;}
 .goodsEntry  td{position: relative;}
-.tc3_close{position: absolute;right:0;top:0;}
+.tc3_close,.tc4_close{position: absolute;right:0;top:0;}
 .goodsEntry .d1{display: none;width:50px;position:relative;top:6px;}
 .goodsEntry{max-height: 750px;overflow-y: scroll;width:1187px;}
 .goodsEntry .date_d{width:136px;}
-.goodsEntry{position:fixed;top:20px;left:50%;transform:translate(-50%,0);box-shadow: 0 3px 9px rgba(0,0,0,.45);background-color: #fff;z-index: 100;display:none;padding:20px;height:750px;overflow-y: auto;overflow-x:hidden;}
+.goodsEntry,.video_play_tc{position:fixed;top:20px;left:50%;transform:translate(-50%,0);box-shadow: 0 3px 9px rgba(0,0,0,.45);background-color: #fff;z-index:
+		100;display:none;padding:20px;height:750px;overflow-y: auto;overflow-x:hidden;}
 .table1_tc .table > thead > tr > th,.table1_tc .table > tbody > tr > td{font-size:16px;}
+.mt20{margin-top:20px;}
+.video_play_tc td{text-align: center;position: relative;}
+.up_video{position: absolute;top:0;left:0;width:100%;height:100%;opacity: 0;}
 
 </style>
 </head>
@@ -430,6 +434,7 @@ h3{position: relative;}
 			<button class="btn btn-default select_blank"  onclick="searchAll(${roleNo},'${userName}',1);">显示按工作日和成员安排的表</button>
 			<button class="btn btn-default select_blank btn_tc2"  onclick="searchProductionCompletion(${roleNo},'${userName}','${start}');">本周下周生产完成，未安排质检的项目(${noInspectionTask }) 第一次大货，但尚未安排中期检验项目(${noInterimInspection })</button>
 			<button class="btn btn-default select_blank btn_tc3"  onclick="searchGoodsEntry();">到货表</button>
+			<button class="btn btn-default select_blank btn_tc4"> 超过10Wrmb的出货视频 </button>
 		 </div>
 	</div>
 	<div class="row tc_row">
@@ -628,7 +633,72 @@ h3{position: relative;}
 		</div>
 	</div>
 	 <!-- 第3个弹窗结束 -->
-
+	<%--第4个弹窗开始--%>
+	<div class="container video_play_tc">
+		<div class="row">
+			<div class="col-xs-12">
+				<h3 class="f16 mr30">
+					<span>最新一个月超过10Wrmb的出货视频</span>
+					<p class="mt20">(<i>n</i>已有视频数量 / <i>m</i> 应当有的视频数量)</p>
+					<button class="btn btn-default tc4_close">关闭</button>
+				</h3>
+			</div>
+			<div class="col-xs-12 mt20">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>总出货金额</th>
+							<th>录入时间</th>
+							<th>主要出货项目号</th>
+							<th>之简名</th>
+							<th>在线观看</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>$ 1230000</td>
+							<td> 2020-07-08 16:49:15 </td>
+							<td> SHS23755 </td>
+							<td> 张三李四王二 </td>
+							<td><a href="shipping_video.jsp" target="_blank">点击观看</a> </td>
+						</tr>
+						<tr>
+							<td>$ 1230000</td>
+							<td> 2020-07-08 16:49:15 </td>
+							<td> SHS23755 </td>
+							<td> 张三李四王二 </td>
+							<td><a href="shipping_video.jsp" target="_blank">点击观看</a> </td>
+						</tr>
+						<tr>
+							<td>$ 1230000</td>
+							<td> 2020-07-08 16:49:15 </td>
+							<td> SHS23755 </td>
+							<td> 张三李四王二 </td>
+							<td><a href="shipping_video.jsp" target="_blank">点击观看</a> </td>
+						</tr>
+						<tr>
+							<td>$ 1230000</td>
+							<td> 2020-07-08 16:49:15 </td>
+							<td> SHS23755 </td>
+							<td> 张三李四王二 </td>
+							<td><a href="shipping_video.jsp" target="_blank">点击观看</a> </td>
+						</tr>
+						<tr>
+							<td>$ 1230000</td>
+							<td> 2020-07-08 16:49:15 </td>
+							<td> SHS23755 </td>
+							<td> 张三李四王二 </td>
+							<td>
+								未上传，点我上传
+								<input type="file" class="up_video">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<%--第4个弹窗结束--%>
 
 	<!-- 第2个表格开始  -->
 	<div class="row">
@@ -1241,6 +1311,13 @@ $('.tc3_close').click(function(){
     $('.goods_entry_task_list').html('');
 	$('.goodsEntry').hide();
 });
+$('.btn_tc4').click(function(){
+    $('.video_play_tc').show();
+});
+$('.tc4_close').click(function(){
+    $('.video_play_tc').hide();
+});
+
 /* 查询数据 */
 function searchGoodsEntry(){
 	 $.ajax({

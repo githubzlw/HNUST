@@ -68,6 +68,9 @@
 				<div class="form-group">					
 					<label><input type="checkbox" name="videoType" value="4"/> 产品360度视频 </label>
 				</div>
+				<div class="form-group">
+					<label><input type="checkbox" name="videoType" value="5"/> 工厂出大货视频 </label>
+				</div>
 				<div class="form-group">					
 					<label><input type="checkbox" name="videoType" value="3"/> 任务视频 </label>
 				</div>				
