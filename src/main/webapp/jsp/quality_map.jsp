@@ -105,8 +105,10 @@ h3{position: relative;}
 		100;display:none;padding:20px;height:750px;overflow-y: auto;overflow-x:hidden;}
 .table1_tc .table > thead > tr > th,.table1_tc .table > tbody > tr > td{font-size:16px;}
 .mt20{margin-top:20px;}
-.video_play_tc td{text-align: center;position: relative;}
+.video_play_tc table tbody td,.video_play_tc table thead th{text-align: center;position: relative;font-size:15px;}
 .up_video{position: absolute;top:0;left:0;width:100%;height:100%;opacity: 0;}
+.video_play_tc{width:46%;}
+
 
 </style>
 </head>
@@ -640,7 +642,7 @@ h3{position: relative;}
 				<h3 class="f16 mr30">
 					<span>最新一个月超过10Wrmb的出货视频</span>
 					<p class="mt20">(<i>n</i>已有视频数量 / <i>m</i> 应当有的视频数量)</p>
-					<button class="btn btn-default tc4_close">关闭</button>
+					<button class="btn btn-default select_blank  tc4_close">关闭</button>
 				</h3>
 			</div>
 			<div class="col-xs-12 mt20">
@@ -650,7 +652,7 @@ h3{position: relative;}
 							<th>总出货金额</th>
 							<th>录入时间</th>
 							<th>主要出货项目号</th>
-							<th>之简名</th>
+							<th>质检名</th>
 							<th>在线观看</th>
 						</tr>
 					</thead>

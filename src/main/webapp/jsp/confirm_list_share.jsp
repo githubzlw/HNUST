@@ -53,7 +53,8 @@
 .del {
 	float: right;
 }
-
+.sign_ul{margin:15px 0;}
+.add_tips p {font-size:16px;margin:15px 0;}
 
 </style>
 
@@ -64,14 +65,7 @@
     .noprint {
     display:none
     }
- /*    .print {
-        margin-left:25%
-    }
-     @("@")page 
-    {
-        size:  auto;   /* auto is the initial value */
-        margin: 0mm;  /* this affects the margin in the printer settings */
-    }   */
+
     
     
     
@@ -561,16 +555,22 @@
 
 
 			<c:if test="${shippingConfirmation.isComplete == 0 && isSign == true}">
-				<c:if test="${shippingConfirmation.deliveryConfirmation==0}"><button  class="btn btn-default bgcolor_ff0 no-print"
-						 style="background-color: #027CFF; color: #fff;"  onclick="deliveryConfirmation(${shippingConfirmation.id})" >点我开始签名</button></c:if>
-				<c:if test="${shippingConfirmation.deliveryConfirmation==1}"><button  class="btn btn-default bgcolor_ff0 no-print" style="background-color: #027CFF; color: #fff;" >
+				<c:if test="${shippingConfirmation.deliveryConfirmation==0}">
+					<button  class="btn btn-default bgcolor_ff0 no-print"
+						 style="background-color: #027CFF; color: #fff;"  onclick="deliveryConfirmation(${shippingConfirmation.id})" >点我开始签名</button>
+				</c:if>
+				<c:if test="${shippingConfirmation.deliveryConfirmation==1}">
+					<button  class="btn btn-default bgcolor_ff0 no-print" style="background-color: #027CFF; color: #fff;" >
 					已生成钉钉签名流程</button></c:if>
-			</c:if>
+			   </c:if>
 			<c:if test="${shippingConfirmation.isComplete == 1}">
 				<button  class="btn btn-default bgcolor_ff0 no-print"
 						 style="background-color: #027CFF; color: #fff;" >签名已完成</button>
 			</c:if>
-		<%--<li class="no-print"><em>跟单签名：</em>
+
+			<li class="add_tips"><p><a href=""> 点我打开钉钉签名的链接 </a> </p></li>
+
+		<li class="no-print"><em>跟单签名：</em>
 				<div class="sure">
 					<c:choose>
 						<c:when test="${shippingConfirmation.salesConfirm != null}">
@@ -656,7 +656,7 @@
 										onclick="confirm('${shippingConfirmation.id}',2,2)">不同意出货</button>
 								</c:when>
 								<c:otherwise>
-									<button class="btn btn-default">未签名</button>
+									<button class="btn btn-default">未签名和钉钉同步</button>
 								</c:otherwise>
 							</c:choose>
 						</c:otherwise>
@@ -694,7 +694,7 @@
 											onclick="confirm('${shippingConfirmation.id}',3,2)">不同意出货</button>
 									</c:when>
 									<c:otherwise>
-										<button class="btn btn-default">未签名</button>
+										<button class="btn btn-default">未签名和钉钉同步</button>
 									</c:otherwise>
 								</c:choose>
 							</c:otherwise>
@@ -732,7 +732,7 @@
 											onclick="confirm('${shippingConfirmation.id}',4,2)">不同意出货</button>
 									</c:when>
 									<c:otherwise>
-										<button class="btn btn-default">未签名</button>
+										<button class="btn btn-default">未签名和钉钉同步</button>
 									</c:otherwise>
 								</c:choose>
 							</c:otherwise>
@@ -762,7 +762,7 @@
 							</c:if>
 						
 					</div></li>
-			</c:if>--%>
+			</c:if>
 		</ul>
 		<div class="no-print">
 			<span>当前状态：</span>
