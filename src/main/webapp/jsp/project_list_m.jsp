@@ -27,6 +27,16 @@
 	display: initial;
 	float: none;
 }
+.index-middle{position: relative;}
+@media screen and (min-width:768px){
+	.project_list_m{width:1200px;margin:0 auto;}
+	.index-top{position: relative;}
+	.project_list_m .index-middle{top:0;}
+	.index-list{width:100%;padding:10px;}
+	.home .form-group1 .name_select{top:-5px;}
+}
+
+
 </style>
 <script type="text/javascript" src="${ctx}/js/common.js"></script>
 </head>
@@ -69,7 +79,7 @@
 					</div >
 	
 					<div class="form-group form-group1 mt10 screen">
-						<label for="firstname" class="col-xs-3 control-label pl0">人员筛选</label>
+						<label for="firstname" class="col-xs-3 control-label pl0 name_select" >人员筛选</label>
 						<div class="col-xs-3 showHtml">
 							<select id="purchase_name" name="purchase_name"
 								class="form-control">
@@ -90,7 +100,7 @@
 					</div>
 					<div class="form-group form-group2 other_gn mt10">
 						<label class="control-label col-xs-12 pl0 ">其他独立排列功能</label>
-						<select class="form-control col-xs-12" id="sort_select">
+						<select class="form-control col-xs-12 mt10" id="sort_select">
 						    <option value=""></option>
 						    <option value="处于暂停状态 超过2周的项目">处于暂停状态 超过2周的项目</option>
 							<option value="过去2周取消的项目">过去2周取消的项目</option>
