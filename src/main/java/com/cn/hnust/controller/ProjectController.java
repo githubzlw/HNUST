@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cn.hnust.pojo.*;
 import com.cn.hnust.service.*;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -177,6 +178,8 @@ public class ProjectController {
 	private FactoryFundService factoryFundService;
 	@Autowired
 	private BargainService bargainService;
+	@Autowired
+	private InvoiceInfoService invoiceInfoService;
 
 	
 	private static final Integer SAMPLE = 0;  //样品查询
@@ -5431,6 +5434,26 @@ public class ProjectController {
             String time=format.format(m);
 			//获取进行中项目列表
 			List<Project> allProjectExport = projectService.selectProjectExport(time);
+
+
+			if(CollectionUtils.isNotEmpty(allProjectExport)){
+				List<String> itemList = allProjectExport.stream().map(Project::getProjectNo).collect(Collectors.toList());
+
+				List<InvoiceInfo> invoiceInfos = invoiceInfoService.getPayDate(itemList);
+
+				Map<String,InvoiceInfo>  invoiceInfoMap = new HashMap<>();
+				invoiceInfos.forEach(e-> invoiceInfoMap.put(e.getCaseNo(),e));
+				invoiceInfos.clear();
+
+				allProjectExport.forEach(e->{
+					if(invoiceInfoMap.containsKey(e.getProjectNo())){
+						e.setIfDate(invoiceInfoMap.get(e.getProjectNo()).getIfdate());
+					}
+				});
+
+				invoiceInfoMap.clear();
+
+			}
 
 			String excelPath = ProjectStatisticsPrint.printOngoingProjects(request, allProjectExport);
 			File outFile = new File(excelPath);

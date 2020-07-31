@@ -37,9 +37,10 @@
 	
 	
   <select id="selectFirstDate" resultMap="BaseResultMap" >
-   select min(i.ifdate)ifdate,c.customercode from InvoiceInfo i  
-	inner JOIN 
-	(
+
+      select min(ifdate)ifdate,customercode,iCaseNo from (
+   select i.ifdate,c.customercode,i.iCaseNo from InvoiceInfo i,
+      (
 		select CaseNo,t1.customercode from itemCase t1 inner join 
 		(
 		select customercode from itemCase where CaseNo in(  
@@ -48,8 +49,16 @@
           </foreach>  
          )     
 		)t2 on t1.customercode = t2.customercode 
-	)c on i.iCaseNo = c.CaseNo GROUP BY c.customercode
+	)c where i.iCaseNo = c.CaseNo) aa GROUP BY aa.customercode
+
   </select>
+
+    <select id="getPayDate" resultMap="BaseResultMap">
+        select iCaseNo, min(ifdate) as ifdate from InvoiceInfo
+        where iCaseNo in(<foreach collection="list" item="item" index="index" separator=",">
+        #{item}
+    </foreach>  ) group by iCaseNo
+    </select>
   
   <!--获取各种统计数据及金额  -->
   <select id="selectCountByStatus" resultMap="BaseResultMap">

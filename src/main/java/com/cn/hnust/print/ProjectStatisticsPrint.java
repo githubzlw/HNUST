@@ -2621,6 +2621,7 @@ public class ProjectStatisticsPrint {
 
 		DecimalFormat df = new DecimalFormat("##.##");
 		int num1 = 0;
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		for (int i = 0; i < sample_tl; i++)
 		{
 			if (i == 0)
@@ -2659,6 +2660,12 @@ public class ProjectStatisticsPrint {
 				cell = row.createCell(10);
 				cell.setCellStyle(boderStyle);
 				cell.setCellValue("项目状态");
+				cell = row.createCell(11);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("项目启动日期");
+				cell = row.createCell(12);
+				cell.setCellStyle(boderStyle);
+				cell.setCellValue("客户付款时间 ");
 			}
 			int spendDays = 0;
 			int delayDays = 0;
@@ -2725,7 +2732,11 @@ public class ProjectStatisticsPrint {
 			}
 			cell = row.createCell(10);
 			cell.setCellStyle(boderStyle);
-			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
+
+
 			Calendar c = Calendar.getInstance();
 			c.setTime(new Date());
 			c.add(5, -7);
@@ -2748,6 +2759,24 @@ public class ProjectStatisticsPrint {
 				} else {
 					cell.setCellValue("样品延期");
 				}
+			}
+
+			Date tempDate = sampleFinishes.get(i).getActualStartDate();
+			cell = row.createCell(11);
+			cell.setCellStyle(cellStyle);
+			if(tempDate != null){
+				cell.setCellValue(format1.format(tempDate));
+			} else{
+				cell.setCellValue("");
+			}
+
+			tempDate = sampleFinishes.get(i).getIfDate();
+			cell = row.createCell(12);
+			cell.setCellStyle(cellStyle);
+			if(tempDate != null){
+				cell.setCellValue(format1.format(tempDate));
+			} else{
+				cell.setCellValue("");
 			}
 		}
 		int i = 0;

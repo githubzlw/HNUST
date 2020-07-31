@@ -18,6 +18,14 @@ public interface InvoiceInfoMapper {
 	 * @return List<InvoiceInfo>
 	 */
 	List<InvoiceInfo> selectFirstDate(List<String> item);
+
+
+	/**
+	 * 获取支付时间
+	 * @param item
+	 * @return
+	 */
+	List<InvoiceInfo> getPayDate(List<String> item);
 	/**
 	 * 
 	 * @Title:InvoiceInfoService

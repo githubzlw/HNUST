@@ -453,6 +453,16 @@ public class Project extends PageHelper implements Serializable {
 
 	private Integer firstInspectionReport;//处理
 
+	private Date ifDate;// 支付时间
+
+	public Date getIfDate() {
+		return ifDate;
+	}
+
+	public void setIfDate(Date ifDate) {
+		this.ifDate = ifDate;
+	}
+
 	public Integer getFirstInspectionReport() {
 		return firstInspectionReport;
 	}

@@ -23,6 +23,11 @@ public class InvoiceInfoServiceImpl implements InvoiceInfoService {
 
 
 	@Override
+	public List<InvoiceInfo> getPayDate(List<String> item) {
+		return invoiceInfoMapper.getPayDate(item);
+	}
+
+	@Override
 	public String getAllMoney(String userName, String start) {
 		
 		return invoiceInfoMapper.getAllMoney(userName,start);
