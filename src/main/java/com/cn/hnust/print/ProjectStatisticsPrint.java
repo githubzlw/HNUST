@@ -2780,11 +2780,11 @@ public class ProjectStatisticsPrint {
 			}
 		}
 		int i = 0;
-		while (i < 16)
+		/*while (i < 16)
 		{
 			sheet.autoSizeColumn((short)i);
 			i++;
-		}
+		}*/
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
 		tempPath = new File(paths);

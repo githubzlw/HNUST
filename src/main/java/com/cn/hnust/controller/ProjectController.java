@@ -5432,13 +5432,18 @@ public class ProjectController {
 			//c.add(Calendar.DATE, -1);
 			Date m = c.getTime();
             String time=format.format(m);
+
+            System.setProperty ("java.awt.headless", "true");
 			//获取进行中项目列表
 			List<Project> allProjectExport = projectService.selectProjectExport(time);
 
 
 			if(CollectionUtils.isNotEmpty(allProjectExport)){
-				List<String> itemList = allProjectExport.stream().map(Project::getProjectNo).collect(Collectors.toList());
+				List<String> itemList = new ArrayList<>();
 
+				for(Project project : allProjectExport){
+					itemList.add(project.getProjectNo());
+				}
 				List<InvoiceInfo> invoiceInfos = invoiceInfoService.getPayDate(itemList);
 
 				Map<String,InvoiceInfo>  invoiceInfoMap = new HashMap<>();
@@ -5475,12 +5480,16 @@ public class ProjectController {
 			toClient.flush();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			LOG.error("ongoingProjects", e);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+			LOG.error("ongoingProjects", e);
 		} catch (IOException e) {
 			e.printStackTrace();
+			LOG.error("ongoingProjects", e);
 		} catch (Exception e) {
 			e.printStackTrace();
+			LOG.error("ongoingProjects", e);
 		}
 	}
 
