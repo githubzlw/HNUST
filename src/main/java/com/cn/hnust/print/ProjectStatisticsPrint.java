@@ -1159,11 +1159,11 @@ public class ProjectStatisticsPrint {
         	  
         }
          //自动调整列宽
-         int i=0;
+         /*int i=0;
          while (i<15) {
         	 sheet.autoSizeColumn((short)i);
         	 i++;
-		 }
+		 }*/
 		
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
@@ -1416,11 +1416,11 @@ public class ProjectStatisticsPrint {
          }
          
          //自动调整列宽
-         int i=0;
+         /*int i=0;
          while (i<16) {
         	 sheet.autoSizeColumn((short)i);
         	 i++;
-		 }
+		 }*/
 		
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
@@ -1809,11 +1809,11 @@ public class ProjectStatisticsPrint {
         
         
         //自动调整列宽
-        int i=0;
+        /*int i=0;
         while (i<12) {
        	 sheet.autoSizeColumn((short)i);
        	 i++;
-		 }
+		 }*/
 		
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
@@ -2015,11 +2015,11 @@ public class ProjectStatisticsPrint {
         
         
         //自动调整列宽
-        int i=0;
+        /*int i=0;
         while (i<16) {
        	 sheet.autoSizeColumn((short)i);
        	 i++;
-		 }
+		 }*/
 		
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
@@ -2209,11 +2209,11 @@ public class ProjectStatisticsPrint {
         
         
         //自动调整列宽
-        int i=0;
+        /*int i=0;
         while (i<16) {
        	 sheet.autoSizeColumn((short)i);
        	 i++;
-		 }
+		 }*/
 		
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
@@ -2522,11 +2522,11 @@ public class ProjectStatisticsPrint {
 
 
 		//自动调整列宽
-		int i=0;
+		/*int i=0;
 		while (i<16) {
 			sheet.autoSizeColumn((short)i);
 			i++;
-		}
+		}*/
 
 		String paths = UploadAndDownloadPathUtil.getFilePath();
 
