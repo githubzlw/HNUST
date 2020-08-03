@@ -352,7 +352,7 @@ public class ProjectStatisticsPrint {
         		 chargeDays = delayDays;
         	 }
         	 //当交期大于上个月15号时，扣款日期即为延期时间
-        	 if(sampleFinishes.get(i).getSampleScheduledDate().getTime() >=  DateUtil.getPrevMonthDate(endDate).getTime()){
+        	 if(sampleFinishes.get(i).getSampleScheduledDate() !=null && sampleFinishes.get(i).getSampleScheduledDate().getTime() >=  DateUtil.getPrevMonthDate(endDate).getTime()){
         		 chargeDays = delayDays;
         	 }
         	 
