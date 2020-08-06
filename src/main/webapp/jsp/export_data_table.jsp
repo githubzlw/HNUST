@@ -78,7 +78,7 @@ function exitlogin() {
 $(function(){
 	
 	//同步cookie到快制造
-	  if($.cookie('name')){
+	  /*if($.cookie('name')){
            var username = $.cookie('name');
            $.ajax({
   		     type:"POST",
@@ -90,7 +90,7 @@ $(function(){
   		     success:function(result){		   
   		     }
          })	
-	  }	 
+	  }*/
 		
 })
 

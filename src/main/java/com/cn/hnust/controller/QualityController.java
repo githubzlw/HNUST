@@ -353,7 +353,7 @@ public class QualityController {
 				}	
 			}
             qualityReportService.insertSelective(qr);
-            if(project.getPlantAnalysis()==1 ||project.getPlantAnalysis()==2){
+            /*if(project.getPlantAnalysis()==1 ||project.getPlantAnalysis()==2){
                 if("2".equalsIgnoreCase(stateStr)||"3".equalsIgnoreCase(stateStr)){
                  ProjectFactory factory=projectFactoryService.selectProjectNo(projectNo);
                 if(factory!=null){
@@ -364,7 +364,7 @@ public class QualityController {
                     projectService.updateByPrimaryKeySelective(project1);
                 }
               }
-            }
+            }*/
             SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time=dft.format(qr.getCreatetime());
 			if(quality_testing1!=null&&!"".equalsIgnoreCase(quality_testing1)){
