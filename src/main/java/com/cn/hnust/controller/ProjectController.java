@@ -5342,6 +5342,7 @@ public class ProjectController {
 					res.setCode(200);
 			        return res;
 			        } catch (Exception var14) {
+				  	var14.printStackTrace();
 			            res.failed(request.getRequestURI() + " error " + var14.toString());
 			            return res;
 			        }	
