@@ -42,10 +42,10 @@
     
   </insert>
 <insert id="addAll1" parameterType="com.cn.hnust.pojo.QuotePrice1" >
+<foreach collection="list"  item="item" separator=";">
     insert into QuotePrice (CaseNo, EmployeeName, 
       CurrentStatus,UpdateTime,UploadUrl,dingding)
       values
-       <foreach collection="list"  item="item" separator=",">
         (#{item.caseNo,jdbcType=VARCHAR},#{item.employeeName,jdbcType=VARCHAR},#{item.currentStatus,jdbcType=VARCHAR},getDate()
        ,#{item.uploadUrl,jdbcType=VARCHAR},#{item.dingding,jdbcType=INTEGER} )
      </foreach>

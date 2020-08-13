@@ -5335,9 +5335,17 @@ public class ProjectController {
 							quotePriceList1.add(quote1);
 						}
 					}
-					if(quotePriceList1.size()>0){
-						 quotePriceService.addAll1(quotePriceList1); 
-					 }
+					// 每次不超过30个数据插入
+                      if (quotePriceList1.size() > 0) {
+                          int size = quotePriceList1.size();
+                          int cicle = size % 30 > 0 ? size / 30 + 1 : size / 30;
+                          for (int i = 1; i <= cicle; i++) {
+                              int limitSize = Math.min(i * 30, size);
+                              List<QuotePrice1> price1List = quotePriceList1.stream().skip((i - 1) * 30).limit(limitSize).collect(Collectors.toList());
+                              quotePriceService.addAll1(price1List);
+                              price1List.clear();
+                          }
+                      }
 					
 					res.setCode(200);
 			        return res;
