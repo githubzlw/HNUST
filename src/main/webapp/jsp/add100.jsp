@@ -28,21 +28,18 @@
 //查询指定月份数据
 function querySalesStatistics(timeCreening,num) {
 window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
-		
-	
 }
 </script>
 </head>
 <body>
 <div class="usechange1">
-
-
 			<div>
 				<c:if test="${fyfz==1 }"><h2>1.报价工程师当前的报价数量统计表</h2></c:if>
 				<c:if test="${fyfz==9 }"><h2>9.销售工作量统计</h2></c:if>
 			</div>
 			<br /> 
 			<form
+				id="form_new"
 				action="/quotation/baojStatistics"
 				method="post">
 				<table class="usectable">
@@ -61,36 +58,33 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 								<select name="num" id="audit" class="userselein"
 								style="background-color:#fff;color:#333;padding:6px 12px;border:1px solid #ccc;border-radius: 4px;width:auto;">
 									
-									<option value="1"
+									<%--<option value="1"
 										<c:if test="${fyfz==1 }">selected="selected"</c:if>>报价工程师当前的报价数量</option>
 									<option value="9"
 										<c:if test="${fyfz==9 }">selected="selected"</c:if>>销售工作量统计</option>
 									<option value="2"
-										<c:if test="${fyfz==2 }">selected="selected"</c:if>>2个月未及时回复客户信息</option>
+										<c:if test="${fyfz==2 }">selected="selected"</c:if>>2个月未及时回复客户信息</option>--%>
 									<%--<option value="3"
 										<c:if test="${fyfz==3 }">selected="selected"</c:if>>2个月放弃的项目客户信息</option>--%>
 									<%--<option value="4"
 										<c:if test="${fyfz==4 }">selected="selected"</c:if>>2个月内立项未回复客户列表</option>--%>
 								
-									<%--<option value="5"
-										<c:if test="${fyfz==5 }">selected="selected"</c:if>>2翻译最近100个项目及平均翻译时间</option>--%>
+									<option value="5"
+										<c:if test="${fyfz==5 }">selected="selected"</c:if>>2翻译最近100个项目及平均翻译时间</option>
 								
 									<%--<option value="6"
 										<c:if test="${fyfz==6 }">selected="selected"</c:if>>2个月内立项至今无报价员</option>--%>
 								
 									<%--<option value="7"
 										<c:if test="${fyfz==7 }">selected="selected"</c:if>>2个月内立项有报价员，5天未报价</option>--%>
-									<option value="8"
-										<c:if test="${fyfz==8 }">selected="selected"</c:if>>每个月的 AB级客户</option>
+									<%--<option value="8"
+										<c:if test="${fyfz==8 }">selected="selected"</c:if>>每个月的 AB级客户</option>--%>
 								
 								</select>
 							</div>
 						</td>
-						
-
-
 						<td class="usermatd">
-							<input type="submit" value="查询客户联系信息"
+							<input type="submit" value="查询客户联系信息" id="input_submit"
 						   style="background-color:#fff;color:#333;padding:6px 12px;border:1px solid #ccc;border-radius: 4px;">
 						</td>
 					</tr>
@@ -130,12 +124,12 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 				<tr class="emanagergettr">
 					<!-- <td>选择</td> -->
                       <td>销售名</td>
-					<td class="w100">等待报价(AB/全部)</td>
-					<td class="w100">已经报出，客户抱怨太贵正在拯救</td>
-					<td class="w100">已经报出 </td>
-					<td class="w100">报价阶段，和客户积极沟通中</td>
-					<td class="w100">放弃客户</td>
-					<td class="w100">已下单</td>
+					<td class="w100">等待报价项目(AB/全部)</td>
+					<td class="w100">客户抱怨贵了,正在挽救(AB/全部)</td>
+					<td class="w100">客户没反馈(AB/全部)</td>
+					<td class="w100">和客户积极沟通中(AB/全部)</td>
+					<td class="w100">放弃(AB/全部)</td>
+					<td class="w100">下单(AB/全部)</td>
 				</tr>
 				<c:forEach var="obj" items="${userList}" varStatus="i">
 							   <tr>

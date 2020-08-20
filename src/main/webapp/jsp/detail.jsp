@@ -1767,7 +1767,7 @@ $('.add_packing .blue').click(function(){
 																						
 												if (json.ok) {
 													var data = json.data;
-													
+
 													if(formId == 'file_upload_id'){
 														$('#inspectionPic').append('<li class="li_img"><img src="'+data+'"></li>');													
 													}else{
