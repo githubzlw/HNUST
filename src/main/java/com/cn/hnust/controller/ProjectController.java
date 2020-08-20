@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cn.hnust.component.RpcQualityNoticeToKuai;
 import com.cn.hnust.pojo.*;
 import com.cn.hnust.service.*;
 import org.apache.commons.collections4.CollectionUtils;
@@ -5204,6 +5205,10 @@ public class ProjectController {
 							 payOtherService.updatePassERP(payOtherList.get(i).getId(),3);
 						 }else if(num1==0){
 							 payOtherService.updatePassERP(payOtherList.get(i).getId(),2);
+							 // 发送消息给钉钉
+							 DingTalkModel model = new DingTalkModel("", null, payOtherList.get(i).getProcessInstanceId(),
+									 "申请成员不是项目组成员", payOtherList.get(i).getCaseno(), null);
+							 RpcQualityNoticeToKuai.sendRequest(model);
 						 }else{
 							if("agree".equalsIgnoreCase(payOtherList.get(i).getProcessInstanceResult())) {
                                 FactoryFund fac = new FactoryFund();
@@ -5351,6 +5356,7 @@ public class ProjectController {
 			        return res;
 			        } catch (Exception var14) {
 				  	var14.printStackTrace();
+				  	LOG.error("SaveDataToERP error,", var14);
 			            res.failed(request.getRequestURI() + " error " + var14.toString());
 			            return res;
 			        }	
