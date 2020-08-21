@@ -139,6 +139,10 @@ public class ExportQualityWord {
 		try {
 			QualityReport qualityReport =iQualityReportService.selectByPrimaryKey(Integer.parseInt(reportId));
 			Project project = projectService.selectProjctDetails(qualityReport.getProjectNo());
+			if(StringUtils.isNotEmpty(project.getProjectNo())){
+				project.setProjectNo(project.getProjectNo().toUpperCase());
+			}
+
 			List<QualityPicExplain> details = iQualityPicExplainService.queryPicByType(Integer.parseInt(reportId), QualityImgTypeEnum.DETAIL_IMG.getCode());
 			List<QualityPicExplain> bads = iQualityPicExplainService.queryPicByType(Integer.parseInt(reportId), QualityImgTypeEnum.BAD_IMG.getCode());
 			List<QualityPicExplain> materials = iQualityPicExplainService.queryPicByType(Integer.parseInt(reportId), QualityImgTypeEnum.MATERIAL_IMG.getCode());
