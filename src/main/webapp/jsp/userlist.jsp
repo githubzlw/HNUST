@@ -21,6 +21,9 @@
 .td4,.td5{width:100px;}
 .add_table td{padding:5px;}
 .userselediv_nor, .userselein{width:auto;}
+.add_search_input{display: block;margin-top:10px;}
+.add_search_input input{background-color:#fff;padding:6px;margin-right:5px;}
+
 </style>
 
 <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
@@ -41,26 +44,20 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 				<c:if test="${fyfz==1 }"><h2>1.报价工程师当前的报价数量统计表</h2></c:if>
 				<c:if test="${fyfz==9 }"><h2>9.销售工作量统计</h2></c:if>
 			</div>
-			<br /> 
+			<br />
 			<form
 				action="/quotation/baojStatistics"
 				method="post">
 				<table class="usectable">
 					<tr>
-                     <c:if test="${fyfz==9 }">
-                     <input type="button" onclick="querySalesStatistics(1,9);" value="最近2周数据">
-                     <input type="button" onclick="querySalesStatistics(2,9);" value="最近1个月数据">
-                     <input type="button" onclick="querySalesStatistics(3,9);" value="最近1季度数据">
-                      <input type="button" onclick="querySalesStatistics(4,9);" value="最近2季度数据">
-                      <br/>
-                     </c:if>
+
 						<td class="usermatd3" style="padding-left:0;">统计数据:</td>
                              <c:if test="${transtime!=null }">翻译平均时间:${transtime }</c:if>
 						<td style="padding-right:15px;">
 							<div class="userselediv_nor" style="border:0 none;height: auto;">
 								<select name="num" id="audit" class="userselein"
 								style="background-color:#fff;color:#333;padding:6px 12px;border:1px solid #ccc;border-radius: 4px;width:auto;">
-									
+
 									<option value="1"
 										<c:if test="${fyfz==1 }">selected="selected"</c:if>>报价工程师当前的报价数量</option>
 									<option value="9"
@@ -71,22 +68,22 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 										<c:if test="${fyfz==3 }">selected="selected"</c:if>>2个月放弃的项目客户信息</option>--%>
 									<%--<option value="4"
 										<c:if test="${fyfz==4 }">selected="selected"</c:if>>2个月内立项未回复客户列表</option>--%>
-								
+
 									<%--<option value="5"
 										<c:if test="${fyfz==5 }">selected="selected"</c:if>>2翻译最近100个项目及平均翻译时间</option>--%>
-								
+
 									<%--<option value="6"
 										<c:if test="${fyfz==6 }">selected="selected"</c:if>>2个月内立项至今无报价员</option>--%>
-								
+
 									<%--<option value="7"
 										<c:if test="${fyfz==7 }">selected="selected"</c:if>>2个月内立项有报价员，5天未报价</option>--%>
 									<option value="8"
 										<c:if test="${fyfz==8 }">selected="selected"</c:if>>每个月的 AB级客户</option>
-								
+
 								</select>
 							</div>
 						</td>
-						
+
 
 
 						<td class="usermatd">
@@ -95,6 +92,17 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 						</td>
 					</tr>
 				</table>
+				<br>
+				<div class="add_search_input">
+					<c:if test="${fyfz==9 }">
+						<input type="button" onclick="querySalesStatistics(1,9);" value="最近2周数据">
+						<input type="button" onclick="querySalesStatistics(2,9);" value="最近1个月数据">
+						<input type="button" onclick="querySalesStatistics(3,9);" value="最近1季度数据">
+						<input type="button" onclick="querySalesStatistics(4,9);" value="最近2季度数据">
+						<br/>
+					</c:if>
+				</div>
+
 			</form>
 			<div style="margin:10px 0;">
 				<a href="http://117.144.21.74:43900/NBEmail/jsp/customer_statistics_page.html" target="_blank">贸易公司控制面板</a>
@@ -126,7 +134,8 @@ window.open("/quotation/baojStatistics?timeCreening="+timeCreening+"&num="+num);
 						</c:forEach>
 
 			</table></c:if>
-          <c:if test="${fyfz==9 }"><table class="emanagergettable">
+          <c:if test="${fyfz==9 }">
+			  <table class="emanagergettable add_table">
 				<tr class="emanagergettr">
 					<!-- <td>选择</td> -->
                       <td>销售名</td>
