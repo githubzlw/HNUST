@@ -45,8 +45,9 @@ width:1400px;}
 .usechange_statistics .btn{padding:6px 12px;}
 .usechange_statistics .userselediv_nor{width: auto;height:auto;border-color: #fff;}
 .add_sale_table .s{display: inline-block;}
-
-
+h2{font-weight: 700;font-size:20px;}
+.add_tabel {width: 535px;margin-bottom: 0;}
+.add_tabel>tbody>tr>td{pading:0;}
 </style>
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
@@ -85,11 +86,10 @@ function updateOutLookCustomers(cid,num){
 			<div style="font-size:20px;font-weight:700;">
 				<h2>${title }</h2>
 			</div>
-			<br />
 			<form
 				action="/quotation/baojStatistics"
 				method="post">
-				<table  class="table" style="width:800px;">
+				<table  class="table add_tabel">
 					<tr>
 
 
@@ -160,8 +160,10 @@ function updateOutLookCustomers(cid,num){
 					</tr>
 				</table>
 			</form>
-<a href="http://117.144.21.74:43900/NBEmail/jsp/customer_statistics_page.html" target="_blank">贸易公司控制面板</a>
-			<table class="emanagergettable add_sale_table" >
+			<div style="margin-:10px 0;font-size: 14px;">
+<a href="http://117.144.21.74:43900/NBEmail/jsp/customer_statistics_page.html" target="_blank" >贸易公司控制面板</a>
+			</div>
+				<table class="emanagergettable add_sale_table" >
 				<tr class="emanagergettr">
 					<!-- <td>选择</td> -->
 
