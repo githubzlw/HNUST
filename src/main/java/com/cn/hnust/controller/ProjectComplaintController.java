@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -28,6 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -170,6 +176,11 @@ public class ProjectComplaintController {
     private static final int BOSS = 4;         //老板
     private static final int PRODUCT_VIDEO=4;  //产品360视频
 
+	private OkHttpClient client = new OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
+					.readTimeout(300, TimeUnit.SECONDS).writeTimeout(300, TimeUnit.SECONDS).build();
+
+
+	private static volatile AtomicLong atomicLong = new AtomicLong(0);
 
 
 	@PostConstruct
@@ -1800,9 +1811,27 @@ public class ProjectComplaintController {
 							work="confirm_list_share-print";
 						}else{
 							work="confirm_list_share";
-						} 
-					 ShippingConfirmation shippingConfirmation = shippingConfirmationService.selectByPrimaryKey(Integer.parseInt(request.getParameter("id")));
-					 request.setAttribute("shippingConfirmation", shippingConfirmation);	
+						}
+
+						ShippingConfirmation shippingConfirmation = shippingConfirmationService.selectByPrimaryKey(Integer.parseInt(request.getParameter("id")));
+
+
+						// 获取钉钉审批数据 // shipping_confirmation
+						 List<ShippingConfirmation> shippingConfirmations = shippingConfirmationService.queryShippingConfirmationByNo(shippingConfirmation.getProjectNo());
+
+						 if (CollectionUtils.isNotEmpty(shippingConfirmations)) {
+							 Map<Integer, List<ShippingConfirmation>> map = shippingConfirmations.stream().collect(Collectors.groupingBy(ShippingConfirmation::getIsComplete));
+							 request.setAttribute("no_complete", CollectionUtils.isNotEmpty(map.get(0)) ? map.get(0).size() : 0);
+							 request.setAttribute("is_complete", CollectionUtils.isNotEmpty(map.get(1)) ? map.get(0).size() : 0);
+							 shippingConfirmations.clear();
+							 map.clear();
+						 } else {
+							 request.setAttribute("no_complete", 0);
+							 request.setAttribute("is_complete", 0);
+						 }
+
+
+						 request.setAttribute("shippingConfirmation", shippingConfirmation);
 					 ShippingConfirmation shippingConfirmation1=new ShippingConfirmation();			 
 					  if(shippingConfirmation!=null){  
 					 //判断当前出货次数
@@ -2410,11 +2439,42 @@ public class ProjectComplaintController {
 	}
 
 
-				public static void updateQualityComplaint(Integer id,
-						String process_instance_id) {
-					 ProjectComplaint projectComplaint = new ProjectComplaint();
-					 projectComplaint.setId(id);
-					 projectComplaint.setProcessInstanceId(process_instance_id);
-					 projectComplaintService1.updateByPrimaryKeySelective(projectComplaint);
-				}
+
+	@RequestMapping(value = "/syncDingDing")
+	@ResponseBody
+	public JsonResult syncDingDing() {
+		JsonResult jsonResult = new JsonResult();
+		try {
+			long count = atomicLong.addAndGet(1);
+			if (count % 50 == 0) {
+				client = new OkHttpClient.Builder().connectTimeout(600, TimeUnit.SECONDS)
+						.readTimeout(300, TimeUnit.SECONDS).writeTimeout(300, TimeUnit.SECONDS).build();
+			}
+			String ipUrl = "https://www.kuaizhizao.cn/Ding-Talk/getdeliveryConfirmation?cursor=0";
+			Request request = new Request.Builder().addHeader("Connection", "close").addHeader("Accept", "*/*")
+					.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)").get().url(ipUrl).build();
+			Response response = client.newCall(request).execute();
+			if (response.isSuccessful()) {
+				jsonResult.setOk(true);
+			} else {
+				jsonResult.setOk(false);
+			}
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResult.setMessage("执行失败");
+			jsonResult.setOk(false);
+		}
+		return jsonResult;
+	}
+
+
+	public static void updateQualityComplaint(Integer id,
+											  String process_instance_id) {
+		ProjectComplaint projectComplaint = new ProjectComplaint();
+		projectComplaint.setId(id);
+		projectComplaint.setProcessInstanceId(process_instance_id);
+		projectComplaintService1.updateByPrimaryKeySelective(projectComplaint);
+	}
 }

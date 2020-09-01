@@ -541,6 +541,20 @@
 				</c:if>
 			</div>
       </c:if>
+
+			<c:if test="${no_complete > 0}">
+				<div class="list mt10 no-print">
+				<div class="">
+					c、钉钉关联审批：
+					<span><b style="color: red;">未完成审批数量${no_complete}</b></span>
+					&nbsp&nbsp&nbsp
+					<b>已完成审批数量${is_complete}</b>&nbsp&nbsp&nbsp
+					<button class="btn btn-default bgcolor_ff0 no-print" onclick="syncDingDing()">立即同步钉钉审批状态</button>
+					<span id="notice_show" style="color: red;display: none;">正在执行...</span>
+				</div>
+					</div>
+			</c:if>
+
 <c:if test="${userName==null||userName==''}">
 			<div class="share mt10">
 				<a onclick="sendReply()"
@@ -1101,6 +1115,26 @@
 		})
 
     }
+
+	function syncDingDing() {
+
+		$("#notice_show").show();
+		$.ajax({
+			type: "get",
+			url: "/complaint/syncDingDing",
+			success: function (json) {
+				$("#notice_show").hide();
+				setTimeout(function () {
+					window.location.reload();
+				}, 2000);
+			},
+			error: function (res) {
+				$("#notice_show").hide();
+				alert("访问失败:" + res);
+			}
+		})
+	}
+
 	//控制跳转回复逻辑
 	function deliveryConfirmation(id) {
 		$.ajax({

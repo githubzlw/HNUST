@@ -74,4 +74,7 @@ public interface ShippingConfirmationMapper {
      * @return
      */
     String getSerialNumber(String projectNo);
+
+    // 钉钉审批列表
+    List<ShippingConfirmation> queryShippingConfirmationByNo(String projectNo);
 }

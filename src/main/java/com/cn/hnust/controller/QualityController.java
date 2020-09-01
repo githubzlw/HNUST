@@ -498,8 +498,25 @@ public class QualityController {
 			 }
 			 int number=projectService.updateByPrimaryKeySelective(project1);
 	
-			
-			if(state == 2){
+			if(state == 1){
+				Project allproject=projectService.selectProjectByProjectNo(projectNo);
+				ProjectTask pt = new ProjectTask();
+				if(allproject.getPurchaseName()!=null&&!"".equalsIgnoreCase(allproject.getPurchaseName())){
+				pt.setAccepter(allproject.getPurchaseName());
+				}else if(allproject.getSellName()!=null&&!"".equalsIgnoreCase(allproject.getSellName())){
+					pt.setAccepter(allproject.getSellName());
+				}
+				pt.setInitiator(userName);
+				pt.setProjectNo(projectNo);
+				pt.setDescription("有问题，但已经处理/让步接受："+ taskDetail);
+				pt.setTaskStatus("0");
+				pt.setStartTime(new Date());
+				pt.setCreateTime(new Date());
+				pt.setFinishTime(getFinishDate());
+				pt.setQualityId(qr.getId());
+				pt.setTaskType("9");
+				projectTaskService.addProjectTask(pt);//有问题需要给采购布置任务
+			} else if(state == 2){
 				Project allproject=projectService.selectProjectByProjectNo(projectNo);
 				ProjectTask pt = new ProjectTask();
 				if(allproject.getPurchaseName()!=null&&!"".equalsIgnoreCase(allproject.getPurchaseName())){

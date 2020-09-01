@@ -63,4 +63,8 @@ public interface ShippingConfirmationService {
     ShippingConfirmation selectBySerialNumber(String serialNumber);
 
     void updateByPrimaryKeySelective1(ShippingConfirmation projectComplaint);
+
+    // 钉钉审批列表
+    List<ShippingConfirmation> queryShippingConfirmationByNo(String projectNo);
+
 }

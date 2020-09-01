@@ -302,4 +302,9 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 		shippingConfirmationMapper.updateByPrimaryKeySelective(projectComplaint);
 	}
 
+	@Override
+	public List<ShippingConfirmation> queryShippingConfirmationByNo(String projectNo) {
+		return shippingConfirmationMapper.queryShippingConfirmationByNo(projectNo);
+	}
+
 }

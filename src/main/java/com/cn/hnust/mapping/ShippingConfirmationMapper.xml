@@ -169,7 +169,7 @@
     p.project_amount,p.master_quality_inspection,p.quality_inspector1,p.quality_inspector2,p.quality_inspector3, p.quality_inspector4,
 	p.quality_inspector5,p.quality_inspector6,p.quality_inspector7       
      from    
-     shipping_confirmation q    
+     shipping_confirmation q
      left join project p    
      on q.project_no = p.project_no    
      left join user u on p.purchase_id = u.id    
@@ -762,4 +762,9 @@
       boss_confirm_time = #{bossConfirmTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="queryShippingConfirmationByNo" resultType="com.cn.hnust.pojo.ShippingConfirmation">
+    select project_no as projectNo,is_complete as isComplete
+    from shipping_confirmation where project_no = #{projectNo,jdbcType=VARCHAR}
+  </select>
 </mapper>
