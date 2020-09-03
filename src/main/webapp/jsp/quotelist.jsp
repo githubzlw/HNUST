@@ -207,9 +207,8 @@ function updateOutLookCustomers(cid,num){
 						<c:when test="${u.isTranslate==8 }">下单项目</c:when>
 						<c:when test="${u.isTranslate==9 }">完成项目</c:when>
 						</c:choose></span></td>
+                        <td class="td5"><span class="s s5"><fmt:formatDate value="${u.sendDate}" pattern="yyyy-MM-dd" /></span></td>
                         <td>
-						<td><fmt:formatDate value="${u.sendDate}" pattern="yyyy-MM-dd" /></td>
-
 							<span class="s s8"><c:choose>
 						<c:when test="${u.outlookCustomers==0 }"><input type="button" onclick="updateOutLookCustomers(${u.cid },1);" value="不是"></c:when>
 						<c:when test="${u.outlookCustomers==1 }"><span style="color:blue">是</span></c:when>
