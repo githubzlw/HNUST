@@ -442,7 +442,7 @@ cid is not NULL  and datediff(now(),code_date)&lt;60
 
 
 group by cid)a) and is_reply=0
-        ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
+        and ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
 
 and ((nq.project_id is not null and nq.quote_follow_status !=3 and nq.quote_follow_status  !=8) or nq.project_id is null)
 )and ec.blacklist=0
@@ -475,7 +475,7 @@ cid is not NULL  and datediff(now(),code_date)&lt;60
 
 
 group by cid)a) and is_reply=0
-        ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
+        and ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
 
 and ((nq.project_id is not null and nq.quote_follow_status !=3 and nq.quote_follow_status  !=8) or nq.project_id is null)
 )and ec.blacklist=0
