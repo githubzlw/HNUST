@@ -174,6 +174,7 @@ function updateOutLookCustomers(cid,num){
 					<td class="td5"><span class="s s5">项目状态</span></td>
 					<td class="td5 td6"><span class="s s6">销售</span></td>
 					<td class="td5 td7"><span class="s s7">客户状态</span></td>
+					<td class="td5"><span class="s s5">时间</span></td>
 					<td class="td5 td8"><span class="s s8">是否outlook客户</span></td>
            <c:if test="${fyfz==8 }"><td>创建时间</td></c:if>
            <c:if test="${fyfz==5 }"><td>收到邮件时间</td></c:if>
@@ -206,7 +207,10 @@ function updateOutLookCustomers(cid,num){
 						<c:when test="${u.isTranslate==8 }">下单项目</c:when>
 						<c:when test="${u.isTranslate==9 }">完成项目</c:when>
 						</c:choose></span></td>
-                        <td><span class="s s8"><c:choose>
+                        <td>
+						<td><fmt:formatDate value="${u.sendDate}" pattern="yyyy-MM-dd" /></td>
+
+							<span class="s s8"><c:choose>
 						<c:when test="${u.outlookCustomers==0 }"><input type="button" onclick="updateOutLookCustomers(${u.cid },1);" value="不是"></c:when>
 						<c:when test="${u.outlookCustomers==1 }"><span style="color:blue">是</span></c:when>
 

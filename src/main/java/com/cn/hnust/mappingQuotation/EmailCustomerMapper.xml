@@ -420,7 +420,7 @@ and datediff(now(),ecl.create_time)&lt;60
    </select>
 	<select id="getNoReplayTwoMonth" resultMap="BaseResultMap"
 		>
-select  ec.is_translate,ifnull(eu.user_name,'')sale_name,ec.outlook_customers,ec.cid,ec.first_name,ec.site_url,ec.ybcontent,ecl.project_id,ecl.projectStatus,ifnull(a.content1,'')content from email_customer ec 
+select  ec.is_translate,ifnull(eu.user_name,'')sale_name,ec.outlook_customers,ec.cid,ec.first_name,ec.site_url,ec.ybcontent,ecl.project_id,ecl.projectStatus,ifnull(a.content1,'')content,a.send_date from email_customer ec
 left join email_sale es on ec.cid=es.cid
 left join (select project_id,projectStatus,email_client_id from email_clientid where project_id in(
 select max(project_id)project_id from email_clientid 
@@ -431,17 +431,19 @@ left join email_user eu on eu.id=es.sale_id
 left join new_quotes nq on nq.project_id=ecl.project_id
 
 left join (
-select cid,content1 from email_receive_clean where id in(
+select cid,content1,send_date from email_receive_clean where id in(
 select id from (select max(id)id from email_receive_clean  group by cid)a)) a on a.cid=ec.cid
 where ec.cid in (
 select erc.cid from email_receive_clean erc where id in(
 
 select * from (select max(id)id from email_receive_clean  where cid !=0 and 
 
-cid is not NULL  and datediff(now(),code_date)&lt;60 
+cid is not NULL  and datediff(now(),code_date)&lt;60
 
 
 group by cid)a) and is_reply=0
+        ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
+
 and ((nq.project_id is not null and nq.quote_follow_status !=3 and nq.quote_follow_status  !=8) or nq.project_id is null)
 )and ec.blacklist=0
 <if test="saleName!=null">
@@ -473,6 +475,8 @@ cid is not NULL  and datediff(now(),code_date)&lt;60
 
 
 group by cid)a) and is_reply=0
+        ec.cid not in(select user_id from email_receive_clean where send_date >= DATE_SUB(now(),INTERVAL 2 MONTH) and is_reply = 1)
+
 and ((nq.project_id is not null and nq.quote_follow_status !=3 and nq.quote_follow_status  !=8) or nq.project_id is null)
 )and ec.blacklist=0
 <if test="saleName!=null">
