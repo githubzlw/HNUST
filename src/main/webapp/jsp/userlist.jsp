@@ -22,7 +22,7 @@
 .add_table td{padding:5px;}
 .userselediv_nor, .userselein{width:auto;}
 .add_search_input{display: block;margin-top:10px;}
-.add_search_input input{background-color:#fff;padding:6px;margin-right:5px;}
+.add_search_input input{background-color:#fff;padding:6px;margin-right:5px;border: 1px solid #ccc;border-radius: 4px;}
 
 </style>
 

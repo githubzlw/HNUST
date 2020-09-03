@@ -29,7 +29,7 @@
 	color: #fff;
 }
 .emanagergettable{
-width:1400px;}
+width:1400px;margin-top:10px;}
 
 .usechange1{padding: 20px;}
 
@@ -41,13 +41,26 @@ width:1400px;}
 .td6{width:90px;}
 .td7{width:60px;}
 .td8{width:100px;}
+.td10{width:80px;}
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th{border:0 none;}
 .usechange_statistics .btn{padding:6px 12px;}
 .usechange_statistics .userselediv_nor{width: auto;height:auto;border-color: #fff;}
-.add_sale_table .s{display: inline-block;}
+.add_sale_table .s{display: inline-block;word-break: break-all;}
 h2{font-weight: 700;font-size:20px;}
-.add_tabel {width: 535px;margin-bottom: 0;}
+.add_tabel {width: 715px;margin-bottom: 0;}
 .add_tabel>tbody>tr>td{pading:0;}
+.add_td1{width:235px;}
+.add_td2{width:130px;}
+.s1{width:130px;}
+.s2{width:130px;}
+
+.s4{width: 80px;}
+.s5{width:95px;}
+.s6{width: 80px;}
+.s7{width: 60px;}
+.s8{width: 100px;}
+.s9{width: 80px;}
+.emanagergettable td{padding:5px 3px;}
 </style>
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
@@ -91,15 +104,12 @@ function updateOutLookCustomers(cid,num){
 				method="post">
 				<table  class="table add_tabel">
 					<tr>
-
-
-<%--
-						<td class="usermatd3">统计数据:
+					<%--	<td class="usermatd3">统计数据:
                              <c:if test="${transtime!=null }">Sarah翻译最近100封邮件平均时间:${transtime }天</c:if><br/>
                              <c:if test="${transtime1!=null }">Nicole翻译最近100封邮件平均时间:${transtime1 }天</c:if>
                              </td>--%>
                              <br/>
-						<td>
+						<td class="add_td1">
 							<div class="userselediv_nor">
 								<select name="num" id="audit" class="userselein form-control">
 
@@ -128,7 +138,7 @@ function updateOutLookCustomers(cid,num){
 								</select>
 							</div>
 						</td>
-						<td>
+						<td class="add_td2">
 						<div class="userselediv_nor">
 						<select name="saleName" id="saleName" class="userselein form-control">
 						<option value="${saleName }">${saleName }</option>
@@ -139,7 +149,8 @@ function updateOutLookCustomers(cid,num){
 						<option value="Susiehuang">Susiehuang</option>
 						</select></div>
 						</td>
-                      <c:if test="${fyfz==8 }">  <td>
+                      <c:if test="${fyfz==8 }">
+						  <td class="add_td3">
                         <div class="col-sm-3 ">
 							<div class="input-group date form_date col-sm-6" data-date=""
 								data-date-format="yyyy-mm">
@@ -152,10 +163,8 @@ function updateOutLookCustomers(cid,num){
 							<span></span>
 						</div>
 						</td></c:if>
-
-						<td class="usermatd">
+						<td class="usermatd add_td4">
 						<button class="btn btn-default">查询客户联系信息</button>
-						<!-- <input type="submit" value="查询客户联系信息"> -->
 						</td>
 					</tr>
 				</table>
@@ -176,7 +185,7 @@ function updateOutLookCustomers(cid,num){
 					<td class="td5 td7"><span class="s s7">客户状态</span></td>
 					<td class="td5"><span class="s s5">时间</span></td>
 					<td class="td5 td8"><span class="s s8">是否outlook客户</span></td>
-           <c:if test="${fyfz==8 }"><td>创建时间</td></c:if>
+           <c:if test="${fyfz==8 }"><td class="td10">创建时间</td></c:if>
            <c:if test="${fyfz==5 }"><td>收到邮件时间</td></c:if>
            <c:if test="${fyfz==5 }"><td>翻译时间</td></c:if>
            <c:if test="${fyfz==5 }"><td>翻译人</td></c:if>
@@ -199,7 +208,8 @@ function updateOutLookCustomers(cid,num){
 								<c:when test="${u.projectstatus==4 }">客户抱怨贵了，正在挽救</c:when>
 								<c:when test="${u.projectstatus==8 }">放弃</c:when>
 								<c:when test="${u.projectstatus==12 }">客户没反馈</c:when>
-							</c:choose></span></td>
+							</c:choose></span>
+						</td>
                         <td><span class="s s6">${u.saleName }</span></td>
                         <td><span class="s s7"><c:choose>
 						<c:when test="${u.isTranslate==1 }">翻译完成</c:when>
@@ -207,7 +217,7 @@ function updateOutLookCustomers(cid,num){
 						<c:when test="${u.isTranslate==8 }">下单项目</c:when>
 						<c:when test="${u.isTranslate==9 }">完成项目</c:when>
 						</c:choose></span></td>
-                        <td class="td5"><span class="s s5"><fmt:formatDate value="${u.sendDate}" pattern="yyyy-MM-dd" /></span></td>
+                        <td class="td5 td9"><span class="s s9"><fmt:formatDate value="${u.sendDate}" pattern="yyyy-MM-dd" /></span></td>
                         <td>
 							<span class="s s8"><c:choose>
 						<c:when test="${u.outlookCustomers==0 }"><input type="button" onclick="updateOutLookCustomers(${u.cid },1);" value="不是"></c:when>
@@ -216,7 +226,8 @@ function updateOutLookCustomers(cid,num){
 							</c:choose></span></td>
 
 						<c:if test="${fyfz==8 }"><td>${u.createTime }</td></c:if>
-                  <c:if test="${fyfz==5 }"><td>${u.createTime != null ?fn:substring(u.createTime,0,fn:indexOf(u.createTime," ")):""}</td></c:if>
+                  <c:if test="${fyfz==5 }"><td>${u.createTime != null ?fn:substring(u.createTime,0,fn:indexOf(u.createTime," ")):""}</td>
+				  </c:if>
                   <c:if test="${fyfz==5 }"><td><fmt:formatDate value="${u.translaterDate }" pattern="yyyy-MM-dd" /></td></c:if>
                   <c:if test="${fyfz==5 }"><td>${u.transName }</td></c:if>
 					</tr>
