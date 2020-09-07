@@ -546,9 +546,9 @@
 				<div class="list mt10 no-print">
 				<div class="">
 					c、钉钉关联审批：
-					<span><b style="color: red;">未完成审批数量${no_complete}</b></span>
+					<span><b style="color: red;">大货质量报告钉钉-未完成审批数量${no_complete}</b></span>
 					&nbsp&nbsp&nbsp
-					<b>已完成审批数量${is_complete}</b>&nbsp&nbsp&nbsp
+					<b>大货质量报告钉钉-已完成审批数量${is_complete}</b>&nbsp&nbsp&nbsp
 					<button class="btn btn-default bgcolor_ff0 no-print" onclick="syncDingDing()">立即同步钉钉审批状态</button>
 					<span id="notice_show" style="color: red;display: none;">正在执行...</span>
 				</div>
