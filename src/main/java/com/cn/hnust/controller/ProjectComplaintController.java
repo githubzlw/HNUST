@@ -1821,8 +1821,15 @@ public class ProjectComplaintController {
 
 						 if (CollectionUtils.isNotEmpty(shippingConfirmations)) {
 							 Map<Integer, List<ShippingConfirmation>> map = shippingConfirmations.stream().collect(Collectors.groupingBy(ShippingConfirmation::getIsComplete));
-							 request.setAttribute("no_complete", CollectionUtils.isNotEmpty(map.get(0)) ? map.get(0).size() : 0);
-							 request.setAttribute("is_complete", CollectionUtils.isNotEmpty(map.get(1)) ? map.get(0).size() : 0);
+							 request.setAttribute("no_complete", 0);
+							 request.setAttribute("is_complete", 0);
+							 map.forEach((k, v) -> {
+								 if (k == 0) {
+									 request.setAttribute("no_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
+								 } else if (k == 1) {
+									 request.setAttribute("is_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
+								 }
+							 });
 							 shippingConfirmations.clear();
 							 map.clear();
 						 } else {
