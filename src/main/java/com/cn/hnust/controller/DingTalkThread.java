@@ -1,5 +1,8 @@
 package com.cn.hnust.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +66,14 @@ public static void sendOut(Integer id, String dingTalkId) {
 	String dingTalk="?dingTalkId="+dingTalkId+"&qualityId="+id+"&url="+"&selectButton=1";
 	String url = "https://www.kuaizhizao.cn/Ding-Talk/qualityInspectionReport2"+dingTalk;
 	String process_instance_id=sendPost(url);
+	// 做json解析
+	if(StringUtils.isNotEmpty(url)){
+        JSONObject parse = JSONObject.parseObject(url);
+        if(parse!= null && parse.containsKey("code") && "200".equals(parse.getString("code"))){
+            process_instance_id = parse.getString("data");
+        }
+    }
+
 	QualityController.updateAllProcess(id,process_instance_id);
 	
 }
