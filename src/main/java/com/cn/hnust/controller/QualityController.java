@@ -581,7 +581,7 @@ public class QualityController {
 			RpcReportHelper.sendRequest("", qr);//同步到ERP系统上
 			String userName1 = WebCookie.getUserName(request);
 			User user = userService.findUserByName(userName1);
-			if((type==3||type==2)&&state==2){
+			if((type==3||type==2)&&(state==1 || state==2)){
 			DingTalkThread.sendOut(qr.getId(),user.getDingTalkId());
 			}
 			//DingTalkController.sendOut();

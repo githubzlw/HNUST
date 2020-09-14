@@ -542,7 +542,7 @@
 			</div>
       </c:if>
 
-			<c:if test="${no_complete > 0}">
+			<%--<c:if test="${no_complete > 0}">
 				<div class="list mt10 no-print">
 				<div class="">
 					c、钉钉关联审批：
@@ -553,7 +553,7 @@
 					<span id="notice_show" style="color: red;display: none;">正在执行...</span>
 				</div>
 					</div>
-			</c:if>
+			</c:if>--%>
 
 <c:if test="${userName==null||userName==''}">
 			<div class="share mt10">
