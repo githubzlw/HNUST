@@ -15,9 +15,7 @@
 <script src="../js/jquery-1.10.1.min.js" type="text/javascript" charset="utf-8"></script>	
 <title>新项目启动录入</title>
 <style>
-.addInput {
-	position: relative;
-}
+.addInput {position: relative;}
 .updown-list {
 	display: none;
 	width: 432px;
