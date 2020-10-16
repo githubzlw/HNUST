@@ -1569,6 +1569,7 @@ function searchAll(roleNo,userName,num){
         	   var obj6=eval(json.data.projectTasks6);
 			   var obj7=eval(json.data.queryStatistic);
 			   var obj8=eval(json.data.queryStatistic1);
+			   var jsonCompany=eval(json.data.jsonCompany);
         	   var Monday=json.data.Monday;
         	   var Tuesday=json.data.Tuesday;
         	   var Wednesday=json.data.Wednesday;
@@ -1585,6 +1586,17 @@ function searchAll(roleNo,userName,num){
         	  name="上周";
         	   }
         	   var text="";
+
+        	   text+="<tr><td style='background:#4eddff'>"+name+"到公司"+"</td>";
+			   $(obj7).each(function (index){
+				   var val=jsonCompany[index];
+
+					   var value=val.warehouse;
+					   text+="<td><span class='add_span'>"+value+"</span></td>";
+
+			   });
+			   text+="</tr>";
+
 			   text+="<tr><td style='background:#4eddff'>"+name+"到仓库"+"</td>";
 			   $(obj7).each(function (index){
 				   var val=obj7[index];

@@ -1256,12 +1256,15 @@ public class InspectionReservationController {
 		  }
 		    List<InspectionReservation>projectTasks1=getAllProjectTasks(inspection,1,num);
 		  List<InspectionReservation>projectTasks2=getAllProjectTasks(inspection,2,num);
+		  List<InspectionReservation>projectTasks3=getAllProjectTasks(inspection,3,num);
 
 
 		  String json= JSONArray.fromObject(projectTasks1).toString();
 		  map.put("queryStatistic",json);
 		  String json1= JSONArray.fromObject(projectTasks2).toString();
 		  map.put("queryStatistic1",json1);
+		  String jsonCompany= JSONArray.fromObject(projectTasks3).toString();
+		  map.put("jsonCompany",jsonCompany);
 
 	        if("1".equalsIgnoreCase(num)){
 	        map.put("Monday",Monday);

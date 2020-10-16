@@ -113,4 +113,6 @@ public interface InspectionReservationMapper {
 	 * @return
 	 */
 	List<InspectionReservation> getAllQueryStatistics1(InspectionReservation inspection);
+
+	List<InspectionReservation>  getAllQueryStatisticsCompany(InspectionReservation inspection);
 }

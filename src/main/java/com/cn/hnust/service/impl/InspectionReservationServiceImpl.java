@@ -128,6 +128,8 @@ public class InspectionReservationServiceImpl implements IInspectionReservationS
 			list=inspectionReservationMapper.getAllQueryStatistics(inspection);
 		}else if(i==2){
 			list=inspectionReservationMapper.getAllQueryStatistics1(inspection);
+		} else if(i==3){
+			list=inspectionReservationMapper.getAllQueryStatisticsCompany(inspection);
 		}
 
 
