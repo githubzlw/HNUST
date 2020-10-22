@@ -142,6 +142,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public void updateProjectInfo(Project project) {
+	    projectMapper.insertProjectSyncLog(project);
 		projectMapper.updateByPrimaryKeySelective(project);
 	}
 	@Override
@@ -272,7 +273,8 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Transactional
 	@Override
 	public void addProject(Project project) throws ParseException {
-		
+
+		projectMapper.insertProjectSyncLog(project);
 	   //添加返单项目，移植初始项目的产品图片
 	  if(project!=null){
 		  String projectNo = project.getProjectNo();
@@ -458,6 +460,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Transactional
 	@Override
 	public void updateProjectStatus(Project project,String reason,String time,ProjectStatusLog statusLog) {
+		projectMapper.insertProjectSyncLog(project);
 		projectMapper.updateByPrimaryKeySelective(project);
 		if(project.getProjectStatus() == OrderStatusEnum.PAUSE_ORDER.getCode()){
 			ProjectPause projectPause = new ProjectPause();
@@ -578,6 +581,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public int updateByPrimaryKey(Project record) {
+		projectMapper.insertProjectSyncLog(record);
 		return projectMapper.updateByPrimaryKey(record);
 	}
 	@Override
@@ -645,7 +649,8 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 			}else{
 				deliveryDateLogMapper.insertSelective(deliveryDateLog);
 			}
-		}		
+		}
+		projectMapper.insertProjectSyncLog(record);
 		projectMapper.updateByPrimaryKey(record);
 	}
 	@Override 
@@ -731,7 +736,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public int updateStatus(Project project) {
-		
+		projectMapper.insertProjectSyncLog(project);
 		return projectMapper.updateStatus(project);
 	}
 	@Override
