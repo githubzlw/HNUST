@@ -461,7 +461,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Override
 	public void updateProjectStatus(Project project,String reason,String time,ProjectStatusLog statusLog) {
 		projectMapper.insertProjectSyncLog(project);
-		itemCaseERPMapper.updateItemCaseStatus(project);
+		//itemCaseERPMapper.updateItemCaseStatus(project);
 		projectMapper.updateByPrimaryKeySelective(project);
 		if(project.getProjectStatus() == OrderStatusEnum.PAUSE_ORDER.getCode()){
 			ProjectPause projectPause = new ProjectPause();
@@ -583,6 +583,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Override
 	public int updateByPrimaryKey(Project record) {
 		projectMapper.insertProjectSyncLog(record);
+		itemCaseERPMapper.updateItemCaseStatus(record);
 		return projectMapper.updateByPrimaryKey(record);
 	}
 	@Override
@@ -652,7 +653,7 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 			}
 		}
 		projectMapper.insertProjectSyncLog(record);
-		itemCaseERPMapper.updateItemCaseStatus(record);
+		// itemCaseERPMapper.updateItemCaseStatus(record);
 		projectMapper.updateByPrimaryKey(record);
 	}
 	@Override 
