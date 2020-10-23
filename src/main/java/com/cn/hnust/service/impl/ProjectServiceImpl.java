@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.cn.hnust.controller.DingTalkThread;
+import com.cn.hnust.util.ERPStatusUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -583,7 +584,10 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Override
 	public int updateByPrimaryKey(Project record) {
 		projectMapper.insertProjectSyncLog(record);
-		itemCaseERPMapper.updateItemCaseStatus(record);
+		Project project = new Project();
+		project.setProjectNo(record.getProjectNo());
+		project.setProjectStatus(ERPStatusUtil.changeToERPStatus(record.getProjectStatus()));
+		itemCaseERPMapper.updateItemCaseStatus(project);
 		return projectMapper.updateByPrimaryKey(record);
 	}
 	@Override

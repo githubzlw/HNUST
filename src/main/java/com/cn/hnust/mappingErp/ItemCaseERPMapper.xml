@@ -276,6 +276,6 @@ group by it.caseno
   </update>
 
     <update id="updateItemCaseStatus" parameterType="com.cn.hnust.pojo.Project">
-        update itemCase set CaseStatus = #{projectStatus} where CaseNo =#{projectNo}
+        update itemCase set CaseStatus = #{projectStatus},updateTime = getDate() where CaseNo =#{projectNo}
     </update>
 </mapper>
