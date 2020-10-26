@@ -845,7 +845,7 @@
 			<div class="clearfix no-print">
 				<textarea class="form-control mt10" id="comment"></textarea>
 				<button class="btn pull-right display_block mt10" type="button"
-					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${sessionId}')">点评</button>
+					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${param.sessionId}')">点评</button>
 			</div>
 		</div>
 

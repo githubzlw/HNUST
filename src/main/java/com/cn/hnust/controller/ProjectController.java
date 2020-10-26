@@ -2046,7 +2046,12 @@ public class ProjectController {
                                      HttpServletResponse response) {
         JsonResult jsonResult = new JsonResult();
         try {
-            String userName = request.getParameter("userName");
+            //String userName = request.getParameter("userName");
+            String sessionId = request.getParameter("sessionId");
+            LOG.info("-----------projectComment sessionId:" + sessionId);
+            // String userName = String.valueOf(request.getSession().getAttribute(sessionId));
+            String userName = SessionIdUtil.getUserName(sessionId);
+            LOG.info("-----------userName:" + userName);
             if (StringUtils.isBlank(userName)) {
                 userName = WebCookie.getUserName(request);
                 if (userName == null) {

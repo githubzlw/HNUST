@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cn.hnust.util.*;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -101,14 +102,6 @@ import com.cn.hnust.service.ProjectFactoryService;
 import com.cn.hnust.service.QualityAnalysisService;
 import com.cn.hnust.service.ShippingConfirmationService;
 import com.cn.hnust.service.impl.ProjectTaskServiceImpl;
-import com.cn.hnust.util.DateFormat;
-import com.cn.hnust.util.DateUtil;
-import com.cn.hnust.util.JsonResult;
-import com.cn.hnust.util.OperationFileUtil;
-import com.cn.hnust.util.PropertiesUtils;
-import com.cn.hnust.util.PropertisUtil;
-import com.cn.hnust.util.UploadAndDownloadPathUtil;
-import com.cn.hnust.util.WebCookie;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -1400,6 +1393,10 @@ public class ProjectComplaintController {
 				Integer lastNum = new BigDecimal(totalCount).divide(new BigDecimal(pageSize)).setScale(0,BigDecimal.ROUND_UP).intValue();
 				request.setAttribute("lastNum", lastNum);
 				request.setAttribute("sessionId", request.getSession().getId());
+
+				SessionIdUtil.setUserName(request.getSession().getId(), userName);
+				LOG.info("-----------queryShippingList sessionId:" + request.getSession().getId());
+
 				
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -1716,354 +1713,356 @@ public class ProjectComplaintController {
 		 * @return
 		 */
 		@RequestMapping("/detail")
-		public String detail(HttpServletRequest request){	 
-			 // String userName = WebCookie.getUserName(request);
-			 String sessionId = request.getParameter("sessionId");
-			 String userName = String.valueOf(request.getSession().getAttribute(sessionId));
-              String page="";
-              if(org.apache.commons.lang3.StringUtils.isBlank(userName)){
-              	page="error";
-              	return page;
-			  }
-              try {
+		public String detail(HttpServletRequest request) {
+            // String userName = WebCookie.getUserName(request);
+            String sessionId = request.getParameter("sessionId");
+            LOG.error("sessionId:" + sessionId);
+            String userName = String.valueOf(request.getSession().getAttribute(sessionId));
+            LOG.error("userName:" + userName);
+            String page = "";
+            if (org.apache.commons.lang3.StringUtils.isBlank(userName)) {
+                page = "error";
+                return page;
+            }
+            try {
 
-				//根据id查询
-				 if(StringUtils.isNotBlank(request.getParameter("id"))){
-					 if(StringUtils.isNotBlank(request.getParameter("dingTalkId"))){
-						 String idStr = request.getParameter("id");
-							int id = Integer.parseInt(idStr);
-							QualityReport qr =  qualityReportService.selectByPrimaryKey(id);
-							String conclusion = qr.getConclusion();
-							//去除conclusion内换行
-							if(StringUtils.isNotBlank(conclusion)){				
-							    Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-					            Matcher m = p.matcher(conclusion);
-					            conclusion = m.replaceAll("");
-					            qr.setConclusion(conclusion);
-							}			
-							List<ProjectTask> ptList =  projectTaskService.selectByQualityId(id);
-							if(ptList!=null){
-								qr.setProjectTaskList(ptList);
-							}
-							qr.setTypeView(QualityTypeEnum.getEnum(qr.getType()).getValue());
-							qr.setStatusView(QualityStatusEnum.getEnum(qr.getStatus()).getValue());
-							
-							qr.setCreatetimeView(DateFormat.date2String(qr.getCreatetime()));
-							
-							List<QualityPicExplain> picList = qualityPicExplainService.queryByReportId(id);
-							Project project = projectService.selectProjctDetails(qr.getProjectNo());
-							
-							//项目号内特殊字符处理
-							String projectName = project.getProjectName();
-							if(StringUtils.isNotBlank(projectName)){			    
-					            project.setProjectName(projectName.replace("\"",""));
-							}
-							
-							//查询评论
-							List<Comment> comments = projectCommentService.selectByReportId(id);
-							//查询采购布置任务情况
-							String purchaseTask = "";
-							List<ProjectTask> tasks = projectTaskService.selectByQualityId(id);
-							if(tasks != null && tasks.size() > 0){
-								int tl = tasks.size();
-								if((TaskStatusEnum.DEFAULT.getCode()+"").equals(tasks.get(tl-1).getTaskStatus())){
-									purchaseTask = "未完成";
-								}else if((TaskStatusEnum.FINISH.getCode()+"").equals(tasks.get(tl-1).getTaskStatus())){
-									purchaseTask = "已完成  " + (tasks.get(tl-1).getOperateExplain() == null ? "" : tasks.get(tl-1).getOperateExplain());
-								}else if((TaskStatusEnum.PAUSE.getCode()+"").equals(tasks.get(tl-1).getTaskStatus())){
-									purchaseTask = "已暂停";
-								}else if((TaskStatusEnum.CANCEL.getCode()+"").equals(tasks.get(tl-1).getTaskStatus())){
-									purchaseTask = "已取消";
-								}
-							}
-							if(StringUtils.isNotBlank(userName)){
-								User user = userService.selectUserByName(userName);
-								request.setAttribute("user", user);
-							}
-							//查询下单工厂列表
-							List<ProjectFactory> projectFactoryList = projectFactoryService.selectByProjectNo(qr.getProjectNo());
-							//根据工厂名去除重复工厂
-							projectFactoryList = projectFactoryList.stream().filter(distinctByKey(factory->factory.getFactoryName())).collect(Collectors.toList());
-							//质检视频
-							List<FactoryQualityInspectionVideo> videos = factoryQualityInspectionVideoService.selectByProjectNo(qr.getProjectNo());
-							//查询需求汇总
-							ProductionPlan productionPlan = productionPlanService.selectDemandByProjectNo(qr.getProjectNo());
-							if(productionPlan!=null){
-								String node = productionPlan.getPlanNode();
-								if(StringUtils.isNotBlank(node)){
-									productionPlan.setPlanNode(URLEncoder.encode(node,"utf-8"));
-								}
-							}			
-							//查询检验计划完成情况
-							List<InspectionPlan> planList = null;
-							List<InspectionPlan> plans = null;
-							if(qr.getInspectionCreateDate()!=null){
-								planList = inspectionPlanService.selectByProjectNo(qr.getProjectNo(),qr.getInspectionCreateDate());
-								plans = planList.stream().filter(distinctByKey(plan->plan.getProductComponent())).collect(Collectors.toList());
-							}
-					        request.setAttribute("qualityReport", qr);
-							request.setAttribute("picList", picList);
-							request.setAttribute("project", project);
-							request.setAttribute("comments", comments);
-							request.setAttribute("userName", userName);
-							request.setAttribute("purchaseTask", purchaseTask);
-							request.setAttribute("projectFactoryList", projectFactoryList);
-							request.setAttribute("videos", videos);
-							request.setAttribute("productionPlan", productionPlan);
-							request.setAttribute("planList", planList);
-							request.setAttribute("plans", plans);
-						page="share_report"	;
-					 }else{
-						 String work="";
-						if(StringUtils.isNotBlank(request.getParameter("work"))){
-							work="confirm_list_share-print";
-						}else{
-							work="confirm_list_share";
-						}
+                //根据id查询
+                if (StringUtils.isNotBlank(request.getParameter("id"))) {
+                    if (StringUtils.isNotBlank(request.getParameter("dingTalkId"))) {
+                        String idStr = request.getParameter("id");
+                        int id = Integer.parseInt(idStr);
+                        QualityReport qr = qualityReportService.selectByPrimaryKey(id);
+                        String conclusion = qr.getConclusion();
+                        //去除conclusion内换行
+                        if (StringUtils.isNotBlank(conclusion)) {
+                            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+                            Matcher m = p.matcher(conclusion);
+                            conclusion = m.replaceAll("");
+                            qr.setConclusion(conclusion);
+                        }
+                        List<ProjectTask> ptList = projectTaskService.selectByQualityId(id);
+                        if (ptList != null) {
+                            qr.setProjectTaskList(ptList);
+                        }
+                        qr.setTypeView(QualityTypeEnum.getEnum(qr.getType()).getValue());
+                        qr.setStatusView(QualityStatusEnum.getEnum(qr.getStatus()).getValue());
 
-						ShippingConfirmation shippingConfirmation = shippingConfirmationService.selectByPrimaryKey(Integer.parseInt(request.getParameter("id")));
+                        qr.setCreatetimeView(DateFormat.date2String(qr.getCreatetime()));
 
+                        List<QualityPicExplain> picList = qualityPicExplainService.queryByReportId(id);
+                        Project project = projectService.selectProjctDetails(qr.getProjectNo());
 
-						// 获取钉钉审批数据 // shipping_confirmation
-						 List<ShippingConfirmation> shippingConfirmations = shippingConfirmationService.queryShippingConfirmationByNo(shippingConfirmation.getProjectNo());
+                        //项目号内特殊字符处理
+                        String projectName = project.getProjectName();
+                        if (StringUtils.isNotBlank(projectName)) {
+                            project.setProjectName(projectName.replace("\"", ""));
+                        }
 
-						 if (CollectionUtils.isNotEmpty(shippingConfirmations)) {
-							 Map<Integer, List<ShippingConfirmation>> map = shippingConfirmations.stream().collect(Collectors.groupingBy(ShippingConfirmation::getIsComplete));
-							 request.setAttribute("no_complete", 0);
-							 request.setAttribute("is_complete", 0);
-							 map.forEach((k, v) -> {
-								 if (k == 0) {
-									 request.setAttribute("no_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
-								 } else if (k == 1) {
-									 request.setAttribute("is_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
-								 }
-							 });
-							 shippingConfirmations.clear();
-							 map.clear();
-						 } else {
-							 request.setAttribute("no_complete", 0);
-							 request.setAttribute("is_complete", 0);
-						 }
+                        //查询评论
+                        List<Comment> comments = projectCommentService.selectByReportId(id);
+                        //查询采购布置任务情况
+                        String purchaseTask = "";
+                        List<ProjectTask> tasks = projectTaskService.selectByQualityId(id);
+                        if (tasks != null && tasks.size() > 0) {
+                            int tl = tasks.size();
+                            if ((TaskStatusEnum.DEFAULT.getCode() + "").equals(tasks.get(tl - 1).getTaskStatus())) {
+                                purchaseTask = "未完成";
+                            } else if ((TaskStatusEnum.FINISH.getCode() + "").equals(tasks.get(tl - 1).getTaskStatus())) {
+                                purchaseTask = "已完成  " + (tasks.get(tl - 1).getOperateExplain() == null ? "" : tasks.get(tl - 1).getOperateExplain());
+                            } else if ((TaskStatusEnum.PAUSE.getCode() + "").equals(tasks.get(tl - 1).getTaskStatus())) {
+                                purchaseTask = "已暂停";
+                            } else if ((TaskStatusEnum.CANCEL.getCode() + "").equals(tasks.get(tl - 1).getTaskStatus())) {
+                                purchaseTask = "已取消";
+                            }
+                        }
+                        if (StringUtils.isNotBlank(userName)) {
+                            User user = userService.selectUserByName(userName);
+                            request.setAttribute("user", user);
+                        }
+                        //查询下单工厂列表
+                        List<ProjectFactory> projectFactoryList = projectFactoryService.selectByProjectNo(qr.getProjectNo());
+                        //根据工厂名去除重复工厂
+                        projectFactoryList = projectFactoryList.stream().filter(distinctByKey(factory -> factory.getFactoryName())).collect(Collectors.toList());
+                        //质检视频
+                        List<FactoryQualityInspectionVideo> videos = factoryQualityInspectionVideoService.selectByProjectNo(qr.getProjectNo());
+                        //查询需求汇总
+                        ProductionPlan productionPlan = productionPlanService.selectDemandByProjectNo(qr.getProjectNo());
+                        if (productionPlan != null) {
+                            String node = productionPlan.getPlanNode();
+                            if (StringUtils.isNotBlank(node)) {
+                                productionPlan.setPlanNode(URLEncoder.encode(node, "utf-8"));
+                            }
+                        }
+                        //查询检验计划完成情况
+                        List<InspectionPlan> planList = null;
+                        List<InspectionPlan> plans = null;
+                        if (qr.getInspectionCreateDate() != null) {
+                            planList = inspectionPlanService.selectByProjectNo(qr.getProjectNo(), qr.getInspectionCreateDate());
+                            plans = planList.stream().filter(distinctByKey(plan -> plan.getProductComponent())).collect(Collectors.toList());
+                        }
+                        request.setAttribute("qualityReport", qr);
+                        request.setAttribute("picList", picList);
+                        request.setAttribute("project", project);
+                        request.setAttribute("comments", comments);
+                        request.setAttribute("userName", userName);
+                        request.setAttribute("purchaseTask", purchaseTask);
+                        request.setAttribute("projectFactoryList", projectFactoryList);
+                        request.setAttribute("videos", videos);
+                        request.setAttribute("productionPlan", productionPlan);
+                        request.setAttribute("planList", planList);
+                        request.setAttribute("plans", plans);
+                        page = "share_report";
+                    } else {
+                        String work = "";
+                        if (StringUtils.isNotBlank(request.getParameter("work"))) {
+                            work = "confirm_list_share-print";
+                        } else {
+                            work = "confirm_list_share";
+                        }
+
+                        ShippingConfirmation shippingConfirmation = shippingConfirmationService.selectByPrimaryKey(Integer.parseInt(request.getParameter("id")));
 
 
-						 request.setAttribute("shippingConfirmation", shippingConfirmation);
-					 ShippingConfirmation shippingConfirmation1=new ShippingConfirmation();			 
-					  if(shippingConfirmation!=null){  
-					 //判断当前出货次数
-						Integer count = shippingConfirmationService.selectCountByProjectNoAndType(shippingConfirmation.getProjectNo(),PRODUCT);
-						//获取项目金额
-						Double amount = 0.00;
-						String projectAmount = shippingConfirmation.getProjectAmount();
-						if(projectAmount!=null&&!"".equalsIgnoreCase(projectAmount)){
-							//String regEx="[^0-9]";  
-							//Pattern p = Pattern.compile(regEx);  
-							//Matcher m = p.matcher(projectAmount);
-							//projectAmount = m.replaceAll("").trim();
-							amount = Double.parseDouble(projectAmount);
-						}
-						 //判断是否需要老板签字
-						 //1、非塑料类样品 出货   2、金额大于 1万美元的第一次 大货出货
-						 if((shippingConfirmation.getIsPlastic() == 0 && shippingConfirmation.getSampleOrProduct() == SAMPLE)&&( amount > 1) || ((shippingConfirmation.getSampleOrProduct() == PRODUCT) && count == 1&&!(shippingConfirmation.getProjectNo().contains("-"))) &&( amount > 1)){
-							request.setAttribute("bossConfirm", true);
-						 }
-						 if(amount>1.5){
-							 request.setAttribute("bossConfirm", true);
-						 }
-						 
-						 //查询项目
-						 Project project = projectService.selectProjectByProjectNo(shippingConfirmation.getProjectNo());
-						 //查询投诉(该项目历史投诉)
-						 String projectNo = shippingConfirmation.getProjectNo();
-						 if(projectNo.contains("-")){
-							 projectNo = projectNo.split("-")[0];
-						 }
-						 //根据投诉历史是否完成，判断是否能够出货
-						 //查询该项目所有历史投诉
-						 ProjectComplaintQuery projectComplaintQuery = new ProjectComplaintQuery();
-						 projectComplaintQuery.setInputKey(projectNo);
-						 projectComplaintQuery.setRoleNo(100);
-						 projectComplaintQuery.setPageNumber(-1);
-						 projectComplaintQuery.setSeriousLevel(-1);
-						 List<ProjectComplaint> complaintList = projectComplaintService.queryComplaintList(projectComplaintQuery);
-						 Boolean isComplaintComplete = true;
-						 for (ProjectComplaint projectComplaint2 : complaintList) {
-							 Date completeTime = projectComplaint2.getCompleteTime();
-							 if(completeTime == null){
-								 isComplaintComplete = false;
-							 }
-							
-							 request.setAttribute("bossConfirm", true);
-							 
-							}
-						
-						 //查询项目相关任务
-						 List<ProjectTask> tasks = projectTaskService.selectByProjectNo(shippingConfirmation.getProjectNo());
-						 //查询质量、技术关键词
-						 List<AnalysisIssue> analysisIssueList = analysisIssueService.selectByProjectNo(shippingConfirmation.getProjectNo(),1);
-						 QualityAnalysis qualityAnalysis = qualityAnalysisService.selectByProjectNo(shippingConfirmation.getProjectNo());
-						 //查询质检报告
-						 Boolean isSampleCheck = false;
-						 //查询是否终检没问题
-						 Boolean isSampleNoProblem = false;
-						 Boolean isProductNoProblem = false;
-						 Boolean isProductNoDingDing = false;
-						 //终检有问题，是否上传图纸、视频
-						 String productFileName = null;
-						 String operateExplain = null;
-						 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						 List<QualityReport> reports = qualityReportService.selectByProjectNo(shippingConfirmation.getProjectNo());
-						 List<QualityReport> reports1=new ArrayList<QualityReport>();
-						 List<QualityReport> reports2=new ArrayList<QualityReport>();
-						 for (QualityReport qualityReport : reports) {
-							 if(qualityReport.getType() == SAMPLE){
-								 isSampleCheck = true;		 
-								 //如果是样品出货，查询出货证明
-								 if(shippingConfirmation.getSampleOrProduct() ==  SAMPLE && (qualityReport.getStatus() == 0 || qualityReport.getStatus() == 1)){
-									 isSampleNoProblem = true;
-								 }
-							 }
+                        // 获取钉钉审批数据 // shipping_confirmation
+                        List<ShippingConfirmation> shippingConfirmations = shippingConfirmationService.queryShippingConfirmationByNo(shippingConfirmation.getProjectNo());
 
-							//如果是终期检验
-							 if(qualityReport.getProcessInstanceId()!=null&&"COMPLETED".toLowerCase().equalsIgnoreCase(qualityReport.getDingdingStatus())&&"agree".equalsIgnoreCase(qualityReport.getDingdingResult())){
-								 isProductNoDingDing = true;
-							 }else if(qualityReport.getProcessInstanceId()!=null   && shippingConfirmation.getSampleOrProduct() == PRODUCT ){
-								 Date date1 = format.parse("2020-05-01 00:00:01");
-							 	if(date1.before(qualityReport.getCreatetime())) {
-									isProductNoDingDing = false;
-								}
-							 }else{
-								 isProductNoDingDing = true;
-							 }
-							 if(isProductNoDingDing==false){
-								 reports2.add(qualityReport);
-							 }
-							 
-							 
-							//如果是终期检验
-							 if(qualityReport.getType() == LAST && shippingConfirmation.getSampleOrProduct() ==  PRODUCT && (qualityReport.getStatus() == 0 || qualityReport.getStatus() == 1)){
-								 isProductNoProblem = true;
-							 }
-							 //如果是终期检验
-							 if(qualityReport.getType() == LAST && shippingConfirmation.getSampleOrProduct() ==  PRODUCT && qualityReport.getStatus() == 2){
-								 operateExplain = qualityReport.getOperateExplain();
-								 productFileName = qualityReport.getProductFileName();								
-							 }
-							 StringBuilder detailView = new StringBuilder("[");
-								detailView.append(qualityReport.getProjectNo()).append("]");
-								detailView.append(
-										QualityTypeEnum.getEnum(qualityReport.getType()).getValue())
-										.append(",");
-								detailView.append(
-										QualityStatusEnum.getEnum(qualityReport.getStatus())
-												.getValue()).append(",[");
-								detailView.append(qualityReport.getUser()).append("/")
-										.append(DateFormat.date2String(qualityReport.getCreatetime())).append("]");
-								qualityReport.setDetailView(detailView.toString());
-								if(qualityReport.getDetailView().toLowerCase().contains("有问题".toLowerCase())){
-									List<Comment> comments = projectCommentService.selectByReportId(qualityReport.getId());
-									if(comments.size()>0){
-										qualityReport.setComment(comments);	
-									}else{
-										qualityReport.setComment(null);
-									}
-									reports1.add(qualityReport);
-								}
-						 }
-						 ProjectTask task2=projectTaskService.getDrawingAlteration(shippingConfirmation.getProjectNo());
-						 if(task2!=null&&( amount > 1)){
-							 request.setAttribute("bossConfirm", true); 
-						 }
-						 if((project.getCustomerGrade()==1||project.getCustomerGrade()==2||project.getPlantAnalysis()==1||project.getPlantAnalysis()==2)&&( amount > 1)){
-							 request.setAttribute("bossConfirm", true);
-						 } 
-                         //查询产品360度视频
-						 List<FactoryQualityInspectionVideo> videoList = factoryQualityInspectionVideoService.selectByProjectNoAndType(shippingConfirmation.getProjectNo(),PRODUCT_VIDEO);
-						 //查询项目所有工厂
-						 List<ProjectFactory> factoryList = projectFactoryService.selectByProjectNo(shippingConfirmation.getProjectNo());
-						 //判断是否允许签名
-						 Boolean isSign = false;
-						 if(shippingConfirmation.getFirstPerson() != null && shippingConfirmation.getSecondPerson() != null 
-								 && shippingConfirmation.getThirdPerson() != null && shippingConfirmation.getFourthPerson() != null 
-								 && isComplaintComplete == true 
+                        if (CollectionUtils.isNotEmpty(shippingConfirmations)) {
+                            Map<Integer, List<ShippingConfirmation>> map = shippingConfirmations.stream().collect(Collectors.groupingBy(ShippingConfirmation::getIsComplete));
+                            request.setAttribute("no_complete", 0);
+                            request.setAttribute("is_complete", 0);
+                            map.forEach((k, v) -> {
+                                if (k == 0) {
+                                    request.setAttribute("no_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
+                                } else if (k == 1) {
+                                    request.setAttribute("is_complete", CollectionUtils.isNotEmpty(v) ? v.size() : 0);
+                                }
+                            });
+                            shippingConfirmations.clear();
+                            map.clear();
+                        } else {
+                            request.setAttribute("no_complete", 0);
+                            request.setAttribute("is_complete", 0);
+                        }
+
+
+                        request.setAttribute("shippingConfirmation", shippingConfirmation);
+                        ShippingConfirmation shippingConfirmation1 = new ShippingConfirmation();
+                        if (shippingConfirmation != null) {
+                            //判断当前出货次数
+                            Integer count = shippingConfirmationService.selectCountByProjectNoAndType(shippingConfirmation.getProjectNo(), PRODUCT);
+                            //获取项目金额
+                            Double amount = 0.00;
+                            String projectAmount = shippingConfirmation.getProjectAmount();
+                            if (projectAmount != null && !"".equalsIgnoreCase(projectAmount)) {
+                                //String regEx="[^0-9]";
+                                //Pattern p = Pattern.compile(regEx);
+                                //Matcher m = p.matcher(projectAmount);
+                                //projectAmount = m.replaceAll("").trim();
+                                amount = Double.parseDouble(projectAmount);
+                            }
+                            //判断是否需要老板签字
+                            //1、非塑料类样品 出货   2、金额大于 1万美元的第一次 大货出货
+                            if ((shippingConfirmation.getIsPlastic() == 0 && shippingConfirmation.getSampleOrProduct() == SAMPLE) && (amount > 1) || ((shippingConfirmation.getSampleOrProduct() == PRODUCT) && count == 1 && !(shippingConfirmation.getProjectNo().contains("-"))) && (amount > 1)) {
+                                request.setAttribute("bossConfirm", true);
+                            }
+                            if (amount > 1.5) {
+                                request.setAttribute("bossConfirm", true);
+                            }
+
+                            //查询项目
+                            Project project = projectService.selectProjectByProjectNo(shippingConfirmation.getProjectNo());
+                            //查询投诉(该项目历史投诉)
+                            String projectNo = shippingConfirmation.getProjectNo();
+                            if (projectNo.contains("-")) {
+                                projectNo = projectNo.split("-")[0];
+                            }
+                            //根据投诉历史是否完成，判断是否能够出货
+                            //查询该项目所有历史投诉
+                            ProjectComplaintQuery projectComplaintQuery = new ProjectComplaintQuery();
+                            projectComplaintQuery.setInputKey(projectNo);
+                            projectComplaintQuery.setRoleNo(100);
+                            projectComplaintQuery.setPageNumber(-1);
+                            projectComplaintQuery.setSeriousLevel(-1);
+                            List<ProjectComplaint> complaintList = projectComplaintService.queryComplaintList(projectComplaintQuery);
+                            Boolean isComplaintComplete = true;
+                            for (ProjectComplaint projectComplaint2 : complaintList) {
+                                Date completeTime = projectComplaint2.getCompleteTime();
+                                if (completeTime == null) {
+                                    isComplaintComplete = false;
+                                }
+
+                                request.setAttribute("bossConfirm", true);
+
+                            }
+
+                            //查询项目相关任务
+                            List<ProjectTask> tasks = projectTaskService.selectByProjectNo(shippingConfirmation.getProjectNo());
+                            //查询质量、技术关键词
+                            List<AnalysisIssue> analysisIssueList = analysisIssueService.selectByProjectNo(shippingConfirmation.getProjectNo(), 1);
+                            QualityAnalysis qualityAnalysis = qualityAnalysisService.selectByProjectNo(shippingConfirmation.getProjectNo());
+                            //查询质检报告
+                            Boolean isSampleCheck = false;
+                            //查询是否终检没问题
+                            Boolean isSampleNoProblem = false;
+                            Boolean isProductNoProblem = false;
+                            Boolean isProductNoDingDing = false;
+                            //终检有问题，是否上传图纸、视频
+                            String productFileName = null;
+                            String operateExplain = null;
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            List<QualityReport> reports = qualityReportService.selectByProjectNo(shippingConfirmation.getProjectNo());
+                            List<QualityReport> reports1 = new ArrayList<QualityReport>();
+                            List<QualityReport> reports2 = new ArrayList<QualityReport>();
+                            for (QualityReport qualityReport : reports) {
+                                if (qualityReport.getType() == SAMPLE) {
+                                    isSampleCheck = true;
+                                    //如果是样品出货，查询出货证明
+                                    if (shippingConfirmation.getSampleOrProduct() == SAMPLE && (qualityReport.getStatus() == 0 || qualityReport.getStatus() == 1)) {
+                                        isSampleNoProblem = true;
+                                    }
+                                }
+
+                                //如果是终期检验
+                                if (qualityReport.getProcessInstanceId() != null && "COMPLETED".toLowerCase().equalsIgnoreCase(qualityReport.getDingdingStatus()) && "agree".equalsIgnoreCase(qualityReport.getDingdingResult())) {
+                                    isProductNoDingDing = true;
+                                } else if (qualityReport.getProcessInstanceId() != null && shippingConfirmation.getSampleOrProduct() == PRODUCT) {
+                                    Date date1 = format.parse("2020-05-01 00:00:01");
+                                    if (date1.before(qualityReport.getCreatetime())) {
+                                        isProductNoDingDing = false;
+                                    }
+                                } else {
+                                    isProductNoDingDing = true;
+                                }
+                                if (isProductNoDingDing == false) {
+                                    reports2.add(qualityReport);
+                                }
+
+
+                                //如果是终期检验
+                                if (qualityReport.getType() == LAST && shippingConfirmation.getSampleOrProduct() == PRODUCT && (qualityReport.getStatus() == 0 || qualityReport.getStatus() == 1)) {
+                                    isProductNoProblem = true;
+                                }
+                                //如果是终期检验
+                                if (qualityReport.getType() == LAST && shippingConfirmation.getSampleOrProduct() == PRODUCT && qualityReport.getStatus() == 2) {
+                                    operateExplain = qualityReport.getOperateExplain();
+                                    productFileName = qualityReport.getProductFileName();
+                                }
+                                StringBuilder detailView = new StringBuilder("[");
+                                detailView.append(qualityReport.getProjectNo()).append("]");
+                                detailView.append(
+                                        QualityTypeEnum.getEnum(qualityReport.getType()).getValue())
+                                        .append(",");
+                                detailView.append(
+                                        QualityStatusEnum.getEnum(qualityReport.getStatus())
+                                                .getValue()).append(",[");
+                                detailView.append(qualityReport.getUser()).append("/")
+                                        .append(DateFormat.date2String(qualityReport.getCreatetime())).append("]");
+                                qualityReport.setDetailView(detailView.toString());
+                                if (qualityReport.getDetailView().toLowerCase().contains("有问题".toLowerCase())) {
+                                    List<Comment> comments = projectCommentService.selectByReportId(qualityReport.getId());
+                                    if (comments.size() > 0) {
+                                        qualityReport.setComment(comments);
+                                    } else {
+                                        qualityReport.setComment(null);
+                                    }
+                                    reports1.add(qualityReport);
+                                }
+                            }
+                            ProjectTask task2 = projectTaskService.getDrawingAlteration(shippingConfirmation.getProjectNo());
+                            if (task2 != null && (amount > 1)) {
+                                request.setAttribute("bossConfirm", true);
+                            }
+                            if ((project.getCustomerGrade() == 1 || project.getCustomerGrade() == 2 || project.getPlantAnalysis() == 1 || project.getPlantAnalysis() == 2) && (amount > 1)) {
+                                request.setAttribute("bossConfirm", true);
+                            }
+                            //查询产品360度视频
+                            List<FactoryQualityInspectionVideo> videoList = factoryQualityInspectionVideoService.selectByProjectNoAndType(shippingConfirmation.getProjectNo(), PRODUCT_VIDEO);
+                            //查询项目所有工厂
+                            List<ProjectFactory> factoryList = projectFactoryService.selectByProjectNo(shippingConfirmation.getProjectNo());
+                            //判断是否允许签名
+                            Boolean isSign = false;
+                            if (shippingConfirmation.getFirstPerson() != null && shippingConfirmation.getSecondPerson() != null
+                                    && shippingConfirmation.getThirdPerson() != null && shippingConfirmation.getFourthPerson() != null
+                                    && isComplaintComplete == true
 							/*	 &&(					
 									 (shippingConfirmation.getSampleOrProduct() == 1 && (isProductNoProblem == true || (isProductNoProblem == false && StringUtils.isNotBlank(shippingConfirmation.getShipmentAgreement()))))
 								     ||
 								     ((shippingConfirmation.getSampleOrProduct() == 0 && videoList!=null && videoList.size() > 0) || shippingConfirmation.getSampleOrProduct() == 1)  
-								   )	*/			
-								 ){	
-							 if(shippingConfirmation.getSampleOrProduct() == 1 && (isProductNoProblem == true || (isProductNoProblem == false && StringUtils.isNotBlank(shippingConfirmation.getShipmentAgreement())) || StringUtils.isNotBlank(productFileName))){
-								 if(isProductNoDingDing==true){
-								 isSign = true;
-								 }
-							 }
-							 if((shippingConfirmation.getSampleOrProduct() == 0 && videoList!=null && videoList.size() > 0)){							
-								 if((shippingConfirmation.getSampleFileName() != null) || isSampleNoProblem == true){
-									 if(isProductNoDingDing==true){
-									 isSign = true;
-									 }
-								 }
-							 }
-						   }
-						 					
-						 //针对之前的出货单，不进行拦截（id 239）
-						 if(shippingConfirmation.getId()<=239){
-							 isSign = true;
-						 }
-						 //查询留言
-						 List<Comment> comments = projectCommentService.selectByShippingId(shippingConfirmation.getId());
+								   )	*/
+                            ) {
+                                if (shippingConfirmation.getSampleOrProduct() == 1 && (isProductNoProblem == true || (isProductNoProblem == false && StringUtils.isNotBlank(shippingConfirmation.getShipmentAgreement())) || StringUtils.isNotBlank(productFileName))) {
+                                    if (isProductNoDingDing == true) {
+                                        isSign = true;
+                                    }
+                                }
+                                if ((shippingConfirmation.getSampleOrProduct() == 0 && videoList != null && videoList.size() > 0)) {
+                                    if ((shippingConfirmation.getSampleFileName() != null) || isSampleNoProblem == true) {
+                                        if (isProductNoDingDing == true) {
+                                            isSign = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                            //针对之前的出货单，不进行拦截（id 239）
+                            if (shippingConfirmation.getId() <= 239) {
+                                isSign = true;
+                            }
+                            //查询留言
+                            List<Comment> comments = projectCommentService.selectByShippingId(shippingConfirmation.getId());
 						/* if(shippingConfirmation1.getId()!=null ){
 							 if(shippingConfirmation1.getId()>0){
 							 shippingConfirmationService.updateByPrimaryKeySelective(shippingConfirmation1);
 						 }
 						 }*/
-						 List<QualityPicExplain>picList=qualityPicExplainService.getLast(shippingConfirmation.getProjectNo());
-						 request.setAttribute("project", project);	
-						 request.setAttribute("userName", userName!=null?userName.toLowerCase():"");	
-						 request.setAttribute("isComplaintComplete", isComplaintComplete);
-						 request.setAttribute("complaintList", complaintList);
-						 request.setAttribute("picList", picList);
-						 if(reports1.size()>0){
-						 request.setAttribute("qualityReports1", reports1);	
-						 }else{
-						 request.setAttribute("qualityReports1", null);	 
-						 }
-						 if(reports2.size()>0){
-							 request.setAttribute("qualityReports2", reports2);	
-						 }else{
-							 request.setAttribute("qualityReports2", null);	 
-						 }
-						 
-						 request.setAttribute("tasks", tasks);	
-						 request.setAttribute("analysisIssueList", analysisIssueList);	
-						 request.setAttribute("qualityAnalysis", qualityAnalysis);	
-						 request.setAttribute("isSampleCheck", isSampleCheck);	
-						 request.setAttribute("qualityReports", reports);	
-						 request.setAttribute("videoList", videoList);	
-						 request.setAttribute("factoryList", factoryList);	
-						 request.setAttribute("isSampleNoProblem", isSampleNoProblem);	
-						 request.setAttribute("isProductNoProblem", isProductNoProblem);	
-						 request.setAttribute("isProductNoDingDing", isProductNoDingDing);	
-						 request.setAttribute("productFileName", productFileName);	
-						 request.setAttribute("operateExplain", operateExplain);	
-						 request.setAttribute("isSign", isSign);	
-						 request.setAttribute("comments", comments);	
-						 request.setAttribute("id", Integer.parseInt(request.getParameter("id")));	
-						 page=work;
-					  }else{
-						  page="error";
-					  }
-					 }
-					}else{
-						page="error";
-					}
-					 
-				 
-				} catch (Exception e) {
-				e.printStackTrace();
-			} 		
-              
-			 return page;	
-		}
+                            List<QualityPicExplain> picList = qualityPicExplainService.getLast(shippingConfirmation.getProjectNo());
+                            request.setAttribute("project", project);
+                            request.setAttribute("userName", userName != null ? userName.toLowerCase() : "");
+                            request.setAttribute("isComplaintComplete", isComplaintComplete);
+                            request.setAttribute("complaintList", complaintList);
+                            request.setAttribute("picList", picList);
+                            if (reports1.size() > 0) {
+                                request.setAttribute("qualityReports1", reports1);
+                            } else {
+                                request.setAttribute("qualityReports1", null);
+                            }
+                            if (reports2.size() > 0) {
+                                request.setAttribute("qualityReports2", reports2);
+                            } else {
+                                request.setAttribute("qualityReports2", null);
+                            }
+
+                            request.setAttribute("tasks", tasks);
+                            request.setAttribute("analysisIssueList", analysisIssueList);
+                            request.setAttribute("qualityAnalysis", qualityAnalysis);
+                            request.setAttribute("isSampleCheck", isSampleCheck);
+                            request.setAttribute("qualityReports", reports);
+                            request.setAttribute("videoList", videoList);
+                            request.setAttribute("factoryList", factoryList);
+                            request.setAttribute("isSampleNoProblem", isSampleNoProblem);
+                            request.setAttribute("isProductNoProblem", isProductNoProblem);
+                            request.setAttribute("isProductNoDingDing", isProductNoDingDing);
+                            request.setAttribute("productFileName", productFileName);
+                            request.setAttribute("operateExplain", operateExplain);
+                            request.setAttribute("isSign", isSign);
+                            request.setAttribute("comments", comments);
+                            request.setAttribute("id", Integer.parseInt(request.getParameter("id")));
+                            page = work;
+                        } else {
+                            page = "error";
+                        }
+                    }
+                } else {
+                    page = "error";
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return page;
+        }
 		
 		
 		
