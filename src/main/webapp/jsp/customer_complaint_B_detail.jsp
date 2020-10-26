@@ -379,7 +379,7 @@
 			<div class="btns add_btns">
 				<div class="btns_1 text-right">
 					<c:if
-						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'yanggong' && user.userName ne 'wangweiping'}">
+						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'qcdirector' && user.userName ne 'wangweiping'}">
 						<c:choose>
 							<c:when
 								test="${(user.userName eq project.purchaseName && user.userName != '' && user.userName != null) || (user.userName eq project.sellName && user.userName != '' && user.userName != null)}">
@@ -400,7 +400,7 @@
 						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'wangweiping'}">
 						<c:choose>
 							<c:when
-								test="${(user.userName != '' && user.userName != null) && (user.userName eq project.zhijian1 || user.userName eq project.zhijian2 || user.userName eq project.zhijian3 || user.userName eq 'yanggong')}">
+								test="${(user.userName != '' && user.userName != null) && (user.userName eq project.zhijian1 || user.userName eq project.zhijian2 || user.userName eq project.zhijian3 || user.userName eq 'qcdirector')}">
 								<a href="/complaint/inspectionReply?id=${projectComplaint.id}"
 									style="display: inline-block; padding: 0;"><button
 										class="btn"
@@ -415,7 +415,7 @@
 						</c:choose>
 					</c:if></c:if>
 					<c:if
-						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'yanggong' && user.userName ne 'Tonyliao'}">
+						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'qcdirector' && user.userName ne 'Tonyliao'}">
 						<c:choose>
 							<c:when
 								test="${user.roleNo == 7 || user.roleNo == 100 || user.roleNo == 99}">
@@ -871,13 +871,13 @@
 				
 				<c:if test="${projectComplaint.seriousLevel!=3 }">
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||  user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||  user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
 						<label  ><input type="radio" name="sure">不能签名</label>
 						<label><input type="radio" name="sure" value="0">确认签名</label>
 					<input type="button" value="修改"  onclick="shipment('${projectComplaint.id}',6)" class="btn">
 					</c:if>
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
 						<label style="color:#999;"><input type="radio" name="sure" disabled>不能签名</label>
 						<label style="color:#999;"><input type="radio" name="sure" disabled>确认签名</label>
 					
@@ -885,7 +885,7 @@
 				</c:if>
 				<c:if test="${projectComplaint.seriousLevel==3 }">
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
 						<label ><input type="radio" name="sure">不能签名</label>	
 						<label><input type="radio" name="sure" value="1">确认签名,未验证</label>
 					   <c:if test="${complaintInspectionReport!=null}">
@@ -898,7 +898,7 @@
 					</c:if>
 					
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">						
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
 						<label style="color:#999;"><input type="radio" name="sure" disabled>确认签名</label>	
 						<label style="color:#999;"><input type="radio"  name="sure" disabled>确认签名,未验证</label>
 						<label style="color:#999;"><input type="radio" name="sure" disabled> 确认签名,且已经验证</label>

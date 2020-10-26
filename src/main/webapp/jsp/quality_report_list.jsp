@@ -77,7 +77,7 @@
 						</li>
 						</c:if>						  											
 						<li>
-							<span>yangjieguang ： <span ${obj.yangReply == true ? 'class="blue"': 'class="red"'}>${obj.yangReply == true?obj.yangReplyContent:'暂无'}</span></span>							
+							<span>qcdirector ： <span ${obj.yangReply == true ? 'class="blue"': 'class="red"'}>${obj.yangReply == true?obj.yangReplyContent:'暂无'}</span></span>
 						</li>																										
 					</ul>
 				</td>

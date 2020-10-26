@@ -727,7 +727,7 @@ public class QualityController {
 						purchaseReply = true;
 						qualityReport.setPurchaseReplyComment(comment);
 					}
-					if("yanggong".equalsIgnoreCase(comment.getReviewer())){
+					if("qcdirector".equalsIgnoreCase(comment.getReviewer())){
 						yangReply = true;
 						 //阳工回复内容
 						qualityReport.setYangReplyContent(comment.getComment());

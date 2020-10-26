@@ -229,7 +229,7 @@
 			<b>第二步：检验结果复述</b>
 			<c:choose>
 				<c:when
-					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'yanggong')|| userName eq 'ninazhao' || fn:containsIgnoreCase(userName, shippingConfirmation.sellName))}">
+					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector')|| userName eq 'ninazhao' || fn:containsIgnoreCase(userName, shippingConfirmation.sellName))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
 						onclick="window.location='/complaint/toAdd/2?id=${shippingConfirmation.id}'">检验录入</button>
@@ -277,7 +277,7 @@
 			<b>第三步：出货质量分析会的决议如下</b>
 			<c:choose>
 				<c:when
-					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'yanggong') || userName eq 'ninazhao'|| (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null))}">
+					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector') || userName eq 'ninazhao'|| (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
 						onclick="window.location='/complaint/toAdd/3?id=${shippingConfirmation.id}'">检验/跟单录入</button>
@@ -661,7 +661,7 @@
 						<c:otherwise>
 							<c:choose>
 								<c:when
-									test="${(fn:containsIgnoreCase(userName, 'Tonyliao') || userName eq 'ninazhao' || userName eq 'yanggong') && isSign == true}">
+									test="${(fn:containsIgnoreCase(userName, 'Tonyliao') || userName eq 'ninazhao' || userName eq 'qcdirector') && isSign == true}">
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
 										onclick="confirm('${shippingConfirmation.id}',2,1)">确认签名</button>

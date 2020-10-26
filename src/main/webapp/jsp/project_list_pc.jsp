@@ -1913,7 +1913,7 @@ input::-webkit-input-placeholder, #feedback::-webkit-input-placeholder {
 									</c:if> --%> </a>
 													</c:if>
 													<c:if
-														test="${userName eq 'yanggong' || userName eq 'ninazhao' }">
+														test="${userName eq 'qcdirector' || userName eq 'ninazhao' }">
 														<a target="_blank"
 															href="${ctx}/projectTask/projectTaskList?projectNo=${project.projectNo}&roleNo=${roleNo}&purchaseNameId=&userId=${userId}&userName=${userName}&taskStatus=-1&sendOrReceive=0&pageNumber=1&tasktype=12">质量任务(${project.qualityFinishTask}/${project.qualityTask})</a>
 														<button type="button"
