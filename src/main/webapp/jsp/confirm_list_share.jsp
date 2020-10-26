@@ -845,7 +845,7 @@
 			<div class="clearfix no-print">
 				<textarea class="form-control mt10" id="comment"></textarea>
 				<button class="btn pull-right display_block mt10" type="button"
-					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}')">点评</button>
+					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${sessionId}')">点评</button>
 			</div>
 		</div>
 
@@ -1241,7 +1241,7 @@
 	}
 
 	//发送评论
-	function sendComment(projectNo, shippingId) {
+	function sendComment(projectNo, shippingId, sessionId) {
 		if (!$.cookie('name')) {
 			var a = location.href;
 			a = encodeURIComponent(a);
@@ -1268,7 +1268,9 @@
 						shippingId : shippingId,
 						comment : comment,
 						fileName : fileName,
-						newFileName : newFileName
+						newFileName : newFileName,
+						sessionId : sessionId
+
 					},
 					success : function(json) {
 // 						var json = eval("(" + data + ")");

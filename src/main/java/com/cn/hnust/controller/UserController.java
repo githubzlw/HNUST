@@ -110,11 +110,13 @@ public class UserController {
 	@RequestMapping("/showUser")
 	@ResponseBody
 	public JsonResult showUser(HttpServletRequest request,HttpServletResponse response){
+
 		String userName=request.getParameter("userName");
 	    String password=request.getParameter("password");
 		User user =userService.selectUser(userName, password);
 		JsonResult json =new JsonResult();
 		if(user!=null){
+			request.getSession().setAttribute(request.getSession().getId(), userName);
 			//登录保存cookie
 		    Cookie userCookie = new Cookie("name",userName);       
 		    userCookie.setPath("/");

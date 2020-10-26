@@ -1399,6 +1399,7 @@ public class ProjectComplaintController {
 				//计算尾页
 				Integer lastNum = new BigDecimal(totalCount).divide(new BigDecimal(pageSize)).setScale(0,BigDecimal.ROUND_UP).intValue();
 				request.setAttribute("lastNum", lastNum);
+				request.setAttribute("sessionId", request.getSession().getId());
 				
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
@@ -1716,9 +1717,16 @@ public class ProjectComplaintController {
 		 */
 		@RequestMapping("/detail")
 		public String detail(HttpServletRequest request){	 
-			 String userName = WebCookie.getUserName(request);
+			 // String userName = WebCookie.getUserName(request);
+			 String sessionId = request.getParameter("sessionId");
+			 String userName = String.valueOf(request.getSession().getAttribute(sessionId));
               String page="";
+              if(org.apache.commons.lang3.StringUtils.isBlank(userName)){
+              	page="error";
+              	return page;
+			  }
               try {
+
 				//根据id查询
 				 if(StringUtils.isNotBlank(request.getParameter("id"))){
 					 if(StringUtils.isNotBlank(request.getParameter("dingTalkId"))){
