@@ -624,6 +624,7 @@ public class QualityReportPrint {
 	// 澶勭悊鍥剧墖澶囨敞瀛樻斁 鍋忕Щ閲忎笉鍚� dx1 = 255; dy1 = 125; dx2 = 200; dy2 = 150;
 	public static void setPicture(String pic, HSSFSheet sheet, int startRow,
 			int startCol, int stopRow, int stopCol) throws IOException {
+		pic = pic.replace("\\","/");
 		File imageFile = new File(pic);
 		if (imageFile.exists()) {
 			InputStream is = new FileInputStream(new File(pic));
