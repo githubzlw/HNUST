@@ -1260,7 +1260,8 @@ public class ProjectComplaintController {
 				String sampleOrProductStr = request.getParameter("sampleOrProduct");
 				String isCompleteStr = request.getParameter("isComplete");
 				Integer roleNo = null;                            // 判断是管理员，销售，采购
-	            String userName = WebCookie.getUserName(request);
+	            // String userName = WebCookie.getUserName(request);
+                String userName = SessionIdUtil.getUserName(request.getSession().getId());
 	            if(StringUtils.isNotBlank(userName)){
 	            	User user = userService.findUserByName(userName);
 	            	roleNo = user.getRoleNo();
@@ -1394,8 +1395,7 @@ public class ProjectComplaintController {
 				request.setAttribute("lastNum", lastNum);
 				request.setAttribute("sessionId", request.getSession().getId());
 
-				SessionIdUtil.setUserName(request.getSession().getId(), userName);
-				LOG.info("-----------queryShippingList sessionId:" + request.getSession().getId());
+				LOG.info("-----------queryShippingList userName:" + userName);
 
 				
 			} catch (NumberFormatException e) {
@@ -1715,10 +1715,11 @@ public class ProjectComplaintController {
 		@RequestMapping("/detail")
 		public String detail(HttpServletRequest request) {
             // String userName = WebCookie.getUserName(request);
-            String sessionId = request.getParameter("sessionId");
+            /*String sessionId = request.getParameter("sessionId");
             LOG.error("sessionId:" + sessionId);
             String userName = String.valueOf(request.getSession().getAttribute(sessionId));
-            LOG.error("userName:" + userName);
+            LOG.error("userName:" + userName);*/
+            String userName = request.getParameter("userName");
             String page = "";
             if (org.apache.commons.lang3.StringUtils.isBlank(userName)) {
                 page = "error";

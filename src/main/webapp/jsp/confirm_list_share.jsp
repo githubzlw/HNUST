@@ -177,6 +177,7 @@
 		<div class="line mt10"></div>
 		<h3 class="mt10">
 			<b>第一步：基本的出货信息 </b>
+			<textarea style="display: none;">userName:${userName},purchaseName:${shippingConfirmation.purchaseName},sellName:${shippingConfirmation.sellName}</textarea>
 			<c:choose>
 				<c:when
 					test="${(fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao'}">
@@ -845,7 +846,7 @@
 			<div class="clearfix no-print">
 				<textarea class="form-control mt10" id="comment"></textarea>
 				<button class="btn pull-right display_block mt10" type="button"
-					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${param.sessionId}')">点评</button>
+					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${param.userName}')">点评</button>
 			</div>
 		</div>
 
@@ -1241,7 +1242,7 @@
 	}
 
 	//发送评论
-	function sendComment(projectNo, shippingId, sessionId) {
+	function sendComment(projectNo, shippingId, userName) {
 		if (!$.cookie('name')) {
 			var a = location.href;
 			a = encodeURIComponent(a);
@@ -1269,7 +1270,7 @@
 						comment : comment,
 						fileName : fileName,
 						newFileName : newFileName,
-						sessionId : sessionId
+						userName : userName
 
 					},
 					success : function(json) {

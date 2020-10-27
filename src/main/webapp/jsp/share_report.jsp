@@ -488,7 +488,7 @@
 			               <input type="hidden" name="fileName" id="fileName">
 						   <input type="file" name="file" class="pull-left zj_upload" onchange="upload(this)">
 						</form>
-						<button class="btn dp_btn" onclick="sendComment('${qualityReport.projectNo}','${qualityReport.id}')">点评</button>
+						<button class="btn dp_btn" onclick="sendComment('${qualityReport.projectNo}','${qualityReport.id}','${param.userName}')">点评</button>
 						</div>
 					</div>
 
@@ -798,7 +798,7 @@ var mobile=/Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent);  /
 	   qqShare(shareInfo);
    }  
 
-   function sendComment(projectNo,reportId){	
+   function sendComment(projectNo,reportId, userName){
 	  if(!$.cookie('name')){
 		  var a = location.href;
 		  a = encodeURIComponent(a);
@@ -821,7 +821,8 @@ var mobile=/Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent);  /
 		    	 reportId:reportId,
 		    	 comment:comment,
 		    	 fileName:fileName,
-		    	 newFileName:newFileName
+		    	 newFileName:newFileName,
+		    	 userName:userName
 		     },              
 		     success:function(json){
 // 		    	 var json = eval("(" + data +")");
