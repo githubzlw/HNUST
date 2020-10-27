@@ -183,7 +183,7 @@
 					test="${(fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao'}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/1?id=${shippingConfirmation.id}'">跟单/采购录入</button>
+						onclick="window.location='/complaint/toAdd/1?id=${shippingConfirmation.id}&userName=${param.userName}'">跟单/采购录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -233,7 +233,7 @@
 					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector')|| userName eq 'ninazhao' || fn:containsIgnoreCase(userName, shippingConfirmation.sellName))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/2?id=${shippingConfirmation.id}'">检验录入</button>
+						onclick="window.location='/complaint/toAdd/2?id=${shippingConfirmation.id}&userName=${param.userName}'">检验录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"  
@@ -281,7 +281,7 @@
 					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector') || userName eq 'ninazhao'|| (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/3?id=${shippingConfirmation.id}'">检验/跟单录入</button>
+						onclick="window.location='/complaint/toAdd/3?id=${shippingConfirmation.id}&userName=${param.userName}'">检验/跟单录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -306,7 +306,7 @@
 					test="${(fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao'}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/4?id=${shippingConfirmation.id}'">跟单/采购录入</button>
+						onclick="window.location='/complaint/toAdd/4?id=${shippingConfirmation.id}&userName=${param.userName}'">跟单/采购录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -601,7 +601,7 @@
 									test="${((fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao') && isSign == true }">
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',0,0)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',0,0,'${param.userName}')">确认签名</button>
 								</c:when>
 								<c:otherwise>
 									<button class="btn btn-default">不可签名</button>
@@ -628,7 +628,7 @@
 										test="${((fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',1,0)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',1,0,'${param.userName}')">确认签名</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">不可签名</button>
@@ -650,7 +650,7 @@
 							<c:if test="${shippingConfirmation.qualityLeaderConfirmId==2 }">
 							<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,1)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',2,1,'${param.userName}')">确认签名</button>
 							<button class="btn btn-default">不同意出货</button>
 							</c:if>
 							<span>日期:</span>
@@ -665,10 +665,10 @@
 									test="${(fn:containsIgnoreCase(userName, 'Tonyliao') || userName eq 'ninazhao' || userName eq 'qcdirector') && isSign == true}">
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,1)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',2,1,'${param.userName}')">确认签名</button>
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,2)">不同意出货</button>
+										onclick="confirm('${shippingConfirmation.id}',2,2,'${param.userName}')">不同意出货</button>
 								</c:when>
 								<c:otherwise>
 									<button class="btn btn-default">未签名和钉钉同步</button>
@@ -689,7 +689,7 @@
 								<c:if test="${shippingConfirmation.purchaseLeaderConfirmId==2 }">
 								<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',3,1,'${param.userName}')">确认签名</button>
 								<button class="btn btn-default">不同意出货</button></c:if>
 								<span>日期:</span>
 								<span><fmt:formatDate
@@ -703,10 +703,10 @@
 										test="${(fn:containsIgnoreCase(userName, 'Jiangwenlong') || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',3,1,'${param.userName}')">确认签名</button>
 											<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,2)">不同意出货</button>
+											onclick="confirm('${shippingConfirmation.id}',3,2,'${param.userName}')">不同意出货</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">未签名和钉钉同步</button>
@@ -728,7 +728,7 @@
 								<c:if test="${shippingConfirmation.bossConfirmId==2 }">
 								<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',4,1,'${param.userName}')">确认签名</button>
 								<button class="btn btn-default">不同意出货</button></c:if>
 								<span>日期:</span>
 								<span><fmt:formatDate
@@ -741,10 +741,10 @@
 										test="${(fn:containsIgnoreCase(userName, 'edward') || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',4,1,'${param.userName}')">确认签名</button>
 											<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,2)">不同意出货</button>
+											onclick="confirm('${shippingConfirmation.id}',4,2,'${param.userName}')">不同意出货</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">未签名和钉钉同步</button>
@@ -985,7 +985,7 @@
 
 <script type="text/javascript">
 	//确认签名  0:销售  1：采购 2：质检总监   3：采购总经理  4：总裁
-	function confirm(id, type,num) {
+	function confirm(id, type,num, userName) {
 
 		var btnFn = function() {
 			if (!id) {
@@ -1008,7 +1008,7 @@
 						layer.msg("确认成功", {
 							time : 2000
 						});
-						window.location = '/complaint/detail?id=' + id;
+						window.location = '/complaint/detail?id=' + id + '&userName='+ userName;
 					} else if (json.message == '您还未登录') {
 						var a = location.href;
 						a = encodeURIComponent(a);
