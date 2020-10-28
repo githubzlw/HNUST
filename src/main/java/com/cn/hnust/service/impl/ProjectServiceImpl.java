@@ -1,10 +1,7 @@
 package com.cn.hnust.service.impl;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.cn.hnust.controller.DingTalkThread;
 import com.cn.hnust.util.ERPStatusUtil;
@@ -143,6 +140,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public void updateProjectInfo(Project project) {
+		if(StringUtils.isBlank(project.getInterfaceName())){
+			project.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 	    projectMapper.insertProjectSyncLog(project);
 		projectMapper.updateByPrimaryKeySelective(project);
 	}
@@ -275,6 +275,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Override
 	public void addProject(Project project) throws ParseException {
 
+		if(StringUtils.isBlank(project.getInterfaceName())){
+			project.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 		projectMapper.insertProjectSyncLog(project);
 	   //添加返单项目，移植初始项目的产品图片
 	  if(project!=null){
@@ -461,6 +464,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	@Transactional
 	@Override
 	public void updateProjectStatus(Project project,String reason,String time,ProjectStatusLog statusLog) {
+		if(StringUtils.isBlank(project.getInterfaceName())){
+			project.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 		projectMapper.insertProjectSyncLog(project);
 		//itemCaseERPMapper.updateItemCaseStatus(project);
 		projectMapper.updateByPrimaryKeySelective(project);
@@ -583,6 +589,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public int updateByPrimaryKey(Project record) {
+		if(StringUtils.isBlank(record.getInterfaceName())){
+			record.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 		projectMapper.insertProjectSyncLog(record);
 		Project project = new Project();
 		project.setProjectNo(record.getProjectNo());
@@ -655,6 +664,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 			}else{
 				deliveryDateLogMapper.insertSelective(deliveryDateLog);
 			}
+		}
+		if(StringUtils.isBlank(record.getInterfaceName())){
+			record.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
 		}
 		projectMapper.insertProjectSyncLog(record);
 		// itemCaseERPMapper.updateItemCaseStatus(record);
@@ -743,6 +755,9 @@ public class ProjectServiceImpl implements IProjectService,QuoteWeeklyReportServ
 	}
 	@Override
 	public int updateStatus(Project project) {
+		if(StringUtils.isBlank(project.getInterfaceName())){
+			project.setInterfaceName(Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 		projectMapper.insertProjectSyncLog(project);
 		return projectMapper.updateStatus(project);
 	}
