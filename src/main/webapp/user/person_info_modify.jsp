@@ -81,7 +81,7 @@
 			</div>
 			<div class="pull-right div_r w850">
 				<div class="form-group group_top">
-					<label>角色赋予模板选择:</label>
+					<label>统一调整用户角色:</label>
 					<label><input type="checkbox" value="5">销售</label>
 					<label><input type="checkbox" value="10">报价</label>
 					<label><input type="checkbox" value="6">采购</label>
@@ -98,7 +98,7 @@
 					<thead>
 						<tr>
 							<th>系统列表</th>
-							<th colspan="8">权限内容</th>
+							<th colspan="8">分别调整子系统用户角色</th>
 						</tr>
 					</thead>
 					<tbody id="tbody">

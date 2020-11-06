@@ -30,7 +30,7 @@
 <form action="${ctx}/syncUser/showAllUser" method="post" id="form">
 	<div class="person_set">
 		<h3><b>人员设置</b><a class="btn z-a" href="${ctx}/user/person_new_add.jsp">新增人员</a>
-			<input class="form-control" style="width: 195px;display: inline-block;" type="text" id="userName" name="userName" placeholder="姓名">
+			<input class="form-control" style="width: 195px;display: inline-block;" type="text" id="userName" name="userName" placeholder="姓名" >
 		    <a class="btn z-a" style="background-color: #5abffb;color: #fff;" onclick="formSubmit()">搜索</a>
 		</h3>
 		<table class="table table-bordered">
@@ -52,7 +52,8 @@
 					<td><span><fmt:formatDate value="${obj.registerDate}" pattern="yyyy-MM-dd"/></span></td>
 					<td><span>${obj.job}</span></td>
 					<td><c:if test="${obj.flag == 0}">离职</c:if><c:if test="${obj.flag == 1}">在职</c:if></td>
-					<td><button class="btn" onclick="window.location='${ctx}/syncUser/edit?id=${obj.id}';return false;">修改信息</button></td>
+<%--					<td><button class="btn" onclick="window.location='${ctx}/syncUser/edit?id=${obj.id}';return false;">修改信息</button></td>--%>
+					<td><a class="btn" onclick="" href="${ctx}/syncUser/edit?id=${obj.id}">修改信息</a></td>
 				</tr>
              </c:forEach>
 			</tbody>
@@ -67,7 +68,7 @@
 <script type="text/javascript">
  function formSubmit(){
 	 $('#form').submit();	 
- } 
+ }
 
 </script>
 
