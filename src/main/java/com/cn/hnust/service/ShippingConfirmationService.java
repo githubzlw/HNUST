@@ -16,7 +16,7 @@ public interface ShippingConfirmationService {
 
     ShippingConfirmation selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(ShippingConfirmation record) throws ParseException;
+    int updateByPrimaryKeySelective(ShippingConfirmation record, String userName) throws ParseException;
     
     
     

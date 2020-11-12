@@ -25,7 +25,7 @@
 <meta name="twitter:description" content="${shippingConfirmation.sampleOrProduct == 0 ? '样品_' : '大货_'}${shippingConfirmation.purchaseConfirm != null ? '' : (shippingConfirmation.purchaseName == null?'':shippingConfirmation.purchaseName)}/${shippingConfirmation.qualityLeaderConfirm != null ? '' : '阳工'}${(shippingConfirmation.purchaseLeaderConfirm == null && shippingConfirmation.isQualityLeaderConfirm == 1) ? '/姜工' : ''}${bossConfirm == true ? '/Ed': ''}_未签字">
 <meta name="twitter:creator" content="${user.userName }">
 
-<meta name="twitter:image" content="http://117.144.21.74:10010/product_img/${project.productImg}"> 
+<meta name="twitter:image" content="https://www.kuaizhizao.cn/product_img/${project.productImg}">
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="jsmodern-1.1.1.min.css">
 <script type="text/javascript" src="easydialog.min.js"></script>
@@ -530,7 +530,7 @@ b{font-weight:normal;}
 		a = a
 				.replace("http://117.144.21.74:10010",
 						"https://www.kuaizhizao.cn");
-		img = productImg ? 'http://117.144.21.74:10010/product_img/'
+		img = productImg ? 'https://www.kuaizhizao.cn/product_img/'
 				+ productImg : '';
 		title = projectNo + "_出货确认单_" + productName;
 		var inspection = zhijian1 + " " + zhijian2 + " " + zhijian3 + "/";

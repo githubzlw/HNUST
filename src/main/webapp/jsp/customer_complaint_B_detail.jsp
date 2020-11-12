@@ -302,7 +302,7 @@
 			</div>
 			<div class="pull-right small_imgs text-center">
 				<img
-					src="http://117.144.21.74:10010/product_img/${project.productImg}"
+					src="https://www.kuaizhizao.cn/product_img/${project.productImg}"
 					class="img-responsive">
 			</div>
 		</div>
@@ -345,12 +345,12 @@
 								<c:choose>
 									<c:when test="${projectComplaint.id > 38}">
 										<img
-											src="http://117.144.21.74:10010/static_img/project_complaint/${projectComplaint.projectNo}/${str}"
+											src="https://www.kuaizhizao.cn/static_img/project_complaint/${projectComplaint.projectNo}/${str}"
 											class="img-responsive">
 									</c:when>
 									<c:otherwise>
 										<img
-											src="http://117.144.21.74:10010/static_img/project_complaint/${project.productImg}"
+											src="https://www.kuaizhizao.cn/static_img/project_complaint/${project.productImg}"
 											class="img-responsive">
 									</c:otherwise>
 								</c:choose>
@@ -554,7 +554,7 @@
 												test="${obj.newFileName != null && obj.newFileName != ''}">
 												<div>
 													附件：<a
-														href="http://117.144.21.74:10010/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
+														href="https://www.kuaizhizao.cn/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
 												</div>
 											</c:if>
 										</div>
@@ -613,7 +613,7 @@
 											test="${obj.newFileName != null && obj.newFileName != ''}">
 											<div>
 												附件：<a
-													href="http://117.144.21.74:10010/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
+													href="https://www.kuaizhizao.cn/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
 											</div>
 										</c:if>
 									</td>
@@ -1078,7 +1078,8 @@
 <script type="text/javascript" src="shareWechat.js"></script>
 <script src="layer.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="pinchzoom.min.js"></script>
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<%--<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>--%>
+<script src="jquery.min.js"></script>
 <script type="text/javascript"
 	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="jsmodern-1.1.1.min.js"></script>
@@ -1205,7 +1206,7 @@ $(function(){
 	 a = location.href;
      a = a.replace("http://117.144.21.74:10010","https://www.kuaizhizao.cn");
      a = a + "&type=1";
-     img = productImg?'http://117.144.21.74:10010/product_img/'+productImg:'';
+     img = productImg?'https://www.kuaizhizao.cn/product_img/'+productImg:'';
      title = projectNo + "质量跟踪单";     
      var inspection = zhijian1+" "+zhijian2+" "+zhijian3+"/";
      desc = projectName+"_"+(customerName?customerName+"_":'')+purchaseName+"/"+sellName+"/"+inspection;

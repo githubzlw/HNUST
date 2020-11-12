@@ -232,7 +232,7 @@
 		</c:if>		
 		</div>
 		<div class="pull-right small_imgs text-center">
-			<img src="http://117.144.21.74:10010/product_img/${project.productImg}" class="img-responsive">
+			<img src="https://www.kuaizhizao.cn/product_img/${project.productImg}" class="img-responsive">
 		</div>	
 	</div>	
 	
@@ -683,7 +683,7 @@ var mobile=/Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent);  /
 				          
 				          var link = location.href.replace("http://117.144.21.74:10010","www.kuaizhizao.cn");
 				          //微信分享
-				          var img = productImg?'http://117.144.21.74:10010/product_img/'+productImg:'http://117.144.21.74:10010/product_img/'+checkImg;
+				          var img = productImg?'https://www.kuaizhizao.cn/product_img/'+productImg:'https://www.kuaizhizao.cn/product_img/'+checkImg;
 				          var shareInfo = {'url':a,'title':mailSubject,'desc':subject,'type':2,'img':img};
 				          $('.share_wechat').attr('onclick','shareWechat('+JSON.stringify(shareInfo).replace(/\"/g,"'")+')');
 				          
@@ -948,7 +948,7 @@ var mobile=/Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent);  /
         var title = 'Inspection Report'+'${project.projectNameEn == null ? project.projectName : project.projectNameEn}';   // 分享标题
         var desc = $('#checkDate').val()+"\n China Synergy Group";    // 分享描述
         var a = 'https://www.kuaizhizao.cn/quality/shareQualityEn?id='+id;       // 分享链接
-        var img = productImg?'http://117.144.21.74:10010/product_img/'+productImg:'http://117.144.21.74:10010/product_img/'+checkImg;
+        var img = productImg?'https://www.kuaizhizao.cn/product_img/'+productImg:'https://www.kuaizhizao.cn/product_img/'+checkImg;
         
         
 	    $.ajax({

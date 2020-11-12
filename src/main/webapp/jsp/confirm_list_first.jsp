@@ -42,7 +42,7 @@
 	<h1 class="customer_complaint_h1">
 	<span>${shippingConfirmation.projectNo}</span>电子出货确认单
 	<div class="btns">
-		<a class="select_blank btn" href="/complaint/detail?id=${shippingConfirmation.id}">返回确认单</a>			
+		<a class="select_blank btn" href="/complaint/detail?id=${shippingConfirmation.id}&userName=${param.userName}">返回确认单</a>
 	</div>	
 	</h1>	
 	<h3 class="mt10 mb10"><b class="mr10">第一步：基本的出货信息   </b>提供人：(跟单/采购)</h3>	

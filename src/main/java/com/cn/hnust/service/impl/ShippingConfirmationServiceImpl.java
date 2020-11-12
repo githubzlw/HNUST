@@ -100,7 +100,7 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(ShippingConfirmation record) throws ParseException {
+	public int updateByPrimaryKeySelective(ShippingConfirmation record, String userName) throws ParseException {
 		
 		//判断当前出货次数
 		int count = shippingConfirmationMapper.selectCountByProjectNoAndType(record.getProjectNo(),PRODUCT);
@@ -233,7 +233,7 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 					task.setTaskUrl(null);
 		        	task.setStartTime(new Date());
 		        	task.setCreateTime(new Date());
-		        	task.setReturnUrl("/complaint/detail?id="+record.getId());
+		        	task.setReturnUrl("/complaint/detail?id="+record.getId()+ "&userName="+ userName);
 		        	if(StringUtils.isNotBlank(project.getPurchaseName())){
 		        		task.setAccepter(project.getPurchaseName());
 		        		projectTaks.add(task);

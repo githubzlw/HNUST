@@ -29,7 +29,7 @@
 <meta name="twitter:description" content="${shippingConfirmation.sampleOrProduct == 0 ? '样品_' : '大货_'}${shippingConfirmation.purchaseConfirm != null ? '' : (shippingConfirmation.purchaseName == null?'':shippingConfirmation.purchaseName)}/${shippingConfirmation.qualityLeaderConfirm != null ? '' : '阳工'}${(shippingConfirmation.purchaseLeaderConfirm == null && shippingConfirmation.isQualityLeaderConfirm == 1) ? '/姜工' : ''}${bossConfirm == true ? '/Ed': ''}_未签字">
 <meta name="twitter:creator" content="${user.userName }">
 
-<meta name="twitter:image" content="http://117.144.21.74:10010/product_img/${project.productImg}"> 
+<meta name="twitter:image" content="https://www.kuaizhizao.cn/product_img/${project.productImg}">
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="jsmodern-1.1.1.min.css">
 <script type="text/javascript" src="easydialog.min.js"></script>
@@ -95,7 +95,7 @@
 					href="http://117.144.21.74:10010/complaint/queryShippingList">返回确认单列表</a>
 					<c:if test="${isSign == true}">
 						<a class="btn btn-default"
-						href="https://www.kuaizhizao.cn/complaint/detail?id=${id }&work=print" target="_blank" style="background-color: #8c8cff;" >打印专用页面</a>
+						href="https://www.kuaizhizao.cn/complaint/detail?id=${id }&work=print&userName=${param.userName}" target="_blank" style="background-color: #8c8cff;" >打印专用页面</a>
 					</c:if>
 					<c:if test="${isSign == false}">
 						<a class="btn btn-default"
@@ -170,7 +170,7 @@
 			</div>
 			<div class="pull-right small_imgs text-center no-print">
 				<img
-					src="http://117.144.21.74:10010/product_img/${project.productImg}"
+					src="https://www.kuaizhizao.cn/product_img/${project.productImg}"
 					class="img-responsive">
 			</div>
 		</div>
@@ -1051,7 +1051,7 @@
 		a = a
 				.replace("http://117.144.21.74:10010",
 						"https://www.kuaizhizao.cn");
-		img = productImg ? 'http://117.144.21.74:10010/product_img/'
+		img = productImg ? 'https://www.kuaizhizao.cn/product_img/'
 				+ productImg : '';
 		title = projectNo + "_出货确认单_" + productName;
 		var inspection = zhijian1 + " " + zhijian2 + " " + zhijian3 + "/";

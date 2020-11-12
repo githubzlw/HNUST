@@ -5553,6 +5553,7 @@ public class ProjectController {
         ProjectFactory projectFactory = new ProjectFactory();
         ProjectERP projectErp = itemCaseERPService.selectByCaseNo(projectNo);
         Project project = projectService.selectProjctDetails(projectNo);
+        project.setInterfaceName("sysnByProjectErp");
         if (projectErp != null && project != null) {
             //项目不为空时，更新项目
             if (project != null) {
