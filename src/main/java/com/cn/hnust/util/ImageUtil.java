@@ -26,9 +26,9 @@ public class ImageUtil {
         int y; // 原点纵坐标
         //图片地址
         String newFile = openUrl.replace("/project_img", "").replace("/", File.separator);
-        newFile = UploadAndDownloadPathUtil.getProjectImg()+newFile;
+        newFile = (UploadAndDownloadPathUtil.getProjectImg()+newFile).replace("\\", "/");
         //保存地址
-        String saveUrl = newFile.substring(0, newFile.lastIndexOf(File.separator));
+        String saveUrl = newFile.substring(0, newFile.lastIndexOf(File.separator)).replace("\\", "/");
         //保存图片名
         String saveName = FilenameUtils.getName(newFile);
         //图片后缀名
