@@ -232,7 +232,9 @@
 		</c:if>		
 		</div>
 		<div class="pull-right small_imgs text-center">
-			<img src="https://www.kuaizhizao.cn/product_img/${project.productImg}" class="img-responsive">
+			<c:if test="${not empty project.productImg}">
+				<img src="https://www.kuaizhizao.cn/product_img/${project.productImg}" class="img-responsive">
+			</c:if>
 		</div>	
 	</div>	
 	
