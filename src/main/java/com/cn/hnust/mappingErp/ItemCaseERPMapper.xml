@@ -274,4 +274,8 @@ group by it.caseno
     
     where caseno =#{projectNo,jdbcType=VARCHAR}
   </update>
+
+    <update id="updateItemCaseStatus" parameterType="com.cn.hnust.pojo.Project">
+        update itemCase set CaseStatus = #{projectStatus},updateTime = getDate() where CaseNo =#{projectNo}
+    </update>
 </mapper>

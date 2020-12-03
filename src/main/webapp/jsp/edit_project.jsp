@@ -199,7 +199,7 @@ table .add_span_state{padding:2px 12px;}
 	<div class="main-container new_project_entry">
 		<form id="form" action="/project/editProject" method="post"
 			onsubmit="return false;">
-			<c:if test="${userName eq 'ninazhao' ||roleNo==9|| userName eq 'edward'|| userName eq 'jerrylong'|| userName eq 'yanggong'}">
+			<c:if test="${userName eq 'ninazhao' ||roleNo==9|| userName eq 'edward'|| userName eq 'jerrylong'|| userName eq 'qcdirector'}">
 			<input type="hidden" value="${project.projectNo}" name="projectNo">
 			<input type="hidden" id="factoryList" name="factoryList">
 			<div class="main-table meeting-list-table form-horizontal">

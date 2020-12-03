@@ -29,7 +29,7 @@
 <meta name="twitter:description" content="${shippingConfirmation.sampleOrProduct == 0 ? '样品_' : '大货_'}${shippingConfirmation.purchaseConfirm != null ? '' : (shippingConfirmation.purchaseName == null?'':shippingConfirmation.purchaseName)}/${shippingConfirmation.qualityLeaderConfirm != null ? '' : '阳工'}${(shippingConfirmation.purchaseLeaderConfirm == null && shippingConfirmation.isQualityLeaderConfirm == 1) ? '/姜工' : ''}${bossConfirm == true ? '/Ed': ''}_未签字">
 <meta name="twitter:creator" content="${user.userName }">
 
-<meta name="twitter:image" content="http://117.144.21.74:10010/product_img/${project.productImg}"> 
+<meta name="twitter:image" content="https://www.kuaizhizao.cn/product_img/${project.productImg}">
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="jsmodern-1.1.1.min.css">
 <script type="text/javascript" src="easydialog.min.js"></script>
@@ -95,7 +95,7 @@
 					href="http://117.144.21.74:10010/complaint/queryShippingList">返回确认单列表</a>
 					<c:if test="${isSign == true}">
 						<a class="btn btn-default"
-						href="https://www.kuaizhizao.cn/complaint/detail?id=${id }&work=print" target="_blank" style="background-color: #8c8cff;" >打印专用页面</a>
+						href="https://www.kuaizhizao.cn/complaint/detail?id=${id }&work=print&userName=${param.userName}" target="_blank" style="background-color: #8c8cff;" >打印专用页面</a>
 					</c:if>
 					<c:if test="${isSign == false}">
 						<a class="btn btn-default"
@@ -170,19 +170,20 @@
 			</div>
 			<div class="pull-right small_imgs text-center no-print">
 				<img
-					src="http://117.144.21.74:10010/product_img/${project.productImg}"
+					src="https://www.kuaizhizao.cn/product_img/${project.productImg}"
 					class="img-responsive">
 			</div>
 		</div>
 		<div class="line mt10"></div>
 		<h3 class="mt10">
 			<b>第一步：基本的出货信息 </b>
+			<textarea style="display: none;">userName:${userName},purchaseName:${shippingConfirmation.purchaseName},sellName:${shippingConfirmation.sellName}</textarea>
 			<c:choose>
 				<c:when
 					test="${(fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao'}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/1?id=${shippingConfirmation.id}'">跟单/采购录入</button>
+						onclick="window.location='/complaint/toAdd/1?id=${shippingConfirmation.id}&userName=${param.userName}'">跟单/采购录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -229,10 +230,10 @@
 			<b>第二步：检验结果复述</b>
 			<c:choose>
 				<c:when
-					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'yanggong')|| userName eq 'ninazhao' || fn:containsIgnoreCase(userName, shippingConfirmation.sellName))}">
+					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector')|| userName eq 'ninazhao' || fn:containsIgnoreCase(userName, shippingConfirmation.sellName))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/2?id=${shippingConfirmation.id}'">检验录入</button>
+						onclick="window.location='/complaint/toAdd/2?id=${shippingConfirmation.id}&userName=${param.userName}'">检验录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"  
@@ -277,10 +278,10 @@
 			<b>第三步：出货质量分析会的决议如下</b>
 			<c:choose>
 				<c:when
-					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'yanggong') || userName eq 'ninazhao'|| (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null))}">
+					test="${(userName != '' && userName != null) && (fn:containsIgnoreCase(userName, shippingConfirmation.zhijian1) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian2) || fn:containsIgnoreCase(userName, shippingConfirmation.zhijian3) || fn:containsIgnoreCase(userName, 'qcdirector') || userName eq 'ninazhao'|| (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null))}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/3?id=${shippingConfirmation.id}'">检验/跟单录入</button>
+						onclick="window.location='/complaint/toAdd/3?id=${shippingConfirmation.id}&userName=${param.userName}'">检验/跟单录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -305,7 +306,7 @@
 					test="${(fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || (fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao'}">
 					<button class="btn btn-default bgcolor_ff0 no-print"
 						style="background-color: #027CFF; color: #fff;"
-						onclick="window.location='/complaint/toAdd/4?id=${shippingConfirmation.id}'">跟单/采购录入</button>
+						onclick="window.location='/complaint/toAdd/4?id=${shippingConfirmation.id}&userName=${param.userName}'">跟单/采购录入</button>
 				</c:when>
 				<c:otherwise>
 					<button class="btn btn-default bgcolor_ff0"
@@ -600,7 +601,7 @@
 									test="${((fn:containsIgnoreCase(userName, shippingConfirmation.sellName) && userName != '' && userName != null) || userName eq 'ninazhao') && isSign == true }">
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',0,0)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',0,0,'${param.userName}')">确认签名</button>
 								</c:when>
 								<c:otherwise>
 									<button class="btn btn-default">不可签名</button>
@@ -627,7 +628,7 @@
 										test="${((fn:containsIgnoreCase(userName, shippingConfirmation.purchaseName) && userName != '' && userName != null) || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',1,0)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',1,0,'${param.userName}')">确认签名</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">不可签名</button>
@@ -649,7 +650,7 @@
 							<c:if test="${shippingConfirmation.qualityLeaderConfirmId==2 }">
 							<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,1)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',2,1,'${param.userName}')">确认签名</button>
 							<button class="btn btn-default">不同意出货</button>
 							</c:if>
 							<span>日期:</span>
@@ -661,13 +662,13 @@
 						<c:otherwise>
 							<c:choose>
 								<c:when
-									test="${(fn:containsIgnoreCase(userName, 'Tonyliao') || userName eq 'ninazhao' || userName eq 'yanggong') && isSign == true}">
+									test="${(fn:containsIgnoreCase(userName, 'Tonyliao') || userName eq 'ninazhao' || userName eq 'qcdirector') && isSign == true}">
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,1)">确认签名</button>
+										onclick="confirm('${shippingConfirmation.id}',2,1,'${param.userName}')">确认签名</button>
 									<button class="btn btn-default bgcolor_ff0"
 										style="background-color: #027CFF; color: #fff;"
-										onclick="confirm('${shippingConfirmation.id}',2,2)">不同意出货</button>
+										onclick="confirm('${shippingConfirmation.id}',2,2,'${param.userName}')">不同意出货</button>
 								</c:when>
 								<c:otherwise>
 									<button class="btn btn-default">未签名和钉钉同步</button>
@@ -688,7 +689,7 @@
 								<c:if test="${shippingConfirmation.purchaseLeaderConfirmId==2 }">
 								<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',3,1,'${param.userName}')">确认签名</button>
 								<button class="btn btn-default">不同意出货</button></c:if>
 								<span>日期:</span>
 								<span><fmt:formatDate
@@ -702,10 +703,10 @@
 										test="${(fn:containsIgnoreCase(userName, 'Jiangwenlong') || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',3,1,'${param.userName}')">确认签名</button>
 											<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',3,2)">不同意出货</button>
+											onclick="confirm('${shippingConfirmation.id}',3,2,'${param.userName}')">不同意出货</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">未签名和钉钉同步</button>
@@ -727,7 +728,7 @@
 								<c:if test="${shippingConfirmation.bossConfirmId==2 }">
 								<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',4,1,'${param.userName}')">确认签名</button>
 								<button class="btn btn-default">不同意出货</button></c:if>
 								<span>日期:</span>
 								<span><fmt:formatDate
@@ -740,10 +741,10 @@
 										test="${(fn:containsIgnoreCase(userName, 'edward') || userName eq 'ninazhao') && isSign == true}">
 										<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,1)">确认签名</button>
+											onclick="confirm('${shippingConfirmation.id}',4,1,'${param.userName}')">确认签名</button>
 											<button class="btn btn-default bgcolor_ff0"
 											style="background-color: #027CFF; color: #fff;"
-											onclick="confirm('${shippingConfirmation.id}',4,2)">不同意出货</button>
+											onclick="confirm('${shippingConfirmation.id}',4,2,'${param.userName}')">不同意出货</button>
 									</c:when>
 									<c:otherwise>
 										<button class="btn btn-default">未签名和钉钉同步</button>
@@ -845,7 +846,7 @@
 			<div class="clearfix no-print">
 				<textarea class="form-control mt10" id="comment"></textarea>
 				<button class="btn pull-right display_block mt10" type="button"
-					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}')">点评</button>
+					onclick="sendComment('${shippingConfirmation.projectNo}','${shippingConfirmation.id}','${param.userName}')">点评</button>
 			</div>
 		</div>
 
@@ -984,7 +985,7 @@
 
 <script type="text/javascript">
 	//确认签名  0:销售  1：采购 2：质检总监   3：采购总经理  4：总裁
-	function confirm(id, type,num) {
+	function confirm(id, type,num, userName) {
 
 		var btnFn = function() {
 			if (!id) {
@@ -1007,7 +1008,7 @@
 						layer.msg("确认成功", {
 							time : 2000
 						});
-						window.location = '/complaint/detail?id=' + id;
+						window.location = '/complaint/detail?id=' + id + '&userName='+ userName;
 					} else if (json.message == '您还未登录') {
 						var a = location.href;
 						a = encodeURIComponent(a);
@@ -1050,7 +1051,7 @@
 		a = a
 				.replace("http://117.144.21.74:10010",
 						"https://www.kuaizhizao.cn");
-		img = productImg ? 'http://117.144.21.74:10010/product_img/'
+		img = productImg ? 'https://www.kuaizhizao.cn/product_img/'
 				+ productImg : '';
 		title = projectNo + "_出货确认单_" + productName;
 		var inspection = zhijian1 + " " + zhijian2 + " " + zhijian3 + "/";
@@ -1241,7 +1242,7 @@
 	}
 
 	//发送评论
-	function sendComment(projectNo, shippingId) {
+	function sendComment(projectNo, shippingId, userName) {
 		if (!$.cookie('name')) {
 			var a = location.href;
 			a = encodeURIComponent(a);
@@ -1268,7 +1269,9 @@
 						shippingId : shippingId,
 						comment : comment,
 						fileName : fileName,
-						newFileName : newFileName
+						newFileName : newFileName,
+						userName : userName
+
 					},
 					success : function(json) {
 // 						var json = eval("(" + data + ")");

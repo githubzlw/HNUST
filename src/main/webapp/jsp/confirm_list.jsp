@@ -100,7 +100,7 @@
 							</c:choose>
 							<div class="pull-left ship_info">
 							<div class="display_iline_block list_cont pull-left ">								
-								<a href="https://www.kuaizhizao.cn/complaint/detail?id=${obj.id}" target="_blank"><em>${obj.serialNumber}</em><span>_</span><span><fmt:formatDate
+								<a href="https://www.kuaizhizao.cn/complaint/detail?id=${obj.id}&userName=${userName}" target="_blank"><em>${obj.serialNumber}</em><span>_</span><span><fmt:formatDate
 										value="${obj.createTime}" pattern="yyyy/MM/dd" />_</span></a>
 								<c:if test="${obj.isComplete == 0 && obj.isSign == false}">
 									<span class="red">未填全不能签字</span>

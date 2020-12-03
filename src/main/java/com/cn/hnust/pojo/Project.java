@@ -455,6 +455,26 @@ public class Project extends PageHelper implements Serializable {
 
 	private Date ifDate;// 支付时间
 
+
+	private String ipAddr; // 访问IP
+	private String interfaceName;// 接口名称
+
+	public String getIpAddr() {
+		return ipAddr;
+	}
+
+	public void setIpAddr(String ipAddr) {
+		this.ipAddr = ipAddr;
+	}
+
+	public String getInterfaceName() {
+		return interfaceName;
+	}
+
+	public void setInterfaceName(String interfaceName) {
+		this.interfaceName = interfaceName;
+	}
+
 	public Date getIfDate() {
 		return ifDate;
 	}

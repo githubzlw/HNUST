@@ -33,7 +33,7 @@
 	<h1 class="customer_complaint_h1">
 	<span>${shippingConfirmation.projectNo}</span>-电子出货确认单
 	<div class="btns">
-		<a class="btn btn-default"  href="/complaint/detail?id=${shippingConfirmation.id}">返回确认单</a>				
+		<a class="btn btn-default"  href="/complaint/detail?id=${shippingConfirmation.id}&userName=${param.userName}">返回确认单</a>
 	</div>	
 	</h1>	
 	<h3 class="mt10 mb10"><b class="mr10">第四步：跟单销售确认</b>提供人：<span>跟单/采购</span></h3>
@@ -79,7 +79,7 @@
 		<label class="">销售对质量的担忧：</label>
 		<textarea class="form-control mt10" name="salesWorry">${shippingConfirmation.salesWorry}</textarea>
 	</div>
-	<button class="btn btn-default bgcolor_ff0 tj"  type="button"  onclick="save('${shippingConfirmation.id}',this)">提交</button>
+	<button class="btn btn-default bgcolor_ff0 tj"  type="button"  onclick="save('${shippingConfirmation.id}',this,'${param.userName}')">提交</button>
 <!-- 	<button class="btn btn-default bgcolor_ff0 tj">已提交，点我修改</button> -->
 </div>	
 </form>
@@ -95,7 +95,7 @@
 
 
 <script type="text/javascript">
-  function save(id,obj){	   
+  function save(id,obj, userName){
 	    if(!id){
 		   layer.msg("id不能为空",{time:2000});  
 		   return false;
@@ -109,7 +109,7 @@
 					var json = eval("(" + result + ")");
 					  if(json.ok){
 						  layer.msg("录入成功",{time:2000});  
-						  window.location = '/complaint/detail?id='+id;
+						  window.location = '/complaint/detail?id='+id + '&userName=' + userName;
 					  }else if(json.message == '您还未登录'){
 						  var a = location.href;
 						  a = encodeURIComponent(a);

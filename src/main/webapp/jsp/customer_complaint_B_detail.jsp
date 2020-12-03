@@ -302,7 +302,7 @@
 			</div>
 			<div class="pull-right small_imgs text-center">
 				<img
-					src="http://117.144.21.74:10010/product_img/${project.productImg}"
+					src="https://www.kuaizhizao.cn/product_img/${project.productImg}"
 					class="img-responsive">
 			</div>
 		</div>
@@ -345,12 +345,12 @@
 								<c:choose>
 									<c:when test="${projectComplaint.id > 38}">
 										<img
-											src="http://117.144.21.74:10010/static_img/project_complaint/${projectComplaint.projectNo}/${str}"
+											src="https://www.kuaizhizao.cn/static_img/project_complaint/${projectComplaint.projectNo}/${str}"
 											class="img-responsive">
 									</c:when>
 									<c:otherwise>
 										<img
-											src="http://117.144.21.74:10010/static_img/project_complaint/${project.productImg}"
+											src="https://www.kuaizhizao.cn/static_img/project_complaint/${project.productImg}"
 											class="img-responsive">
 									</c:otherwise>
 								</c:choose>
@@ -379,7 +379,7 @@
 			<div class="btns add_btns">
 				<div class="btns_1 text-right">
 					<c:if
-						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'yanggong' && user.userName ne 'wangweiping'}">
+						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'qcdirector' && user.userName ne 'wangweiping'}">
 						<c:choose>
 							<c:when
 								test="${(user.userName eq project.purchaseName && user.userName != '' && user.userName != null) || (user.userName eq project.sellName && user.userName != '' && user.userName != null)}">
@@ -400,7 +400,7 @@
 						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'wangweiping'}">
 						<c:choose>
 							<c:when
-								test="${(user.userName != '' && user.userName != null) && (user.userName eq project.zhijian1 || user.userName eq project.zhijian2 || user.userName eq project.zhijian3 || user.userName eq 'yanggong')}">
+								test="${(user.userName != '' && user.userName != null) && (user.userName eq project.zhijian1 || user.userName eq project.zhijian2 || user.userName eq project.zhijian3 || user.userName eq 'qcdirector')}">
 								<a href="/complaint/inspectionReply?id=${projectComplaint.id}"
 									style="display: inline-block; padding: 0;"><button
 										class="btn"
@@ -415,7 +415,7 @@
 						</c:choose>
 					</c:if></c:if>
 					<c:if
-						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'yanggong' && user.userName ne 'Tonyliao'}">
+						test="${user.userName ne 'edward' && user.userName ne 'jerrylong' && user.userName ne 'Jiangwenlong' && user.userName ne 'qcdirector' && user.userName ne 'Tonyliao'}">
 						<c:choose>
 							<c:when
 								test="${user.roleNo == 7 || user.roleNo == 100 || user.roleNo == 99}">
@@ -554,7 +554,7 @@
 												test="${obj.newFileName != null && obj.newFileName != ''}">
 												<div>
 													附件：<a
-														href="http://117.144.21.74:10010/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
+														href="https://www.kuaizhizao.cn/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
 												</div>
 											</c:if>
 										</div>
@@ -613,7 +613,7 @@
 											test="${obj.newFileName != null && obj.newFileName != ''}">
 											<div>
 												附件：<a
-													href="http://117.144.21.74:10010/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
+													href="https://www.kuaizhizao.cn/static_img/project_complaint/${obj.projectNo}/${obj.newFileName}">${obj.fileName}</a>
 											</div>
 										</c:if>
 									</td>
@@ -871,13 +871,13 @@
 				
 				<c:if test="${projectComplaint.seriousLevel!=3 }">
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||  user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||  user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
 						<label  ><input type="radio" name="sure">不能签名</label>
 						<label><input type="radio" name="sure" value="0">确认签名</label>
 					<input type="button" value="修改"  onclick="shipment('${projectComplaint.id}',6)" class="btn">
 					</c:if>
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
 						<label style="color:#999;"><input type="radio" name="sure" disabled>不能签名</label>
 						<label style="color:#999;"><input type="radio" name="sure" disabled>确认签名</label>
 					
@@ -885,7 +885,7 @@
 				</c:if>
 				<c:if test="${projectComplaint.seriousLevel==3 }">
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 1}">
 						<label ><input type="radio" name="sure">不能签名</label>	
 						<label><input type="radio" name="sure" value="1">确认签名,未验证</label>
 					   <c:if test="${complaintInspectionReport!=null}">
@@ -898,7 +898,7 @@
 					</c:if>
 					
 					<c:if
-						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'yanggong'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">						
+						test="${projectComplaint.inspectionLeaderConfirm == 0 && (user.userName eq 'edward' ||user.userName eq 'ninazhao' ||user.userName eq 'qcdirector'||user.userName eq 'Tonyliao' || user == null || user == '') && existRectificationReply == 0}">
 						<label style="color:#999;"><input type="radio" name="sure" disabled>确认签名</label>	
 						<label style="color:#999;"><input type="radio"  name="sure" disabled>确认签名,未验证</label>
 						<label style="color:#999;"><input type="radio" name="sure" disabled> 确认签名,且已经验证</label>
@@ -1078,7 +1078,8 @@
 <script type="text/javascript" src="shareWechat.js"></script>
 <script src="layer.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="pinchzoom.min.js"></script>
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<%--<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>--%>
+<script src="jquery.min.js"></script>
 <script type="text/javascript"
 	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="jsmodern-1.1.1.min.js"></script>
@@ -1205,7 +1206,7 @@ $(function(){
 	 a = location.href;
      a = a.replace("http://117.144.21.74:10010","https://www.kuaizhizao.cn");
      a = a + "&type=1";
-     img = productImg?'http://117.144.21.74:10010/product_img/'+productImg:'';
+     img = productImg?'https://www.kuaizhizao.cn/product_img/'+productImg:'';
      title = projectNo + "质量跟踪单";     
      var inspection = zhijian1+" "+zhijian2+" "+zhijian3+"/";
      desc = projectName+"_"+(customerName?customerName+"_":'')+purchaseName+"/"+sellName+"/"+inspection;

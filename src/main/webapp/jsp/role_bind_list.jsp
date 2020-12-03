@@ -344,6 +344,7 @@
 							<li><span>质检部</span>
 								<ol>
 									<li>yanggong</li>
+									<li>qcdirector</li>
 									<li>wangjingjun</li>
 									<li>maxiaolei</li>
 									<li>litie</li>

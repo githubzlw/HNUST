@@ -313,7 +313,7 @@ public class ProjectStatisticsPrint {
         	 cell = row.createCell(8); //获取单元格        
         	 
         	 if(sampleFinishes.get(i).getInterpretationDocument()!=null){
-        		 String name="http://117.144.21.74:10010/product_img/"+sampleFinishes.get(i).getProjectNo()+"/"+sampleFinishes.get(i).getInterpretationDocument();
+        		 String name="https://www.kuaizhizao.cn/product_img/"+sampleFinishes.get(i).getProjectNo()+"/"+sampleFinishes.get(i).getInterpretationDocument();
         		 HSSFWorkbook workbook = new HSSFWorkbook(); 
         	     CreationHelper createHelper = workbook.getCreationHelper();
         	     cell.setCellValue("文件下载");

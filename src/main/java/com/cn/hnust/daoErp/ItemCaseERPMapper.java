@@ -2,6 +2,7 @@ package com.cn.hnust.daoErp;
 
 import java.util.List;
 
+import com.cn.hnust.pojo.Project;
 import org.apache.ibatis.annotations.Param;
 
 import com.cn.hnust.pojo.FactoryFund;
@@ -188,4 +189,6 @@ public interface ItemCaseERPMapper {
 	 * @return
 	 */
 	List<ProjectERP> getProjectExportProgress(ProjectERP projectERP);
+
+	int updateItemCaseStatus(Project project);
 }

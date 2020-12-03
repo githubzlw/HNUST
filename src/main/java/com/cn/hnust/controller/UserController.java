@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cn.hnust.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,11 +56,6 @@ import com.cn.hnust.service.ProjectComplaintService;
 import com.cn.hnust.service.ShippingConfirmationService;
 
 
-import com.cn.hnust.util.Base64Encode;
-import com.cn.hnust.util.DateFormat;
-import com.cn.hnust.util.JsonResult;
-import com.cn.hnust.util.PropertiesUtils;
-import com.cn.hnust.util.WebCookie;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiUserGetuserinfoRequest;
@@ -110,11 +106,13 @@ public class UserController {
 	@RequestMapping("/showUser")
 	@ResponseBody
 	public JsonResult showUser(HttpServletRequest request,HttpServletResponse response){
+
 		String userName=request.getParameter("userName");
 	    String password=request.getParameter("password");
 		User user =userService.selectUser(userName, password);
 		JsonResult json =new JsonResult();
 		if(user!=null){
+			request.getSession().setAttribute(request.getSession().getId(), userName);
 			//登录保存cookie
 		    Cookie userCookie = new Cookie("name",userName);       
 		    userCookie.setPath("/");
@@ -130,6 +128,7 @@ public class UserController {
 			json.setOk(true);
 			json.setMessage("登录成功！");
 			json.setData(user);
+			SessionIdUtil.setUserName(request.getSession().getId(), userName);
 		}else{
 			json.setOk(false);
 			json.setMessage("用户名或密码错误！");

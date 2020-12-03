@@ -120,6 +120,10 @@ public class QualityReportPrint {
 
 		rowNo = 11;	
 		String serverPath = UploadAndDownloadPathUtil.getProjectImg() + File.separator + project.getProjectNo()+ File.separator + "1" + File.separator;
+
+		if (serverPath.contains("project_img")) {
+			serverPath = serverPath.substring(0, serverPath.indexOf("project_img") - 1);
+		}
 		//娣诲姞缁嗚妭鍥剧墖
 		int d_tl = 0;
 		int c_tl = 0; //妫�楠岃〃鏍煎浘鐗囨暟閲�
@@ -159,9 +163,9 @@ public class QualityReportPrint {
 				int startCol = 0;
 				int stopRow = rowNo + i*28 + 26;
 				int stopCol = 8;
-				File picFile = new File(details.get(i).getPicName());
-				String name = picFile.getName();
-				setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+//				File picFile = new File(details.get(i).getPicName());
+//				String name = picFile.getName();
+				setPicture(serverPath + details.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 				nRow = sheet.getRow(stopRow++);
 				nCell = nRow.getCell(0);
 				nCell.setCellValue(details.get(i).getPicExplain() == null ? "" : details.get(i).getPicExplain());			
@@ -198,9 +202,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(bads.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							// File picFile = new File(bads.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+bads.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(bads.get(i).getPicExplain() == null ? "" : bads.get(i).getPicExplain());			
@@ -213,9 +217,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(materials.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							//File picFile = new File(materials.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+materials.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(materials.get(i).getPicExplain() == null ? "" : materials.get(i).getPicExplain());			
@@ -241,9 +245,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(materials.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							//File picFile = new File(materials.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+materials.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(materials.get(i).getPicExplain() == null ? "" : materials.get(i).getPicExplain());			
@@ -289,9 +293,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(packages.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							//File picFile = new File(packages.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+packages.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(packages.get(i).getPicExplain() == null ? "" : packages.get(i).getPicExplain());			
@@ -304,9 +308,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(checks.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							//File picFile = new File(checks.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+checks.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(checks.get(i).getPicExplain() == null ? "" : checks.get(i).getPicExplain());			
@@ -322,9 +326,9 @@ public class QualityReportPrint {
 							int startCol = 0;
 							int stopRow = rowNo + i*28 + 26;
 							int stopCol = 8;
-							File picFile = new File(checks.get(i).getPicName());
-							String name = picFile.getName();
-							setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+							//File picFile = new File(checks.get(i).getPicName());
+							//String name = picFile.getName();
+							setPicture(serverPath+checks.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 							nRow = sheet.getRow(stopRow++);
 							nCell = nRow.getCell(0);
 							nCell.setCellValue(checks.get(i).getPicExplain() == null ? "" : checks.get(i).getPicExplain());			
@@ -344,9 +348,9 @@ public class QualityReportPrint {
 						int startCol = 0;
 						int stopRow = rowNo + i*28 + 26;
 						int stopCol = 8;
-						File picFile = new File(bads.get(i).getPicName());
-						String name = picFile.getName();
-						setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+						//File picFile = new File(bads.get(i).getPicName());
+						//String name = picFile.getName();
+						setPicture(serverPath+bads.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 						nRow = sheet.getRow(stopRow++);
 						nCell = nRow.getCell(0);
 						nCell.setCellValue(bads.get(i).getPicExplain() == null ? "" : bads.get(i).getPicExplain());			
@@ -359,9 +363,9 @@ public class QualityReportPrint {
 						int startCol = 0;
 						int stopRow = rowNo + i*28 + 26;
 						int stopCol = 8;
-						File picFile = new File(materials.get(i).getPicName());
-						String name = picFile.getName();
-						setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+						//File picFile = new File(materials.get(i).getPicName());
+						//String name = picFile.getName();
+						setPicture(serverPath+materials.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 						nRow = sheet.getRow(stopRow++);
 						nCell = nRow.getCell(0);
 						nCell.setCellValue(materials.get(i).getPicExplain() == null ? "" : materials.get(i).getPicExplain());			
@@ -374,9 +378,9 @@ public class QualityReportPrint {
 						int startCol = 0;
 						int stopRow = rowNo + i*28 + 26;
 						int stopCol = 8;
-						File picFile = new File(checks.get(i).getPicName());
-						String name = picFile.getName();
-						setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+						//File picFile = new File(checks.get(i).getPicName());
+						//String name = picFile.getName();
+						setPicture(serverPath+checks.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 						nRow = sheet.getRow(stopRow++);
 						nCell = nRow.getCell(0);
 						nCell.setCellValue(checks.get(i).getPicExplain() == null ? "" : checks.get(i).getPicExplain());			
@@ -389,9 +393,9 @@ public class QualityReportPrint {
 					int startCol = 0;
 					int stopRow = rowNo + i*28 + 26;
 					int stopCol = 8;
-					File picFile = new File(bads.get(i).getPicName());
-					String name = picFile.getName();
-					setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+					//File picFile = new File(bads.get(i).getPicName());
+					//String name = picFile.getName();
+					setPicture(serverPath+bads.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 					nRow = sheet.getRow(stopRow++);
 					nCell = nRow.getCell(0);
 					nCell.setCellValue(bads.get(i).getPicExplain() == null ? "" : bads.get(i).getPicExplain());			
@@ -404,9 +408,9 @@ public class QualityReportPrint {
 					int startCol = 0;
 					int stopRow = rowNo + i*28 + 26;
 					int stopCol = 8;
-					File picFile = new File(materials.get(i).getPicName());
-					String name = picFile.getName();
-					setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+					//File picFile = new File(materials.get(i).getPicName());
+					//String name = picFile.getName();
+					setPicture(serverPath+materials.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 					nRow = sheet.getRow(stopRow++);
 					nCell = nRow.getCell(0);
 					nCell.setCellValue(materials.get(i).getPicExplain() == null ? "" : materials.get(i).getPicExplain());			
@@ -441,9 +445,9 @@ public class QualityReportPrint {
 					int startCol = 0;
 					int stopRow = rowNo + i*28 + 26;
 					int stopCol = 8;
-					File picFile = new File(packages.get(i).getPicName());
-					String name = picFile.getName();
-					setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+					// File picFile = new File(packages.get(i).getPicName());
+					// String name = picFile.getName();
+					setPicture(serverPath+packages.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 					nRow = sheet.getRow(stopRow++);
 					nCell = nRow.getCell(0);
 					nCell.setCellValue(packages.get(i).getPicExplain() == null ? "" : packages.get(i).getPicExplain());			
@@ -456,9 +460,9 @@ public class QualityReportPrint {
 					int startCol = 0;
 					int stopRow = rowNo + i*28 + 26;
 					int stopCol = 8;
-					File picFile = new File(checks.get(i).getPicName());
-					String name = picFile.getName();
-					setPicture(serverPath+name, sheet, startRow, startCol, stopRow, stopCol);
+					//File picFile = new File(checks.get(i).getPicName());
+					//String name = picFile.getName();
+					setPicture(serverPath+checks.get(i).getPicName(), sheet, startRow, startCol, stopRow, stopCol);
 					nRow = sheet.getRow(stopRow++);
 					nCell = nRow.getCell(0);
 					nCell.setCellValue(checks.get(i).getPicExplain() == null ? "" : checks.get(i).getPicExplain());			
@@ -624,6 +628,8 @@ public class QualityReportPrint {
 	// 澶勭悊鍥剧墖澶囨敞瀛樻斁 鍋忕Щ閲忎笉鍚� dx1 = 255; dy1 = 125; dx2 = 200; dy2 = 150;
 	public static void setPicture(String pic, HSSFSheet sheet, int startRow,
 			int startCol, int stopRow, int stopCol) throws IOException {
+		pic = pic.replace("\\","/");
+		System.err.println("setPicture:" + pic);
 		File imageFile = new File(pic);
 		if (imageFile.exists()) {
 			InputStream is = new FileInputStream(new File(pic));

@@ -727,7 +727,7 @@ public class QualityController {
 						purchaseReply = true;
 						qualityReport.setPurchaseReplyComment(comment);
 					}
-					if("yanggong".equalsIgnoreCase(comment.getReviewer())){
+					if("qcdirector".equalsIgnoreCase(comment.getReviewer())){
 						yangReply = true;
 						 //阳工回复内容
 						qualityReport.setYangReplyContent(comment.getComment());
@@ -752,6 +752,8 @@ public class QualityController {
 			//计算尾页
 			Integer lastNum = new BigDecimal(totalCount).divide(new BigDecimal(pageSize)).setScale(0,BigDecimal.ROUND_UP).intValue();
 			request.setAttribute("lastNum", lastNum);
+			// request.setAttribute("sessionId", request.getSession().getId());
+			request.setAttribute("userName", userName);
 
 		} catch (Exception e) {
 			e.printStackTrace();

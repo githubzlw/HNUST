@@ -703,4 +703,6 @@ List<Project> getNoInterimInspectionList(Project project);
 	 * @return
 	 */
     List<Project> getAllMaterial();
+
+    int insertProjectSyncLog(Project project);
 }
