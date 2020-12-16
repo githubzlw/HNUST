@@ -682,8 +682,13 @@ public class ProjectStatisticsPrint {
         	 cell = row.createCell(5); //获取单元格 
         	 cell.setCellValue(normals.get(i).getProjectName());  
         	 cell.setCellStyle(boderStyle);
-        	 cell = row.createCell(6); //获取单元格        	
-        	 cell.setCellValue(normals.get(i).getOriginalDeliveryDate() == null ? normals.get(i).getOriginalSampleScheduledDate() : normals.get(i).getOriginalDeliveryDate());  
+        	 cell = row.createCell(6); //获取单元格
+			 try{
+			 	cell.setCellValue(normals.get(i).getOriginalDeliveryDate() == null ? normals.get(i).getOriginalSampleScheduledDate() : normals.get(i).getOriginalDeliveryDate());
+			 }catch (Exception e){
+			 	e.printStackTrace();
+			 }
+
         	 cell.setCellStyle(cellStyle);
         	 //客户延期天数
         	 cell = row.createCell(7); //获取单元格        
