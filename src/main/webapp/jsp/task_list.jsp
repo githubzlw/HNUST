@@ -157,7 +157,7 @@
 					<option value="1">有出货单</option>
 					<option value="0">没出货单</option>
 				</select>
-				<c:if test="${userName == 'ninazhao' || userName=='qcdirector' || userName=='jerrylong'}">
+				<c:if test="${userName == 'ninazhao' || userName=='qcdirector' || userName=='jerrylong' || userName=='Joeyqiao'}">
 				    <form id="form" class="roleform form-horizontal" action="/inspection/exportInspection" style="float: right;padding: 12px 15px;">
 				        <input type="hidden" name="inputKey">
 				        <input type="hidden" name="userName">
