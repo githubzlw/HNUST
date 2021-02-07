@@ -3,6 +3,7 @@ package com.cn.hnust.util;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -73,6 +74,16 @@ public class DBErpUserPoolUtil {
 		try {
 			if (conn != null) {
 				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void closeStatement(Statement smt){
+		try {
+			if (smt != null) {
+				smt.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

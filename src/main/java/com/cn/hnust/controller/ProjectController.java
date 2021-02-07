@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -2891,6 +2892,64 @@ public class ProjectController {
             // 设置response的Header
             Date startDate1 = DateFormat.addMonth(new Date(), -2);
             String fileName = "延期项目" + DateFormat.date2String(startDate) + "~" + DateFormat.date2String(endDate) + ".xls";
+            fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Content-Length", "" + outFile.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 及时项目导出
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/exportCurrFinishProject")
+    public void exportCurrFinishProject(HttpServletRequest request, HttpServletResponse response) {
+/**
+ * panda
+ * 逻辑是先查样品完成时间以及大货完成时间是当月的项目
+ * 让后查它样品实际完成时间和大货实际完成时间是不是早于之前那个时间+7天。
+ * 就是说如果要求是1月1号完成 它1月8号完成了 在7天之内 也算按时完成。
+ * 然后就要样品完成都列出来 大货完成都列出来
+ * 拉取上个月的列表
+ */
+        try {
+
+            LocalDate today = LocalDate.now();
+
+
+            LocalDate beforeDate = today.minusMonths(1);
+
+            String beginStr = beforeDate.getYear() + "-" + beforeDate.getMonthValue() + "-01";
+            Date beginTime = DateUtil.StrToDate(beginStr);
+            String endStr = today.getYear() + "-" + today.getMonthValue() + "-01";
+            Date endTime = DateUtil.StrToDate(endStr);
+            List<Project> finishList = projectService.queryFinishByTime(beginTime, endTime);
+            String excelPath = ProjectStatisticsPrint.exportFinishByTimeExcel(finishList);
+            File outFile = new File(excelPath);
+            InputStream fis = new BufferedInputStream(new FileInputStream(outFile));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            Date startDate1 = DateFormat.addMonth(new Date(), -2);
+            String fileName = "上月个及时完成项目" + DateFormat.date2String(beginTime) + "~" + DateFormat.date2String(endTime) + ".xls";
             fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
             response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.addHeader("Content-Length", "" + outFile.length());

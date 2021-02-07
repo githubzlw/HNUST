@@ -609,6 +609,8 @@ int getProductingProjectCount(Project project);
  * @throws
  */
 List<Project> selectProjectByStatus1(int code, Date startDate, Date endDate);
+
+List<Project> queryFinishByTime(Date beginTime, Date endTime);
 /**
  * 
  * @Title:IProjectService
