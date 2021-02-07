@@ -2859,6 +2859,9 @@ public class ProjectStatisticsPrint {
                 cell.setCellStyle(boderStyle);
                 cell = row.createCell(clCount++); //获取单元格
                 cell.setCellStyle(boderStyle);
+                cell.setCellValue("项目等级");
+                cell = row.createCell(clCount++); //获取单元格
+                cell.setCellStyle(boderStyle);
                 cell.setCellValue("采购名");
                 cell = row.createCell(clCount++); //获取单元格
                 cell.setCellStyle(boderStyle);
@@ -2904,6 +2907,23 @@ public class ProjectStatisticsPrint {
             cell.setCellStyle(boderStyle);
 
             cell = row.createCell(clCount++); //获取单元格
+            if (null == finishList.get(i).getCustomerGrade()) {
+                cell.setCellValue("无");
+            } else {
+                if (1 == finishList.get(i).getCustomerGrade()) {
+                    cell.setCellValue("A");
+                } else if (2 == finishList.get(i).getCustomerGrade()) {
+                    cell.setCellValue("B");
+                } else if (3 == finishList.get(i).getCustomerGrade()) {
+                    cell.setCellValue("C");
+                } else {
+                    cell.setCellValue("无");
+                }
+            }
+
+            cell.setCellStyle(boderStyle);
+
+            cell = row.createCell(clCount++); //获取单元格
             cell.setCellValue(finishList.get(i).getPurchaseName());
             cell.setCellStyle(boderStyle);
 
@@ -2930,11 +2950,14 @@ public class ProjectStatisticsPrint {
 
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
-            if (null != finishList.get(i).getSampleScheduledDate()) {
-                cell.setCellValue(DateUtil.dateToStr(finishList.get(i).getSampleScheduledDate()));
+            if (null != finishList.get(i).getSampleFinishTime()) {
+                cell.setCellValue(DateUtil.dateToStr(finishList.get(i).getSampleFinishTime()));
             } else {
                 cell.setCellValue("");
             }
+
+
+
 
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
@@ -2946,18 +2969,20 @@ public class ProjectStatisticsPrint {
 
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
-            if (null != finishList.get(i).getDeliveryDate()) {
-                cell.setCellValue(DateUtil.dateToStr(finishList.get(i).getDeliveryDate()));
+            if (null != finishList.get(i).getFinishTime()) {
+                cell.setCellValue(DateUtil.dateToStr(finishList.get(i).getFinishTime()));
             } else {
                 cell.setCellValue("");
             }
+
+
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
             String statusStr = "";
-            if (2 == finishList.get(i).getProjectStatus()) {
+            if (6 == finishList.get(i).getProjectStatus()) {
                 statusStr += ",样品完结";
             }
-            if (6 == finishList.get(i).getProjectStatus()) {
+            if (2 == finishList.get(i).getProjectStatus()) {
                 statusStr += ",大货完结";
             }
             if (StringUtils.isNotBlank(statusStr)) {
@@ -2969,17 +2994,17 @@ public class ProjectStatisticsPrint {
 
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
-            if (null != finishList.get(i).getOriginalSampleScheduledDate() && null != finishList.get(i).getSampleScheduledDate()) {
+            if (null != finishList.get(i).getOriginalSampleScheduledDate() && null != finishList.get(i).getSampleFinishTime()) {
 
-                cell.setCellValue(DateUtil.getIsBefore(finishList.get(i).getSampleScheduledDate(), finishList.get(i).getOriginalSampleScheduledDate()));
+                cell.setCellValue(DateUtil.getIsBefore(finishList.get(i).getOriginalSampleScheduledDate(), finishList.get(i).getSampleFinishTime()));
             } else {
                 cell.setCellValue("");
             }
 
             cell = row.createCell(clCount++); //获取单元格
             cell.setCellStyle(boderStyle);
-            if (null != finishList.get(i).getOriginalDeliveryDate() && null != finishList.get(i).getDeliveryDate()) {
-                cell.setCellValue(DateUtil.getIsBefore(finishList.get(i).getDeliveryDate(), finishList.get(i).getOriginalDeliveryDate()));
+            if (null != finishList.get(i).getOriginalDeliveryDate() && null != finishList.get(i).getFinishTime()) {
+                cell.setCellValue(DateUtil.getIsBefore(finishList.get(i).getOriginalDeliveryDate(), finishList.get(i).getFinishTime()));
             } else {
                 cell.setCellValue("");
             }
