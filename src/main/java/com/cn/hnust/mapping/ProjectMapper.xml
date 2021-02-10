@@ -4147,5 +4147,28 @@ group by project_no
         </trim>
     </insert>
 
+    <select id="searchNoFinishProject" parameterType="com.cn.hnust.pojo.Project" resultMap="BaseResultMap">
+         select pro.project_no,pro.project_name,pro.delivery_date,pro.delivery_status,pro.warning_status,pro.importance,pro.finish,
+         pro.stage,pro.detail_status,pro.date_sample_uploading,pro.company_name,
+         pro.po_date,pro.scheduled_date,pro.actual_start_date,pro.sample_scheduled_date,pro.create_date,pro.finish_time,pro.product_img,
+         pro.sample_finish,pro.project_status,pro.money_date,pro.sample_finish_time,pro.zhijian1,pro.zhijian2,pro.zhijian3,pro.technician,
+         pro.scheduled_days,pro.new_predict_date,pro.urgent_delivery_date,pro.original_delivery_date,pro.original_sample_scheduled_date,
+         pro.plant_analysis,pro.project_amount,pro.customer_grade,pro.customer_name,pro.prev_sample_date,
+         pro.customer_attitude,pro.export_date,pro.date_delivery,pro.delay_days,pro.interpretation_document,pro.new_explain,
+         pro.delayed_delivery_date,pro.cargo_delayed_delivery_date
+         from project pro where pro.project_status not in(2,6) and
+         exists (select quality_report.project_no from  quality_report
+         where quality_report.project_no = pro.project_no and  quality_report.type in(0,1,2,3));
+    </select>
 
+
+    <update id="updateProjectSample" parameterType="com.cn.hnust.pojo.Project">
+        update project set project_status = #{projectStatus}, sample_finish_time = #{sampleFinishTime}
+        where project_no = #{projectNo}
+    </update>
+
+    <update id="updateProjectFinish" parameterType="com.cn.hnust.pojo.Project">
+        update project set project_status = #{projectStatus},finish_time = #{finishTime}
+         where project_no = #{projectNo}
+    </update>
 </mapper>

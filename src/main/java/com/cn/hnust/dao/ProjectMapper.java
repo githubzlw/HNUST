@@ -699,4 +699,10 @@ public interface ProjectMapper {
     List<Project> getAllMaterial();
 
     int insertProjectSyncLog(Project project);
+
+    List<Project> searchNoFinishProject(Project project);
+
+    int updateProjectSample(Project project);
+
+    int updateProjectFinish(Project project);
 }

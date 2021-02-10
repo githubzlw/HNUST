@@ -40,6 +40,7 @@ import com.cn.hnust.component.RpcQualityNoticeToKuai;
 import com.cn.hnust.pojo.*;
 import com.cn.hnust.service.*;
 import com.cn.hnust.util.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -51,6 +52,7 @@ import org.codehaus.jackson.type.JavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -5837,9 +5839,74 @@ public class ProjectController {
                 projectDateTask.syncProjectDate(projectList);
             }
         }
-
-
         return jsonResult;
+    }
+
+    @RequestMapping("/searchNoFinishProject")
+    public String searchNoFinishProject(HttpServletRequest request, HttpServletResponse response) {
+        String roleNo = request.getParameter("roleNo");
+        String userName = request.getParameter("userName");
+        try {
+            Project project = new Project();
+            List<Project> projects = projectService.searchNoFinishProject(project);
+
+            request.setAttribute("list", projects);
+            request.setAttribute("code", 200);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("code", 404);
+            request.setAttribute("msg", e.getMessage());
+            LOG.error("searchNoFinishProject,error:", e);
+        }
+        return "project_no_finish";
+    }
+
+    @RequestMapping("/qualityReportList")
+    @ResponseBody
+    public JsonResult qualityReportList(HttpServletRequest request, HttpServletResponse response) {
+        String project_no = request.getParameter("project_no");
+        Assert.isTrue(StringUtils.isNotBlank(project_no), "project_no null");
+        try {
+            List<QualityReport> list = qrService.selectByProjectNo(project_no);
+            return JsonResult.success(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("qualityReportList,error:", e);
+            return JsonResult.error(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/finishStatus")
+    @ResponseBody
+    public JsonResult finishStatus(HttpServletRequest request, HttpServletResponse response) {
+        String project_no = request.getParameter("project_no");
+        Assert.isTrue(StringUtils.isNotBlank(project_no), "project_no null");
+        String finish_time = request.getParameter("finish_time");
+        String save_type = request.getParameter("save_type");
+
+        Assert.isTrue(StringUtils.isNotBlank(finish_time), "finish_time null");
+        Assert.isTrue(StringUtils.isNotBlank(save_type), "save_type null");
+
+        try {
+            Project project = new Project();
+            project.setProjectNo(project_no);
+            project.setProjectStatus(Integer.parseInt(save_type));
+            if ("6".equals(save_type)) {
+                project.setSampleFinishTime(DateUtil.StrToDate(finish_time));
+                projectService.updateProjectSample(project);
+            } else if ("2".equals(save_type)) {
+                project.setFinishTime(DateUtil.StrToDate(finish_time));
+                projectService.updateProjectFinish(project);
+            } else {
+                return JsonResult.error("设置类型异常");
+            }
+            return JsonResult.success("执行成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("finishStatus,error:", e);
+            return JsonResult.error(e.getMessage());
+        }
     }
 
 }

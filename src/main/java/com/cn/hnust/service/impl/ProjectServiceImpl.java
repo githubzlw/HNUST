@@ -970,5 +970,24 @@ public class ProjectServiceImpl implements IProjectService, QuoteWeeklyReportSer
         return projectMapper.getAllMaterial();
     }
 
+    @Override
+    public List<Project> searchNoFinishProject(Project project) {
+        return projectMapper.searchNoFinishProject(project);
+    }
+
+    @Override
+    public int updateProjectSample(Project project) {
+        projectMapper.updateProjectSample(project);
+        project.setProjectStatus(ERPStatusUtil.changeToERPStatus(project.getProjectStatus()));
+        return itemCaseERPMapper.updateItemCaseStatus(project);
+    }
+
+    @Override
+    public int updateProjectFinish(Project project) {
+        projectMapper.updateProjectFinish(project);
+        project.setProjectStatus(ERPStatusUtil.changeToERPStatus(project.getProjectStatus()));
+        return itemCaseERPMapper.updateItemCaseStatus(project);
+    }
+
 
 }
