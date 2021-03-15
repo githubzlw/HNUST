@@ -94,8 +94,14 @@
         <span>任务系统</span>
         <button class="ext" onclick="exitlogin()">登出</button>
     </h2>
+    <c:if test="${userName =='jessiewang'}">
+        <div>
+            <a href="${ctx}/syncUser/showAllUser"> <button style="margin-top: 20px;width: 120px;height: 50px;font-size: 18px;">新员工录入</button> </a>
+        </div>
+    </c:if>
 
-    <div class="btns">
+    <c:if test="${userName !='jessiewang'}">
+        <div class="btns">
         <c:if test="${roleNo==5 && user.job=='跟单'}">
             <div class="docmentary">
                 <h3>跟单功能模块</h3>
@@ -345,6 +351,8 @@
             </div>
         </div>
     </div>
+    </c:if>
+
 </div>
 </body>
 </html>
