@@ -544,24 +544,38 @@ public class QualityController {
 			boolean save=(project.getZhijian1()+project.getZhijian2()+project.getZhijian3()).toLowerCase().contains(userName.toLowerCase());
 			if(save){
 				qualityTask.setAccepter(userName);
-			}else{
-				Project projecta=new Project();
+			}else {
+				Project projecta = new Project();
 				projecta.setProjectNo(projectNo);
-			if(project.getZhijian1()!=null&&!"".equalsIgnoreCase(project.getZhijian1())){
-				if(project.getZhijian2()!=null&&!"".equalsIgnoreCase(project.getZhijian2())){
-					if(project.getZhijian3()!=null&&!"".equalsIgnoreCase(project.getZhijian3())){
-				    	
-				    }else {
-				    	projecta.setZhijian3(userName);	
-				    }	
-				    }else {
-				    	projecta.setZhijian2(userName);			
-				    }
-			    }else{
-			    	projecta.setZhijian1(userName);
-			    }
-			projectService.updateByPrimaryKeySelective(projecta);
-			qualityTask.setAccepter(userName);
+				int count = 0;
+				if (project.getZhijian1() != null && !"".equalsIgnoreCase(project.getZhijian1())) {
+					if (project.getZhijian2() != null && !"".equalsIgnoreCase(project.getZhijian2())) {
+						if (project.getZhijian3() != null && !"".equalsIgnoreCase(project.getZhijian3())) {
+
+						} else {
+							if (StringUtils.isNotBlank(userName)) {
+								count++;
+							}
+							projecta.setZhijian3(userName);
+						}
+					} else {
+						if (StringUtils.isNotBlank(userName)) {
+							count++;
+						}
+						projecta.setZhijian2(userName);
+					}
+				} else {
+					if (StringUtils.isNotBlank(userName)) {
+						count++;
+					}
+					projecta.setZhijian1(userName);
+				}
+				if (count > 0) {
+					// 判断没有更新信息，则不进行更新操作
+					projectService.updateByPrimaryKeySelective(projecta);
+				}
+
+				qualityTask.setAccepter(userName);
 			}
 			
 			qualityTask.setInitiator("system");
@@ -1536,13 +1550,15 @@ public class QualityController {
 				String result = request.getParameter("result");
 				QualityReport report=new QualityReport();
 				report.setId(Integer.parseInt(id));
+				int count = 0;
 				if(process_instance_id!=null&&!"".equalsIgnoreCase(process_instance_id)){
+					count ++;
 				report.setProcessInstanceId(process_instance_id);
 				}
 				if(dingdingStatus!=null&&!"".equalsIgnoreCase(dingdingStatus)){
-					report.setDingdingStatus(dingdingStatus);;
+					report.setDingdingStatus(dingdingStatus);
 				}else{
-					report.setDingdingStatus("RUNNING");;
+					report.setDingdingStatus("RUNNING");
 				}
 				if(result!=null&&!"".equalsIgnoreCase(result)){
 					report.setDingdingResult(result);
