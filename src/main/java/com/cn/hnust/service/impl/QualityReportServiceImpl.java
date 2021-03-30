@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import com.cn.hnust.pojo.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,6 @@ import com.cn.hnust.dao.ProjectTaskMapper;
 import com.cn.hnust.dao.QualityReportMapper;
 import com.cn.hnust.dao.TrackMapper;
 import com.cn.hnust.dao.TrackPlaceMapper;
-import com.cn.hnust.pojo.Project;
-import com.cn.hnust.pojo.ProjectFactory;
-import com.cn.hnust.pojo.ProjectReport;
-import com.cn.hnust.pojo.ProjectTask;
-import com.cn.hnust.pojo.QualityReport;
-import com.cn.hnust.pojo.QualityReportQuery;
-import com.cn.hnust.pojo.Track;
-import com.cn.hnust.pojo.TrackPlace;
 import com.cn.hnust.service.IQualityReportService;
 import com.cn.hnust.util.DateFormat;
 @Service
@@ -228,5 +221,20 @@ public class QualityReportServiceImpl implements IQualityReportService {
 		return mapper.selectByProjectNo1(projectNo,userName);
 	}
 
-	
+    @Override
+    public List<ErpQualityReport> queryErpQualityReport(String projectNo) {
+        return mapper.queryErpQualityReport(projectNo);
+    }
+
+    @Override
+    public List<ErpQualityReport> queryAllQualityReport(String projectNo) {
+        return mapper.queryAllQualityReport(projectNo);
+    }
+
+    @Override
+    public int insertErpQualityReport(List<ErpQualityReport> reportList) {
+        return mapper.insertErpQualityReport(reportList);
+    }
+
+
 }

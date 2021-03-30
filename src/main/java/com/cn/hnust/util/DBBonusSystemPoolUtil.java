@@ -2,6 +2,7 @@ package com.cn.hnust.util;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -73,6 +74,16 @@ public class DBBonusSystemPoolUtil {
 		try {
 			if (conn != null) {
 				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void returnResult(ResultSet resultSet) {
+		try {
+			if (null != resultSet) {
+				resultSet.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
