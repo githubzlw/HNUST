@@ -67,17 +67,14 @@ public static void sendOut(Integer id, String dingTalkId) {
     String url = "https://www.kuaizhizao.cn/Ding-Talk/qualityInspectionReport2" + dingTalk;
     String process_instance_id = sendPost(url);
     // 做json解析
-    if (StringUtils.isNotEmpty(process_instance_id)) {
-        JSONObject parse = JSONObject.parseObject(process_instance_id);
+    if (StringUtils.isNotEmpty(url)) {
+        JSONObject parse = JSONObject.parseObject(url);
         if (parse != null && parse.containsKey("code") && "200".equals(parse.getString("code"))) {
             process_instance_id = parse.getString("data");
-            if (StringUtils.isNotEmpty(process_instance_id)) {
-                QualityController.updateAllProcess(id, process_instance_id);
-            }
-
         }
     }
 
+    QualityController.updateAllProcess(id, process_instance_id);
 
 }
 public static void ComplaintOut(Integer id, String dingTalkId) {

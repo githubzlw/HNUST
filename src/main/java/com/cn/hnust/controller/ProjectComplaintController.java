@@ -1281,7 +1281,7 @@ public class ProjectComplaintController {
                 //判断是否允许签名
                 Boolean isSign = false;
                 if (shippingConfirmation.getFirstPerson() != null && shippingConfirmation.getSecondPerson() != null
-                        && shippingConfirmation.getThirdPerson() != null
+                        && shippingConfirmation.getThirdPerson() != null && shippingConfirmation.getFourthPerson() != null
                         && isComplaintComplete == true
                 ) {
                     if (shippingConfirmation.getSampleOrProduct() == 1 && (isProductNoProblem == true || (isProductNoProblem == false && StringUtils.isNotBlank(shippingConfirmation.getShipmentAgreement())))) {
@@ -1910,7 +1910,7 @@ public class ProjectComplaintController {
                         //判断是否允许签名
                         Boolean isSign = false;
                         if (shippingConfirmation.getFirstPerson() != null && shippingConfirmation.getSecondPerson() != null
-                                && shippingConfirmation.getThirdPerson() != null
+                                && shippingConfirmation.getThirdPerson() != null && shippingConfirmation.getFourthPerson() != null
                                 && isComplaintComplete == true
 							/*	 &&(					
 									 (shippingConfirmation.getSampleOrProduct() == 1 && (isProductNoProblem == true || (isProductNoProblem == false && StringUtils.isNotBlank(shippingConfirmation.getShipmentAgreement()))))

@@ -139,16 +139,26 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 	     
 		
 		//需要销售、采购、质检总监、采购总经理确认
-		if(record!=null && StringUtils.isNotBlank(record.getSalesConfirm()) 
-				&& (StringUtils.isNotBlank(record.getPurchaseConfirm()) 
-						|| StringUtils.isBlank(record.getPurchaseName()))
-						&& (StringUtils.isNotBlank(record.getQualityLeaderConfirm())
-						&&((record.getQualityLeaderConfirmId()==1)||(StringUtils.isBlank(record.getQualityLeaderConfirm()) )))	 	
-		){
-
-
-			record.setIsComplete(COMPLETE);
-
+		if (record != null && StringUtils.isNotBlank(record.getSalesConfirm())
+				&& (StringUtils.isNotBlank(record.getPurchaseConfirm())
+				|| StringUtils.isBlank(record.getPurchaseName()))
+				&& (StringUtils.isNotBlank(record.getPurchaseLeaderConfirm())
+				|| record.getIsQualityLeaderConfirm() == 0)
+				&& (StringUtils.isNotBlank(record.getQualityLeaderConfirm())
+				&& ((record.getPurchaseLeaderConfirmId() == 1) || (StringUtils.isBlank(record.getPurchaseLeaderConfirm())))
+				&& ((record.getQualityLeaderConfirmId() == 1) || (StringUtils.isBlank(record.getQualityLeaderConfirm()))))
+		) {
+			//判断是否需要老板签字
+			//如果老板已签字，则同意出货
+			if (record.getIsBossConfirm() == BOSS_COMFIRM) {
+				if (StringUtils.isNotBlank(record.getBossConfirm()) && record.getBossConfirmId() == 1) {
+					record.setIsComplete(COMPLETE);
+				} else {
+					record.setIsComplete(NOTCOMPLETE);
+				}
+			} else {
+				record.setIsComplete(COMPLETE);
+			}
 			//更新的同时同步出运联系单
 			SynShippingConfirmation.sendRequest(record, UPDATE_TYPE);
 		}
