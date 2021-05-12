@@ -1626,8 +1626,8 @@ $('.add_packing .blue').click(function(){
 		var packageExplain = $("#packageExplain").val();
 		$(".btn").attr("disabled", true).css("background-color", "#999");
 		var type = $('#type').val();
-		$
-				.ajax({
+		// 新版上传
+		$.ajax({
 					type : "post",
 					url : "${ctx}/quality/saveQuality",
 					data : {
