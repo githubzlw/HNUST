@@ -1,5 +1,7 @@
 package com.cn.hnust.pojo;
 
+import com.cn.hnust.util.DateUtil;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
@@ -7,40 +9,45 @@ import java.util.List;
 
 public class QualityReport implements Serializable {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private Integer id;
-    
-	private String eid;
-	
+    private Integer id;
+
+    private String eid;
+
     private Integer status;        //0:没问题；1：有问题 2：有问题需要采购解决
 
     private Integer type;         //0:样品；1:大货 ;2:中期 3：终期
 
-    private String picUrl;        
+    private String statusDesc;
+
+    private String typeDesc;
+
+    private String picUrl;
 
     private Date createtime;
+    private String createtimeStr;
 
     private String user;
 
     private String projectNo;
-    
+
     private String typeView;
-    
+
     private String statusView;
-    
+
     private String explainCause;
-    
+
     private String detailView;
-    
+
     private String[] picUrls;
-    
+
     private String erpType;   //erp表类型
-    
+
     private String projectNoId; //检验表项目号id
-    
+
     //add by polo 2018.7.27
     private String spendTime;   //花费时间
     private String place;       //检测地点
@@ -54,11 +61,11 @@ public class QualityReport implements Serializable {
     private String inspectionPath; //检验表格地址
     private String picNum;         //图号
     private String conclusion;     //结论
-    
+
     private String companyName;    //公司名
     private int noCheck;           //因为没检测工具无法测量数量
     private int keySizeExceed;     //关键尺寸超差的数量
-    
+
     private String factoryInspection;  //工厂做过的检验    
     private String meetingNo;          //会议id
     private Integer isAllRight;        //是否所有都完成（0：否 1：是）
@@ -66,9 +73,9 @@ public class QualityReport implements Serializable {
     private String productFileName;    //产品图片
     private String openRate;           //开箱比例
     private String inspectionCreateDate; //检验计划创建时间
-    
+
     private List<ProjectTask> taskList; //有问题发给采购的任务
-    
+
     private List<Comment> comment; //评论
     private Date startDate;    //检验日期
     private Date endDate;    //检验日期
@@ -78,282 +85,282 @@ public class QualityReport implements Serializable {
     private String processInstanceId;     //钉钉审批id
     private String dingdingStatus;     //钉钉审批状态
     private String dingdingResult;     //钉钉审批结果
-    private int materialSelection; 
-    private String specificLicensePlate; 
+    private int materialSelection;
+    private String specificLicensePlate;
     private int materialJudgement;
-    private int surfaceTreatment ;
-    private String surfaceResultEntry; 
+    private int surfaceTreatment;
+    private String surfaceResultEntry;
     private String filmThickness;
-    
-    
+
+
     public String getFilmThickness() {
-		return filmThickness;
-	}
+        return filmThickness;
+    }
 
-	public void setFilmThickness(String filmThickness) {
-		this.filmThickness = filmThickness;
-	}
+    public void setFilmThickness(String filmThickness) {
+        this.filmThickness = filmThickness;
+    }
 
-	public int getMaterialSelection() {
-		return materialSelection;
-	}
+    public int getMaterialSelection() {
+        return materialSelection;
+    }
 
-	public void setMaterialSelection(int materialSelection) {
-		this.materialSelection = materialSelection;
-	}
+    public void setMaterialSelection(int materialSelection) {
+        this.materialSelection = materialSelection;
+    }
 
-	public String getSpecificLicensePlate() {
-		return specificLicensePlate;
-	}
+    public String getSpecificLicensePlate() {
+        return specificLicensePlate;
+    }
 
-	public void setSpecificLicensePlate(String specificLicensePlate) {
-		this.specificLicensePlate = specificLicensePlate;
-	}
+    public void setSpecificLicensePlate(String specificLicensePlate) {
+        this.specificLicensePlate = specificLicensePlate;
+    }
 
-	public int getMaterialJudgement() {
-		return materialJudgement;
-	}
+    public int getMaterialJudgement() {
+        return materialJudgement;
+    }
 
-	public void setMaterialJudgement(int materialJudgement) {
-		this.materialJudgement = materialJudgement;
-	}
+    public void setMaterialJudgement(int materialJudgement) {
+        this.materialJudgement = materialJudgement;
+    }
 
-	public int getSurfaceTreatment() {
-		return surfaceTreatment;
-	}
+    public int getSurfaceTreatment() {
+        return surfaceTreatment;
+    }
 
-	public void setSurfaceTreatment(int surfaceTreatment) {
-		this.surfaceTreatment = surfaceTreatment;
-	}
+    public void setSurfaceTreatment(int surfaceTreatment) {
+        this.surfaceTreatment = surfaceTreatment;
+    }
 
-	public String getSurfaceResultEntry() {
-		return surfaceResultEntry;
-	}
+    public String getSurfaceResultEntry() {
+        return surfaceResultEntry;
+    }
 
-	public void setSurfaceResultEntry(String surfaceResultEntry) {
-		this.surfaceResultEntry = surfaceResultEntry;
-	}
+    public void setSurfaceResultEntry(String surfaceResultEntry) {
+        this.surfaceResultEntry = surfaceResultEntry;
+    }
 
-	public String getProcessInstanceId() {
-		return processInstanceId;
-	}
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
 
-	public void setProcessInstanceId(String processInstanceId) {
-		this.processInstanceId = processInstanceId;
-	}
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
 
-	public String getDingdingStatus() {
-		return dingdingStatus;
-	}
+    public String getDingdingStatus() {
+        return dingdingStatus;
+    }
 
-	public void setDingdingStatus(String dingdingStatus) {
-		this.dingdingStatus = dingdingStatus;
-	}
+    public void setDingdingStatus(String dingdingStatus) {
+        this.dingdingStatus = dingdingStatus;
+    }
 
-	public String getDingdingResult() {
-		return dingdingResult;
-	}
+    public String getDingdingResult() {
+        return dingdingResult;
+    }
 
-	public void setDingdingResult(String dingdingResult) {
-		this.dingdingResult = dingdingResult;
-	}
+    public void setDingdingResult(String dingdingResult) {
+        this.dingdingResult = dingdingResult;
+    }
 
-	public String getDingTalkId() {
-		return dingTalkId;
-	}
+    public String getDingTalkId() {
+        return dingTalkId;
+    }
 
-	public void setDingTalkId(String dingTalkId) {
-		this.dingTalkId = dingTalkId;
-	}
+    public void setDingTalkId(String dingTalkId) {
+        this.dingTalkId = dingTalkId;
+    }
 
-	public String getConcreteContent() {
-		return concreteContent;
-	}
+    public String getConcreteContent() {
+        return concreteContent;
+    }
 
-	public void setConcreteContent(String concreteContent) {
-		this.concreteContent = concreteContent;
-	}
+    public void setConcreteContent(String concreteContent) {
+        this.concreteContent = concreteContent;
+    }
 
-	public Integer getTestReport() {
-		return testReport;
-	}
+    public Integer getTestReport() {
+        return testReport;
+    }
 
-	public void setTestReport(Integer testReport) {
-		this.testReport = testReport;
-	}
+    public void setTestReport(Integer testReport) {
+        this.testReport = testReport;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getEid() {
-		return eid;
-	}
+    public String getEid() {
+        return eid;
+    }
 
-	public void setEid(String eid) {
-		this.eid = eid;
-	}
+    public void setEid(String eid) {
+        this.eid = eid;
+    }
 
-	public List<Comment> getComment() {
-		return comment;
-	}
+    public List<Comment> getComment() {
+        return comment;
+    }
 
-	public void setComment(List<Comment> comment) {
-		this.comment = comment;
-	}
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
 
-	public String getInspectionCreateDate() {
-		return inspectionCreateDate;
-	}
+    public String getInspectionCreateDate() {
+        return inspectionCreateDate;
+    }
 
-	public void setInspectionCreateDate(String inspectionCreateDate) {
-		this.inspectionCreateDate = inspectionCreateDate;
-	}
+    public void setInspectionCreateDate(String inspectionCreateDate) {
+        this.inspectionCreateDate = inspectionCreateDate;
+    }
 
-	public String getProjectNoId() {
-		return projectNoId;
-	}
+    public String getProjectNoId() {
+        return projectNoId;
+    }
 
-	public void setProjectNoId(String projectNoId) {
-		this.projectNoId = projectNoId;
-	}
+    public void setProjectNoId(String projectNoId) {
+        this.projectNoId = projectNoId;
+    }
 
-	public String getOpenRate() {
-		return openRate;
-	}
+    public String getOpenRate() {
+        return openRate;
+    }
 
-	public void setOpenRate(String openRate) {
-		this.openRate = openRate;
-	}
+    public void setOpenRate(String openRate) {
+        this.openRate = openRate;
+    }
 
-	public String getOperateExplain() {
-		return operateExplain;
-	}
+    public String getOperateExplain() {
+        return operateExplain;
+    }
 
-	public void setOperateExplain(String operateExplain) {
-		this.operateExplain = operateExplain;
-	}
+    public void setOperateExplain(String operateExplain) {
+        this.operateExplain = operateExplain;
+    }
 
-	public String getProductFileName() {
-		return productFileName;
-	}
+    public String getProductFileName() {
+        return productFileName;
+    }
 
-	public void setProductFileName(String productFileName) {
-		this.productFileName = productFileName;
-	}
+    public void setProductFileName(String productFileName) {
+        this.productFileName = productFileName;
+    }
 
-	public Integer getIsAllRight() {
-		return isAllRight;
-	}
+    public Integer getIsAllRight() {
+        return isAllRight;
+    }
 
-	public void setIsAllRight(Integer isAllRight) {
-		this.isAllRight = isAllRight;
-	}
+    public void setIsAllRight(Integer isAllRight) {
+        this.isAllRight = isAllRight;
+    }
 
-	public List<ProjectTask> getTaskList() {
-		return taskList;
-	}
+    public List<ProjectTask> getTaskList() {
+        return taskList;
+    }
 
-	public void setTaskList(List<ProjectTask> taskList) {
-		this.taskList = taskList;
-	}
+    public void setTaskList(List<ProjectTask> taskList) {
+        this.taskList = taskList;
+    }
 
-	public String getMeetingNo() {
-		return meetingNo;
-	}
+    public String getMeetingNo() {
+        return meetingNo;
+    }
 
-	public void setMeetingNo(String meetingNo) {
-		this.meetingNo = meetingNo;
-	}
+    public void setMeetingNo(String meetingNo) {
+        this.meetingNo = meetingNo;
+    }
 
-	public String getFactoryInspection() {
-		return factoryInspection;
-	}
+    public String getFactoryInspection() {
+        return factoryInspection;
+    }
 
-	public void setFactoryInspection(String factoryInspection) {
-		this.factoryInspection = factoryInspection;
-	}
+    public void setFactoryInspection(String factoryInspection) {
+        this.factoryInspection = factoryInspection;
+    }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+    public String getCompanyName() {
+        return companyName;
+    }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
-	public int getNoCheck() {
-		return noCheck;
-	}
+    public int getNoCheck() {
+        return noCheck;
+    }
 
-	public void setNoCheck(int noCheck) {
-		this.noCheck = noCheck;
-	}
+    public void setNoCheck(int noCheck) {
+        this.noCheck = noCheck;
+    }
 
-	public int getKeySizeExceed() {
-		return keySizeExceed;
-	}
+    public int getKeySizeExceed() {
+        return keySizeExceed;
+    }
 
-	public void setKeySizeExceed(int keySizeExceed) {
-		this.keySizeExceed = keySizeExceed;
-	}
+    public void setKeySizeExceed(int keySizeExceed) {
+        this.keySizeExceed = keySizeExceed;
+    }
 
-	public String getConclusion() {
-		return conclusion;
-	}
+    public String getConclusion() {
+        return conclusion;
+    }
 
-	public void setConclusion(String conclusion) {
-		this.conclusion = conclusion;
-	}
+    public void setConclusion(String conclusion) {
+        this.conclusion = conclusion;
+    }
 
-	public String getPicNum() {
-		return picNum;
-	}
+    public String getPicNum() {
+        return picNum;
+    }
 
-	public void setPicNum(String picNum) {
-		this.picNum = picNum;
-	}
+    public void setPicNum(String picNum) {
+        this.picNum = picNum;
+    }
 
-	public String getErpType() {
-		return erpType;
-	}
+    public String getErpType() {
+        return erpType;
+    }
 
-	public void setErpType(String erpType) {
-		this.erpType = erpType;
-	}
+    public void setErpType(String erpType) {
+        this.erpType = erpType;
+    }
 
-	public void setCheckDate(Date checkDate) {
-		this.checkDate = checkDate;
-	}
+    public void setCheckDate(Date checkDate) {
+        this.checkDate = checkDate;
+    }
 
-	private List<ProjectTask> projectTaskList;
-    
+    private List<ProjectTask> projectTaskList;
+
     private String createtimeView;
-    
+
     private String qualityReportUrl;
-    
+
     private String projectName;
-    
+
     private String grade;
-    
+
     private List<QualityPicExplain> QualityPicExplainList;
-    
+
     private String checkExplain;
-    
+
     private String packageExplain;
-    
+
     //虚拟字段
     private String purchaseName;         //采购名
     private Boolean purchaseReply;       //采购是否回复
@@ -362,193 +369,191 @@ public class QualityReport implements Serializable {
     private String yangReplyContent;     //阳工回复内容
     private String sellName;             //销售名
     private String sellReplyContent;     //销售回复内容
-   
 
-    
-    
-	public String getSellName() {
-		return sellName;
-	}
 
-	public void setSellName(String sellName) {
-		this.sellName = sellName;
-	}
+    public String getSellName() {
+        return sellName;
+    }
 
-	public String getSellReplyContent() {
-		return sellReplyContent;
-	}
+    public void setSellName(String sellName) {
+        this.sellName = sellName;
+    }
 
-	public void setSellReplyContent(String sellReplyContent) {
-		this.sellReplyContent = sellReplyContent;
-	}
+    public String getSellReplyContent() {
+        return sellReplyContent;
+    }
 
-	public Comment getPurchaseReplyComment() {
-		return purchaseReplyComment;
-	}
+    public void setSellReplyContent(String sellReplyContent) {
+        this.sellReplyContent = sellReplyContent;
+    }
 
-	public void setPurchaseReplyComment(Comment purchaseReplyComment) {
-		this.purchaseReplyComment = purchaseReplyComment;
-	}
+    public Comment getPurchaseReplyComment() {
+        return purchaseReplyComment;
+    }
 
-	public String getYangReplyContent() {
-		return yangReplyContent;
-	}
+    public void setPurchaseReplyComment(Comment purchaseReplyComment) {
+        this.purchaseReplyComment = purchaseReplyComment;
+    }
 
-	public void setYangReplyContent(String yangReplyContent) {
-		this.yangReplyContent = yangReplyContent;
-	}
+    public String getYangReplyContent() {
+        return yangReplyContent;
+    }
 
-	public Boolean getPurchaseReply() {
-		return purchaseReply;
-	}
+    public void setYangReplyContent(String yangReplyContent) {
+        this.yangReplyContent = yangReplyContent;
+    }
 
-	public void setPurchaseReply(Boolean purchaseReply) {
-		this.purchaseReply = purchaseReply;
-	}
+    public Boolean getPurchaseReply() {
+        return purchaseReply;
+    }
 
-	public Boolean getYangReply() {
-		return yangReply;
-	}
+    public void setPurchaseReply(Boolean purchaseReply) {
+        this.purchaseReply = purchaseReply;
+    }
 
-	public void setYangReply(Boolean yangReply) {
-		this.yangReply = yangReply;
-	}
+    public Boolean getYangReply() {
+        return yangReply;
+    }
 
-	public String getPurchaseName() {
-		return purchaseName;
-	}
+    public void setYangReply(Boolean yangReply) {
+        this.yangReply = yangReply;
+    }
 
-	public void setPurchaseName(String purchaseName) {
-		this.purchaseName = purchaseName;
-	}
+    public String getPurchaseName() {
+        return purchaseName;
+    }
 
-	public String getBoxNumber() {
-		return boxNumber;
-	}
+    public void setPurchaseName(String purchaseName) {
+        this.purchaseName = purchaseName;
+    }
 
-	public void setBoxNumber(String boxNumber) {
-		this.boxNumber = boxNumber;
-	}
+    public String getBoxNumber() {
+        return boxNumber;
+    }
 
-	public String getPerQty() {
-		return perQty;
-	}
+    public void setBoxNumber(String boxNumber) {
+        this.boxNumber = boxNumber;
+    }
 
-	public void setPerQty(String perQty) {
-		this.perQty = perQty;
-	}
+    public String getPerQty() {
+        return perQty;
+    }
 
-	public String getInventoryQty() {
-		return inventoryQty;
-	}
+    public void setPerQty(String perQty) {
+        this.perQty = perQty;
+    }
 
-	public void setInventoryQty(String inventoryQty) {
-		this.inventoryQty = inventoryQty;
-	}
+    public String getInventoryQty() {
+        return inventoryQty;
+    }
 
-	public String getOpenQty() {
-		return openQty;
-	}
+    public void setInventoryQty(String inventoryQty) {
+        this.inventoryQty = inventoryQty;
+    }
 
-	public void setOpenQty(String openQty) {
-		this.openQty = openQty;
-	}
+    public String getOpenQty() {
+        return openQty;
+    }
 
-	public String getInspectionForm() {
-		return inspectionForm;
-	}
+    public void setOpenQty(String openQty) {
+        this.openQty = openQty;
+    }
 
-	public void setInspectionForm(String inspectionForm) {
-		this.inspectionForm = inspectionForm;
-	}
+    public String getInspectionForm() {
+        return inspectionForm;
+    }
 
-	public String getInspectionPath() {
-		return inspectionPath;
-	}
+    public void setInspectionForm(String inspectionForm) {
+        this.inspectionForm = inspectionForm;
+    }
 
-	public void setInspectionPath(String inspectionPath) {
-		this.inspectionPath = inspectionPath;
-	}
+    public String getInspectionPath() {
+        return inspectionPath;
+    }
 
-	@Override
-	public String toString() {
-		return "QualityReport [id=" + id + ", eid=" + eid + ", status="
-				+ status + ", type=" + type + ", picUrl=" + picUrl
-				+ ", createtime=" + createtime + ", user=" + user
-				+ ", projectNo=" + projectNo + ", typeView=" + typeView
-				+ ", statusView=" + statusView + ", explainCause="
-				+ explainCause + ", detailView=" + detailView + ", picUrls="
-				+ Arrays.toString(picUrls) + ", erpType=" + erpType
-				+ ", projectNoId=" + projectNoId + ", spendTime=" + spendTime
-				+ ", place=" + place + ", checkDate=" + checkDate + ", orders="
-				+ orders + ", boxNumber=" + boxNumber + ", perQty=" + perQty
-				+ ", inventoryQty=" + inventoryQty + ", openQty=" + openQty
-				+ ", inspectionForm=" + inspectionForm + ", inspectionPath="
-				+ inspectionPath + ", picNum=" + picNum + ", conclusion="
-				+ conclusion + ", companyName=" + companyName + ", noCheck="
-				+ noCheck + ", keySizeExceed=" + keySizeExceed
-				+ ", factoryInspection=" + factoryInspection + ", meetingNo="
-				+ meetingNo + ", isAllRight=" + isAllRight
-				+ ", operateExplain=" + operateExplain + ", productFileName="
-				+ productFileName + ", openRate=" + openRate
-				+ ", inspectionCreateDate=" + inspectionCreateDate
-				+ ", taskList=" + taskList + ", comment=" + comment
-				+ ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", testReport=" + testReport + ", concreteContent="
-				+ concreteContent + ", dingTalkId=" + dingTalkId
-				+ ", processInstanceId=" + processInstanceId
-				+ ", dingdingStatus=" + dingdingStatus + ", dingdingResult="
-				+ dingdingResult + ", materialSelection=" + materialSelection
-				+ ", specificLicensePlate=" + specificLicensePlate
-				+ ", materialJudgement=" + materialJudgement
-				+ ", surfaceTreatment=" + surfaceTreatment
-				+ ", surfaceResultEntry=" + surfaceResultEntry
-				+ ", filmThickness=" + filmThickness + ", projectTaskList="
-				+ projectTaskList + ", createtimeView=" + createtimeView
-				+ ", qualityReportUrl=" + qualityReportUrl + ", projectName="
-				+ projectName + ", grade=" + grade + ", QualityPicExplainList="
-				+ QualityPicExplainList + ", checkExplain=" + checkExplain
-				+ ", packageExplain=" + packageExplain + ", purchaseName="
-				+ purchaseName + ", purchaseReply=" + purchaseReply
-				+ ", yangReply=" + yangReply + ", purchaseReplyComment="
-				+ purchaseReplyComment + ", yangReplyContent="
-				+ yangReplyContent + ", sellName=" + sellName
-				+ ", sellReplyContent=" + sellReplyContent + "]";
-	}
+    public void setInspectionPath(String inspectionPath) {
+        this.inspectionPath = inspectionPath;
+    }
 
-	public String getSpendTime() {
-		return spendTime;
-	}
+    @Override
+    public String toString() {
+        return "QualityReport [id=" + id + ", eid=" + eid + ", status="
+                + status + ", type=" + type + ", picUrl=" + picUrl
+                + ", createtime=" + createtime + ", user=" + user
+                + ", projectNo=" + projectNo + ", typeView=" + typeView
+                + ", statusView=" + statusView + ", explainCause="
+                + explainCause + ", detailView=" + detailView + ", picUrls="
+                + Arrays.toString(picUrls) + ", erpType=" + erpType
+                + ", projectNoId=" + projectNoId + ", spendTime=" + spendTime
+                + ", place=" + place + ", checkDate=" + checkDate + ", orders="
+                + orders + ", boxNumber=" + boxNumber + ", perQty=" + perQty
+                + ", inventoryQty=" + inventoryQty + ", openQty=" + openQty
+                + ", inspectionForm=" + inspectionForm + ", inspectionPath="
+                + inspectionPath + ", picNum=" + picNum + ", conclusion="
+                + conclusion + ", companyName=" + companyName + ", noCheck="
+                + noCheck + ", keySizeExceed=" + keySizeExceed
+                + ", factoryInspection=" + factoryInspection + ", meetingNo="
+                + meetingNo + ", isAllRight=" + isAllRight
+                + ", operateExplain=" + operateExplain + ", productFileName="
+                + productFileName + ", openRate=" + openRate
+                + ", inspectionCreateDate=" + inspectionCreateDate
+                + ", taskList=" + taskList + ", comment=" + comment
+                + ", startDate=" + startDate + ", endDate=" + endDate
+                + ", testReport=" + testReport + ", concreteContent="
+                + concreteContent + ", dingTalkId=" + dingTalkId
+                + ", processInstanceId=" + processInstanceId
+                + ", dingdingStatus=" + dingdingStatus + ", dingdingResult="
+                + dingdingResult + ", materialSelection=" + materialSelection
+                + ", specificLicensePlate=" + specificLicensePlate
+                + ", materialJudgement=" + materialJudgement
+                + ", surfaceTreatment=" + surfaceTreatment
+                + ", surfaceResultEntry=" + surfaceResultEntry
+                + ", filmThickness=" + filmThickness + ", projectTaskList="
+                + projectTaskList + ", createtimeView=" + createtimeView
+                + ", qualityReportUrl=" + qualityReportUrl + ", projectName="
+                + projectName + ", grade=" + grade + ", QualityPicExplainList="
+                + QualityPicExplainList + ", checkExplain=" + checkExplain
+                + ", packageExplain=" + packageExplain + ", purchaseName="
+                + purchaseName + ", purchaseReply=" + purchaseReply
+                + ", yangReply=" + yangReply + ", purchaseReplyComment="
+                + purchaseReplyComment + ", yangReplyContent="
+                + yangReplyContent + ", sellName=" + sellName
+                + ", sellReplyContent=" + sellReplyContent + "]";
+    }
 
-	public void setSpendTime(String spendTime) {
-		this.spendTime = spendTime;
-	}
+    public String getSpendTime() {
+        return spendTime;
+    }
 
-	public String getPlace() {
-		return place;
-	}
+    public void setSpendTime(String spendTime) {
+        this.spendTime = spendTime;
+    }
 
-	public void setPlace(String place) {
-		this.place = place;
-	}
+    public String getPlace() {
+        return place;
+    }
 
-	public Date getCheckDate() {
-		return checkDate;
-	}
+    public void setPlace(String place) {
+        this.place = place;
+    }
 
-	public void setCheck_date(Date checkDate) {
-		this.checkDate = checkDate;
-	}
+    public Date getCheckDate() {
+        return checkDate;
+    }
 
-	public String getOrders() {
-		return orders;
-	}
+    public void setCheck_date(Date checkDate) {
+        this.checkDate = checkDate;
+    }
 
-	public void setOrders(String orders) {
-		this.orders = orders;
-	}
+    public String getOrders() {
+        return orders;
+    }
 
-	public Integer getId() {
+    public void setOrders(String orders) {
+        this.orders = orders;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -561,7 +566,19 @@ public class QualityReport implements Serializable {
     }
 
     public void setStatus(Integer status) {
+        //0:没问题；1：有问题 2：有问题需要采购解决
         this.status = status;
+        switch (status) {
+            case 0:
+                this.statusDesc = "没问题";
+                break;
+            case 1:
+                this.statusDesc = "有问题";
+                break;
+            case 2:
+                this.statusDesc = "有问题需要采购解决";
+                break;
+        }
     }
 
     public Integer getType() {
@@ -570,6 +587,21 @@ public class QualityReport implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+        // 0:样品；1:大货 ;2:中期 3：终期
+        switch (type) {
+            case 0:
+                this.typeDesc = "样品质检";
+                break;
+            case 1:
+                this.typeDesc = "大货质检";
+                break;
+            case 2:
+                this.typeDesc = "中期质检";
+                break;
+            case 3:
+                this.typeDesc = "终期质检";
+                break;
+        }
     }
 
     public String getPicUrl() {
@@ -586,6 +618,9 @@ public class QualityReport implements Serializable {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+        if (null != createtime) {
+            this.createtimeStr = DateUtil.dateToStr(createtime);
+        }
     }
 
     public String getUser() {
@@ -604,109 +639,131 @@ public class QualityReport implements Serializable {
         this.projectNo = projectNo == null ? null : projectNo.trim();
     }
 
-	public String getTypeView() {
-		return typeView;
-	}
+    public String getTypeView() {
+        return typeView;
+    }
 
-	public void setTypeView(String typeView) {
-		this.typeView = typeView;
-	}
+    public void setTypeView(String typeView) {
+        this.typeView = typeView;
+    }
 
-	public String getDetailView() {
-		return detailView;
-	}
+    public String getDetailView() {
+        return detailView;
+    }
 
-	public void setDetailView(String detailView) {
-		this.detailView = detailView;
-	}
+    public void setDetailView(String detailView) {
+        this.detailView = detailView;
+    }
 
-	public List<ProjectTask> getProjectTaskList() {
-		return projectTaskList;
-	}
+    public List<ProjectTask> getProjectTaskList() {
+        return projectTaskList;
+    }
 
-	public void setProjectTaskList(List<ProjectTask> projectTaskList) {
-		this.projectTaskList = projectTaskList;
-	}
+    public void setProjectTaskList(List<ProjectTask> projectTaskList) {
+        this.projectTaskList = projectTaskList;
+    }
 
-	public String getStatusView() {
-		return statusView;
-	}
+    public String getStatusView() {
+        return statusView;
+    }
 
-	public void setStatusView(String statusView) {
-		this.statusView = statusView;
-	}
+    public void setStatusView(String statusView) {
+        this.statusView = statusView;
+    }
 
-	public String[] getPicUrls() {
-		return picUrls;
-	}
+    public String[] getPicUrls() {
+        return picUrls;
+    }
 
-	public void setPicUrls(String[] picUrls) {
-		this.picUrls = picUrls;
-	}
+    public void setPicUrls(String[] picUrls) {
+        this.picUrls = picUrls;
+    }
 
-	public String getCreatetimeView() {
-		return createtimeView;
-	}
+    public String getCreatetimeView() {
+        return createtimeView;
+    }
 
-	public void setCreatetimeView(String createtimeView) {
-		this.createtimeView = createtimeView;
-	}
+    public void setCreatetimeView(String createtimeView) {
+        this.createtimeView = createtimeView;
+    }
 
-	public String getExplainCause() {
-		return explainCause;
-	}
+    public String getExplainCause() {
+        return explainCause;
+    }
 
-	public void setExplainCause(String explainCause) {
-		this.explainCause = explainCause;
-	}
+    public void setExplainCause(String explainCause) {
+        this.explainCause = explainCause;
+    }
 
-	public String getQualityReportUrl() {
-		return qualityReportUrl;
-	}
+    public String getQualityReportUrl() {
+        return qualityReportUrl;
+    }
 
-	public void setQualityReportUrl(String qualityReportUrl) {
-		this.qualityReportUrl = qualityReportUrl;
-	}
+    public void setQualityReportUrl(String qualityReportUrl) {
+        this.qualityReportUrl = qualityReportUrl;
+    }
 
-	public List<QualityPicExplain> getQualityPicExplainList() {
-		return QualityPicExplainList;
-	}
+    public List<QualityPicExplain> getQualityPicExplainList() {
+        return QualityPicExplainList;
+    }
 
-	public void setQualityPicExplainList(List<QualityPicExplain> qualityPicExplainList) {
-		QualityPicExplainList = qualityPicExplainList;
-	}
+    public void setQualityPicExplainList(List<QualityPicExplain> qualityPicExplainList) {
+        QualityPicExplainList = qualityPicExplainList;
+    }
 
-	public String getProjectName() {
-		return projectName;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public String getGrade() {
-		return grade;
-	}
+    public String getGrade() {
+        return grade;
+    }
 
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
 
-	public String getCheckExplain() {
-		return checkExplain;
-	}
+    public String getCheckExplain() {
+        return checkExplain;
+    }
 
-	public void setCheckExplain(String checkExplain) {
-		this.checkExplain = checkExplain;
-	}
+    public void setCheckExplain(String checkExplain) {
+        this.checkExplain = checkExplain;
+    }
 
-	public String getPackageExplain() {
-		return packageExplain;
-	}
+    public String getPackageExplain() {
+        return packageExplain;
+    }
 
-	public void setPackageExplain(String packageExplain) {
-		this.packageExplain = packageExplain;
-	}
-	
-	
+    public void setPackageExplain(String packageExplain) {
+        this.packageExplain = packageExplain;
+    }
+
+    public String getStatusDesc() {
+        return statusDesc;
+    }
+
+    public void setStatusDesc(String statusDesc) {
+        this.statusDesc = statusDesc;
+    }
+
+    public String getTypeDesc() {
+        return typeDesc;
+    }
+
+    public void setTypeDesc(String typeDesc) {
+        this.typeDesc = typeDesc;
+    }
+
+    public String getCreatetimeStr() {
+        return createtimeStr;
+    }
+
+    public void setCreatetimeStr(String createtimeStr) {
+        this.createtimeStr = createtimeStr;
+    }
 }

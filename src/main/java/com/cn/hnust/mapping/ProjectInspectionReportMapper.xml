@@ -139,7 +139,7 @@
 select project_no,report_name,create_date from project_inspection_report where project_no=#{projectNo,jdbcType=VARCHAR} and eid!=0 
 order by create_date desc limit 1
 ) a left join (
-select project_no,email_content,create_date,report_name from project_inspection_report where project_no=#{projectNo,jdbcType=VARCHAR} and eid=0
+select project_no,email_content,create_date,report_name from project_inspection_report where project_no=#{projectNo,jdbcType=VARCHAR} and eid=0 order by create_date desc limit 1
 )b 
 on a.project_no=b.project_no
   </select>

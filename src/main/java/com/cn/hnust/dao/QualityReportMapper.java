@@ -2,6 +2,7 @@ package com.cn.hnust.dao;
 
 import java.util.List;
 
+import com.cn.hnust.pojo.ErpQualityReport;
 import org.apache.ibatis.annotations.Param;
 
 import com.cn.hnust.pojo.ProjectReport;
@@ -99,6 +100,13 @@ public interface QualityReportMapper {
 	 * @throws
 	 */
 	List<QualityReport> selectByProjectNo1(@Param("projectNo")String projectNo,@Param("user")String userName);
+
+
+	List<ErpQualityReport> queryErpQualityReport(@Param("project_no") String project_no);
+
+	List<ErpQualityReport> queryAllQualityReport(@Param("project_no") String project_no);
+
+	int insertErpQualityReport(@Param("list") List<ErpQualityReport> reportList);
 	
     
 }

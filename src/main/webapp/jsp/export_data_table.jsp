@@ -32,6 +32,7 @@
 
 					<a target="blank" href="${ctx}/project/exportMonthProject"><button>最近一个月完成的项目导出</button></a>
 					<a href="${ctx}/project/exportDelayProject"><button>延期项目导出</button></a>
+					<a href="${ctx}/project/exportCurrFinishProject"><button>及时项目导出</button></a>
 
                   <br>
 						<a target="blank" href="${ctx}/project/proofingPhaseProject"><button>A/B级打样阶段项目导出</button></a>

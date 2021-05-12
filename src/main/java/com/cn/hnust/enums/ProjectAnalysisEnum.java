@@ -20,8 +20,8 @@ public enum ProjectAnalysisEnum {
 	
 	B(2,"B"),
 	
-	C(3,"C");
-	
+	C(3,"C"),
+	D(4,"D");
 	
 	
 	private int code;

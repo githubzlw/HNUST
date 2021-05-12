@@ -1559,6 +1559,8 @@ input::-webkit-input-placeholder, #feedback::-webkit-input-placeholder {
 									name="plantAnalysis" value='2'><span>B</span></label></li>
 							<li><label><input type="checkbox"
 									name="plantAnalysis" value='3'><span>C</span></label></li>
+						<li><label><input type="checkbox"
+                                    									name="plantAnalysis" value='4'><span>D</span></label></li>
 						</ul>
 					</div>
 					<!-- 改变 结束-->

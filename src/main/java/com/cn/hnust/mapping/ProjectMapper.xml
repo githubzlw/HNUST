@@ -3794,6 +3794,22 @@ where pd.project_no is null
         ORDER BY pro.company_name desc
     </select>
 
+    <!-- 及时完成项目列表 -->
+    <select id="queryFinishByTime" resultMap="BaseResultMap">
+        select pro.project_no,pro.project_name,pro.delivery_status,pro.warning_status,pro.importance,pro.finish,pro.stage,pro.date_sample_uploading,pro.detail_status,(select user_name from user where id = pro.email_user_id)sellName,pro.company_name ,(select user_name from user where id = pro.purchase_id) purchaseName ,pro.po_date,pro.scheduled_date,pro.actual_start_date,pro.sample_scheduled_date,pro.is_pause,pro.pause_reason,pro.create_date,pro.sort_field,pro.product_img,pro.sample_finish,pro.project_status,pro.money_date,pro.sample_finish_time,pro.urgent_delivery_date,pro.original_delivery_date,pro.original_sample_scheduled_date,pro.zhijian1,pro.zhijian2,pro.zhijian3,pro.delivery_date,pro.finish_time,pro.date_delivery,pro.delay_days,pro.interpretation_document,pro.new_explain,pro.delayed_delivery_date,pro.cargo_delayed_delivery_date ,pro.late_delivery_date,pro.customer_grade
+        from project pro
+        left join
+        (select p1.predict_date,p1.actual_date,p1.project_no from (select predict_date,actual_date,project_no
+        from project_schedule order by predict_date desc)p1 GROUP BY project_no) p2
+        on pro.project_no = p2.project_no
+        where pro.project_status in(2,6) and (  (original_delivery_date between #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+        and finish_time between DATE_SUB(original_delivery_date,INTERVAL 7 DAY) and DATE_ADD(original_delivery_date,INTERVAL 7 DAY)
+        )
+        or  (original_sample_scheduled_date between #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP})
+        and sample_finish_time between DATE_SUB(original_sample_scheduled_date,INTERVAL 7 DAY) and DATE_ADD(original_sample_scheduled_date,INTERVAL 7 DAY))
+        ORDER BY pro.company_name desc
+    </select>
+
 
     <!-- 查询项目列表 -->
     <select id="selectProjectExport" resultMap="BaseResultMap">
@@ -4131,5 +4147,28 @@ group by project_no
         </trim>
     </insert>
 
+    <select id="searchNoFinishProject" parameterType="com.cn.hnust.pojo.Project" resultMap="BaseResultMap">
+         select pro.project_no,pro.project_name,pro.delivery_date,pro.delivery_status,pro.warning_status,pro.importance,pro.finish,
+         pro.stage,pro.detail_status,pro.date_sample_uploading,pro.company_name,
+         pro.po_date,pro.scheduled_date,pro.actual_start_date,pro.sample_scheduled_date,pro.create_date,pro.finish_time,pro.product_img,
+         pro.sample_finish,pro.project_status,pro.money_date,pro.sample_finish_time,pro.zhijian1,pro.zhijian2,pro.zhijian3,pro.technician,
+         pro.scheduled_days,pro.new_predict_date,pro.urgent_delivery_date,pro.original_delivery_date,pro.original_sample_scheduled_date,
+         pro.plant_analysis,pro.project_amount,pro.customer_grade,pro.customer_name,pro.prev_sample_date,
+         pro.customer_attitude,pro.export_date,pro.date_delivery,pro.delay_days,pro.interpretation_document,pro.new_explain,
+         pro.delayed_delivery_date,pro.cargo_delayed_delivery_date
+         from project pro where pro.project_status not in(2,6) and
+         exists (select quality_report.project_no from  quality_report
+         where quality_report.project_no = pro.project_no and  quality_report.type in(0,1,2,3));
+    </select>
 
+
+    <update id="updateProjectSample" parameterType="com.cn.hnust.pojo.Project">
+        update project set project_status = #{projectStatus}, sample_finish_time = #{sampleFinishTime}
+        where project_no = #{projectNo}
+    </update>
+
+    <update id="updateProjectFinish" parameterType="com.cn.hnust.pojo.Project">
+        update project set project_status = #{projectStatus},finish_time = #{finishTime}
+         where project_no = #{projectNo}
+    </update>
 </mapper>
