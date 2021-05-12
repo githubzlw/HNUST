@@ -496,5 +496,25 @@ b)b
       project_no = #{projectNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+    <select id="queryErpQualityReport" resultType="com.cn.hnust.pojo.ErpQualityReport">
+        select id,project_no,add_user,add_time,type,type_desc
+        from erp_project_quality_report where project_no = #{project_no}
+    </select>
+
+    <select id="queryAllQualityReport" resultType="com.cn.hnust.pojo.ErpQualityReport">
+        select project_no,`user` as add_user,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i:%S') as add_time,type,
+        if(type = 0,'样品',if(type = 1,'大货',if(type = 2,'中期',if(type = 3,'终期','')))) as type_desc
+        from quality_report where project_no  = #{project_no}
+    </select>
+
+    <insert id="insertErpQualityReport" parameterType="java.util.List">
+        insert into erp_project_quality_report(project_no,add_user,add_time,type,type_desc)
+        values
+        <foreach collection="list" item="qr" separator=",">
+            (#{project_no},#{add_user},#{add_time},#{type},#{type_desc})
+        </foreach>
+    </insert>
  
 </mapper>

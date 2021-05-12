@@ -38,16 +38,13 @@ public class SynErpUser {
 			
 			//type：1 更新数据     type:0 插入数据
 			if(user.getType() == 1){
-		 		sql = "update Employee "
-		 				+ " set job_number=?"    
-		 				+ " where EmpEName = ?;"; 
+		 		sql = "update Employee set job_number=?, EmpPWD=? where EmpEName = ?;";
 			}else if(user.getType() == 0){
 				sql = "insert into Employee (EmpCName,EmpEName,EmpPWD,EmpPostition,job_number) values (?,?,?,?,?);";
 			}
-			
-	 		
+			PreparedStatement psmt = null;
 	 		try{
-	 			PreparedStatement psmt = conn.prepareStatement(sql);	
+	 			psmt = conn.prepareStatement(sql);
 	 			if(user.getType() == 0){
 		 			psmt.setString(1,user.getUserName());
 		 			psmt.setString(2,user.getUserName());
@@ -55,9 +52,9 @@ public class SynErpUser {
 		 			psmt.setInt(4,user.getErpRole());
 		 			psmt.setString(5,user.getJobNumber());
 	 			}else if(user.getType() == 1){
-	 				psmt.setString(1,user.getPassword());
-		 			
-		 			psmt.setString(2,user.getUserName());
+	 				psmt.setString(1,user.getJobNumber());
+	 				psmt.setString(2,user.getPassword());
+		 			psmt.setString(3,user.getUserName());
 	 			}			
 	 			psmt.execute();
 
@@ -66,6 +63,7 @@ public class SynErpUser {
 	 			log.error("<<<<<<<<<<<<<<<<<<SynErpUser>>>>>>>>>>>>>>>>>>>同步用户失败"+e.getMessage());
 	 		}	finally {
 	 			DBErpUserPoolUtil.returnConnection(conn);
+				DBErpUserPoolUtil.closeStatement(psmt);
 	 		} 
 		}	
 	}

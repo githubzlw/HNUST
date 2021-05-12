@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -39,6 +40,7 @@ import com.cn.hnust.component.RpcQualityNoticeToKuai;
 import com.cn.hnust.pojo.*;
 import com.cn.hnust.service.*;
 import com.cn.hnust.util.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -50,6 +52,7 @@ import org.codehaus.jackson.type.JavaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -2891,6 +2894,64 @@ public class ProjectController {
             // 设置response的Header
             Date startDate1 = DateFormat.addMonth(new Date(), -2);
             String fileName = "延期项目" + DateFormat.date2String(startDate) + "~" + DateFormat.date2String(endDate) + ".xls";
+            fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+            response.addHeader("Content-Length", "" + outFile.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 及时项目导出
+     *
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/exportCurrFinishProject")
+    public void exportCurrFinishProject(HttpServletRequest request, HttpServletResponse response) {
+/**
+ * panda
+ * 逻辑是先查样品完成时间以及大货完成时间是当月的项目
+ * 让后查它样品实际完成时间和大货实际完成时间是不是早于之前那个时间+7天。
+ * 就是说如果要求是1月1号完成 它1月8号完成了 在7天之内 也算按时完成。
+ * 然后就要样品完成都列出来 大货完成都列出来
+ * 拉取上个月的列表
+ */
+        try {
+
+            LocalDate today = LocalDate.now();
+
+
+            LocalDate beforeDate = today.minusMonths(1);
+
+            String beginStr = beforeDate.getYear() + "-" + beforeDate.getMonthValue() + "-01";
+            Date beginTime = DateUtil.StrToDate(beginStr);
+            String endStr = today.getYear() + "-" + today.getMonthValue() + "-01";
+            Date endTime = DateUtil.StrToDate(endStr);
+            List<Project> finishList = projectService.queryFinishByTime(beginTime, endTime);
+            String excelPath = ProjectStatisticsPrint.exportFinishByTimeExcel(finishList);
+            File outFile = new File(excelPath);
+            InputStream fis = new BufferedInputStream(new FileInputStream(outFile));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            Date startDate1 = DateFormat.addMonth(new Date(), -2);
+            String fileName = "上月个及时完成项目" + DateFormat.date2String(beginTime) + "~" + DateFormat.date2String(endTime) + ".xls";
             fileName = URLEncoder.encode(fileName, "utf-8");                                  //这里要用URLEncoder转下才能正确显示中文名称
             response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.addHeader("Content-Length", "" + outFile.length());
@@ -5778,9 +5839,74 @@ public class ProjectController {
                 projectDateTask.syncProjectDate(projectList);
             }
         }
-
-
         return jsonResult;
+    }
+
+    @RequestMapping("/searchNoFinishProject")
+    public String searchNoFinishProject(HttpServletRequest request, HttpServletResponse response) {
+        String roleNo = request.getParameter("roleNo");
+        String userName = request.getParameter("userName");
+        try {
+            Project project = new Project();
+            List<Project> projects = projectService.searchNoFinishProject(project);
+
+            request.setAttribute("list", projects);
+            request.setAttribute("code", 200);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("code", 404);
+            request.setAttribute("msg", e.getMessage());
+            LOG.error("searchNoFinishProject,error:", e);
+        }
+        return "project_no_finish";
+    }
+
+    @RequestMapping("/qualityReportList")
+    @ResponseBody
+    public JsonResult qualityReportList(HttpServletRequest request, HttpServletResponse response) {
+        String project_no = request.getParameter("project_no");
+        Assert.isTrue(StringUtils.isNotBlank(project_no), "project_no null");
+        try {
+            List<QualityReport> list = qrService.selectByProjectNo(project_no);
+            return JsonResult.success(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("qualityReportList,error:", e);
+            return JsonResult.error(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/finishStatus")
+    @ResponseBody
+    public JsonResult finishStatus(HttpServletRequest request, HttpServletResponse response) {
+        String project_no = request.getParameter("project_no");
+        Assert.isTrue(StringUtils.isNotBlank(project_no), "project_no null");
+        String finish_time = request.getParameter("finish_time");
+        String save_type = request.getParameter("save_type");
+
+        Assert.isTrue(StringUtils.isNotBlank(finish_time), "finish_time null");
+        Assert.isTrue(StringUtils.isNotBlank(save_type), "save_type null");
+
+        try {
+            Project project = new Project();
+            project.setProjectNo(project_no);
+            project.setProjectStatus(Integer.parseInt(save_type));
+            if ("6".equals(save_type)) {
+                project.setSampleFinishTime(DateUtil.StrToDate(finish_time));
+                projectService.updateProjectSample(project);
+            } else if ("2".equals(save_type)) {
+                project.setFinishTime(DateUtil.StrToDate(finish_time));
+                projectService.updateProjectFinish(project);
+            } else {
+                return JsonResult.error("设置类型异常");
+            }
+            return JsonResult.success("执行成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOG.error("finishStatus,error:", e);
+            return JsonResult.error(e.getMessage());
+        }
     }
 
 }

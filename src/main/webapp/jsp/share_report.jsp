@@ -148,6 +148,7 @@
 			<c:if test="${project.plantAnalysis==1 }">A</c:if>
 			<c:if test="${project.plantAnalysis==2 }">B</c:if>
 			<c:if test="${project.plantAnalysis==3 }">C</c:if>
+			<c:if test="${project.plantAnalysis==4 }">D</c:if>
 			</span></p>
 			<p >客户名：<span>${project.customerName}</span></p>
 			<p>人员列表：
