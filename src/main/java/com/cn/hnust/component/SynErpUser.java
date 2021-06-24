@@ -57,15 +57,17 @@ public class SynErpUser {
 		 			psmt.setInt(4,user.getErpRole());
 		 			psmt.setString(5,user.getJobNumber());
 
-		 			psmt1 = conn.createStatement();
-		 			psmt1.execute(alertSql);
-
 	 			}else if(user.getType() == 1){
 	 				psmt.setString(1,user.getJobNumber());
 	 				psmt.setString(2,user.getPassword());
 		 			psmt.setString(3,user.getUserName());
 	 			}			
 	 			psmt.execute();
+
+	 			if(user.getType() == 0){
+	 				psmt1 = conn.createStatement();
+		 			psmt1.execute(alertSql);
+				}
 
 	 		} catch (SQLException e) {
 	 			e.printStackTrace();
