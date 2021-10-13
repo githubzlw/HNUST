@@ -14,23 +14,31 @@ public class QuotePrice1 implements Serializable {
 	private String currentStatus;
 	/** 启动时间*/
 	private String updateTime;
-	
-	/** 附件*/
+
+	/**
+	 * 附件
+	 */
 	private String uploadUrl;
-	
-	/** 编号*/
+
+	/**
+	 * 编号
+	 */
 	private int kuzhizao;
-	
-	
+
+
 	private int dingding;
-	
-	
+
+	private String redirectUser;//转交人
+
+
 	public int getDingding() {
 		return dingding;
 	}
+
 	public void setDingding(int dingding) {
 		this.dingding = dingding;
 	}
+
 	public String getUploadUrl() {
 		return uploadUrl;
 	}
@@ -64,15 +72,27 @@ public class QuotePrice1 implements Serializable {
 	public String getCurrentStatus() {
 		return currentStatus;
 	}
+
 	public void setCurrentStatus(String currentStatus) {
 		this.currentStatus = currentStatus;
 	}
+
 	public String getUpdateTime() {
 		return updateTime;
 	}
+
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public String getRedirectUser() {
+		return redirectUser;
+	}
+
+	public void setRedirectUser(String redirectUser) {
+		this.redirectUser = redirectUser;
+	}
+
 	@Override
 	public String toString() {
 		return "QuotePrice1 [id=" + id + ", caseNo=" + caseNo

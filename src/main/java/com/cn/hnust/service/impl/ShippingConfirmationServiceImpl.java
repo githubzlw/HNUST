@@ -143,7 +143,7 @@ public class ShippingConfirmationServiceImpl implements ShippingConfirmationServ
 				&& (StringUtils.isNotBlank(record.getPurchaseConfirm()) 
 						|| StringUtils.isBlank(record.getPurchaseName()))
 						&& (StringUtils.isNotBlank(record.getQualityLeaderConfirm())
-						&&((record.getQualityLeaderConfirmId()==1)||(StringUtils.isBlank(record.getQualityLeaderConfirm()) )))	 	
+				&& (record.getQualityLeaderConfirmId() == 1))
 		){
 
 

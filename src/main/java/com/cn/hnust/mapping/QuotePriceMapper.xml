@@ -9,9 +9,10 @@
     <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
     <result column="uploadurl" property="uploadurl" jdbcType="VARCHAR" />
     <result column="dingding" property="dingding" jdbcType="VARCHAR" />
+    <result column="redirect_user" property="redirectUser" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, project_no, employe_name, current_status, update_time, uploadurl, dingding
+    id, project_no, employe_name, current_status, update_time, uploadurl, dingding, redirect_user
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

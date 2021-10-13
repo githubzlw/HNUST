@@ -5,24 +5,28 @@ public class QuotePrice {
 
 	    private String projectNo;
 
-	    private String employeName;
+	private String employeName;
 
-	    private String currentStatus;
+	private String currentStatus;
 
-	    private String updateTime;
+	private String updateTime;
 
-	    private String uploadurl;
+	private String uploadurl;
 
-	    private String dingding;
-	    
-	    /** 编号*/
-		private int kuzhizao;
+	private String dingding;
 
-	    private static final long serialVersionUID = 1L;
+	private String redirectUser;//转交人
 
-	    public int getKuzhizao() {
-			return kuzhizao;
-		}
+	/**
+	 * 编号
+	 */
+	private int kuzhizao;
+
+	private static final long serialVersionUID = 1L;
+
+	public int getKuzhizao() {
+		return kuzhizao;
+	}
 
 		public void setKuzhizao(int kuzhizao) {
 			this.kuzhizao = kuzhizao;
@@ -76,21 +80,29 @@ public class QuotePrice {
 	        this.uploadurl = uploadurl == null ? null : uploadurl.trim();
 	    }
 
-	    public String getDingding() {
-	        return dingding;
-	    }
+	public String getDingding() {
+		return dingding;
+	}
 
-	    public void setDingding(String dingding) {
-	        this.dingding = dingding == null ? null : dingding.trim();
-	    }
+	public void setDingding(String dingding) {
+		this.dingding = dingding == null ? null : dingding.trim();
+	}
 
-		@Override
-		public String toString() {
-			return "QuotePrice [id=" + id + ", projectNo=" + projectNo
-					+ ", employeName=" + employeName + ", currentStatus="
-					+ currentStatus + ", updateTime=" + updateTime + ", uploadurl="
-					+ uploadurl + ", dingding=" + dingding + ", kuzhizao="
-					+ kuzhizao + "]";
+	public String getRedirectUser() {
+		return redirectUser;
+	}
+
+	public void setRedirectUser(String redirectUser) {
+		this.redirectUser = redirectUser;
+	}
+
+	@Override
+	public String toString() {
+		return "QuotePrice [id=" + id + ", projectNo=" + projectNo
+				+ ", employeName=" + employeName + ", currentStatus="
+				+ currentStatus + ", updateTime=" + updateTime + ", uploadurl="
+				+ uploadurl + ", dingding=" + dingding + ", kuzhizao="
+				+ kuzhizao + "]";
 		}
 	
 }

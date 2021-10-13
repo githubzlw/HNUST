@@ -5357,6 +5357,7 @@ public class ProjectController {
                         quote1.setDingding(quote.getId());
                         quote1.setUploadUrl(url[j]);
                         quote1.setEmployeeName(quote.getEmployeName());
+                        quote1.setRedirectUser(quote.getRedirectUser());
                         quotePriceList1.add(quote1);
                     }
                 } else {
@@ -5365,18 +5366,29 @@ public class ProjectController {
                     quote1.setCurrentStatus(quote.getCurrentStatus());
                     quote1.setDingding(quote.getId());
                     quote1.setEmployeeName(quote.getEmployeName());
+                    quote1.setRedirectUser(quote.getRedirectUser());
                     quotePriceList1.add(quote1);
                 }
             }
             // 每次不超过30个数据插入
             if (quotePriceList1.size() > 0) {
                 int size = quotePriceList1.size();
-                int cicle = size % 30 > 0 ? size / 30 + 1 : size / 30;
+                int cicle = size % 10 > 0 ? size / 10 + 1 : size / 10;
                 for (int i = 1; i <= cicle; i++) {
-                    int limitSize = Math.min(i * 30, size);
-                    List<QuotePrice1> price1List = quotePriceList1.stream().skip((i - 1) * 30).limit(limitSize).collect(Collectors.toList());
+                    int limitSize = Math.min(i * 10, size);
+                    List<QuotePrice1> price1List = quotePriceList1.stream().skip((i - 1) * 10).limit(limitSize).collect(Collectors.toList());
                     quotePriceService.addAll1(price1List);
                     price1List.clear();
+                }
+
+                for (QuotePrice1 quotePrice1 : quotePriceList1) {
+                    if (StringUtils.isNotEmpty(quotePrice1.getRedirectUser())) {
+                        ProjectERP projectERP = new ProjectERP();
+                        projectERP.setProjectNo(quotePrice1.getCaseNo());
+                        projectERP.setQualityInspector7(quotePrice1.getRedirectUser());
+                        itemCaseERPService.updateQuality(projectERP);//修改质检
+                    }
+
                 }
             }
 
