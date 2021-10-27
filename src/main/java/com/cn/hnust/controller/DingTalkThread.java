@@ -71,7 +71,10 @@ public static void sendOut(Integer id, String dingTalkId) {
         JSONObject parse = JSONObject.parseObject(process_instance_id);
         if(parse!= null && parse.containsKey("code") && "200".equals(parse.getString("code"))){
             process_instance_id = parse.getString("data");
-            QualityController.updateAllProcess(id,process_instance_id);
+            if (StringUtils.isNotEmpty(process_instance_id)) {
+                QualityController.updateAllProcess(id, process_instance_id);
+            }
+
         }
     }
 
